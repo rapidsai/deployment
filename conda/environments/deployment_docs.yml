@@ -1,0 +1,12 @@
+name: deployment-docs-dev
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - myst-nb
+  - myst-parser
+  - nbsphinx
+  - numpydoc
+  - pydata-sphinx-theme
+  - python=3.9
+  - sphinx

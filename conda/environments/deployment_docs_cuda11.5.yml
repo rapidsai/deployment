@@ -1,0 +1,16 @@
+name: deployment-docs-dev
+channels:
+  - nvidia
+  - rapidsai
+  - conda-forge
+  - defaults
+dependencies:
+  - cudatoolkit=11.5
+  - myst-nb
+  - myst-parser
+  - nbsphinx
+  - numpydoc
+  - pydata-sphinx-theme
+  - python=3.9
+  - rapids=22.02
+  - sphinx
