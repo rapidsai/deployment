@@ -10,3 +10,4 @@ dependencies:
   - pydata-sphinx-theme
   - python=3.9
   - sphinx
+  - sphinx-autobuild
