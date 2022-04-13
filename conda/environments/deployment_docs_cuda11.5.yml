@@ -14,3 +14,4 @@ dependencies:
   - python=3.9
   - rapids=22.02
   - sphinx
+  - sphinx-autobuild
