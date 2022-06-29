@@ -7,12 +7,13 @@ Welcome to the RAPIDS Deployment documentation!
 ===============================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Deploy RAPIDS on
 
    cloud/index
    kubernetes/index
    hpc/index
+   databricks
 
 
 
