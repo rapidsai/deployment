@@ -14,7 +14,6 @@ Welcome to the RAPIDS Deployment documentation!
    platforms/index
    cloud/index
    hpc/index
-   databricks
 
 .. toctree::
    :maxdepth: 3
