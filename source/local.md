@@ -1,0 +1,7 @@
+Local machine
+=============
+
+
+## Conda
+
+## Docker
