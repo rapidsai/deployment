@@ -10,11 +10,17 @@ Welcome to the RAPIDS Deployment documentation!
    :maxdepth: 3
    :caption: Deploy RAPIDS on
 
+   local
+   platforms/index
    cloud/index
-   kubernetes/index
    hpc/index
    databricks
 
+.. toctree::
+   :maxdepth: 3
+   :caption: Deploy RAPIDS with
+
+   tools/index
 
 
 Indices and tables
