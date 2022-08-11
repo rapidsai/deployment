@@ -15,3 +15,4 @@ dependencies:
   - rapids=22.02
   - sphinx
   - sphinx-autobuild
+  - sphinxcontrib-mermaid
