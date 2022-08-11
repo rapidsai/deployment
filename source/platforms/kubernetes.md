@@ -68,12 +68,22 @@ alt: Screenshot of the RAPIDS container running Jupyter showing the nvidia-smi c
 
 ## Helm Chart
 
-TODO
+Individual users can also install the [Dask Helm Chart](https://helm.dask.org) which provides a `Pod` running Jupyter alongside a Dask cluster consisting of pods running the Dask scheduler and worker components. You can customize this helm chart to run the RAPIDS container images as both the notebook server and Dask cluster components so that everything can benefit from GPU acceleration.
+
+For more information see the [Dask Helm Chart page](/tools/kubernetes/dask-helm-chart).
 
 ## Dask Operator
 
-TODO
+[Dask also has an operator](https://kubernetes.dask.org/en/latest/operator.html) that empowers users to create Dask clusters as native Kubernetes resources. This is useful for creating, scaling and removing Dask clusters dynamically and in a flexible way. Usually this is used in conjunction with an interactive session such as the [interactive notebook](#interactive-notebook) example above or from another service like [KubeFlow Notebooks](/platforms/kubeflow). By dynamically launching Dask clusters configured to use RAPIDS on Kubernetes user's can burst beyond their notebook session to many GPUs spreak across many nodes.
+
+For more information see the [Dask Operator page](/tools/kubernetes/dask-operator)
+
+### Dask Kubernetes (classic)
+
+[Dask also has an older tool](https://kubernetes.dask.org/en/latest/kubecluster.html) for dynamically launching Dask clusters on Kubernetes that does not use an operator. It is possible to [configure this to run RAPIDS](/tools/kubernetes/dask-kubernetes) too but it is being phased out in favour of the operator.
 
 ## Dask Gateway
 
-TODO
+Some organisations may want to provide Dask cluster provisioning as a central service where users are abstracted from the underlying platform like Kubernetes. This can be useful for reducing user permissions, limiting resources that users can consume and exposing things in a centralised way. For this you can deploy Dask Gateway which provides a server that users interact with programatically and in turn launches Dask clusters on Kubernetes and proxies the connection back to the user.
+
+Users can configure what they want their Dask cluster to look like so it is possible to utilize GPUs and RAPIDS for an accelerated cluster. For more information see the [Dask Gateway page](/tools/kubernetes/dask-gateway)
