@@ -31,6 +31,9 @@ required by many accelerated libraries in RAPIDS.
 To leverage the GPU resource each pod has,
 [`dask_cuda_worker`](https://docs.rapids.ai/api/dask-cuda/stable/index.html) is launched in place of the regular `dask_worker`.
 
+`*.servicePort` overrides the service ports opened by scheduler service and jupyter notebook service,
+which better aligns with dask user's experience.
+
 If desired to have a different jupyter notebook password than default,
 compute the hash for `<your-password>` and update `jupyter.password`.
 

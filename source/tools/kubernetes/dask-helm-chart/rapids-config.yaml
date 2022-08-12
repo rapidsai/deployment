@@ -6,6 +6,9 @@ scheduler:
   - name: DISABLE_JUPYTER
     value: "true"
 
+webUI:
+  servicePort: 8787
+
 worker:
   image:
     repository: "rapidsai/rapidsai-core"
@@ -29,5 +32,6 @@ jupyter:
   image:
     repository: "rapidsai/rapidsai-core"
     tag: "22.06-cuda11.5-runtime-ubuntu20.04-py3.9"
+  servicePort: 8888
   # Default password hash for "rapids"
   password: "argon2:$argon2id$v=19$m=10240,t=10,p=8$TBbhubLuX7efZGRKQqIWtw$RG+jCBB2KYF2VQzxkhMNvHNyJU9MzNGTm2Eu2/f7Qpc"
