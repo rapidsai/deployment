@@ -3,6 +3,10 @@ KubeFlow
 
 You can use RAPIDS with KubeFlow in a single pod with [KubeFlow Notebooks](https://www.kubeflow.org/docs/components/notebooks/) or you can scale out to many pods on many nodes of the Kubernetes cluster with the [dask-operator](/tools/kubernetes/dask-operator).
 
+```{note}
+These instructions were tested again [KubeFlow v1.5.1](https://github.com/kubeflow/manifests/releases/tag/v1.5.1) running on [Kubernetes v1.21](https://kubernetes.io/blog/2021/04/08/kubernetes-1-21-release-announcement/).
+```
+
 ## KubeFlow Notebooks
 
 The [RAPIDS docker images](/tools/rapids-docker) can be used directly in KubeFlow Notebooks with no additional configuration. To find the latest image head to [the RAPIDS install page](https://rapids.ai/start.html#get-rapids), as shown in below, and choose a version of RAPIDS to use. Typically we want to choose the container image for the latest release.
@@ -16,6 +20,20 @@ Verify the Docker image is selected when installing the latest RAPIDS release
 ```
 
 Be sure to match the CUDA version in the container image with that installed on your Kubernetes nodes. The default CUDA version installed on GKE Stable is 11.4 for example, so we would want to choose that. From 11.5 onwards it doesn’t matter as they will be backward compatible. Copy the container image name from the install command (i.e. `rapidsai/rapidsai-core:22.06-cuda11.5-runtime-ubuntu20.04-py3.9`).
+
+````{note}
+You can [check your CUDA version](https://jacobtomlinson.dev/posts/2022/how-to-check-your-nvidia-driver-and-cuda-version-in-kubernetes/) by creating a pod and running `nvidia-smi`. For example:
+
+```console
+
+$ kubectl run nvidia-smi --restart=Never --rm -i --tty --image nvidia/cuda:11.0.3-base-ubuntu20.04 -- nvidia-smi
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 495.46       Driver Version: 495.46       CUDA Version: 11.5     |
+|-------------------------------+----------------------+----------------------+
+...
+```
+
+````
 
 Now in KubeFlow, access the Notebooks tab on the left and click “New Notebook”.
 
@@ -43,7 +61,11 @@ alt: Screenshot of the KubeFlow Notebooks page showing the rapids notebook start
 Once the Notebook is ready, click Connect to launch Jupyter.
 ```
 
-You can verify everything works okay by opening a terminal in Jupyter and running `nvidia-smi`.
+You can verify everything works okay by opening a terminal in Jupyter and running:
+
+```console
+$ nvidia-smi
+```
 
 ```{figure} /images/kubeflow-jupyter-nvidia-smi.png
 ---
