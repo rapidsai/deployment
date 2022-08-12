@@ -115,7 +115,7 @@ rules:
 
 ### Creating a Dask cluster
 
-Now you can create `DaskCluster` resources in Kubernetes that will launch all the necessary pods and services for our cluster to work. This can be done in YAML via the Kubernetes API or using the Python API from a notebook session.
+Now you can create `DaskCluster` resources in Kubernetes that will launch all the necessary pods and services for our cluster to work. This can be done in YAML via the Kubernetes API or using the Python API from a notebook session as shown in this section.
 
 In a Jupyter session, create a new notebook and install the `dask-kubernetes` package which you will need to launch Dask clusters.
 
