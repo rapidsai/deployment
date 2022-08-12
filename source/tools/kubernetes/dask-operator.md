@@ -167,13 +167,6 @@ Then inside the `spec` we have `worker` and `scheduler` sections.
 The worker contains a `replicas` option to set how many workers you need and a `spec` that describes what each worker pod should look like.
 The spec is a nested [`Pod` spec](https://kubernetes.io/docs/concepts/workloads/pods/) that the operator will use when creating new `Pod` resources.
 
-Inside our pod spec we are configuring one container that uses the `rapidsai/rapidsai-core` container image.
-It also sets the `args` to start the `dask-cuda-worker` and configures one NVIDIA GPU.
-
-```{note}
-We also have to set the environment variable `DISABLE_JUPYTER=true` because the RAPIDS container images will run Jupyter instead of our supplied command.
-```
-
 ```yaml
 # ...
 spec:
@@ -196,6 +189,13 @@ spec:
             nvidia.com/gpu: "1"
   scheduler:
     # ...
+```
+
+Inside our pod spec we are configuring one container that uses the `rapidsai/rapidsai-core` container image.
+It also sets the `args` to start the `dask-cuda-worker` and configures one NVIDIA GPU.
+
+```{note}
+We also have to set the environment variable `DISABLE_JUPYTER=true` because the RAPIDS container images will run Jupyter instead of our supplied command.
 ```
 
 #### Scheduler
