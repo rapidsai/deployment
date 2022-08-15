@@ -45,10 +45,8 @@ helm repo update
 helm install rapids-release dask/dask -f dask-helm-chart/rapids-config.yaml
 ```
 
-<!-- TODO: update link with https://artifacthub.io/packages/helm/dask/dask after next helm chart release -->
 This will deploy the cluster with the same topography as dask helm chart,
-see [dask helm chart documentation for detail](https://github.com/dask/helm-chart/blob/main/dask/.frigate).
-
+see [dask helm chart documentation for detail](https://artifacthub.io/packages/helm/dask/dask).
 
 ```{note}
 By default,
