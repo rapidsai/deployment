@@ -1,10 +1,10 @@
-Dask Helm Chart
-===============
+# Dask Helm Chart
 
 This guide provides an entry point to deploy RAPIDS into Kubernetes cluster via helm chart,
 using [dask/helm-chart](https://github.com/dask/helm-chart) as the starting point.
 This guide will walk through steps to set up a scalable rapids cluster,
 demonstrating GPU accelerated notebook workflows and scaling up and down the cluster.
+
 ## From Dask helm chart to RAPIDS helm chart
 
 Built on top of dask-helm-chart,
@@ -38,6 +38,7 @@ If desired to have a different jupyter notebook password than default,
 compute the hash for `<your-password>` and update `jupyter.password`.
 
 Deploy `rapids-helm-chart`:
+
 ```bash
 helm repo add dask https://helm.dask.org
 helm repo update
