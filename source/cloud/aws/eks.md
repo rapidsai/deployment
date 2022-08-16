@@ -1,5 +1,4 @@
-Elastic Kubernetes Service (EKS)
-================================
+# Elastic Kubernetes Service (EKS)
 
 RAPIDS can be deployed on AWS via AWS’s managed Kubernetes service (EKS) using Helm. More details can be found at our **[helm docs.](https://helm.rapids.ai/docs/csp.html)**
 
@@ -24,6 +23,7 @@ $ eksctl create cluster \
     --ssh-public-key ~/path/to/id_rsa.pub \
     --managed
 ```
+
 [CLUSTER_NAME] = Name of the EKS cluster. This will be auto generated if not specified. <br>
 [NODE_INSTANCE] = Node instance type to be used. Select one of the instance types supported by RAPIDS Refer to the introduction section for a list of supported instance types. <br>
 [NUM_NODES] = Number of nodes to be used. <br>
@@ -67,13 +67,13 @@ address](https://aws.amazon.com/premiumsupport/knowledge-center/elb-find-load-ba
 Then use the obtained IPV4 address to visit the rapidsai-jupyter service in your
 browser!
 
-
 **8. Delete the cluster:** List and delete services running in the cluster to release resources
 
 ```shell
 $ kubectl get svc --all-namespaces
 $ kubectl delete svc [SERVICE_NAME]
 ```
+
 [SERVICE_NAME] = Name of the services which have an EXTERNAL-IP value and are required to be removed to release resources.
 
 Delete the cluster and its associated nodes

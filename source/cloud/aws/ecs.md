@@ -1,5 +1,4 @@
-Elastic Container Service (ECS)
-===============================
+# Elastic Container Service (ECS)
 
 RAPIDS can be deployed on a multi-node ECS cluster using Dask’s
 dask-cloudprovider management tools. For more details, see our **[blog post on
