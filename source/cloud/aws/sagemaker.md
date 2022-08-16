@@ -1,5 +1,4 @@
-Sagemaker
-===========
+# Sagemaker
 
 RAPIDS also works with AWS SageMaker. We’ve written a **[detailed
 guide](https://medium.com/rapids-ai/running-rapids-experiments-at-scale-using-amazon-sagemaker-d516420f165b)**
