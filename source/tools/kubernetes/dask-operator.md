@@ -1,5 +1,4 @@
-Dask Operator
-=============
+# Dask Operator
 
 Many libraries in RAPIDS can leverage Dask to scale out computation onto multiple GPUs and multiple nodes.
 [Dask has an operator for Kubernetes](https://kubernetes.dask.org/en/latest/operator.html) which allows you to launch Dask clusters as native Kubernetes resources.
@@ -73,63 +72,63 @@ spec:
     replicas: 2
     spec:
       containers:
-      - name: worker
-        image: "rapidsai/rapidsai-core:22.06-cuda11.5-runtime-ubuntu20.04-py3.9"
-        imagePullPolicy: "IfNotPresent"
-        env:
-         - name: DISABLE_JUPYTER
-           value: "true"
-        args:
-          - dask-cuda-worker
-          - --name
-          - $(DASK_WORKER_NAME)
-        resources:
-          limits:
-            nvidia.com/gpu: "1"
+        - name: worker
+          image: "rapidsai/rapidsai-core:22.06-cuda11.5-runtime-ubuntu20.04-py3.9"
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: DISABLE_JUPYTER
+              value: "true"
+          args:
+            - dask-cuda-worker
+            - --name
+            - $(DASK_WORKER_NAME)
+          resources:
+            limits:
+              nvidia.com/gpu: "1"
   scheduler:
     spec:
       containers:
-      - name: scheduler
-        image: "rapidsai/rapidsai-core:22.06-cuda11.5-runtime-ubuntu20.04-py3.9"
-        imagePullPolicy: "IfNotPresent"
-        env:
-         - name: DISABLE_JUPYTER
-           value: "true"
-        args:
-          - dask-scheduler
-        ports:
-          - name: tcp-comm
-            containerPort: 8786
-            protocol: TCP
-          - name: http-dashboard
-            containerPort: 8787
-            protocol: TCP
-        readinessProbe:
-          httpGet:
-            port: http-dashboard
-            path: /health
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          httpGet:
-            port: http-dashboard
-            path: /health
-          initialDelaySeconds: 15
-          periodSeconds: 20
+        - name: scheduler
+          image: "rapidsai/rapidsai-core:22.06-cuda11.5-runtime-ubuntu20.04-py3.9"
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: DISABLE_JUPYTER
+              value: "true"
+          args:
+            - dask-scheduler
+          ports:
+            - name: tcp-comm
+              containerPort: 8786
+              protocol: TCP
+            - name: http-dashboard
+              containerPort: 8787
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              port: http-dashboard
+              path: /health
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              port: http-dashboard
+              path: /health
+            initialDelaySeconds: 15
+            periodSeconds: 20
     service:
       type: ClusterIP
       selector:
         dask.org/cluster-name: rapids-dask-cluster
         dask.org/component: scheduler
       ports:
-      - name: tcp-comm
-        protocol: TCP
-        port: 8786
-        targetPort: "tcp-comm"
-      - name: http-dashboard
-        protocol: TCP
-        port: 8787
-        targetPort: "http-dashboard"
+        - name: tcp-comm
+          protocol: TCP
+          port: 8786
+          targetPort: "tcp-comm"
+        - name: http-dashboard
+          protocol: TCP
+          port: 8787
+          targetPort: "http-dashboard"
 ```
 
 You can create this cluster with `kubectl`.
@@ -174,19 +173,19 @@ spec:
     replicas: 2
     spec:
       containers:
-      - name: worker
-        image: "rapidsai/rapidsai-core:22.06-cuda11.5-runtime-ubuntu20.04-py3.9"
-        imagePullPolicy: "IfNotPresent"
-        env:
-         - name: DISABLE_JUPYTER
-           value: "true"
-        args:
-          - dask-cuda-worker
-          - --name
-          - $(DASK_WORKER_NAME)
-        resources:
-          limits:
-            nvidia.com/gpu: "1"
+        - name: worker
+          image: "rapidsai/rapidsai-core:22.06-cuda11.5-runtime-ubuntu20.04-py3.9"
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: DISABLE_JUPYTER
+              value: "true"
+          args:
+            - dask-cuda-worker
+            - --name
+            - $(DASK_WORKER_NAME)
+          resources:
+            limits:
+              nvidia.com/gpu: "1"
   scheduler:
     # ...
 ```
@@ -210,33 +209,33 @@ spec:
   scheduler:
     spec:
       containers:
-      - name: scheduler
-        image: "rapidsai/rapidsai-core:22.06-cuda11.5-runtime-ubuntu20.04-py3.9"
-        imagePullPolicy: "IfNotPresent"
-        env:
-         - name: DISABLE_JUPYTER
-           value: "true"
-        args:
-          - dask-scheduler
-        ports:
-          - name: tcp-comm
-            containerPort: 8786
-            protocol: TCP
-          - name: http-dashboard
-            containerPort: 8787
-            protocol: TCP
-        readinessProbe:
-          httpGet:
-            port: http-dashboard
-            path: /health
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          httpGet:
-            port: http-dashboard
-            path: /health
-          initialDelaySeconds: 15
-          periodSeconds: 20
+        - name: scheduler
+          image: "rapidsai/rapidsai-core:22.06-cuda11.5-runtime-ubuntu20.04-py3.9"
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: DISABLE_JUPYTER
+              value: "true"
+          args:
+            - dask-scheduler
+          ports:
+            - name: tcp-comm
+              containerPort: 8786
+              protocol: TCP
+            - name: http-dashboard
+              containerPort: 8787
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              port: http-dashboard
+              path: /health
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              port: http-dashboard
+              path: /health
+            initialDelaySeconds: 15
+            periodSeconds: 20
     service:
       # ...
 ```
@@ -267,14 +266,14 @@ spec:
         dask.org/cluster-name: rapids-dask-cluster
         dask.org/component: scheduler
       ports:
-      - name: tcp-comm
-        protocol: TCP
-        port: 8786
-        targetPort: "tcp-comm"
-      - name: http-dashboard
-        protocol: TCP
-        port: 8787
-        targetPort: "http-dashboard"
+        - name: tcp-comm
+          protocol: TCP
+          port: 8786
+          targetPort: "tcp-comm"
+        - name: http-dashboard
+          protocol: TCP
+          port: 8787
+          targetPort: "http-dashboard"
 ```
 
 This example shows using a `ClusterIP` service which will not expose the Dask cluster outside of Kubernetes. If you prefer you could set this to
@@ -324,7 +323,6 @@ client = Client("localhost:8786")
 ## Example using `KubeCluster`
 
 In additon to creating clusters via `kubectl` you can also do so from Python with {class}`dask_kubernetes.experimental.KubeCluster`. This class implements the Dask Cluster Manager interface and under the hood creates and manages the `DaskCluster` resource for you.
-
 
 ```python
 from dask_kubernetes.experimental import KubeCluster
@@ -381,4 +379,3 @@ This is useful if you have a multi-stage pipeline made up of multiple Python pro
 
 You can also connect a `KubeCluster` object to your existing cluster with `cluster = KubeCluster.from_name(name="rapids-dask")` if you wish to use the cluster or manually call `cluster.close()` in the future.
 ```
-
