@@ -1,5 +1,4 @@
-Kubernetes
-==========
+# Kubernetes
 
 RAPIDS integrates with Kubernetes in many ways depending on your use case.
 
@@ -20,10 +19,10 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 8888
-    name: http
-    targetPort: 8888
-    nodePort: 30002
+    - port: 8888
+      name: http
+      targetPort: 8888
+      nodePort: 30002
   selector:
     app: rapids-notebook
 ---
@@ -37,14 +36,14 @@ spec:
   securityContext:
     fsGroup: 0
   containers:
-  - name: rapids-notebook
-    image: rapidsai/rapidsai-core:22.06-cuda11.5-runtime-ubuntu20.04-py3.9
-    resources:
-      limits:
-        nvidia.com/gpu: 1
-    ports:
-    - containerPort: 8888
-      name: notebook
+    - name: rapids-notebook
+      image: rapidsai/rapidsai-core:22.06-cuda11.5-runtime-ubuntu20.04-py3.9
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+      ports:
+        - containerPort: 8888
+          name: notebook
 ```
 
 ```console
@@ -58,7 +57,6 @@ $ kubectl port-forward service/rapids-notebook 8888
 ```
 
 Then you can open port `8888` in your browser to access Jupyter and use RAPIDS.
-
 
 ```{figure} /images/kubernetes-jupyter.png
 ---

@@ -1,2 +1,1 @@
-Single Node
-===========
+# Single Node
