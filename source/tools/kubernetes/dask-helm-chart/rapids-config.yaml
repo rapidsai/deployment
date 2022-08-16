@@ -1,3 +1,4 @@
+# rapids-config.yaml
 scheduler:
   image:
     repository: "rapidsai/rapidsai-core"
@@ -5,9 +6,6 @@ scheduler:
   env:
   - name: DISABLE_JUPYTER
     value: "true"
-
-webUI:
-  servicePort: 8787
 
 worker:
   image:
@@ -20,12 +18,6 @@ worker:
     value: "true"
   resources:
     limits:
-      cpu: 1
-      memory: 3G
-      nvidia.com/gpu: 1
-    requests:
-      cpu: 1
-      memory: 3G
       nvidia.com/gpu: 1
 
 jupyter:
@@ -35,3 +27,6 @@ jupyter:
   servicePort: 8888
   # Default password hash for "rapids"
   password: "argon2:$argon2id$v=19$m=10240,t=10,p=8$TBbhubLuX7efZGRKQqIWtw$RG+jCBB2KYF2VQzxkhMNvHNyJU9MzNGTm2Eu2/f7Qpc"
+  resources:
+    limits:
+      nvidia.com/gpu: 1

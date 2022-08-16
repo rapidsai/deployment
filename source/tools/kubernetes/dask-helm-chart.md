@@ -1,113 +1,105 @@
 Dask Helm Chart
 ===============
 
-This guide provides an entry point to deploy RAPIDS into Kubernetes cluster via helm chart,
-using [dask/helm-chart](https://github.com/dask/helm-chart) as the starting point.
-This guide will walk through steps to set up a scalable rapids cluster,
-demonstrating GPU accelerated notebook workflows and scaling up and down the cluster.
-## From Dask helm chart to RAPIDS helm chart
+Dask has a [Helm Chart](https://github.com/dask/helm-chart) that creates the following resources:
 
-Built on top of dask-helm-chart,
-`rapids-config.yaml` file contains additional configurations required to setup RAPIDS environment.
+- 1 x Jupyter server (preconfigured to access the Dask cluster)
+- 1 x Dask scheduler
+- 3 x Dask workers that connect to the scheduler (scalable)
+
+This helm chart can be configured to run RAPIDS by providing GPUs to the Juptyter server and Dask workers and by using container images with the RAPIDS libraries available.
+
+## Configuring RAPIDS
+
+Built on top of the Dask Helm Chart, `rapids-config.yaml` file contains additional configurations required to setup RAPIDS environment.
 
 ```{literalinclude} ./dask-helm-chart/rapids-config.yaml
 :language: yaml
 ```
 
-`*.images.*` is updated with the RAPIDS "runtime" image from the stable release,
-which includes environment necessary to launch run accelerated libraries in RAPIDS,
-and scaling up and down via dask.
-Note that all scheduler,
-woker and jupyter pods are required to use the same image.
+`[jupyter|scheduler|worker].image.*` is updated with the RAPIDS "runtime" image from the stable release,
+which includes environment necessary to launch run accelerated libraries in RAPIDS, and scaling up and down via dask.
+Note that all scheduler, woker and jupyter pods are required to use the same image.
 This ensures that dask scheduler and worker versions match.
 
-`*.env` is required as of current rlease as a workaround for limitations in the image.
-May be removed in the future.
+`[jupyter|scheduler|worker].env` is required as of current rlease as a workaround for limitations in the image.
+_Will be removed in the future._
 
-`worker.resources` exlicitly requests GPU for each worker pod,
-required by many accelerated libraries in RAPIDS.
+`[jupyter|worker].resources` exlicitly requests a GPU for each worker pod and the Jupyter pod, required by many accelerated libraries in RAPIDS.
 
 `worker.dask_worker` is the launch command for dask worker inside worker pod.
-To leverage the GPU resource each pod has,
-[`dask_cuda_worker`](https://docs.rapids.ai/api/dask-cuda/stable/index.html) is launched in place of the regular `dask_worker`.
+To leverage the GPUs assigned to each Pod the [`dask_cuda_worker`](https://docs.rapids.ai/api/dask-cuda/stable/index.html) command is launched in place of the regular `dask_worker`.
 
-`*.servicePort` overrides the service ports opened by scheduler service and jupyter notebook service,
-which better aligns with dask user's experience.
+If desired to have a different jupyter notebook password than default, compute the hash for `<your-password>` and update `jupyter.password`.
 
-If desired to have a different jupyter notebook password than default,
-compute the hash for `<your-password>` and update `jupyter.password`.
+### Installing the Helm Chart
 
-Deploy `rapids-helm-chart`:
-```bash
-helm repo add dask https://helm.dask.org
-helm repo update
+```console
+$ helm repo add dask https://helm.dask.org
+$ helm repo update
 
-helm install rapids-release dask/dask -f dask-helm-chart/rapids-config.yaml
+$ helm install rapids-release dask/dask -f rapids-config.yaml
 ```
 
 This will deploy the cluster with the same topography as dask helm chart,
 see [dask helm chart documentation for detail](https://artifacthub.io/packages/helm/dask/dask).
 
 ```{note}
-By default,
-`dask-helm-chart` will not create any `Ingress`.
-Custom `Ingress` may be configured to consume external traffic and redirect to corresponding services.
+By default, the Dask Helm Chart will not create an `Ingress` resource.
+A custom `Ingress` may be configured to consume external traffic and redirect to corresponding services.
 ```
 
-For simplicify, this guide will setup access to jupyter notebook via port forwarding.
+For simplicity, this guide will setup access to the Jupyter server via port forwarding.
 
 ## Running Rapids Notebook
 
 First, setup port forwarding from the cluster to external port:
 
-```bash
-# For Jupyter notebook
-kubectl port-forward --address 127.0.0.1 service/rapids-release-dask-jupyter 8888:80 &
-# For Dask scheduler
-kubectl port-forward --address 127.0.0.1 service/rapids-release-dask-scheduler 8787:80 &
+```console
+# For the Jupyter server
+$ kubectl port-forward --address 127.0.0.1 service/rapids-release-dask-jupyter 8888:8888
+
+# For the Dask dashboard
+$ kubectl port-forward --address 127.0.0.1 service/rapids-release-dask-scheduler 8787:80
 ```
 
-Open a browser and access `localhost:8888` for jupyter notebook,
-and `localhost:8787` for dask dashboard.
-Enter password (default is `rapids`) and access the notebook environment.
+Open a browser and visit `localhost:8888` to access Jupyter,
+and `localhost:8787` for the dask dashboard.
+Enter the password (default is `rapids`) and access the notebook environment.
 
 ### Notebooks and Cluster Scaling
 
-Open `10 Minutes to cuDF and Dask-cuDF` notebook under `cudf/10-min.ipynb`.
-Conveniently,
-the helm chart preconfigures the scheduler address in client's environment.
-To examine the cluster,
-simply create a client:
+Now we can verify that everything is working correctly by running some of the example notebooks.
+
+Open the `10 Minutes to cuDF and Dask-cuDF` notebook under `cudf/10-min.ipynb`.
+
+Add a new cell at the top to connect to the Dask cluster. Conveniently, the helm chart preconfigures the scheduler address in client's environment.
+So you do not need to pass any config to the `Client` object.
 
 ```python
 from dask.distributed import Client
 
-Client()
+client = Client()
+client
 ```
 
-By default,
-we can see 3 workers are created and each has 1 GPU assigned.
+By default, we can see 3 workers are created and each has 1 GPU assigned.
 
 ![dask worker](../../_static/daskworker.PNG)
 
-Walk through the examples to validate that the dask cluster is setup correctly,
-and that GPU is accessible for the workers.
+Walk through the examples to validate that the dask cluster is setup correctly, and that GPUs are accessible for the workers.
 Worker metrics can be examined in dask dashboard.
 
 ![dask worker](../../_static/workingdask.PNG)
 
-In case you want to scale up the cluster with more GPU workers,
-you may do so via `kubectl` or via `helm upgrade`.
+In case you want to scale up the cluster with more GPU workers, you may do so via `kubectl` or via `helm upgrade`.
 
 ```bash
-# via `kubectl`
-kubectl scale deployment rapids-release-dask-worker --replicas=8
-```
+$ kubectl scale deployment rapids-release-dask-worker --replicas=8
 
-```bash
-# via `helm upgrade`
-# Modify `worker.replicas` in `values.yaml` to 8, then run
-helm upgrade -f dask-helm-chart/rapids-config.yaml  dask/dask rapids-release
+# or
+
+$ helm upgrade --set worker.replicas=8 rapids-release dask/dask
 ```
 
 ![dask worker](../../_static/eightworkers.PNG)
