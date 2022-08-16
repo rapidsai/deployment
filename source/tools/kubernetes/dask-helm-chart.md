@@ -63,9 +63,9 @@ First, setup port forwarding from the cluster to external port:
 
 ```bash
 # For Jupyter notebook
-kubectl port-forward --address 127.0.0.1 service/rapids-release-dask-jupyter 8888:80 &
+kubectl port-forward --address 127.0.0.1 service/rapids-release-dask-jupyter 8888:8888 &
 # For Dask scheduler
-kubectl port-forward --address 127.0.0.1 service/rapids-release-dask-scheduler 8787:80 &
+kubectl port-forward --address 127.0.0.1 service/rapids-release-dask-scheduler 8787:8787 &
 ```
 
 Open a browser and access `localhost:8888` for jupyter notebook,
