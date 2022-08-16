@@ -1,5 +1,4 @@
-KubeFlow
-========
+# KubeFlow
 
 You can use RAPIDS with KubeFlow in a single pod with [KubeFlow Notebooks](https://www.kubeflow.org/docs/components/notebooks/) or you can scale out to many pods on many nodes of the Kubernetes cluster with the [dask-operator](/tools/kubernetes/dask-operator).
 
@@ -201,13 +200,13 @@ spec:
     - name: DASK_DISTRIBUTED__DASHBOARD__LINK
       value: "{NB_PREFIX}/proxy/{host}:{port}/status"
   volumeMounts:
-   - name: jupyter-server-proxy-config
-     mountPath: /root/.jupyter/jupyter_server_config.py
-     subPath: jupyter_server_config.py
+    - name: jupyter-server-proxy-config
+      mountPath: /root/.jupyter/jupyter_server_config.py
+      subPath: jupyter_server_config.py
   volumes:
-   - name: jupyter-server-proxy-config
-     configMap:
-       name: jupyter-server-proxy-config
+    - name: jupyter-server-proxy-config
+      configMap:
+        name: jupyter-server-proxy-config
 ---
 apiVersion: v1
 kind: ConfigMap

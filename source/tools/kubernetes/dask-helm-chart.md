@@ -1,5 +1,4 @@
-Dask Helm Chart
-===============
+# Dask Helm Chart
 
 Dask has a [Helm Chart](https://github.com/dask/helm-chart) that creates the following resources:
 

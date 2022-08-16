@@ -4,8 +4,8 @@ scheduler:
     repository: "rapidsai/rapidsai-core"
     tag: "22.06-cuda11.5-runtime-ubuntu20.04-py3.9"
   env:
-  - name: DISABLE_JUPYTER
-    value: "true"
+    - name: DISABLE_JUPYTER
+      value: "true"
 
 worker:
   image:
@@ -14,8 +14,8 @@ worker:
   dask_worker: "dask_cuda_worker"
   replicas: 3
   env:
-  - name: DISABLE_JUPYTER
-    value: "true"
+    - name: DISABLE_JUPYTER
+      value: "true"
   resources:
     limits:
       nvidia.com/gpu: 1
