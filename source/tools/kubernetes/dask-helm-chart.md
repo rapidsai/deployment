@@ -59,7 +59,7 @@ First, setup port forwarding from the cluster to external port:
 $ kubectl port-forward --address 127.0.0.1 service/rapids-release-dask-jupyter 8888:8888
 
 # For the Dask dashboard
-$ kubectl port-forward --address 127.0.0.1 service/rapids-release-dask-scheduler 8787:80
+$ kubectl port-forward --address 127.0.0.1 service/rapids-release-dask-scheduler 8787:8787
 ```
 
 Open a browser and visit `localhost:8888` to access Jupyter,
