@@ -28,7 +28,9 @@ author = 'NVIDIA'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "sphinx.ext.intersphinx",
     "myst_nb",
+    "sphinxcontrib.mermaid",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -60,3 +62,10 @@ html_theme = 'pydata_sphinx_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 html_logo = '_static/RAPIDS-logo-purple.png'
+
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "dask": ("https://docs.dask.org/en/latest/", None),
+    "distributed": ("https://distributed.dask.org/en/latest/", None),
+    "dask_kubernetes": ("https://kubernetes.dask.org/en/latest/", None),
+}
