@@ -10,8 +10,12 @@ if [ -z "$PROJECT_WORKSPACE" ]; then
     exit 1
 fi
 
-export DOCS_WORKSPACE="$WORKSPACE"
+export DOCS_WORKSPACE="$WORKSPACE/docs"
 export PROJECTS=(deployment)
+
+export PATH=/conda/bin:/usr/local/cuda/bin:$PATH
+. /opt/conda/etc/profile.d/conda.sh
+conda activate rapids
 
 make html
 
@@ -19,9 +23,7 @@ make html
 cd $DOCS_WORKSPACE
 
 for PROJECT in ${PROJECTS[@]}; do
-    if [ ! -d "api/$PROJECT/$BRANCH_VERSION" ]; then
-        mkdir -p api/$PROJECT/$BRANCH_VERSION
-    fi
+    mkdir -p api/$PROJECT/$BRANCH_VERSION
     rm -rf $DOCS_WORKSPACE/api/$PROJECT/$BRANCH_VERSION/*
 done
 
