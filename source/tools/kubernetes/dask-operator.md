@@ -277,7 +277,7 @@ spec:
 ```
 
 This example shows using a `ClusterIP` service which will not expose the Dask cluster outside of Kubernetes. If you prefer you could set this to
-`LoadBalancer` or `NodePort` to make this externally accessible.
+[`LoadBalancer`](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) or [`NodePort`](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport) to make this externally accessible.
 
 It has a `selector` that matches the scheduler pod and the same ports configured.
 
