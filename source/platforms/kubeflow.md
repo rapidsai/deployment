@@ -1,14 +1,14 @@
-# KubeFlow
+# Kubeflow
 
-You can use RAPIDS with KubeFlow in a single pod with [KubeFlow Notebooks](https://www.kubeflow.org/docs/components/notebooks/) or you can scale out to many pods on many nodes of the Kubernetes cluster with the [dask-operator](/tools/kubernetes/dask-operator).
+You can use RAPIDS with Kubeflow in a single pod with [Kubeflow Notebooks](https://www.kubeflow.org/docs/components/notebooks/) or you can scale out to many pods on many nodes of the Kubernetes cluster with the [dask-operator](/tools/kubernetes/dask-operator).
 
 ```{note}
-These instructions were tested again [KubeFlow v1.5.1](https://github.com/kubeflow/manifests/releases/tag/v1.5.1) running on [Kubernetes v1.21](https://kubernetes.io/blog/2021/04/08/kubernetes-1-21-release-announcement/).
+These instructions were tested again [Kubeflow v1.5.1](https://github.com/kubeflow/manifests/releases/tag/v1.5.1) running on [Kubernetes v1.21](https://kubernetes.io/blog/2021/04/08/kubernetes-1-21-release-announcement/).
 ```
 
-## KubeFlow Notebooks
+## Kubeflow Notebooks
 
-The [RAPIDS docker images](/tools/rapids-docker) can be used directly in KubeFlow Notebooks with no additional configuration. To find the latest image head to [the RAPIDS install page](https://rapids.ai/start.html#get-rapids), as shown in below, and choose a version of RAPIDS to use. Typically we want to choose the container image for the latest release.
+The [RAPIDS docker images](/tools/rapids-docker) can be used directly in Kubeflow Notebooks with no additional configuration. To find the latest image head to [the RAPIDS install page](https://rapids.ai/start.html#get-rapids), as shown in below, and choose a version of RAPIDS to use. Typically we want to choose the container image for the latest release.
 
 ```{figure} /images/kubeflow-rapids-install.png
 ---
@@ -34,11 +34,11 @@ $ kubectl run nvidia-smi --restart=Never --rm -i --tty --image nvidia/cuda:11.0.
 
 ````
 
-Now in KubeFlow, access the Notebooks tab on the left and click “New Notebook”.
+Now in Kubeflow, access the Notebooks tab on the left and click “New Notebook”.
 
 ```{figure} /images/kubeflow-create-notebook.png
 ---
-alt: Screenshot of the KubeFlow Notebooks page with the “New Notebook” button highlighted
+alt: Screenshot of the Kubeflow Notebooks page with the “New Notebook” button highlighted
 ---
 ```
 
@@ -46,16 +46,16 @@ On this page, we must set a few configuration options. First, let’s give it a 
 
 ```{figure} /images/kubeflow-new-notebook.png
 ---
-alt: Screenshot of the KubeFlow Notebooks page
+alt: Screenshot of the Kubeflow Notebooks page
 ---
-New KubeFlow notebook form named rapids with the custom RAPIDS container image, 2 CPU cores, 8GB of RAM, and 1 NVIDIA GPU selected
+New Kubeflow notebook form named rapids with the custom RAPIDS container image, 2 CPU cores, 8GB of RAM, and 1 NVIDIA GPU selected
 ```
 
 Then, you can scroll to the bottom of the page and hit launch. You should see it starting up in your list. The RAPIDS container images are packed full of amazing tools so this step can take a little while.
 
 ```{figure} /images/kubeflow-notebook-running.png
 ---
-alt: Screenshot of the KubeFlow Notebooks page showing the rapids notebook starting up
+alt: Screenshot of the Kubeflow Notebooks page showing the rapids notebook starting up
 ---
 Once the Notebook is ready, click Connect to launch Jupyter.
 ```
@@ -87,7 +87,7 @@ alt: Screenshot of Jupyter Lab with the “10 minutes to cuDF and dask-cuDF” n
 
 Many of the RAPIDS libraries also allow you to scale out your computations onto many GPUs spread over many nodes for additional acceleration. To do this we leverage [Dask](https://www.dask.org/), an open source Python library for distributed computing.
 
-To use Dask, we need to create a scheduler and some workers that will perform our calculations. These workers will also need GPUs and the same Python environment as your notebook session. Dask has [an operator for Kubernetes](/tools/kubernetes/dask-operator) that you can use to manage Dask clusters on your KubeFlow cluster.
+To use Dask, we need to create a scheduler and some workers that will perform our calculations. These workers will also need GPUs and the same Python environment as your notebook session. Dask has [an operator for Kubernetes](/tools/kubernetes/dask-operator) that you can use to manage Dask clusters on your Kubeflow cluster.
 
 ### Installing the Dask Kubernetes operator
 
@@ -231,7 +231,7 @@ Once you have created this configuration option you can select it when launching
 
 ```{figure} /images/kubeflow-configure-dashboard-option.png
 ---
-alt: Screenshot of the KubeFlow new notebook form with the “configure dask dashboard” configuration option selected
+alt: Screenshot of the Kubeflow new notebook form with the “configure dask dashboard” configuration option selected
 ---
 
 Check the “configure dask dashboard” option
