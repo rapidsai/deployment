@@ -2,7 +2,7 @@
 
 RAPIDS can be deployed on IBM Cloud via IBM Cloud managed Kubernetes service (IKS) using Helm. More details can be found at our **[helm docs.](https://helm.rapids.ai/docs/csp.html)**
 
-**1. Install.** Install and configure dependencies in your local environment: kubectl, helm, and IBM cloud cli.
+**1. Install.** Install and configure dependencies in your local environment: kubectl, helm, IBM cloud cli and IBM Kubernetes Service (KS) plugin.
 
 **2. Public Key.** Create a public key if you don't have one.
 
