@@ -10,7 +10,7 @@ RAPIDS can be deployed on IBM Cloud via IBM Cloud managed Kubernetes service (IK
 
 ```shell
 $ ibmcloud ks cluster create classic 
-    --name my_cluster 
+    --name [CLUSTER_NAME] \
     --zone dal10 
     --flavor mb2c.4x32 
     --hardware dedicated 
@@ -32,7 +32,7 @@ $ eksctl create cluster \
     --managed
 ```
 
-[CLUSTER_NAME] = Name of the EKS cluster. This will be auto generated if not specified. <br>
+[CLUSTER_NAME] = Name of the IKS cluster. This will be auto generated if not specified. <br>
 [NODE_INSTANCE] = Node instance type to be used. Select one of the instance types supported by RAPIDS Refer to the introduction section for a list of supported instance types. <br>
 [NUM_NODES] = Number of nodes to be used. <br>
 [MAX_NODES] = Maximum size of the nodes. <br>
