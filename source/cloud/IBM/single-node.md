@@ -20,9 +20,10 @@ that can be used is provided below:
 
 ```shell
 $ docker pull rapidsai/rapidsai:22.06-cuda11.5-runtime-ubuntu20.04-py3.9
-$ docker run — gpus all — rm -it — shm-size=1g — ulimit memlock=-1 -p 8888:8888 -p 8787:8787 -p 8786:8786 rapidsai/rapidsai:22.06-cuda11.5-runtime-ubuntu20.04-py3.9
+$ docker run — gpus all — rm -it — shm-size=1g — ulimit memlock=-1 -p 8888:8888 -p 8787:8787 -p 8786:8786 \
+    rapidsai/rapidsai:22.06-cuda11.5-runtime-ubuntu20.04-py3.9
 ```
 
 **5. Test RAPIDS.** Test it! The RAPIDS docker image will start a Jupyter
-notebook instance automatically. You can log into it by going to the IP address
-provided by AWS on port 8888.
+notebook instance automatically. You can log into it by going to the Floating IP address
+associated with the instance on port 8888.
