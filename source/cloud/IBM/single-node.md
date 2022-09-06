@@ -3,21 +3,15 @@
 There are multiple ways you can deploy RAPIDS on a single instance, but the easiest is to use the RAPIDS docker image:
 
 **1. Initiate.** Initiate an instance supported by RAPIDS. See the introduction
-section for a list of supported instance types. It is recommended to use an AMI
-that already includes the required NVIDIA drivers, such as the **[Amazon Linux 2
-AMI with NVIDIA TESLA GPU
-Driver](https://aws.amazon.com/marketplace/pp/Amazon-Web-Services-Amazon-Linux-2-AMI-with-NVIDIA/B07S5G9S1Z)**
-or the **[AWS Deep Learning
-AMI.](https://docs.aws.amazon.com/dlami/latest/devguide/what-is-dlami.html)**
+section for a list of supported instance types.
 
-**2. Credentials.** Using the credentials supplied by AWS, log into the instance
+**2. Credentials.** Using the credentials supplied by IBM, log into the instance
 via SSH. For a short guide on launching your instance and accessing it, read the
-Getting Started with Amazon EC2 documentation.
+[Getting Started with IBM Virtual Server Documentation](https://cloud.ibm.com/docs/virtual-servers?topic=virtual-servers-getting-started-tutorial).
 
 **3. Install.** Install [Docker and the NVIDIA Docker
 runtime](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)
-in the AWS instance. This step is not required if you are using AWS Deep
-Learning AMI.
+in the IBM virtual server instance.
 
 **4. Install.** Install RAPIDS docker image. The docker container can be
 customized by using the options provided in the **[Getting
@@ -25,9 +19,8 @@ Started](https://rapids.ai/start.html)** page of RAPIDS. Example of an image
 that can be used is provided below:
 
 ```shell
-$ docker pull rapidsai/rapidsai:cuda11.2-runtime-ubuntu18.04
-$ docker run --gpus all --rm -it -p 8888:8888 -p 8787:8787 -p 8786:8786 \
-    rapidsai/rapidsai:cuda11.2-runtime-ubuntu18.04-py3.7
+$ docker pull rapidsai/rapidsai:22.06-cuda11.5-runtime-ubuntu20.04-py3.9
+$ docker run — gpus all — rm -it — shm-size=1g — ulimit memlock=-1 -p 8888:8888 -p 8787:8787 -p 8786:8786 rapidsai/rapidsai:22.06-cuda11.5-runtime-ubuntu20.04-py3.9
 ```
 
 **5. Test RAPIDS.** Test it! The RAPIDS docker image will start a Jupyter
