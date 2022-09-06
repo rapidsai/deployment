@@ -9,6 +9,14 @@ RAPIDS can be deployed on IBM Cloud via IBM Cloud managed Kubernetes service (IK
 **3. Create your cluster:**
 
 ```shell
+$ ibmcloud ks cluster create classic 
+    --name my_cluster 
+    --zone dal10 
+    --flavor mb2c.4x32 
+    --hardware dedicated 
+    --workers 3 
+    --public-vlan <public_VLAN_ID> 
+    --private-vlan <private_VLAN_ID>
 $ eksctl create cluster \
     --name [CLUSTER_NAME] \
     --version 1.14 \
