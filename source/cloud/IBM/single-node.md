@@ -5,15 +5,17 @@ There are multiple ways you can deploy RAPIDS on a single instance, but the easi
 **1. Initiate.** Initiate an instance supported by RAPIDS. See the introduction
 section for a list of supported instance types.
 
-**2. Credentials.** Using the credentials supplied by IBM, log into the instance
+**2. Create & Associate.** Create a Floating IP and associate that with the created instance to access the instance on the web.
+
+**3. Credentials.** Using the credentials supplied by IBM, log into the instance
 via SSH. For a short guide on launching your instance and accessing it, read the
 [Getting Started with IBM Virtual Server Documentation](https://cloud.ibm.com/docs/virtual-servers?topic=virtual-servers-getting-started-tutorial).
 
-**3. Install.** Install [Docker and the NVIDIA Docker
+**4. Install.** Install [Docker and the NVIDIA Docker
 runtime](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)
 in the IBM virtual server instance.
 
-**4. Install.** Install RAPIDS docker image. The docker container can be
+**5. Install.** Install RAPIDS docker image. The docker container can be
 customized by using the options provided in the **[Getting
 Started](https://rapids.ai/start.html)** page of RAPIDS. Example of an image
 that can be used is provided below:
@@ -24,6 +26,6 @@ $ docker run — gpus all — rm -it — shm-size=1g — ulimit memlock=-1 -p 88
     rapidsai/rapidsai:22.06-cuda11.5-runtime-ubuntu20.04-py3.9
 ```
 
-**5. Test RAPIDS.** Test it! The RAPIDS docker image will start a Jupyter
+**6. Test RAPIDS.** Test it! The RAPIDS docker image will start a Jupyter
 notebook instance automatically. You can log into it by going to the Floating IP address
 associated with the instance on port 8888.
