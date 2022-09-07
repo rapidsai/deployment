@@ -30,9 +30,9 @@ Upon successful creation, you would get the cluster id, note that down, it would
 **4. Connect your cluster:**
 
 ```shell
-$ ibmcloud ks cluster config --cluster <clusterId>
+$ ibmcloud ks cluster config --cluster <cluster-id>
 ```
-<clusterid> = When creating the cluster using IBM KS CLI, use that cluster id to connect to the cluster.
+<cluster-id> = When creating the cluster using IBM KS CLI, use that cluster id to connect to the cluster.
 
 **5. Install GPU addon:**
 
