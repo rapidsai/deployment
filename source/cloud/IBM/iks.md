@@ -6,7 +6,9 @@ RAPIDS can be deployed on IBM Cloud via IBM Cloud managed Kubernetes service (IK
 
 **2. Login to IBM CLI.** Login to IBM cloud on CLI using below command.
 
+```shell
 $ ibmcloud login -a cloud.ibm.com -r <region> -g <resource-group-name>
+```
 
 **3. Create your cluster:**
 
