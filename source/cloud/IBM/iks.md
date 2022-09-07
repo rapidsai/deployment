@@ -19,11 +19,11 @@ $ ibmcloud ks cluster create classic
     --flavor gx2-8x64x1v100 \
     --hardware dedicated \ 
     --workers 1 \
-    --version <kubernetes-version> \
+    --version <kubernetes_version> \
 ```
 
 <CLUSTER_NAME> = Name of the IKS cluster. This will be auto generated if not specified. <br>
-<kubernetes-version> = Kubernetes version, the tested version for this deployment is 1.21.14. <br>
+<kubernetes_version> = Kubernetes version, the tested version for this deployment is 1.21.14. <br>
 
 Upon successful creation, you would get the cluster id, note that down, it would be required in next step to connect to the cluster.
 
