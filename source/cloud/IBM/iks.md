@@ -14,25 +14,25 @@ $ ibmcloud login -a cloud.ibm.com -r <region> -g <resource-group-name>
 
 ```shell
 $ ibmcloud ks cluster create classic 
-    --name [CLUSTER_NAME] \
+    --name <CLUSTER_NAME> \
     --zone dal10 \
     --flavor gx2-8x64x1v100 \
     --hardware dedicated \ 
     --workers 1 \
-    --version [kubernetes-version] \
+    --version <kubernetes-version> \
 ```
 
-[CLUSTER_NAME] = Name of the IKS cluster. This will be auto generated if not specified. <br>
-[kubernetes-version] = Kubernetes version, the tested version for this deployment is 1.21.14. <br>
+<CLUSTER_NAME> = Name of the IKS cluster. This will be auto generated if not specified. <br>
+<kubernetes-version> = Kubernetes version, the tested version for this deployment is 1.21.14. <br>
 
 Upon successful creation, you would get the cluster id, note that down, it would be required in next step to connect to the cluster.
 
 **4. Connect your cluster:**
 
 ```shell
-$ ibmcloud ks cluster config --cluster [clusterId]
+$ ibmcloud ks cluster config --cluster <clusterId>
 ```
-[clusterid] = When creating the cluster using IBM KS CLI, use that cluster id to connect to the cluster.
+<clusterid> = When creating the cluster using IBM KS CLI, use that cluster id to connect to the cluster.
 
 **5. Install GPU addon:**
 
@@ -67,15 +67,15 @@ rapidsai-scheduler  LoadBalancer  10.100.11.182   a9c703f1c002f478ea60d9acaf165b
 
 ```shell
 $ kubectl get svc --all-namespaces
-$ kubectl delete svc [SERVICE_NAME]
+$ kubectl delete svc <SERVICE_NAME>
 ```
 
-[SERVICE_NAME] = Name of the services which have an EXTERNAL-IP value and are required to be removed to release resources.
+<SERVICE_NAME> = Name of the services which have an EXTERNAL-IP value and are required to be removed to release resources.
 
 Delete the cluster and its associated nodes
 
 ```shell
-$ ibmlclud ks delete cluster --region=[REGION] --name=[CLUSTER_NAME]
+$ ibmcloud ks cluster rm --cluster <cluster_name_or_ID>
 ```
 
 **9. Uninstall the helm chart:**
