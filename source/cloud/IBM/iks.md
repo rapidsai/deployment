@@ -30,14 +30,16 @@ Upon successful creation, you would get the cluster id, note that down, it would
 **4. Connect your cluster:**
 
 ```shell
-$ ibmcloud ks cluster config --cluster <cluster-id>
+$ ibmcloud ks cluster config --cluster <cluster_id>
 ```
-<cluster-id> = When creating the cluster using IBM KS CLI, use that cluster id to connect to the cluster.
+<cluster_id> = When creating the cluster using IBM KS CLI, use that cluster id to connect to the cluster.
 
 **5. Install GPU addon:**
 
 ```shell
-$ kubectl create -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta4/nvidia-device-plugin.yml
+$ helm repo add nvdp https://nvidia.github.io/k8s-device-plugin
+$ helm repo update
+$ helm install — version=0.6.0 — generate-name nvdp/nvidia-device-plugin
 ```
 
 **6. Install RAPIDS helm repo:**
@@ -47,21 +49,23 @@ $ helm repo add rapidsai https://helm.rapids.ai
 $ helm repo update
 ```
 
-**7. Install helm chart:**
+**7. Install helm RAPIDS chart:**
 
 ```shell
-$ helm install --set dask.scheduler.serviceType="LoadBalancer" --set dask.jupyter.serviceType="LoadBalancer" rapidstest rapidsai/rapidsai
+$ helm install — set dask.scheduler.serviceType=”LoadBalancer” — set \ dask.jupyter.serviceType=”LoadBalancer” rapidstest rapidsai/rapidsai
 ```
 
 **8. Accessing your cluster:**
 
 ```shell
 $ kubectl get svc
-NAME                TYPE          CLUSTER-IP      EXTERNAL-IP                                                               PORT(S)                         AGE
-kubernetes          ClusterIP     10.100.0.1      <none>                                                                    443/TCP                         12m
-rapidsai-jupyter    LoadBalancer  10.100.251.155  a454a9741455544cfa37fc4ac71caa53-868718558.us-east-1.elb.amazonaws.com    80:30633/TCP                    85s
-rapidsai-scheduler  LoadBalancer  10.100.11.182   a9c703f1c002f478ea60d9acaf165bab-1146605388.us-east-1.elb.amazonaws.com   8786:30346/TCP,8787:32444/TCP   85s
+NAME                TYPE          CLUSTER-IP      EXTERNAL-IP              PORT(S)                         AGE
+kubernetes          ClusterIP     172.21.0.1      <none>                   443/TCP                         12m
+rapidsai-jupyter    LoadBalancer  172.21.164.106  169.59.286.45            80:31118/TCP                    85s
+rapidsai-scheduler  LoadBalancer  172.21.111.67   169.59.286.43            8786:30346/TCP,8787:32444/TCP   85s
 ```
+
+You can now visit the external IP of the rapidsai-jupyter service in your browser!
 
 **9. Delete the cluster:** List and delete services running in the cluster to release resources
 
