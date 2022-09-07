@@ -61,11 +61,17 @@ $ helm install — set dask.scheduler.serviceType=”LoadBalancer” — set \ d
 $ kubectl get svc
 NAME                TYPE          CLUSTER-IP      EXTERNAL-IP              PORT(S)                         AGE
 kubernetes          ClusterIP     172.21.0.1      <none>                   443/TCP                         12m
-rapidsai-jupyter    LoadBalancer  172.21.164.106  169.59.286.45            80:31118/TCP                    85s
-rapidsai-scheduler  LoadBalancer  172.21.111.67   169.59.286.43            8786:30346/TCP,8787:32444/TCP   85s
+rapidsai-jupyter    LoadBalancer  172.21.164.106  169.59.206.45            80:31118/TCP                    85s
+rapidsai-scheduler  LoadBalancer  172.21.111.67   169.59.206.43            8786:30962/TCP,8787:30136/TCP   85s
 ```
 
 You can now visit the external IP of the rapidsai-jupyter service in your browser!
+
+**8. Uninstall the helm chart:**
+
+```shell
+$ helm uninstall rapidstest
+```
 
 **9. Delete the cluster:** List and delete services running in the cluster to release resources
 
@@ -82,8 +88,4 @@ Delete the cluster and its associated nodes
 $ ibmcloud ks cluster rm --cluster <cluster_name_or_ID>
 ```
 
-**9. Uninstall the helm chart:**
 
-```shell
-$ helm uninstall rapidstest
-```
