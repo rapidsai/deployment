@@ -15,24 +15,24 @@ $ ibmcloud login -a cloud.ibm.com -r <region> -g <resource-group-name>
 ```shell
 $ ibmcloud ks cluster create classic 
     --name [CLUSTER_NAME] \
-    --zone dal10 
-    --flavor gx2-8x64x1v100
-    --hardware dedicated 
-    --workers 1
-    --version <kubernetes-version> \
-    --public-vlan <public_VLAN_ID> 
-    --private-vlan <private_VLAN_ID>
+    --zone dal10 \
+    --flavor gx2-8x64x1v100 \
+    --hardware dedicated \ 
+    --workers 1 \
+    --version [kubernetes-version] \
 ```
 
 [CLUSTER_NAME] = Name of the IKS cluster. This will be auto generated if not specified. <br>
-[NODE_INSTANCE] = Node instance type to be used. Select one of the instance types supported by RAPIDS Refer to the introduction section for a list of supported instance types. <br>
-[NUM_NODES] = Number of nodes to be used. <br>
-[MAX_NODES] = Maximum size of the nodes. <br>
-[NODE_SIZE] = Size of the nodes. <br>
+[kubernetes-version] = Kubernetes version, the tested version for this deployment is 1.21.14. <br>
 
-Update the path to the ssh-public-key to point to the folder and file where your public key is saved.
+Upon successful creation, you would get the cluster id, note that down, it would be required in next step to connect to the cluster.
 
 **4. Connect your cluster:**
+
+```shell
+$ ibmcloud ks cluster config --cluster [clusterId]
+```
+[clusterid] = When creating the cluster using IBM KS CLI, use that cluster id to connect to the cluster.
 
 **5. Install GPU addon:**
 
@@ -63,13 +63,7 @@ rapidsai-jupyter    LoadBalancer  10.100.251.155  a454a9741455544cfa37fc4ac71caa
 rapidsai-scheduler  LoadBalancer  10.100.11.182   a9c703f1c002f478ea60d9acaf165bab-1146605388.us-east-1.elb.amazonaws.com   8786:30346/TCP,8787:32444/TCP   85s
 ```
 
-**7. ELB IP address:** **[Convert the DNS address provided above as the
-EXTERNAL-IP address to an IPV4
-address](https://aws.amazon.com/premiumsupport/knowledge-center/elb-find-load-balancer-IP/)**.
-Then use the obtained IPV4 address to visit the rapidsai-jupyter service in your
-browser!
-
-**8. Delete the cluster:** List and delete services running in the cluster to release resources
+**9. Delete the cluster:** List and delete services running in the cluster to release resources
 
 ```shell
 $ kubectl get svc --all-namespaces
@@ -81,7 +75,7 @@ $ kubectl delete svc [SERVICE_NAME]
 Delete the cluster and its associated nodes
 
 ```shell
-$ eksctl delete cluster --region=[REGION] --name=[CLUSTER_NAME]
+$ ibmlclud ks delete cluster --region=[REGION] --name=[CLUSTER_NAME]
 ```
 
 **9. Uninstall the helm chart:**
