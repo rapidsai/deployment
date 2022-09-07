@@ -16,24 +16,12 @@ $ ibmcloud login -a cloud.ibm.com -r <region> -g <resource-group-name>
 $ ibmcloud ks cluster create classic 
     --name [CLUSTER_NAME] \
     --zone dal10 
-    --flavor mb2c.4x32 
+    --flavor gx2-8x64x1v100
     --hardware dedicated 
-    --workers 3 
+    --workers 1
+    --version <kubernetes-version> \
     --public-vlan <public_VLAN_ID> 
     --private-vlan <private_VLAN_ID>
-$ eksctl create cluster \
-    --name [CLUSTER_NAME] \
-    --version 1.14 \
-    --region [REGION] \
-    --nodegroup-name gpu-workers \
-    --node-type [NODE_INSTANCE] \
-    --nodes  [NUM_NODES] \
-    --nodes-min 1 \
-    --nodes-max [MAX_NODES] \
-    --node-volume-size [NODE_SIZE] \
-    --ssh-access \
-    --ssh-public-key ~/path/to/id_rsa.pub \
-    --managed
 ```
 
 [CLUSTER_NAME] = Name of the IKS cluster. This will be auto generated if not specified. <br>
@@ -44,26 +32,28 @@ $ eksctl create cluster \
 
 Update the path to the ssh-public-key to point to the folder and file where your public key is saved.
 
-**4. Install GPU addon:**
+**4. Connect your cluster:**
+
+**5. Install GPU addon:**
 
 ```shell
 $ kubectl create -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta4/nvidia-device-plugin.yml
 ```
 
-**5. Install RAPIDS helm repo:**
+**6. Install RAPIDS helm repo:**
 
 ```shell
 $ helm repo add rapidsai https://helm.rapids.ai
 $ helm repo update
 ```
 
-**6. Install helm chart:**
+**7. Install helm chart:**
 
 ```shell
 $ helm install --set dask.scheduler.serviceType="LoadBalancer" --set dask.jupyter.serviceType="LoadBalancer" rapidstest rapidsai/rapidsai
 ```
 
-**7. Accessing your cluster:**
+**8. Accessing your cluster:**
 
 ```shell
 $ kubectl get svc
