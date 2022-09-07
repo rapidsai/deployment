@@ -67,13 +67,13 @@ rapidsai-scheduler  LoadBalancer  172.21.111.67   169.59.206.43            8786:
 
 You can now visit the external IP of the rapidsai-jupyter service in your browser!
 
-**8. Uninstall the helm chart:**
+**9. Uninstall the helm chart:**
 
 ```shell
 $ helm uninstall rapidstest
 ```
 
-**9. Delete the cluster:** List and delete services running in the cluster to release resources
+**10. Delete the cluster:** List and delete services running in the cluster to release resources
 
 ```shell
 $ kubectl get svc --all-namespaces
