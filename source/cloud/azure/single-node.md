@@ -1,9 +1,5 @@
 # Azure Single Node RAPIDS
 
-## Pre-requisite
-
-Create a resource group.
-
 ## Create Azure Virtual Machine with GPU, Nvidia Driver and Nvidia Container Runtime
 
 Nvidia maintains an image that pre-installs Nvidia drivers and container runtimes,
@@ -31,6 +27,7 @@ Click *Review+Create* to start the virtual machine.
 Prepare the following environment variables.
 
 | Name | Description | Example |
+| ---- | ----------- | ------- |
 | AZ_VMNAME | Name for VM | RapidsAI-V100 | 
 | AZ_RESOURCEGROUP | Resource group of VM | rapidsai-deployment |
 | AZ_LOCATION | Region of VM | westus2 |
@@ -71,6 +68,7 @@ for supported ssh keys on Azure.
 ### Create Via Azure-CLI
 
 | Name | Description | Example |
+| ---- | ----------- | ------- |
 | AZ_NSGNAME | NSG name for the VM | ${AZ_VMNAME}NSG |
 | AZ_NSGRULENAME | Name for NSG rule | Allow-Dask-Jupyter-ports |
 
@@ -96,5 +94,5 @@ Access the jupyter-lab portal via `<ip>:8888` in the browser. Visit `cudf/10-min
 execute the cells. Open dask dashboard on the left and enter `<ip>:8787` in the url blank
 to monitor dask worker status.
 
-## Useful Links
+**Useful Links**
  - [Using NGC with Azure](https://docs.nvidia.com/ngc/ngc-azure-setup-guide/index.html)
