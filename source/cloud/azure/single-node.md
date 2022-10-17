@@ -5,7 +5,7 @@
 Nvidia maintains an image that pre-installs Nvidia drivers and container runtimes,
 we recommend using [this image](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/nvidia.ngc_azure_17_11?tab=Overview) as the starting point.
 
-### Create VM Via Azure Portal
+### Option 1: Create VM Via Azure Portal
 
 1. Select the latest Nvidia GPU-Optimized VMI version from the drop down list, then select _Get It Now_.
 2. If already logged in on Azure, select continue clicking _Create_.
@@ -22,7 +22,7 @@ support availability zone. Try other availability options.
 
 Click _Review+Create_ to start the virtual machine.
 
-### Create VM Via Azure-CLI
+### Option 2: Create VM Via Azure-CLI
 
 Prepare the following environment variables.
 
@@ -59,13 +59,13 @@ for supported ssh keys on Azure.
 
 ## Create Network Security Group
 
-### Create NSG Via Azure Portal
+### Option 1: Create NSG Via Azure Portal
 
 1. Select _Networking_ in the left panel.
 2. Select _Add inbound port rule_.
 3. Set _Destination port ranges_ to `8888,8787`. Keep rest unchanged. Select _Add_.
 
-### Create NSG Via Azure-CLI
+### Option 2: Create NSG Via Azure-CLI
 
 | Name           | Description         | Example                  |
 | -------------- | ------------------- | ------------------------ |
@@ -83,10 +83,18 @@ az network nsg rule create \
 
 ## Install RAPIDS
 
-It can take up to 10min to provision a GPU VM. When available, ssh into the machine.
+It can take up to 10 minutes to provision a GPU VM. When available, ssh into the machine.
 
 Visit [rapids release selector](https://rapids.ai/start.html#get-rapids) and choose `Docker` in `METHOD`
-column. Execute the commands in the system.
+column. For example, to pull 22.10 stable image and run the container:
+
+```bash
+docker pull nvcr.io/nvidia/rapidsai/rapidsai-core:22.10-cuda11.5-runtime-ubuntu20.04-py3.9
+docker run --gpus all --rm -it \
+    --shm-size=1g --ulimit memlock=-1 \
+    -p 8888:8888 -p 8787:8787 -p 8786:8786 \
+    nvcr.io/nvidia/rapidsai/rapidsai-core:22.10-cuda11.5-runtime-ubuntu20.04-py3.9
+```
 
 ## Test RAPIDS
 
