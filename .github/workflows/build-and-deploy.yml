@@ -24,7 +24,6 @@ jobs:
         with:
           miniforge-variant: Mambaforge
           use-mamba: true
-          python-version: 3.8
           activate-environment: deployment-docs-dev
           environment-file: conda/environments/deployment_docs_cuda11.5.yml
       - name: Build
