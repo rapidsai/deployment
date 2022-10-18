@@ -1,0 +1,35 @@
+name: Build and deploy
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+# Required shell entrypoint to have properly activated conda environments
+defaults:
+  run:
+    shell: bash -l {0}
+
+jobs:
+  conda:
+    name: Build (and deploy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.1.0
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          miniforge-variant: Mambaforge
+          use-mamba: true
+          python-version: 3.8
+          activate-environment: deployment-docs-dev
+          environment-file: conda/environments/deployment_docs_cuda11.5.yml
+      - name: Build
+        run: make html
+
+      # TODO: If on main
+      # TODO: Checkout docs repo
+      # TODO: Move built site into right path (/deployment/nightly for commits and /deployment/stable for tags)
+      # TODO: Commit back to that repo
