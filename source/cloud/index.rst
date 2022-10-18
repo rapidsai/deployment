@@ -8,3 +8,4 @@ Cloud
     :caption: Cloud
 
     aws/index
+    azure/index
