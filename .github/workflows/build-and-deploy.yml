@@ -1,9 +1,8 @@
 name: Build and deploy
 on:
   push:
-    # TODO: Uncomment before merging
-    # branches:
-    #   - main
+    branches:
+      - main
   pull_request:
 
 # Required shell entrypoint to have properly activated conda environments
