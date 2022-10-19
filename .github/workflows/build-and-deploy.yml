@@ -26,7 +26,7 @@ jobs:
           miniforge-variant: Mambaforge
           use-mamba: true
           activate-environment: deployment-docs-dev
-          environment-file: conda/environments/deployment_docs_cuda11.5.yml
+          environment-file: conda/environments/deployment_docs.yml
 
       - name: Build
         run: make html
