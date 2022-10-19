@@ -19,6 +19,7 @@ jobs:
       - uses: actions/checkout@v3.1.0
         with:
           fetch-depth: 0
+
       - name: Set up Python
         uses: conda-incubator/setup-miniconda@v2
         with:
@@ -26,10 +27,20 @@ jobs:
           use-mamba: true
           activate-environment: deployment-docs-dev
           environment-file: conda/environments/deployment_docs_cuda11.5.yml
+
       - name: Build
         run: make html
 
-      # TODO: If on main
-      # TODO: Checkout docs repo
-      # TODO: Move built site into right path (/deployment/nightly for commits and /deployment/stable for tags)
-      # TODO: Commit back to that repo
+      # If on main in the upstream repo then push to docs repo
+      - name: Pushes build files
+        uses: cpina/github-action-push-to-another-repository@v1.5.1
+        if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.WORKFLOW_TOKEN }}
+        with:
+          source-directory: "build/html"
+          target-directory: ${{ startsWith(github.event.ref, 'refs/tags/') && 'deployment/stable' || 'deployment/nightly' }}
+          destination-github-username: "rapidsai"
+          destination-repository-name: "docs"
+          user-email: 1898282+github-actions[bot]@users.noreply.github.com
+          target-branch: gh-pages
