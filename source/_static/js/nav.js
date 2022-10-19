@@ -7,21 +7,31 @@ document.addEventListener("DOMContentLoaded", function () {
             <a class="rapids-home-container__home-btn" href="/">Home</a>
         </div>
         <div class="rapids-selector__container rapids-selector--hidden">
-        <div class="rapids-selector__selected"></div>
-        <div class="rapids-selector__menu" style="height: 65px;">
-            <a class="rapids-selector__menu-item" href="https://docs.rapids.ai/deployment/nightly">nightly</a>
-            <a class="rapids-selector__menu-item" href="https://docs.rapids.ai/deployment/stable">stable</a>
+            <div class="rapids-selector__selected">deployment</div>
+            <div class="rapids-selector__menu" style="height: 65px;">
+                <a class="rapids-selector__menu-item rapids-selector__menu-item--selected" href="https://docs.rapids.ai/deployment">deployment</a>
+                <a class="rapids-selector__menu-item" href="https://docs.rapids.ai/api">api docs</a>
+            </div>
         </div>
+        <div id="rapids-selector__container-version" class="rapids-selector__container rapids-selector--hidden">
+            <div class="rapids-selector__selected"></div>
+            <div class="rapids-selector__menu" style="height: 65px;">
+                <a class="rapids-selector__menu-item" href="https://docs.rapids.ai/deployment/nightly">nightly</a>
+                <a class="rapids-selector__menu-item" href="https://docs.rapids.ai/deployment/stable">stable</a>
+            </div>
         </div>
     </div>
     ` + sidebar.innerHTML;
 
-  let selectorSelected = document.getElementsByClassName(
+  let versionSection = document.getElementById(
+    "rapids-selector__container-version"
+  );
+  let selectorSelected = versionSection.getElementsByClassName(
     "rapids-selector__selected"
   )[0];
   if (window.location.href.includes("/deployment/stable")) {
     selectorSelected.innerHTML = "stable";
-    document
+    versionSection
       .getElementsByClassName("rapids-selector__menu-item")
       .forEach((element) => {
         if (element.innerHTML.includes("stable")) {
@@ -30,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   } else if (window.location.href.includes("/deployment/nightly")) {
     selectorSelected.innerHTML = "nightly";
-    document
+    versionSection
       .getElementsByClassName("rapids-selector__menu-item")
       .forEach((element) => {
         if (element.innerHTML.includes("nightly")) {
@@ -39,7 +49,9 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   } else {
     selectorSelected.innerHTML = "dev";
-    let menu = document.getElementsByClassName("rapids-selector__menu")[0];
+    let menu = versionSection.getElementsByClassName(
+      "rapids-selector__menu"
+    )[0];
     menu.innerHTML =
       menu.innerHTML +
       '<a class="rapids-selector__menu-item rapids-selector__menu-item--selected" href="/">dev</a>';
