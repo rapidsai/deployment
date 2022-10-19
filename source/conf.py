@@ -69,3 +69,8 @@ intersphinx_mapping = {
     "distributed": ("https://distributed.dask.org/en/latest/", None),
     "dask_kubernetes": ("https://kubernetes.dask.org/en/latest/", None),
 }
+
+def setup(app):
+    app.add_css_file("https://docs.rapids.ai/assets/css/custom.css")
+    app.add_js_file("https://docs.rapids.ai/assets/js/custom.js", loading_method="defer")
+    app.add_js_file("js/nav.js", loading_method="defer")
