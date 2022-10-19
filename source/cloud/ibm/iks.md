@@ -13,11 +13,11 @@ $ ibmcloud login -a cloud.ibm.com -r <region> -g <resource-group-name>
 **3. Create your cluster:**
 
 ```shell
-$ ibmcloud ks cluster create classic 
+$ ibmcloud ks cluster create classic
     --name <CLUSTER_NAME> \
     --zone dal10 \
     --flavor gx2-8x64x1v100 \
-    --hardware dedicated \ 
+    --hardware dedicated \
     --workers 1 \
     --version <kubernetes_version> \
 ```
@@ -32,6 +32,7 @@ Upon successful creation, you would get the cluster id, note that down, it would
 ```shell
 $ ibmcloud ks cluster config --cluster <cluster_id>
 ```
+
 <cluster_id> = When creating the cluster using IBM KS CLI, use that cluster id to connect to the cluster.
 
 **5. Install GPU addon:**
@@ -87,5 +88,3 @@ Delete the cluster and its associated nodes
 ```shell
 $ ibmcloud ks cluster rm --cluster <cluster_name_or_ID>
 ```
-
-
