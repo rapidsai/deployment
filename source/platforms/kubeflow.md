@@ -3,7 +3,7 @@
 You can use RAPIDS with Kubeflow in a single pod with [Kubeflow Notebooks](https://www.kubeflow.org/docs/components/notebooks/) or you can scale out to many pods on many nodes of the Kubernetes cluster with the [dask-operator](/tools/kubernetes/dask-operator).
 
 ```{note}
-These instructions were tested again [Kubeflow v1.5.1](https://github.com/kubeflow/manifests/releases/tag/v1.5.1) running on [Kubernetes v1.21](https://kubernetes.io/blog/2021/04/08/kubernetes-1-21-release-announcement/).
+These instructions were tested against [Kubeflow v1.5.1](https://github.com/kubeflow/manifests/releases/tag/v1.5.1) running on [Kubernetes v1.21](https://kubernetes.io/blog/2021/04/08/kubernetes-1-21-release-announcement/). Visit [Installing Kubeflow](https://www.kubeflow.org/docs/started/installing-kubeflow/) for instructions on installing Kubeflow on your Kubernetes cluster.
 ```
 
 ## Kubeflow Notebooks
