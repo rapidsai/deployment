@@ -9,3 +9,4 @@ Cloud
 
     aws/index
     azure/index
+    ibm/index
