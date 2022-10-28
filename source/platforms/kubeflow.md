@@ -114,7 +114,7 @@ No resources found in default namespace.
 You can also check the operator pod is running and ready to launch new Dask clusters.
 
 ```console
-$ kubectl get pods -A -l application=dask-kubernetes-operator
+$ kubectl get pods -A -l app.kubernetes.io/name=dask-kubernetes-operator
 NAMESPACE       NAME                                        READY   STATUS    RESTARTS   AGE
 dask-operator   dask-kubernetes-operator-775b8bbbd5-zdrf7   1/1     Running   0          74s
 ```
