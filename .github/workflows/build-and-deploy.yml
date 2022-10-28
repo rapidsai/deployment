@@ -1,0 +1,47 @@
+name: Build and deploy
+on:
+  push:
+    tags:
+      - "*"
+    branches:
+      - main
+  pull_request:
+
+# Required shell entrypoint to have properly activated conda environments
+defaults:
+  run:
+    shell: bash -l {0}
+
+jobs:
+  conda:
+    name: Build (and deploy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.1.0
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          miniforge-variant: Mambaforge
+          use-mamba: true
+          activate-environment: deployment-docs-dev
+          environment-file: conda/environments/deployment_docs.yml
+
+      - name: Build
+        run: make html
+
+      # If on main in the upstream repo then push to docs repo
+      - name: Pushes build files
+        uses: cpina/github-action-push-to-another-repository@v1.5.1
+        if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.WORKFLOW_TOKEN }}
+        with:
+          source-directory: "build/html"
+          target-directory: ${{ startsWith(github.event.ref, 'refs/tags/') && 'deployment/stable' || 'deployment/nightly' }}
+          destination-github-username: "rapidsai"
+          destination-repository-name: "docs"
+          user-email: 1898282+github-actions[bot]@users.noreply.github.com
+          target-branch: gh-pages
