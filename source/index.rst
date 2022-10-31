@@ -13,7 +13,6 @@ Welcome to the RAPIDS Deployment documentation!
    local
    platforms/index
    cloud/index
-   hpc/index
 
 .. toctree::
    :maxdepth: 3
