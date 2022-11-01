@@ -10,7 +10,7 @@ See build [instructions](https://github.com/rapidsai/cudf/blob/branch-0.13/CONTR
 1. Create a conda env with the dependencies to build the deployment docs from source.
 
    ```bash
-   conda env create -f conda/environments/deployment_docs_cuda11.5.yml
+   conda env create -f conda/environments/deployment_docs.yml
    ```
 
 1. Once the conda environment is built, run the following
