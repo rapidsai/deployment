@@ -6,6 +6,7 @@ maxdepth: 2
 caption: IBM Cloud
 ---
 single-node
+iks
 ```
 
 RAPIDS can be deployed on IBM Cloud in several ways. See the
