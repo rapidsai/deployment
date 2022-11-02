@@ -53,3 +53,21 @@ $ git commit -am "My awesome commit"
 prettier.................................................................Passed
 markdownlint.............................................................Passed
 ```
+
+## Releasing
+
+This repository is continuously deployed to the [nightly docs at docs.rapids.ai](https://docs.rapids.ai/deployment/nightly/) via the [build-and-deploy](https://github.com/rapidsai/deployment/blob/main/.github/workflows/build-and-deploy.yml) workflow. All commits to main are built and pushed to the [deployment subdirectory in the rapidsai/docs repo](https://github.com/rapidsai/docs/tree/gh-pages/deployment).
+
+We can also update the [stable documentation at docs.rapids.ai](https://docs.rapids.ai/deployment/stable/) by creating and pushing a tag which will cause the `build-and-deploy` workflow to push to the stable subdirectory instead of nightly.
+
+```bash
+# Set next version number
+export RELEASE=x.x.x
+
+# Create tags
+git commit --allow-empty -m "Release $RELEASE"
+git tag -a $RELEASE -m "Version $RELEASE"
+
+# Push
+git push upstream --tags
+```
