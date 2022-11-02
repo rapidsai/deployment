@@ -24,7 +24,7 @@ that can be used is provided below:
 ```shell
 $ docker pull rapidsai/rapidsai:22.10-cuda11.5-runtime-ubuntu18.04-py3.9
 $ docker run --gpus all --rm -it -p 8888:8888 -p 8787:8787 -p 8786:8786 \
-         rapidsai/rapidsai:22.10-cuda11.5-runtime-ubuntu18.04-p
+         rapidsai/rapidsai:22.10-cuda11.5-runtime-ubuntu18.04-py3.9
 ```
 
 **5. Test RAPIDS.** Test it! The RAPIDS docker image will start a Jupyter
