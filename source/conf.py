@@ -13,12 +13,13 @@
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
+import datetime
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'RAPIDS Deployment Documentation'
-copyright = '2022, NVIDIA'
+copyright = f'{datetime.date.today().year}, NVIDIA'
 author = 'NVIDIA'
 
 
@@ -31,7 +32,11 @@ extensions = [
     "sphinx.ext.intersphinx",
     "myst_nb",
     "sphinxcontrib.mermaid",
+    "sphinx_design",
+    "sphinx_copybutton",
 ]
+
+myst_enable_extensions = ["colon_fence"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

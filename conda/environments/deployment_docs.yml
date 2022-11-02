@@ -11,4 +11,6 @@ dependencies:
   - python=3.9
   - sphinx
   - sphinx-autobuild
+  - sphinx-copybutton
+  - sphinx-design
   - sphinxcontrib-mermaid
