@@ -12,7 +12,7 @@ Dask clusters of MIG instances are supported via Dask-CUDA as long as all MIG in
 
 For example, partitioning two GPUs into 7 x 10GB instances each and setting up a cluster with all 14 instances should be ok. However, partitioning one of the GPUs into 7 x 10GB instances and another with 3 x 20GB should be avoided.
 
-Unlike for a system composed of unpartitioned GPUs, Dask-CUDA cannot automatically infer the GPUs to be utilized for the cluster. In a MIG setup, the user is then required to specify the GPU instances to be used by the cluster. This is achieved by specifying either the `CUDA_VISIBLE_DEVICES` environment variable for either `LocalCUDACluster` or `dask-cuda-worker`, or the homonymous argument for `LocalCUDACluster`.
+Unlike for a system composed of unpartitioned GPUs, Dask-CUDA cannot automatically infer the GPUs to be utilized for the cluster. In a MIG setup, the user is then required to specify the GPU instances to be used by the cluster. This is achieved by specifying either the `CUDA_VISIBLE_DEVICES` environment variable for either {class}`dask_cuda.LocalCUDACluster` or `dask-cuda-worker`, or the homonymous argument for {class}`dask_cuda.LocalCUDACluster`.
 
 Physical GPUs can be addressed by their indices `[0..N)` (where `N` is the total number of GPUs installed) or by its name composed of the `GPU-` prefix followed by its UUID. MIG instances have no indices and can only be addressed by their names, composed of the `MIG-` prefix followed by its UUID. The name of a MIG instance will the look similar to: `MIG-41b3359c-e721-56e5-8009-12e5797ed514`.
 
@@ -40,7 +40,7 @@ Suppose you have 3 MIG instances on the local system:
 - `MIG-65b79fff-6d3c-5490-a288-b31ec705f310`
 - `MIG-c6e2bae8-46d4-5a7e-9a68-c6cf1f680ba0`
 
-To start a `LocalCUDACluster`, the user would run the following:
+To start a {class}`dask_cuda.LocalCUDACluster`, the user would run the following:
 
 ```python
 from dask_cuda import LocalCUDACluster

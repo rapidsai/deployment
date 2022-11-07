@@ -73,6 +73,7 @@ intersphinx_mapping = {
     "dask": ("https://docs.dask.org/en/latest/", None),
     "distributed": ("https://distributed.dask.org/en/latest/", None),
     "dask_kubernetes": ("https://kubernetes.dask.org/en/latest/", None),
+    "dask_cuda": ("https://docs.rapids.ai/api/dask-cuda/stable/", None),
 }
 
 def setup(app):
