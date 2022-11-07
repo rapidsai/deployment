@@ -1,8 +1,8 @@
 # Multi-Instance GPU (MIG)
 
-Multi-Instance GPU is a technology that allows partitioning a single GPU into multiple instances, making each one seem as a completely independent GPU. Each instance then receives a certain slice of the GPU computational resources and a pre-defined block of memory that is detached from the other instances by on-chip protections.
+[Multi-Instance GPU](https://www.nvidia.com/en-us/technologies/multi-instance-gpu/) is a technology that allows partitioning a single GPU into multiple instances, making each one seem as a completely independent GPU. Each instance then receives a certain slice of the GPU computational resources and a pre-defined block of memory that is detached from the other instances by on-chip protections.
 
-Due to the protection layer to make MIG secure, certain limitations exist. One such limitation that is generally important for HPC applications is the lack of support for CUDA Inter-Process Communication (IPC), which enables transfers over NVLink and NVSwitch to greatly speed up communication between physical GPUs. When using MIG, NVLink and NVSwitch are thus completely unavailable, forcing the application to take a more expensive communication channel via the system (CPU) memory.
+Due to the protection layer to make MIG secure, certain limitations exist. One such limitation that is generally important for HPC applications is the lack of support for [CUDA Inter-Process Communication (IPC)](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#interprocess-communication), which enables transfers over NVLink and NVSwitch to greatly speed up communication between physical GPUs. When using MIG, [NVLink and NVSwitch](https://www.nvidia.com/en-us/data-center/nvlink/) are thus completely unavailable, forcing the application to take a more expensive communication channel via the system (CPU) memory.
 
 Given limitations in communication capability, we advise users to first understand the tradeoffs that have to be made when attempting to setup a cluster of MIG instances. While the partitioning could be beneficial to certain applications that need only a certain amount of compute capability, communication bottlenecks may be a problem and thus need to be thought of carefully.
 
@@ -73,4 +73,4 @@ Please note that in the example above we created 3 Dask-CUDA workers on one node
 
 ## XGBoost with Dask Cluster
 
-Currently XGBoost only exposes support for GPU communication via NCCL, which does not support MIG. For this reason, A Dask cluster that utilizes XGBoost would have to utilize TCP instead for all communications which will likely cause in considerable performance degradation. Therefore, using XGBoost with MIG is not recommended.
+Currently [XGBoost](https://www.nvidia.com/en-us/glossary/data-science/xgboost/) only exposes support for GPU communication via NCCL, which does not support MIG. For this reason, A Dask cluster that utilizes XGBoost would have to utilize TCP instead for all communications which will likely cause in considerable performance degradation. Therefore, using XGBoost with MIG is not recommended.
