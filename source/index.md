@@ -93,6 +93,16 @@ See our [example notebooks repo](https://github.com/rapidsai/cloud-ml-examples) 
 {bdg-primary}`mlflow`
 {bdg-primary}`ray tune`
 ````
+
+````{grid-item-card}
+:link: guides/index
+:link-type: doc
+{fas}`book;sd-text-primary` Guides
+^^^
+Detailed guides on how to deploy and optimize RAPIDS.
+
+{bdg-primary}`Microsoft Azure`
+````
 `````
 
 ```{toctree}
@@ -105,6 +115,7 @@ cloud/index
 hpc
 mig
 platforms/index
+guides/index
 ```
 
 ```{toctree}
