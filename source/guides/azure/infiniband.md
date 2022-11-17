@@ -17,8 +17,8 @@
 Before installing the drivers ensure the system is up to date.
 
 ```
-sudo apt update
-sudo apt upgrade -y
+sudo apt-get update
+sudo apt-get upgrade -y
 ```
 
 ## NVIDIA Drivers
@@ -31,7 +31,12 @@ sudo apt-get update
 sudo apt-get -y install cuda-drivers
 ```
 
-Restart VM instance and run `nvidia-smi` to verify driver installation.
+Restart VM instance
+```
+sudo reboot
+```
+
+Then run `nvidia-smi` to verify driver installation.
 
 ```
 $ nvidia-smi
@@ -94,15 +99,101 @@ Mon Nov 14 20:32:39 2022
 ```
 
 ## InfiniBand Driver
-
-From [Azure docs](https://learn.microsoft.com/en-us/azure/virtual-machines/workloads/hpc/enable-infiniband)
-
+On Ubuntu 20.04
 ```
-MOFED_VERSION=5.0-2.1.8.0
-MOFED_OS=ubuntu20.04
-pushd /tmp
-curl -fSsL https://www.mellanox.com/downloads/ofed/MLNX_OFED-${MOFED_VERSION}/MLNX_OFED_LINUX-${MOFED_VERSION}-${MOFED_OS}-x86_64.tgz | tar -zxpf -
-cd MLNX_OFED_LINUX-*
+sudo apt-get install -y automake dh-make git libcap2 libnuma-dev libtool make pkg-config udev curl librdmacm-dev rdma-core
+sudo apt-get install -y libgfortran5 bison chrpath flex graphviz gfortran tk dpatch quilt swig tcl
+VERSION="5.8-1.0.1.1"
+TARBALL="MLNX_OFED_LINUX-$VERSION-ubuntu20.04-x86_64.tgz"
+wget https://content.mellanox.com/ofed/MLNX_OFED-${VERSION}/$TARBALL
+tar zxvf ${TARBALL}
+cd MLNX_OFED_LINUX-$VERSION-ubuntu20.04-x86_64
 sudo ./mlnxofedinstall
-popd
 ```
+
+Check install
+```
+$ lsmod | grep nv_peer_mem
+nv_peer_mem            16384  0
+ib_core               430080  9 rdma_cm,ib_ipoib,nv_peer_mem,iw_cm,ib_umad,rdma_ucm,ib_uverbs,mlx5_ib,ib_cm
+nvidia              55201792  895 nvidia_uvm,nv_peer_mem,nvidia_modeset
+```
+## Enable IPoIB
+```
+sudo sed -i -e 's/# OS.EnableRDMA=y/OS.EnableRDMA=y/g' /etc/waagent.conf
+```
+Reboot
+```
+sudo reboot
+```
+
+## Check IB
+```
+ip addr show
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 60:45:bd:a7:42:cc brd ff:ff:ff:ff:ff:ff
+    inet 10.6.0.5/24 brd 10.6.0.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::6245:bdff:fea7:42cc/64 scope link 
+       valid_lft forever preferred_lft forever
+3: eth1: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether 00:15:5d:33:ff:16 brd ff:ff:ff:ff:ff:ff
+4: enP44906s1: <BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP> mtu 1500 qdisc mq master eth0 state UP group default qlen 1000
+    link/ether 60:45:bd:a7:42:cc brd ff:ff:ff:ff:ff:ff
+    altname enP44906p0s2
+5: ibP59423s2: <BROADCAST,MULTICAST> mtu 4092 qdisc noop state DOWN group default qlen 256
+    link/infiniband 00:00:09:27:fe:80:00:00:00:00:00:00:00:15:5d:ff:fd:33:ff:16 brd 00:ff:ff:ff:ff:12:40:1b:80:1d:00:00:00:00:00:00:ff:ff:ff:ff
+    altname ibP59423p0s2
+
+$ nvidia-smi topo -m
+	GPU0	GPU1	GPU2	GPU3	GPU4	GPU5	GPU6	GPU7	CPU Affinity	NUMA Affinity
+GPU0	 X 	NV2	NV1	NV2	NODE	NODE	NV1	NODE	0-19	0
+GPU1	NV2	 X 	NV2	NV1	NODE	NODE	NODE	NV1	0-19	0
+GPU2	NV1	NV2	 X 	NV1	NV2	NODE	NODE	NODE	0-19	0
+GPU3	NV2	NV1	NV1	 X 	NODE	NV2	NODE	NODE	0-19	0
+GPU4	NODE	NODE	NV2	NODE	 X 	NV1	NV1	NV2	0-19	0
+GPU5	NODE	NODE	NODE	NV2	NV1	 X 	NV2	NV1	0-19	0
+GPU6	NV1	NODE	NODE	NODE	NV1	NV2	 X 	NV2	0-19	0
+GPU7	NODE	NV1	NODE	NODE	NV2	NV1	NV2	 X 	0-19	0
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+
+```
+
+## Install UCX-Py and tools
+```
+$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+$ bash Miniconda3-latest-Linux-x86_64.sh
+```
+Accept the default and allow conda init to run. Then start a new shell.
+
+Create a conda environment (see ucx-py docs)
+
+```
+$ conda create -n ucxpy -c conda-forge -c rapidsai python=3.7 ipython ucx-proc=*=gpu ucx ucx-py dask distributed numpy cupy pytest pynvml -y
+...
+$ conda activate ucxpy
+```
+Clone ucx-py repo locally
+
+```
+git clone https://github.com/rapidsai/ucx-py.git
+cd ucx-py/benchmarks
+```
+
+## Run benchmarks
+[GitHub Issue on Benchmarks](https://github.com/rapidsai/ucx-py/issues/311)
