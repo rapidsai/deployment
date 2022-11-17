@@ -4,7 +4,7 @@ RAPIDS can be deployed on Vertex AI.
 
 ## Managed Notebooks
 
-While Vertex AI provides a `RAPIDS 0.18` environment for new, user-managed notebooks, it is recommended to use a RAPIDS docker image to access the latest RAPIDS software.
+For new, user-managed notebooks, it is recommended to use a RAPIDS docker image to access the latest RAPIDS software.
 
 **1. Prepare RAPIDS Docker Image.** Before configuring a new notebook, the [RAPIDS Docker image](#rapids-docker) will need to be built to expose port 8080 to be used as a notebook service.
 
