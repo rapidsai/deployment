@@ -6,7 +6,7 @@
 :link-type: doc
 Compute Engine Instance
 ^^^
-Launch an Compute Engine instance and run RAPIDS.
+Launch a Compute Engine instance and run RAPIDS.
 
 {bdg-primary}`single-node`
 ````
