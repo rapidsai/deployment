@@ -4,8 +4,7 @@
 
 Create a new [Azure Virtual Machine](https://azure.microsoft.com/en-gb/products/virtual-machines/) with GPU, [NVIDIA Driver](https://www.nvidia.co.uk/Download/index.aspx) and [NVIDIA Container Runtime](https://developer.nvidia.com/nvidia-container-runtime).
 
-NVIDIA maintains a Virtual Machine Image (VMI) that pre-installs NVIDIA drivers and container runtimes,
-we recommend using [this image](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/nvidia.ngc_azure_17_11?tab=Overview) as the starting point.
+NVIDIA maintains a [Virtual Machine Image (VMI) that pre-installs NVIDIA drivers and container runtimes](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/nvidia.ngc_azure_17_11?tab=Overview), we recommend using this image as the starting point.
 
 `````{tab-set}
 
@@ -110,26 +109,15 @@ az network nsg rule create \
 
 ## Install RAPIDS
 
-It can take up to 10 minutes to provision a GPU VM. When available, [connect to the machine via SSH](https://learn.microsoft.com/en-us/azure/virtual-machines/linux-vm-connect) and install RAPIDS.
+```{include} ../../_includes/install-rapids-with-docker.md
 
-There are a selection of methods you can use to install RAPIDS which you can see via the [RAPIDS release selector](https://rapids.ai/start.html#get-rapids).
-For this example we are going to run the RAPIDS Docker container so we need to know the name of the most recent container.
-On the release selector choose `Docker` in the `METHOD` column. Then copy the commands shown:
-
-```bash
-docker pull nvcr.io/nvidia/rapidsai/rapidsai-core:22.10-cuda11.5-runtime-ubuntu20.04-py3.9
-docker run --gpus all --rm -it \
-    --shm-size=1g --ulimit memlock=-1 \
-    -p 8888:8888 -p 8787:8787 -p 8786:8786 \
-    nvcr.io/nvidia/rapidsai/rapidsai-core:22.10-cuda11.5-runtime-ubuntu20.04-py3.9
 ```
 
 ## Test RAPIDS
 
-You can access Jupyter via `<VM ip>:8888` in the browser.
-Visit `cudf/10-min.ipynb` and execute the cells to try things out.
+```{include} ../../_includes/test-rapids-docker-vm.md
 
-When running a Dask cluster you can also visit `<VM ip>:8787` to monitor the Dask cluster status.
+```
 
 ### Useful Links
 
