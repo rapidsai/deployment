@@ -1,3 +1,7 @@
+---
+html_theme.sidebar_secondary.remove: true
+---
+
 # IBM Cloud
 
 ```{include} ../../_includes/menus/ibm.md

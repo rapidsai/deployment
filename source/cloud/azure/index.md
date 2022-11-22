@@ -1,3 +1,7 @@
+---
+html_theme.sidebar_secondary.remove: true
+---
+
 # Microsoft Azure
 
 ```{include} ../../_includes/menus/azure.md
