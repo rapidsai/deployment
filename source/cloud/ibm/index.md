@@ -1,11 +1,7 @@
 # IBM Cloud
 
-```{toctree}
----
-maxdepth: 2
-caption: IBM Cloud
----
-virtual-server
+```{include} ../../_includes/menus/ibm.md
+
 ```
 
 RAPIDS can be deployed on IBM Cloud in several ways. See the
@@ -22,4 +18,11 @@ list of accelerated instance types below:
 
 ```{warning}
 *Bare Metal instances are billed in monthly intervals rather than hourly intervals.
+```
+
+```{toctree}
+---
+hidden: true
+---
+virtual-server
 ```

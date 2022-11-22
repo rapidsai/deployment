@@ -53,7 +53,3 @@ Next we need to connect to the VM.
 ```{include} ../../_includes/test-rapids-docker-vm.md
 
 ```
-
-### Useful Links
-
-- [Using NGC with Azure](https://docs.nvidia.com/ngc/ngc-azure-setup-guide/index.html)
