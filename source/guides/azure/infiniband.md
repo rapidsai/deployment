@@ -1,19 +1,21 @@
 # How to Setup InfiniBand on Azure
 
-## Build VM
-* Create new VM instance.
-* Select `East US` region.
-* Change `Availability options` to `Availability set` and create a set.
-    * If building multiple instances put additional instances in the same set.
-* Use the 2nd Gen Ubuntu 18.04 image.
-    * Search all images for `Ubuntu Server 20.04` and choose the second one down on the list.
-* Change size to `ND40rs_v2`.
-* Set password login with credentials.
-    * User `someuser`
-    * Password `somepassword`
-* Leave all other options as default.
+## Build a Virtual Machine
+
+- Create new VM instance.
+- Select `East US` region.
+- Change `Availability options` to `Availability set` and create a set.
+  - If building multiple instances put additional instances in the same set.
+- Use the 2nd Gen Ubuntu 18.04 image.
+  - Search all images for `Ubuntu Server 20.04` and choose the second one down on the list.
+- Change size to `ND40rs_v2`.
+- Set password login with credentials.
+  - User `someuser`
+  - Password `somepassword`
+- Leave all other options as default.
 
 ## Install software
+
 Before installing the drivers ensure the system is up to date.
 
 ```shell
@@ -22,6 +24,7 @@ sudo apt-get upgrade -y
 ```
 
 ## NVIDIA Drivers
+
 ```shell
 sudo apt-get install linux-headers-$(uname -r)
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID | sed -e 's/\.//g')
@@ -32,6 +35,7 @@ sudo apt-get -y install cuda-drivers
 ```
 
 Restart VM instance
+
 ```shell
 sudo reboot
 ```
@@ -41,8 +45,9 @@ Then run `nvidia-smi` to verify driver installation.
 ```shell
 nvidia-smi
 ```
+
 ```shell
-Mon Nov 14 20:32:39 2022       
+Mon Nov 14 20:32:39 2022
 +-----------------------------------------------------------------------------+
 | NVIDIA-SMI 520.61.05    Driver Version: 520.61.05    CUDA Version: 11.8     |
 |-------------------------------+----------------------+----------------------+
@@ -82,7 +87,7 @@ Mon Nov 14 20:32:39 2022
 | N/A   38C    P0    44W / 300W |      4MiB / 32768MiB |      0%      Default |
 |                               |                      |                  N/A |
 +-------------------------------+----------------------+----------------------+
-                                                                               
+
 +-----------------------------------------------------------------------------+
 | Processes:                                                                  |
 |  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
@@ -101,7 +106,9 @@ Mon Nov 14 20:32:39 2022
 ```
 
 ## InfiniBand Driver
+
 On Ubuntu 20.04
+
 ```shell
 sudo apt-get install -y automake dh-make git libcap2 libnuma-dev libtool make pkg-config udev curl librdmacm-dev rdma-core
 sudo apt-get install -y libgfortran5 bison chrpath flex graphviz gfortran tk dpatch quilt swig tcl
@@ -114,37 +121,44 @@ sudo ./mlnxofedinstall
 ```
 
 Check install
+
 ```shell
 $ lsmod | grep nv_peer_mem
 nv_peer_mem            16384  0
 ib_core               430080  9 rdma_cm,ib_ipoib,nv_peer_mem,iw_cm,ib_umad,rdma_ucm,ib_uverbs,mlx5_ib,ib_cm
 nvidia              55201792  895 nvidia_uvm,nv_peer_mem,nvidia_modeset
 ```
+
 ## Enable IPoIB
+
 ```shell
 sudo sed -i -e 's/# OS.EnableRDMA=y/OS.EnableRDMA=y/g' /etc/waagent.conf
 ```
+
 Reboot
+
 ```shell
 sudo reboot
 ```
 
 ## Check IB
+
 ```shell
 ip addr show
 ```
+
 ```shell
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host 
+    inet6 ::1/128 scope host
        valid_lft forever preferred_lft forever
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
     link/ether 60:45:bd:a7:42:cc brd ff:ff:ff:ff:ff:ff
     inet 10.6.0.5/24 brd 10.6.0.255 scope global eth0
        valid_lft forever preferred_lft forever
-    inet6 fe80::6245:bdff:fea7:42cc/64 scope link 
+    inet6 fe80::6245:bdff:fea7:42cc/64 scope link
        valid_lft forever preferred_lft forever
 3: eth1: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000
     link/ether 00:15:5d:33:ff:16 brd ff:ff:ff:ff:ff:ff
@@ -155,19 +169,21 @@ ip addr show
     link/infiniband 00:00:09:27:fe:80:00:00:00:00:00:00:00:15:5d:ff:fd:33:ff:16 brd 00:ff:ff:ff:ff:12:40:1b:80:1d:00:00:00:00:00:00:ff:ff:ff:ff
     altname ibP59423p0s2
 ```
+
 ```shell
 nvidia-smi topo -m
 ```
+
 ```shell
-	GPU0	GPU1	GPU2	GPU3	GPU4	GPU5	GPU6	GPU7	CPU Affinity	NUMA Affinity
-GPU0	 X 	NV2	NV1	NV2	NODE	NODE	NV1	NODE	0-19	0
-GPU1	NV2	 X 	NV2	NV1	NODE	NODE	NODE	NV1	0-19	0
-GPU2	NV1	NV2	 X 	NV1	NV2	NODE	NODE	NODE	0-19	0
-GPU3	NV2	NV1	NV1	 X 	NODE	NV2	NODE	NODE	0-19	0
-GPU4	NODE	NODE	NV2	NODE	 X 	NV1	NV1	NV2	0-19	0
-GPU5	NODE	NODE	NODE	NV2	NV1	 X 	NV2	NV1	0-19	0
-GPU6	NV1	NODE	NODE	NODE	NV1	NV2	 X 	NV2	0-19	0
-GPU7	NODE	NV1	NODE	NODE	NV2	NV1	NV2	 X 	0-19	0
+        GPU0    GPU1    GPU2    GPU3    GPU4    GPU5    GPU6    GPU7    CPU Affinity    NUMA Affinity
+GPU0    X       NV2     NV1     NV2     NODE    NODE    NV1     NODE    0-19            0
+GPU1    NV2     X       NV2     NV1     NODE    NODE    NODE    NV1     0-19            0
+GPU2    NV1     NV2     X       NV1     NV2     NODE    NODE    NODE    0-19            0
+GPU3    NV2     NV1     NV1     X       NODE    NV2     NODE    NODE    0-19            0
+GPU4    NODE    NODE    NV2     NODE    X       NV1     NV1     NV2     0-19            0
+GPU5    NODE    NODE    NODE    NV2     NV1     X       NV2     NV1     0-19            0
+GPU6    NV1     NODE    NODE    NODE    NV1     NV2     X       NV2     0-19            0
+GPU7    NODE    NV1     NODE    NODE    NV2     NV1     NV2     X       0-19            0
 
 Legend:
 
@@ -182,10 +198,12 @@ Legend:
 ```
 
 ## Install UCX-Py and tools
+
 ```shell
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh
 ```
+
 Accept the default and allow conda init to run. Then start a new shell.
 
 Create a conda environment (see ucx-py docs)
@@ -195,6 +213,7 @@ conda create -n ucxpy -c conda-forge -c rapidsai python=3.7 ipython ucx-proc=*=g
 ...
 conda activate ucxpy
 ```
+
 Clone ucx-py repo locally
 
 ```shell
@@ -203,12 +222,16 @@ cd ucx-py/benchmarks
 ```
 
 ## Run Tests
+
 Start by running the UCX-Py test suite, from within the `ucx-py` repo:
+
 ```shell
 pytest -vs tests/
 pytest -vs ucp/_libs/tests/
 ```
+
 Now check to see if IB works, for that you can run some of the benchmarks that we include in UCX-Py, for example:
+
 ```shell
 # Let UCX pick the best transport (expecting NVLink when available,
 # otherwise IB, or TCP in worst case) on devices 0 and 1
@@ -218,7 +241,7 @@ python -m ucp.benchmarks.send_recv --server-dev 0 --client-dev 1 -o rmm --reuse-
 UCX_TLS=tcp,cuda_copy python -m ucp.benchmarks.send_recv --server-dev 0 --client-dev 1 -o rmm --reuse-alloc -n 128MiB
 ```
 
-We expect the first case above to have much higher bandwidth than the second. If you happen to have both 
+We expect the first case above to have much higher bandwidth than the second. If you happen to have both
 NVLink and IB connectivity, then you may limit to the specific transport by specifying `UCX_TLS`, e.g.:
 
 ```shell
@@ -231,19 +254,21 @@ UCX_TLS=tcp,cuda_copy,rc
 ```
 
 ## Run Benchmarks
+
 Finally, let's run the Merge Benchmarkdfound in Dask-CUDA.
 
-Below we are running for devices 0..7, you will want to adjust that for the number of devices available on your VM, the default 
-is to run on GPU 0 only. Additionally, `--chunk-size 100_000_000` is a safe value for 32GB GPUs, you may 
-adjust that proportional to the size of the GPU you have (it scales linearly, so `50_000_000` should 
-be good for 16GB or `150_000_000` for 48GB). Please note that TCP will be much slower, so you may 
-choose to adjust to the maximum size you can get for UCX to see how far you can push it, but you 
+Below we are running for devices 0..7, you will want to adjust that for the number of devices available on your VM, the default
+is to run on GPU 0 only. Additionally, `--chunk-size 100_000_000` is a safe value for 32GB GPUs, you may
+adjust that proportional to the size of the GPU you have (it scales linearly, so `50_000_000` should
+be good for 16GB or `150_000_000` for 48GB). Please note that TCP will be much slower, so you may
+choose to adjust to the maximum size you can get for UCX to see how far you can push it, but you
 may want to run on a much smaller workload such as 10_000_000 to compare TCP and UCX.
 
 ```shell
 # Default Dask TCP communication protocol
 python -m dask_cuda.benchmarks.local_cudf_merge --devs 0,1,2,3,4,5,6,7 --chunk-size 100_000_000
 ```
+
 ```shell
 Merge benchmark
 --------------------------------------------------------------------------------
@@ -343,108 +368,110 @@ Worker index              | Worker address
 ================================================================================
 
 ```
+
 ```shell
 # UCX protocol
 python -m dask_cuda.benchmarks.local_cudf_merge --devs 0,1,2,3,4,5,6,7 --chunk-size 100_000_000 --protocol ucx
 ```
+
 ```shell
-Merge benchmark                   
---------------------------------------------------------------------------------                                                                                                                   
-Backend                   | dask      
-Merge type                | gpu                                                                                                                                                                    
-Rows-per-chunk            | 100000000
-Base-chunks               | 8                                                                                                                                                                      
-Other-chunks              | 8                                                                    
-Broadcast                 | default
-Protocol                  | ucx                                                                  
-Device(s)                 | 0,1,2,3,4,5,6,7
-RMM Pool                  | True                                                                                                                                                                   
-Frac-match                | 0.3       
-TCP                       | None                                                                                                                                                                   
-InfiniBand                | None
-NVLink                    | None                                                                                                                                                                   
-Worker thread(s)          | 1                                                                    
-Data processed            | 23.84 GiB
-Number of workers         | 8                                                                    
-================================================================================
-Wall clock                | Throughput                                                                                                                                                             
+Merge benchmark
 --------------------------------------------------------------------------------
-13.60 s                   | 1.75 GiB/s                                                                                                                                                             
+Backend                   | dask
+Merge type                | gpu
+Rows-per-chunk            | 100000000
+Base-chunks               | 8
+Other-chunks              | 8
+Broadcast                 | default
+Protocol                  | ucx
+Device(s)                 | 0,1,2,3,4,5,6,7
+RMM Pool                  | True
+Frac-match                | 0.3
+TCP                       | None
+InfiniBand                | None
+NVLink                    | None
+Worker thread(s)          | 1
+Data processed            | 23.84 GiB
+Number of workers         | 8
+================================================================================
+Wall clock                | Throughput
+--------------------------------------------------------------------------------
+13.60 s                   | 1.75 GiB/s
 14.82 s                   | 1.61 GiB/s
-11.57 s                   | 2.06 GiB/s                                                                                                                                                             
+11.57 s                   | 2.06 GiB/s
 ================================================================================
 Throughput                | 1.79 GiB/s +/- 106.12 MiB/s
 Bandwidth                 | 159.90 MiB/s +/- 9.51 MiB/s
 Wall clock                | 13.33 s +/- 1.34 s
-================================================================================                                                                                                                   
+================================================================================
 (w1,w2)                   | 25% 50% 75% (total nbytes)
---------------------------------------------------------------------------------                                                                                                                   
+--------------------------------------------------------------------------------
 (0,1)                     | 120.07 MiB/s 122.18 MiB/s 150.56 MiB/s (2.65 GiB)
-(0,2)                     | 110.85 MiB/s 120.68 MiB/s 146.13 MiB/s (4.89 GiB)                                                                                                                      
+(0,2)                     | 110.85 MiB/s 120.68 MiB/s 146.13 MiB/s (4.89 GiB)
 (0,3)                     | 117.21 MiB/s 121.43 MiB/s 150.61 MiB/s (2.65 GiB)
 (0,4)                     | 120.05 MiB/s 122.21 MiB/s 150.50 MiB/s (2.65 GiB)
 (0,5)                     | 115.88 MiB/s 121.16 MiB/s 138.80 MiB/s (4.89 GiB)
 (0,6)                     | 117.23 MiB/s 122.19 MiB/s 150.60 MiB/s (2.65 GiB)
-(0,7)                     | 120.40 MiB/s 127.51 MiB/s 166.64 MiB/s (4.89 GiB)                                                                                                                      
+(0,7)                     | 120.40 MiB/s 127.51 MiB/s 166.64 MiB/s (4.89 GiB)
 (1,0)                     | 118.93 MiB/s 128.47 MiB/s 167.54 MiB/s (2.65 GiB)
-(1,2)                     | 118.26 MiB/s 130.97 MiB/s 149.37 MiB/s (2.65 GiB)                                                                                                                      
+(1,2)                     | 118.26 MiB/s 130.97 MiB/s 149.37 MiB/s (2.65 GiB)
 (1,3)                     | 118.32 MiB/s 130.94 MiB/s 149.35 MiB/s (2.65 GiB)
-(1,4)                     | 118.23 MiB/s 130.97 MiB/s 145.69 MiB/s (2.65 GiB)                                                                                                                      
+(1,4)                     | 118.23 MiB/s 130.97 MiB/s 145.69 MiB/s (2.65 GiB)
 (1,5)                     | 118.58 MiB/s 147.64 MiB/s 187.46 MiB/s (7.12 GiB)
 (1,6)                     | 118.17 MiB/s 124.39 MiB/s 149.36 MiB/s (2.65 GiB)
 (1,7)                     | 120.22 MiB/s 138.89 MiB/s 170.63 MiB/s (4.89 GiB)
 (2,0)                     | 103.78 MiB/s 109.10 MiB/s 124.28 MiB/s (2.65 GiB)
-(2,1)                     | 103.71 MiB/s 109.15 MiB/s 124.31 MiB/s (2.65 GiB)                                                                                                                      
+(2,1)                     | 103.71 MiB/s 109.15 MiB/s 124.31 MiB/s (2.65 GiB)
 (2,3)                     | 105.01 MiB/s 110.17 MiB/s 123.77 MiB/s (4.89 GiB)
-(2,4)                     | 105.07 MiB/s 110.16 MiB/s 126.63 MiB/s (4.89 GiB)                                                                                                                      
+(2,4)                     | 105.07 MiB/s 110.16 MiB/s 126.63 MiB/s (4.89 GiB)
 (2,5)                     | 102.21 MiB/s 103.77 MiB/s 111.24 MiB/s (2.65 GiB)
-(2,6)                     | 103.73 MiB/s 108.97 MiB/s 124.18 MiB/s (2.65 GiB)                                                                                                                      
+(2,6)                     | 103.73 MiB/s 108.97 MiB/s 124.18 MiB/s (2.65 GiB)
 (2,7)                     | 105.00 MiB/s 115.59 MiB/s 128.08 MiB/s (4.89 GiB)
 (3,0)                     | 105.66 MiB/s 113.46 MiB/s 140.83 MiB/s (2.93 GiB)
 (3,1)                     | 104.51 MiB/s 113.27 MiB/s 124.69 MiB/s (2.65 GiB)
 (3,2)                     | 105.68 MiB/s 121.09 MiB/s 152.76 MiB/s (2.93 GiB)
-(3,4)                     | 104.06 MiB/s 107.01 MiB/s 122.69 MiB/s (2.93 GiB)                                                                                                                      
+(3,4)                     | 104.06 MiB/s 107.01 MiB/s 122.69 MiB/s (2.93 GiB)
 (3,5)                     | 105.27 MiB/s 112.59 MiB/s 126.22 MiB/s (2.93 GiB)
-(3,6)                     | 108.03 MiB/s 114.38 MiB/s 186.48 MiB/s (5.45 GiB)                                                                                                                      
+(3,6)                     | 108.03 MiB/s 114.38 MiB/s 186.48 MiB/s (5.45 GiB)
 (3,7)                     | 104.22 MiB/s 109.21 MiB/s 121.15 MiB/s (5.17 GiB)
-(4,0)                     | 120.46 MiB/s 124.20 MiB/s 196.94 MiB/s (5.17 GiB)                                                                                                                      
+(4,0)                     | 120.46 MiB/s 124.20 MiB/s 196.94 MiB/s (5.17 GiB)
 (4,1)                     | 120.97 MiB/s 131.15 MiB/s 178.33 MiB/s (5.17 GiB)
 (4,2)                     | 163.68 MiB/s 275.96 MiB/s 367.61 MiB/s (5.17 GiB)
 (4,3)                     | 104.13 MiB/s 109.68 MiB/s 124.05 MiB/s (2.93 GiB)
 (4,5)                     | 435.21 MiB/s 743.65 MiB/s 1.80 GiB/s (2.65 GiB)
-(4,6)                     | 449.39 MiB/s 733.81 MiB/s 1.87 GiB/s (3.21 GiB)                                                                                                                        
+(4,6)                     | 449.39 MiB/s 733.81 MiB/s 1.87 GiB/s (3.21 GiB)
 (4,7)                     | 468.57 MiB/s 754.75 MiB/s 1.55 GiB/s (2.93 GiB)
-(5,0)                     | 109.45 MiB/s 118.01 MiB/s 123.14 MiB/s (2.65 GiB)                                                                                                                      
+(5,0)                     | 109.45 MiB/s 118.01 MiB/s 123.14 MiB/s (2.65 GiB)
 (5,1)                     | 111.60 MiB/s 118.35 MiB/s 119.24 MiB/s (4.89 GiB)
-(5,2)                     | 104.97 MiB/s 110.63 MiB/s 114.62 MiB/s (4.89 GiB)                                                                                                                      
+(5,2)                     | 104.97 MiB/s 110.63 MiB/s 114.62 MiB/s (4.89 GiB)
 (5,3)                     | 137.82 MiB/s 147.80 MiB/s 172.47 MiB/s (2.65 GiB)
 (5,4)                     | 518.69 MiB/s 831.95 MiB/s 1.94 GiB/s (4.89 GiB)
 (5,6)                     | 516.97 MiB/s 816.57 MiB/s 2.42 GiB/s (2.65 GiB)
 (5,7)                     | 524.66 MiB/s 836.36 MiB/s 1.97 GiB/s (2.65 GiB)
-(6,0)                     | 210.92 MiB/s 235.82 MiB/s 313.85 MiB/s (7.12 GiB)                                                                                                                      
+(6,0)                     | 210.92 MiB/s 235.82 MiB/s 313.85 MiB/s (7.12 GiB)
 (6,1)                     | 121.58 MiB/s 133.68 MiB/s 147.33 MiB/s (4.89 GiB)
-(6,2)                     | 103.04 MiB/s 108.67 MiB/s 109.33 MiB/s (2.65 GiB)                                                                                                                      
+(6,2)                     | 103.04 MiB/s 108.67 MiB/s 109.33 MiB/s (2.65 GiB)
 (6,3)                     | 108.93 MiB/s 111.87 MiB/s 112.13 MiB/s (2.65 GiB)
-(6,4)                     | 654.69 MiB/s 1.33 GiB/s 3.39 GiB/s (4.89 GiB)                                                                                                                          
+(6,4)                     | 654.69 MiB/s 1.33 GiB/s 3.39 GiB/s (4.89 GiB)
 (6,5)                     | 442.62 MiB/s 652.70 MiB/s 4.13 GiB/s (2.65 GiB)
 (6,7)                     | 618.86 MiB/s 661.75 MiB/s 0.93 GiB/s (2.65 GiB)
 (7,0)                     | 117.09 MiB/s 120.16 MiB/s 124.30 MiB/s (2.65 GiB)
 (7,1)                     | 210.83 MiB/s 227.30 MiB/s 272.82 MiB/s (2.65 GiB)
-(7,2)                     | 103.47 MiB/s 110.98 MiB/s 124.21 MiB/s (2.65 GiB)                                                                                                                      
+(7,2)                     | 103.47 MiB/s 110.98 MiB/s 124.21 MiB/s (2.65 GiB)
 (7,3)                     | 104.28 MiB/s 111.12 MiB/s 141.26 MiB/s (7.12 GiB)
-(7,4)                     | 620.20 MiB/s 691.52 MiB/s 2.93 GiB/s (2.65 GiB)                                                                                                                        
+(7,4)                     | 620.20 MiB/s 691.52 MiB/s 2.93 GiB/s (2.65 GiB)
 (7,5)                     | 604.36 MiB/s 772.47 MiB/s 2.69 GiB/s (2.65 GiB)
-(7,6)                     | 614.80 MiB/s 770.38 MiB/s 1.71 GiB/s (2.65 GiB)                                                                                                                        
+(7,6)                     | 614.80 MiB/s 770.38 MiB/s 1.71 GiB/s (2.65 GiB)
 ================================================================================
 Worker index              | Worker address
 --------------------------------------------------------------------------------
 0                         | ucx://127.0.0.1:42213
-1                         | ucx://127.0.0.1:39353                                                                                                                                                  
+1                         | ucx://127.0.0.1:39353
 2                         | ucx://127.0.0.1:60637
-3                         | ucx://127.0.0.1:59643                                                                                                                                                  
+3                         | ucx://127.0.0.1:59643
 4                         | ucx://127.0.0.1:52613
-5                         | ucx://127.0.0.1:44077                                                                                                                                                  
-6                         | ucx://127.0.0.1:54887                     
+5                         | ucx://127.0.0.1:44077
+6                         | ucx://127.0.0.1:54887
 7                         | ucx://127.0.0.1:38623
 ================================================================================
 ```
