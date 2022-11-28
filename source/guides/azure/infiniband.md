@@ -266,7 +266,12 @@ UCX_TLS=tcp,cuda_copy,rc
 
 ## Run Benchmarks
 
-Finally, let's run the [merge benchmark](https://github.com/rapidsai/dask-cuda/blob/branch-22.12/dask_cuda/benchmarks/local_cudf_merge.py) from `dask-cuda`.
+Finally, let's run the [merge benchmark](https://github.com/rapidsai/dask-cuda/blob/branch-22.12/dask_cuda/benchmarks/local_cudf_merge.py) from `dask-cuda`. This benchmark uses Dask to do a distributed merge across all of the GPUs avaliable
+on your VM. Merge operations in this setting are harder to do because they require communication intensive shuffle
+operations (see the [Dask documentation](https://docs.dask.org/en/stable/dataframe-best-practices.html#avoid-full-data-shuffling)
+for more on this type of operation). In this case, the benchmark will perform an "all-to-all" shuffle, where each dataframe
+will be shuffled before a partition-wise merge. This will require a lot of communication among the GPUs, so network performance
+will be very important.
 
 Below we are running for devices 0..7, you will want to adjust that for the number of devices available on your VM, the default
 is to run on GPU 0 only. Additionally, `--chunk-size 100_000_000` is a safe value for 32GB GPUs, you may
