@@ -1,6 +1,13 @@
 # How to Setup InfiniBand on Azure
 
+[Azure GPU optmized virtual machines](https://learn.microsoft.com/en-us/azure/virtual-machines/sizes-gpu) provide
+low latency and high bandwidth InfiniBand network. This guide walks through the steps to enable InfiniBand to
+optimize network performance.
+
 ## Build a Virtual Machine
+
+Start by creating a GPU optimized VM from the Azure portal. Below is an example that we will use
+for demonstration.
 
 - Create new VM instance.
 - Select `East US` region.
@@ -14,6 +21,8 @@
   - Password `somepassword`
 - Leave all other options as default.
 
+Then connect to the VM using your preferred method.
+
 ## Install software
 
 Before installing the drivers ensure the system is up to date.
@@ -24,6 +33,8 @@ sudo apt-get upgrade -y
 ```
 
 ## NVIDIA Drivers
+
+The commands below, should work for Ubuntu. See the [CUDA Toolkit documentation](https://docs.nvidia.com/cuda/index.html#installation-guides) for details on installing on other operating systems.
 
 ```shell
 sudo apt-get install linux-headers-$(uname -r)
@@ -40,7 +51,7 @@ Restart VM instance
 sudo reboot
 ```
 
-Then run `nvidia-smi` to verify driver installation.
+Once the VM boots, reconnect and run `nvidia-smi` to verify driver installation.
 
 ```shell
 nvidia-smi
@@ -135,7 +146,7 @@ nvidia              55201792  895 nvidia_uvm,nv_peer_mem,nvidia_modeset
 sudo sed -i -e 's/# OS.EnableRDMA=y/OS.EnableRDMA=y/g' /etc/waagent.conf
 ```
 
-Reboot
+Reboot and reconnect.
 
 ```shell
 sudo reboot
@@ -255,7 +266,7 @@ UCX_TLS=tcp,cuda_copy,rc
 
 ## Run Benchmarks
 
-Finally, let's run the Merge Benchmarkdfound in Dask-CUDA.
+Finally, let's run the [merge benchmark](https://github.com/rapidsai/dask-cuda/blob/branch-22.12/dask_cuda/benchmarks/local_cudf_merge.py) from `dask-cuda`.
 
 Below we are running for devices 0..7, you will want to adjust that for the number of devices available on your VM, the default
 is to run on GPU 0 only. Additionally, `--chunk-size 100_000_000` is a safe value for 32GB GPUs, you may
