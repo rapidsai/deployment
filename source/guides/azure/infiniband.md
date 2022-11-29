@@ -121,8 +121,8 @@ Mon Nov 14 20:32:39 2022
 On Ubuntu 20.04
 
 ```shell
-sudo apt-get install -y automake dh-make git libcap2 libnuma-dev libtool make pkg-config udev curl librdmacm-dev rdma-core
-sudo apt-get install -y libgfortran5 bison chrpath flex graphviz gfortran tk dpatch quilt swig tcl
+sudo apt-get install -y automake dh-make git libcap2 libnuma-dev libtool make pkg-config udev curl librdmacm-dev rdma-core \
+    libgfortran5 bison chrpath flex graphviz gfortran tk dpatch quilt swig tcl
 VERSION="5.8-1.0.1.1"
 TARBALL="MLNX_OFED_LINUX-$VERSION-ubuntu20.04-x86_64.tgz"
 wget https://content.mellanox.com/ofed/MLNX_OFED-${VERSION}/$TARBALL
