@@ -259,7 +259,7 @@ NVLink and IB connectivity, then you may limit to the specific transport by spec
 # NVLink (if available) or TCP
 UCX_TLS=tcp,cuda_copy,cuda_ipc
 
-# IB (if available) or TCP
+# InfiniBand (if available) or TCP
 UCX_TLS=tcp,cuda_copy,rc
 
 ```
