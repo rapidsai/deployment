@@ -241,7 +241,7 @@ pytest -vs tests/
 pytest -vs ucp/_libs/tests/
 ```
 
-Now check to see if IB works, for that you can run some of the benchmarks that we include in UCX-Py, for example:
+Now check to see if InfiniBand works, for that you can run some of the benchmarks that we include in UCX-Py, for example:
 
 ```shell
 # Let UCX pick the best transport (expecting NVLink when available,
