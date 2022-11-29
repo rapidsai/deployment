@@ -245,7 +245,7 @@ Now check to see if IB works, for that you can run some of the benchmarks that w
 
 ```shell
 # Let UCX pick the best transport (expecting NVLink when available,
-# otherwise IB, or TCP in worst case) on devices 0 and 1
+# otherwise InfiniBand, or TCP in worst case) on devices 0 and 1
 python -m ucp.benchmarks.send_recv --server-dev 0 --client-dev 1 -o rmm --reuse-alloc -n 128MiB
 
 # Force TCP-only on devices 0 and 1
