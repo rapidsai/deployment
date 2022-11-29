@@ -276,9 +276,7 @@ will be very important.
 Below we are running for devices 0..7, you will want to adjust that for the number of devices available on your VM, the default
 is to run on GPU 0 only. Additionally, `--chunk-size 100_000_000` is a safe value for 32GB GPUs, you may
 adjust that proportional to the size of the GPU you have (it scales linearly, so `50_000_000` should
-be good for 16GB or `150_000_000` for 48GB). Please note that TCP will be much slower, so you may
-choose to adjust to the maximum size you can get for UCX to see how far you can push it, but you
-may want to run on a much smaller workload such as 10_000_000 to compare TCP and UCX.
+be good for 16GB or `150_000_000` for 48GB).
 
 ```shell
 # Default Dask TCP communication protocol
