@@ -13,7 +13,7 @@ for demonstration.
 - Select `East US` region.
 - Change `Availability options` to `Availability set` and create a set.
   - If building multiple instances put additional instances in the same set.
-- Use the 2nd Gen Ubuntu 18.04 image.
+- Use the 2nd Gen Ubuntu 20.04 image.
   - Search all images for `Ubuntu Server 20.04` and choose the second one down on the list.
 - Change size to `ND40rs_v2`.
 - Set password login with credentials.
@@ -266,12 +266,16 @@ UCX_TLS=tcp,cuda_copy,rc
 
 ## Run Benchmarks
 
-Finally, let's run the [merge benchmark](https://github.com/rapidsai/dask-cuda/blob/branch-22.12/dask_cuda/benchmarks/local_cudf_merge.py) from `dask-cuda`. This benchmark uses Dask to do a distributed merge across all of the GPUs avaliable
-on your VM. Merge operations in this setting are harder to do because they require communication intensive shuffle
-operations (see the [Dask documentation](https://docs.dask.org/en/stable/dataframe-best-practices.html#avoid-full-data-shuffling)
-for more on this type of operation). In this case, the benchmark will perform an "all-to-all" shuffle, where each dataframe
-will be shuffled before a partition-wise merge. This will require a lot of communication among the GPUs, so network performance
-will be very important.
+Finally, let's run the [merge benchmark](https://github.com/rapidsai/dask-cuda/blob/branch-22.12/dask_cuda/benchmarks/local_cudf_merge.py) from `dask-cuda`.
+
+This benchmark uses Dask to perform a merge of two dataframes that are distributed across all the available GPUs on your
+VM. Merges are a challenging benchmark in a distributed setting since they require communication-intensive shuffle
+operations of the participating dataframes
+(see the [Dask documentation](https://docs.dask.org/en/stable/dataframe-best-practices.html#avoid-full-data-shuffling)
+for more on this type of operation). To perform the merge, each dataframe is shuffled such that rows with the same join
+key appear on the same GPU. This results in an [all-to-all](<https://en.wikipedia.org/wiki/All-to-all_(parallel_pattern)>)
+communication pattern which requires a lot of communication between the GPUs. As a result, network
+performance will be very important for the throughput of the benchmark.
 
 Below we are running for devices 0 through 7 (inclusive), you will want to adjust that for the number of devices available on your VM, the default
 is to run on GPU 0 only. Additionally, `--chunk-size 100_000_000` is a safe value for 32GB GPUs, you may
@@ -280,7 +284,7 @@ be good for 16GB or `150_000_000` for 48GB).
 
 ```shell
 # Default Dask TCP communication protocol
-python -m dask_cuda.benchmarks.local_cudf_merge --devs 0,1,2,3,4,5,6,7 --chunk-size 100_000_000
+python -m dask_cuda.benchmarks.local_cudf_merge --devs 0,1,2,3,4,5,6,7 --chunk-size 100_000_000 --no-show-p2p-bandwidth
 ```
 
 ```shell
