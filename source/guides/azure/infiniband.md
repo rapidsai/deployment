@@ -273,7 +273,7 @@ for more on this type of operation). In this case, the benchmark will perform an
 will be shuffled before a partition-wise merge. This will require a lot of communication among the GPUs, so network performance
 will be very important.
 
-Below we are running for devices 0..7, you will want to adjust that for the number of devices available on your VM, the default
+Below we are running for devices 0 through 7 (inclusive), you will want to adjust that for the number of devices available on your VM, the default
 is to run on GPU 0 only. Additionally, `--chunk-size 100_000_000` is a safe value for 32GB GPUs, you may
 adjust that proportional to the size of the GPU you have (it scales linearly, so `50_000_000` should
 be good for 16GB or `150_000_000` for 48GB).
