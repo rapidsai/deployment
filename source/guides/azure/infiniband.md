@@ -225,7 +225,7 @@ conda create -n ucxpy -c conda-forge -c rapidsai python=3.7 ipython ucx-proc=*=g
 conda activate ucxpy
 ```
 
-Clone ucx-py repo locally
+Clone UCX-Py repo locally
 
 ```shell
 git clone https://github.com/rapidsai/ucx-py.git
