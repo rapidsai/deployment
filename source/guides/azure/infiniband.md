@@ -34,7 +34,7 @@ sudo apt-get upgrade -y
 
 ## NVIDIA Drivers
 
-The commands below, should work for Ubuntu. See the [CUDA Toolkit documentation](https://docs.nvidia.com/cuda/index.html#installation-guides) for details on installing on other operating systems.
+The commands below should work for Ubuntu. See the [CUDA Toolkit documentation](https://docs.nvidia.com/cuda/index.html#installation-guides) for details on installing on other operating systems.
 
 ```shell
 sudo apt-get install -y linux-headers-$(uname -r)
