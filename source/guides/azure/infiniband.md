@@ -217,7 +217,7 @@ bash Miniconda3-latest-Linux-x86_64.sh
 
 Accept the default and allow conda init to run. Then start a new shell.
 
-Create a conda environment (see ucx-py docs)
+Create a conda environment (see [UCX-Py](https://ucx-py.readthedocs.io/en/latest/install.html) docs)
 
 ```shell
 conda create -n ucxpy -c conda-forge -c rapidsai python=3.7 ipython ucx-proc=*=gpu ucx ucx-py dask distributed numpy cupy pytest pynvml rmm cudf dask-cudf dask-cuda -y
