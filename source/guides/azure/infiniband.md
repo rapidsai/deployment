@@ -122,22 +122,32 @@ On Ubuntu 20.04
 
 ```shell
 sudo apt-get install -y automake dh-make git libcap2 libnuma-dev libtool make pkg-config udev curl librdmacm-dev rdma-core \
-    libgfortran5 bison chrpath flex graphviz gfortran tk dpatch quilt swig tcl
-VERSION="5.8-1.0.1.1"
-TARBALL="MLNX_OFED_LINUX-$VERSION-ubuntu20.04-x86_64.tgz"
-wget https://content.mellanox.com/ofed/MLNX_OFED-${VERSION}/$TARBALL
-tar zxvf ${TARBALL}
-cd MLNX_OFED_LINUX-$VERSION-ubuntu20.04-x86_64
-sudo ./mlnxofedinstall
+    libgfortran5 bison chrpath flex graphviz gfortran tk dpatch quilt swig tcl ibverbs-utils
 ```
 
 Check install
 
 ```shell
-$ lsmod | grep nv_peer_mem
-nv_peer_mem            16384  0
-ib_core               430080  9 rdma_cm,ib_ipoib,nv_peer_mem,iw_cm,ib_umad,rdma_ucm,ib_uverbs,mlx5_ib,ib_cm
-nvidia              55201792  895 nvidia_uvm,nv_peer_mem,nvidia_modeset
+$ ibv_devinfo
+hca_id: mlx5_0
+        transport:                      InfiniBand (0)
+        fw_ver:                         16.28.4000
+        node_guid:                      0015:5dff:fe33:ff2e
+        sys_image_guid:                 b859:9f03:0012:3bd8
+        vendor_id:                      0x02c9
+        vendor_part_id:                 4120
+        hw_ver:                         0x0
+        board_id:                       MT_0000000010
+        phys_port_cnt:                  1
+                port:   1
+                        state:                  PORT_ACTIVE (4)
+                        max_mtu:                4096 (5)
+                        active_mtu:             4096 (5)
+                        sm_lid:                 2
+                        port_lid:               211
+                        port_lmc:               0x00
+                        link_layer:             InfiniBand
+
 ```
 
 ## Enable IPoIB
@@ -186,15 +196,16 @@ nvidia-smi topo -m
 ```
 
 ```shell
-        GPU0    GPU1    GPU2    GPU3    GPU4    GPU5    GPU6    GPU7    CPU Affinity    NUMA Affinity
-GPU0    X       NV2     NV1     NV2     NODE    NODE    NV1     NODE    0-19            0
-GPU1    NV2     X       NV2     NV1     NODE    NODE    NODE    NV1     0-19            0
-GPU2    NV1     NV2     X       NV1     NV2     NODE    NODE    NODE    0-19            0
-GPU3    NV2     NV1     NV1     X       NODE    NV2     NODE    NODE    0-19            0
-GPU4    NODE    NODE    NV2     NODE    X       NV1     NV1     NV2     0-19            0
-GPU5    NODE    NODE    NODE    NV2     NV1     X       NV2     NV1     0-19            0
-GPU6    NV1     NODE    NODE    NODE    NV1     NV2     X       NV2     0-19            0
-GPU7    NODE    NV1     NODE    NODE    NV2     NV1     NV2     X       0-19            0
+        GPU0  GPU1  GPU2  GPU3  GPU4  GPU5  GPU6  GPU7  mlx5_0  CPU Affinity  NUMA Affinity
+GPU0    X     NV2   NV1   NV2   NODE  NODE  NV1   NODE  NODE    0-19          0
+GPU1    NV2   X     NV2   NV1   NODE  NODE  NODE  NV1   NODE    0-19          0
+GPU2    NV1   NV2   X     NV1   NV2   NODE  NODE  NODE  NODE    0-19          0
+GPU3    NV2   NV1   NV1   X     NODE  NV2   NODE  NODE  NODE    0-19          0
+GPU4    NODE  NODE  NV2   NODE  X     NV1   NV1   NV2   NODE    0-19          0
+GPU5    NODE  NODE  NODE  NV2   NV1   X     NV2   NV1   NODE    0-19          0
+GPU6    NV1   NODE  NODE  NODE  NV1   NV2   X     NV2   NODE    0-19          0
+GPU7    NODE  NV1   NODE  NODE  NV2   NV1   NV2   X     NODE    0-19          0
+mlx5_0  NODE  NODE  NODE  NODE  NODE  NODE  NODE  NODE  X
 
 Legend:
 
@@ -212,7 +223,7 @@ Legend:
 
 ```shell
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh -b
 ```
 
 Accept the default and allow conda init to run. Then start a new shell.
