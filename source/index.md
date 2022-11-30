@@ -65,6 +65,7 @@ Use RAPIDS on compute platforms.
 
 {bdg-primary}`Kubernetes`
 {bdg-primary}`Kubeflow`
+{bdg-primary}`Coiled`
 {bdg-primary}`Databricks`
 ````
 
