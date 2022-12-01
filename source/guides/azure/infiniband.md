@@ -252,7 +252,7 @@ Accept the default and allow conda init to run. Then start a new shell.
 Create a conda environment (see [UCX-Py](https://ucx-py.readthedocs.io/en/latest/install.html) docs)
 
 ```shell
-mamba create -n ucxpy -c conda-forge -c rapidsai python=3.7 ipython ucx-proc=*=gpu ucx ucx-py dask distributed numpy cupy pytest pynvml rmm cudf dask-cudf dask-cuda -y
+mamba create -n ucxpy -c rapidsai -c conda-forge -c nvidia rapids=22.10 python=3.9 cudatoolkit=11.5 ipython ucx-proc=*=gpu ucx ucx-py dask distributed numpy cupy pytest pynvml -y
 mamba activate ucxpy
 ```
 
