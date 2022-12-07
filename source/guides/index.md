@@ -1,3 +1,7 @@
+---
+html_theme.sidebar_secondary.remove: true
+---
+
 # Guides
 
 `````{grid} 1 2 2 3
