@@ -3,17 +3,7 @@
 RAPIDS also works with AWS SageMaker. We’ve written a **[detailed
 blog post](https://medium.com/rapids-ai/running-rapids-experiments-at-scale-using-amazon-sagemaker-d516420f165b)**
 with **[examples](https://github.com/rapidsai/cloud-ml-examples/tree/main/aws)**
-for how to use Sagemaker with RAPIDS.
-
-```{article-info}
-:avatar: https://miro.medium.com/fit/c/64/64/1*0jBgSuZf2y8g7JOvWQjsVg.png
-:avatar-link: https://medium.com/rapids-ai/running-rapids-experiments-at-scale-using-amazon-sagemaker-d516420f165b
-:avatar-outline: muted
-:author: "[Run RAPIDS experiments at scale using Amazon SageMaker](https://medium.com/rapids-ai/running-rapids-experiments-at-scale-using-amazon-sagemaker-d516420f165b)"
-:date: Feb 10, 2020
-:read-time: 16 min read
-:class-container: sd-p-2 sd-outline-muted sd-rounded-1
-```
+for how to use Sagemaker with RAPIDS to run HPO experiments at scale.
 
 To get started:
 
@@ -30,9 +20,7 @@ To get started:
    > https://console.aws.amazon.com/sagemaker/
    
    - Choose **Notebook Instances**, then choose 'Create notebook instance'.
-   - Note that this notebook is for SageMaker notebook instances only, however instructions for running RAPIDS in SageMaker Studio can be found in the **sagemaker_studio** directory. 
 
-<img src='img/sagemaker_notebook_instance.png'>
 
 2. On the Create notebook instance page, provide the following information (if a field is not mentioned, leave the default values):
    - For **Notebook instance name**, type a name for your notebook instance.
@@ -45,5 +33,7 @@ To get started:
    - In a few minutes, Amazon SageMaker launches an ML compute instance — when its ready you should see several links appear in the Actions tab of the **Notebook Instances** section, click on **Open JupyerLab** to launch into the notebook.   
    > Note: If you see Pending to the right of the notebook instance in the Status column, your notebook is still being created. The status will change to InService when the notebook is ready for use.
 
+
 3. Run Notebook
-   - Once inside JupyterLab you should be able to navigate to the notebook in the root directory named **rapids_sagemaker_hpo.ipynb**
+   - Once inside JupyterLab you should be able to navigate to the notebook in the root directory named **aws/rapids_sagemaker_hpo.ipynb** or 
+   **aws/rapids_sagemaker_higgs**. 
