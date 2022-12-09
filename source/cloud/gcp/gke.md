@@ -26,8 +26,6 @@ $ gcloud container clusters create rapids \
 
 With this command, you’ve launched a GKE cluster called rapids-gpu-kubeflow. You’ve specified that it should use nodes of type a2-highgpu-2g, each with two A100 GPUs.
 
-KubeFlow also requires a stable version of Kubernetes, so you specified that along with the zone in which to launch the cluster.
-
 ## Install drivers
 
 Next, [install the NVIDIA drivers](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#installing_drivers) onto each node.
