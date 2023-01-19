@@ -108,7 +108,6 @@ Here we have added a new pool made up of `Standard_NC48ads_A100_v4` instances wh
 
 we should be able to test that we can schedule GPU pods.
 
-
 ## Install RAPIDS
 
 Now that you have a GPU enables Kubernetes cluster on AKS you can install RAPIDS with [any of the supported methods](../../platforms/kubernetes).

@@ -49,7 +49,6 @@ kube-system   nvidia-gpu-device-plugin-jrgjh                                1/1 
 
 After your drivers are installed, you are ready to test your cluster.
 
-
 ```{include} ../../_includes/check-gpu-pod-works.md
 
 ```
