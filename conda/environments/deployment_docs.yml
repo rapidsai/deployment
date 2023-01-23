@@ -9,6 +9,7 @@ dependencies:
   - numpydoc
   - pydata-sphinx-theme
   - python=3.9
+  - pre-commit
   - sphinx
   - sphinx-autobuild
   - sphinx-copybutton

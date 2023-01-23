@@ -2,10 +2,7 @@
 
 ## Building
 
-As a prerequisite, a RAPIDS compatible GPU is required to build the docs since the notebooks in the docs execute the code to generate the HTML output.
-
-In order to build the docs, we need the conda dev environment from cudf and build cudf from source.
-See build [instructions](https://github.com/rapidsai/cudf/blob/branch-0.13/CONTRIBUTING.md#setting-up-your-build-environment).
+In order to build the documentation install the required tools by following the steps below.
 
 1. Create a conda env with the dependencies to build the deployment docs from source.
 
