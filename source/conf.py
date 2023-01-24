@@ -36,6 +36,7 @@ extensions = [
     "sphinx_design",
     "sphinx_copybutton",
     "rapids_notebook_files",
+    "rapids_related_examples",
 ]
 
 myst_enable_extensions = ["colon_fence"]
