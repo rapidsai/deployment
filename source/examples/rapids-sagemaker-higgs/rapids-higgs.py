@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# coding: utf-8
 
 import argparse
 
@@ -14,9 +13,7 @@ def main(args):
     # SageMaker options
     data_dir = args.data_dir
 
-    col_names = ["label"] + [
-        "col-{}".format(i) for i in range(2, 30)
-    ]  # Assign column names
+    col_names = ["label"] + [f"col-{i}" for i in range(2, 30)]  # Assign column names
     dtypes_ls = ["int32"] + [
         "float32" for _ in range(2, 30)
     ]  # Assign dtypes to each column
