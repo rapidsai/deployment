@@ -1,9 +1,9 @@
 from functools import cache
 
-from docutils import nodes
-from docutils.statemachine import ViewList
-from docutils.parsers.rst.states import RSTState
 import nbformat
+from docutils import nodes
+from docutils.parsers.rst.states import RSTState
+from docutils.statemachine import ViewList
 from sphinx.application import Sphinx
 from sphinx.environment import BuildEnvironment
 from sphinx.util.docutils import SphinxDirective
@@ -38,7 +38,13 @@ def generate_notebook_grid_myst(
         md.append("````{grid-item-card}")
         md.append(":link: /" + notebook)
         md.append(":link-type: doc")
-        md.append(str(env.titles[notebook].children[0]))
+
+        # FIXME Would prefer to use titles but can't do this because not all titles have necessarily been read yet
+        # The following line works on rebuilds because titles are cached in the environment but fails on a clean build
+        # md.append(str(env.titles[notebook].children[0]))
+        # Using the notebook docname instead for now
+        md.append(notebook)
+
         md.append("^" * len(notebook))
         md.append("")
         for tag in read_notebook_tags(env.doc2path(notebook)):
