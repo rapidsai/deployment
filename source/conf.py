@@ -10,17 +10,18 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath("../extensions"))
 import datetime
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'RAPIDS Deployment Documentation'
-copyright = f'{datetime.date.today().year}, NVIDIA'
-author = 'NVIDIA'
+project = "RAPIDS Deployment Documentation"
+copyright = f"{datetime.date.today().year}, NVIDIA"
+author = "NVIDIA"
 
 
 # -- General configuration ---------------------------------------------------
@@ -34,18 +35,25 @@ extensions = [
     "sphinxcontrib.mermaid",
     "sphinx_design",
     "sphinx_copybutton",
+    "rapids_notebook_files",
 ]
 
 myst_enable_extensions = ["colon_fence"]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
+# -- Options for notebooks -------------------------------------------------
+
+nb_execution_mode = "off"
+rapids_deployment_notebooks_base_url = (
+    "https://github.com/rapidsai/deployment/blob/main/source/"
+)
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -55,18 +63,23 @@ html_theme_options = {
     "twitter_url": "https://twitter.com/rapidsai",
     "show_toc_level": 1,
     "navbar_align": "right",
+    "secondary_sidebar_items": [
+        "page-toc",
+        "notebooks-extra-files-nav",
+    ],
 }
+
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'pydata_sphinx_theme'
+html_theme = "pydata_sphinx_theme"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
-html_logo = '_static/RAPIDS-logo-purple.png'
+html_static_path = ["_static"]
+html_logo = "_static/RAPIDS-logo-purple.png"
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
@@ -76,7 +89,10 @@ intersphinx_mapping = {
     "dask_cuda": ("https://docs.rapids.ai/api/dask-cuda/stable/", None),
 }
 
+
 def setup(app):
     app.add_css_file("https://docs.rapids.ai/assets/css/custom.css")
-    app.add_js_file("https://docs.rapids.ai/assets/js/custom.js", loading_method="defer")
+    app.add_js_file(
+        "https://docs.rapids.ai/assets/js/custom.js", loading_method="defer"
+    )
     app.add_js_file("js/nav.js", loading_method="defer")
