@@ -16,7 +16,6 @@ import sys
 sys.path.insert(0, os.path.abspath("../extensions"))
 import datetime
 
-
 # -- Project information -----------------------------------------------------
 
 project = "RAPIDS Deployment Documentation"
