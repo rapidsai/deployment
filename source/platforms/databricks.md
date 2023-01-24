@@ -18,21 +18,19 @@ Databricks recommends that you build from a Docker base that Databricks has buil
 
   1. Name your cluster, and select either `Multi` or `Single` Node
 
-  2. Select a Standard Databricks runtime. For example 12.1(Scala 2.12, Spark 3.3.1)
+  2. Select a Standard Databricks runtime. For example 12.1(Scala 2.12, Spark 3.3.1). This needs to be a Databricks runtime version that supports Databricks Container Services.
 
-     - This needs to be a Databricks runtime version that supports Databricks Container Services.- **Note** Databricks Runtime for Machine Learning does not support Databricks Container Services.
+     - **Note** Databricks Runtime for Machine Learning does not support Databricks Container Services.
 
-  3. For Node type, Select a GPU enabled worker and driver type.
-
-     - **Note** Selected GPU must be Pascal generation or greater.
+  3. For Node type, Select a GPU enabled worker and driver type. Selected GPU must be Pascal generation or greater.
 
   4. Under **Advanced Options**, in the the **Docker** tab select "Use your own Docker container".
 
-  5. In the Docker Image URL field, enter the Rapids image name, in this case:`rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu18.04-py3.9`
+     In the Docker Image URL field, enter the Rapids image name, in this case:`rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu18.04-py3.9`
 
-  6. Select the authentication type, you can use default or manually input username and password for your DockerHub account
+  5. Select the authentication type, you can use default or manually input username and password for your DockerHub account
 
-  7. Create and launch your cluster
+  6. Create and launch your cluster
 
 ## Test Rapids
 
