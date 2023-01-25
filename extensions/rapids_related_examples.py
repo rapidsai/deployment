@@ -22,7 +22,7 @@ def read_notebook_tags(path: str) -> list[str]:
 
 
 def generate_notebook_grid_myst(
-    notebooks: list[str], env: BuildEnvironment, state: RSTState
+    notebooks: list[str], env: BuildEnvironment
 ) -> list[str]:
     """Generate sphinx-design grid of notebooks in MyST markdown.
 
@@ -40,7 +40,7 @@ def generate_notebook_grid_myst(
         md.append(":link: /" + notebook)
         md.append(":link-type: doc")
         try:
-            md.append(get_title_for_notebook(env.doc2path(notebook), state=state))
+            md.append(get_title_for_notebook(env.doc2path(notebook)))
         except ValueError:
             md.append(notebook)
         md.append("^" * len(notebook))
@@ -64,7 +64,7 @@ def parse_markdown(markdown: list[str], state: RSTState) -> list[nodes.Node]:
     return node.children
 
 
-def get_title_for_notebook(path: str, state: RSTState) -> str:
+def get_title_for_notebook(path: str) -> str:
     """Read a notebook file and find the top-level heading."""
     notebook = nbformat.read(path, as_version=4)
     for cell in notebook.cells:
@@ -90,7 +90,6 @@ class RelatedExamples(SphinxDirective):
             grid_markdown = generate_notebook_grid_myst(
                 notebooks=self.env.notebook_tag_map[self.env.docname],
                 env=self.env,
-                state=self.state,
             )
             for node in parse_markdown(
                 markdown=grid_markdown,
