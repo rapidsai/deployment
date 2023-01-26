@@ -14,8 +14,6 @@ import datetime
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("../extensions"))
-
 # -- Project information -----------------------------------------------------
 
 project = "RAPIDS Deployment Documentation"
@@ -28,6 +26,7 @@ author = "NVIDIA"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
+sys.path.insert(0, os.path.abspath("../extensions"))
 extensions = [
     "sphinx.ext.intersphinx",
     "myst_nb",
@@ -35,6 +34,7 @@ extensions = [
     "sphinx_design",
     "sphinx_copybutton",
     "rapids_notebook_files",
+    "rapids_related_examples",
 ]
 
 myst_enable_extensions = ["colon_fence"]

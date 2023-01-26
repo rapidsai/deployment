@@ -13,9 +13,7 @@ def main(args):
     # SageMaker options
     data_dir = args.data_dir
 
-    col_names = ["label"] + [
-        f"col-{i}" for i in range(2, 30)
-    ]  # Assign column names
+    col_names = ["label"] + [f"col-{i}" for i in range(2, 30)]  # Assign column names
     dtypes_ls = ["int32"] + [
         "float32" for _ in range(2, 30)
     ]  # Assign dtypes to each column
@@ -54,7 +52,6 @@ if __name__ == "__main__":
     parser.add_argument("--max_features", type=float, default=0.2)
 
     # SageMaker parameters
-    parser.add_argument("--model_dir", type=str)
     parser.add_argument("--model_output_dir", type=str, default="/opt/ml/output/")
     parser.add_argument("--data_dir", type=str, default="/opt/ml/input/data/dataset/")
 
