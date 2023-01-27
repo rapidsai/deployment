@@ -1,22 +1,25 @@
 <nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">
+    Tag filters
+    <small>(<a href="#" id="resetfilters">reset</a>)</small>
+  </p>
 
-    <p class="bd-links__title" role="heading" aria-level="1">
-        Tag filters
-        <small>(<a href="#" id="resetfilters">reset</a>)</small>
-    </p>
-
-    {% for section in sorted(notebook_tag_tree) %}
-    <fieldset aria-level="2" class="caption" role="heading">
-        <legend class="caption-text">{{ section.title() }}</legend>
-        {% for tag in sorted(notebook_tag_tree[section]) %}
-        <div>
-            <input type="checkbox" id="{{section}}/{{ tag }}" class="tag-filter" name="{{ tag }}">
-            <label for="{{ tag }}">
-                <span class="sd-sphinx-override sd-badge">{{section}}/{{ tag }}</span>
-            </label>
-        </div>
-        {% endfor %}
-    </fieldset>
+  {% for section in sorted(notebook_tag_tree) %}
+  <fieldset aria-level="2" class="caption" role="heading">
+    <legend class="caption-text">{{ section.title() }}</legend>
+    {% for tag in sorted(notebook_tag_tree[section]) %}
+    <div>
+      <input
+        type="checkbox"
+        id="{{section}}/{{ tag }}"
+        class="tag-filter"
+        name="{{ tag }}"
+      />
+      <label for="{{ tag }}">
+        <span class="sd-sphinx-override sd-badge">{{section}}/{{ tag }}</span>
+      </label>
+    </div>
     {% endfor %}
-
+  </fieldset>
+  {% endfor %}
 </nav>
