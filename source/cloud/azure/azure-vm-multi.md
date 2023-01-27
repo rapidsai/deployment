@@ -92,3 +92,7 @@ $ pip install dask-cloudprovider
 [NUM_NODES] = Number of nodes to be used.
 
 **7. Run Notebook.** In a Jupyter notebook, the cluster object will return a widget allowing you to scale up and containing links to the Jupyter Lab session running on the headnode and Dask dashboard, which are forwarded to local ports for you -unless running on a remote Compute Instance.
+
+```{relatedexamples}
+
+```
