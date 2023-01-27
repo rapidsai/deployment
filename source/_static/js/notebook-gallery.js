@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     var tagFilterListener = function () {
-        filterTags = []
-        filterTagRoots = []
 
+        // Get filter checkbox status
+        filterTagRoots = []  // Which sections are we filtering on
+        filterTags = []  // Which tags are being selected
         Array.from(document.getElementsByClassName("tag-filter")).forEach(checkbox => {
             if (checkbox.checked) {
                 let tag = checkbox.getAttribute("id")
@@ -15,15 +16,19 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
+        // Iterate notebook cards
         Array.from(document.getElementsByClassName("sd-col")).forEach(notebook => {
             let isFiltered = false
 
+            // Get tags from the card
             let tags = []
             Array.from(notebook.getElementsByClassName("sd-badge")).forEach(tag => {
                 tags.push(tag.getAttribute("aria-label"))
             })
 
+            // Iterate each of the sections we are filtering on
             filterTagRoots.forEach(rootTag => {
+
                 // If a notebook has no tags with the current root tag then it is definitely filtered
                 if (!tags.some(tag => { return tag.startsWith(rootTag) })) {
                     isFiltered = true
@@ -44,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             })
 
+            // Show/hide the card
             if (isFiltered) {
                 notebook.setAttribute('style', 'display:none !important');
             } else {
@@ -64,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }, false);
     }
 
-    // Add listeners to all checkboxes
+    // Add listeners to all checkboxes for triggering filtering
     Array.from(document.getElementsByClassName("tag-filter")).forEach(checkbox => {
         checkbox.addEventListener('change', tagFilterListener, false);
     })
