@@ -55,9 +55,11 @@ def generate_notebook_grid_myst(
     return md
 
 
-def parse_markdown(markdown: list[str], state: RSTState) -> list[nodes.Node]:
+def parse_markdown(
+    ids: list[str], markdown: list[str], state: RSTState
+) -> list[nodes.Node]:
     """Render markdown into nodes."""
-    node = nodes.section()
+    node = nodes.section(ids=ids)
     node.document = state.document
     vl = ViewList(markdown, "fakefile.md")
     nested_parse_with_titles(state, vl, node)
@@ -92,12 +94,14 @@ class RelatedExamples(SphinxDirective):
                 env=self.env,
             )
             for node in parse_markdown(
+                ids=["relatedexamplesgrid"],
                 markdown=grid_markdown,
                 state=self.state,
             ):
                 output += node
 
-        return [output]
+            return [output]
+        return []
 
 
 def build_tag_map(app: Sphinx, env: BuildEnvironment, docnames: list[str]):
