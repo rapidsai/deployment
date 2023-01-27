@@ -114,10 +114,6 @@ def build_tag_map(app: Sphinx, env: BuildEnvironment, docnames: list[str]):
 
     env.notebook_tag_map = {}
 
-    # If no pages are being rebuilt skip generating the tag map
-    # if not docnames:
-    #     return
-
     # Build notebook tag map
     for doc in env.found_docs:
         path = app.env.doc2path(doc)
