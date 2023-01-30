@@ -148,7 +148,8 @@ def add_notebook_tag_map_to_context(app, pagename, templatename, context, doctre
 
 class NotebookGalleryTocTree(TocTree):
     def run(self) -> list[nodes.Node]:
-        output = nodes.section(ids=["examplegallery"])
+        output = nodes.container()
+        gallery = nodes.section(ids=["examplegallery"])
 
         # Generate the actual toctree but ensure it is hidden
         self.options["hidden"] = True
@@ -161,8 +162,9 @@ class NotebookGalleryTocTree(TocTree):
         ]
         grid_markdown = generate_notebook_grid_myst(notebooks=notebooks, env=self.env)
         for node in parse_markdown(markdown=grid_markdown, state=self.state):
-            output += node
+            gallery += node
 
+        output += gallery
         return [output]
 
 
