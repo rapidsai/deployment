@@ -14,8 +14,8 @@ Multi-Instance GPUs
 ^^^
 Use RAPIDS with Multi-Instance GPUs
 
-{bdg-primary}`Dask Cluster`
-{bdg-primary}`XGBoost with Dask Cluster`
+{bdg}`Dask Cluster`
+{bdg}`XGBoost with Dask Cluster`
 ````
 
 ````{grid-item-card}
@@ -25,7 +25,7 @@ Infiniband on Azure
 ^^^
 How to setup InfiniBand on Azure.
 
-{bdg-primary}`Microsoft Azure`
+{bdg}`Microsoft Azure`
 ````
 
 `````

@@ -10,8 +10,8 @@ Kubernetes
 ^^^
 Launch RAPIDS containers and cluster on Kubernetes with various tools.
 
-{bdg-primary}`single-node`
-{bdg-primary}`multi-node`
+{bdg}`single-node`
+{bdg}`multi-node`
 ````
 
 ````{grid-item-card}
@@ -21,8 +21,8 @@ Kubeflow
 ^^^
 Integrate RAPIDS with Kubeflow notebooks and pipelines.
 
-{bdg-primary}`single-node`
-{bdg-primary}`multi-node`
+{bdg}`single-node`
+{bdg}`multi-node`
 ````
 
 ````{grid-item-card}
@@ -32,7 +32,7 @@ Coiled
 ^^^
 Run RAPIDS on Coiled.
 
-{bdg-primary}`multi-node`
+{bdg}`multi-node`
 ````
 
 `````

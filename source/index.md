@@ -16,10 +16,10 @@ Deployment documentation to get you up and running with RAPIDS anywhere.
 ^^^
 Use RAPIDS on your local workstation or server.
 
-{bdg-primary}`docker`
-{bdg-primary}`conda`
-{bdg-primary}`pip`
-{bdg-primary}`WSL2`
+{bdg}`docker`
+{bdg}`conda`
+{bdg}`pip`
+{bdg}`WSL2`
 ````
 
 ````{grid-item-card}
@@ -29,10 +29,10 @@ Use RAPIDS on your local workstation or server.
 ^^^
 Use RAPIDS on the cloud.
 
-{bdg-primary}`Amazon Web Services`
-{bdg-primary}`Google Cloud Platform`
-{bdg-primary}`Microsoft Azure`
-{bdg-primary}`IBM Cloud`
+{bdg}`Amazon Web Services`
+{bdg}`Google Cloud Platform`
+{bdg}`Microsoft Azure`
+{bdg}`IBM Cloud`
 ````
 
 ````{grid-item-card}
@@ -42,7 +42,7 @@ Use RAPIDS on the cloud.
 ^^^
 Use RAPIDS on high performance computers and supercomputers.
 
-{bdg-primary}`SLURM`
+{bdg}`SLURM`
 ````
 
 ````{grid-item-card}
@@ -52,10 +52,10 @@ Use RAPIDS on high performance computers and supercomputers.
 ^^^
 Use RAPIDS on compute platforms.
 
-{bdg-primary}`Kubernetes`
-{bdg-primary}`Kubeflow`
-{bdg-primary}`Coiled`
-{bdg-primary}`Databricks`
+{bdg}`Kubernetes`
+{bdg}`Kubeflow`
+{bdg}`Coiled`
+{bdg}`Databricks`
 ````
 
 ````{grid-item-card}
@@ -65,11 +65,11 @@ Use RAPIDS on compute platforms.
 ^^^
 There are many tools to deploy RAPIDS.
 
-{bdg-primary}`containers`
-{bdg-primary}`dask-kubernetes`
-{bdg-primary}`dask-operator`
-{bdg-primary}`dask-helm-chart`
-{bdg-primary}`dask-gateway`
+{bdg}`containers`
+{bdg}`dask-kubernetes`
+{bdg}`dask-operator`
+{bdg}`dask-helm-chart`
+{bdg}`dask-gateway`
 ````
 
 ````{grid-item-card}
@@ -78,10 +78,10 @@ There are many tools to deploy RAPIDS.
 ^^^
 For inspiration see our example notebooks with opinionated deployments of RAPIDS to boost machine learning workflows.
 
-{bdg-primary}`xgboost`
-{bdg-primary}`optuna`
-{bdg-primary}`mlflow`
-{bdg-primary}`ray tune`
+{bdg}`xgboost`
+{bdg}`optuna`
+{bdg}`mlflow`
+{bdg}`ray tune`
 ````
 
 ````{grid-item-card}
@@ -91,9 +91,9 @@ For inspiration see our example notebooks with opinionated deployments of RAPIDS
 ^^^
 Detailed guides on how to deploy and optimize RAPIDS.
 
-{bdg-primary}`Microsoft Azure`
-{bdg-primary}`Infiniband`
-{bdg-primary}`MIG`
+{bdg}`Microsoft Azure`
+{bdg}`Infiniband`
+{bdg}`MIG`
 ````
 `````
 

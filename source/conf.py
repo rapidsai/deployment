@@ -68,6 +68,11 @@ html_theme_options = {
     ],
 }
 
+html_sidebars = {
+    "**": ["sidebar-nav-bs", "sidebar-ethical-ads"],
+    "index": [],
+    "examples/index": ["notebooks-tag-filter", "sidebar-ethical-ads"],
+}
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
@@ -91,7 +96,9 @@ intersphinx_mapping = {
 
 def setup(app):
     app.add_css_file("https://docs.rapids.ai/assets/css/custom.css")
+    app.add_css_file("css/custom.css")
     app.add_js_file(
         "https://docs.rapids.ai/assets/js/custom.js", loading_method="defer"
     )
     app.add_js_file("js/nav.js", loading_method="defer")
+    app.add_js_file("js/notebook-gallery.js", loading_method="defer")
