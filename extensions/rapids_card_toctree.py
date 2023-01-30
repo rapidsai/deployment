@@ -1,9 +1,17 @@
-
 from docutils import nodes
 from docutils.statemachine import ViewList
 from sphinx.application import Sphinx
 from sphinx.directives.other import TocTree
 from sphinx.util.nodes import nested_parse_with_titles
+
+
+def find_linked_documents(node):
+    for child in node.traverse():
+        try:
+            if child.attributes["reftarget"]:
+                yield child.attributes["reftarget"]
+        except (AttributeError, KeyError):
+            pass
 
 
 class CardGridTocTree(TocTree):
@@ -26,13 +34,8 @@ class CardGridTocTree(TocTree):
         nested_parse_with_titles(self.state, content, grid)
         output += grid
 
-        # Update the content with the document names ready for toctree generation
-        # TODO get the doc names from walking the grid nodes rather than manipulating the markdown
-        self.content.data = [
-            line.replace(":link:", "").strip()
-            for line in self.content.data
-            if ":link:" in line
-        ]
+        # Update the content with the document names referenced in the card grid ready for toctree generation
+        self.content.data = [doc for doc in find_linked_documents(grid)]
 
         # Generate the actual toctree but ensure it is hidden
         self.options["hidden"] = True
