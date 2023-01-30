@@ -35,7 +35,7 @@ extensions = [
     "sphinx_copybutton",
     "rapids_notebook_files",
     "rapids_related_examples",
-    "rapids_card_toctree",
+    "rapids_grid_toctree",
 ]
 
 myst_enable_extensions = ["colon_fence"]

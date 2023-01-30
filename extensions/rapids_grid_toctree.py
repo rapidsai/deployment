@@ -7,6 +7,11 @@ from sphinx_design.grids import GridDirective
 
 
 def find_linked_documents(node):
+    """Find all referenced documents in a node tree.
+
+    Walks the nodes and yield the reftarget attribute for any that have it set.
+
+    """
     for child in node.traverse():
         try:
             if child.attributes["reftarget"]:
@@ -16,6 +21,13 @@ def find_linked_documents(node):
 
 
 class CardGridTocTree(GridDirective):
+    """An extension of sphinx_design.grids.GridDirective that also add referenced docs to the toctree.
+
+    For any element within the grid which links to another page with the ``link-type`` ``doc`` the
+    doc gets added to the toctree of that page.
+
+    """
+
     def run(self) -> list[nodes.Node]:
         output = nodes.container()
 
@@ -37,7 +49,7 @@ class CardGridTocTree(GridDirective):
 
 
 def setup(app: Sphinx) -> dict:
-    app.add_directive("cardgridtoctree", CardGridTocTree)
+    app.add_directive("gridtoctree", CardGridTocTree)
 
     return {
         "version": "0.1",
