@@ -2,27 +2,14 @@
 
 ## Building
 
-In order to build the documentation install the required tools by following the steps below.
+In order to build the documentation install the dependencies to build the deployment docs from source.
 
-1. Create a conda env with the dependencies to build the deployment docs from source.
+```bash
+conda env create -f conda/environments/deployment_docs.yml
+```
 
-   ```bash
-   conda env create -f conda/environments/deployment_docs.yml
-   ```
-
-1. Once the conda environment is built, run the following
-
-   ```bash
-   make html
-   ```
-
-This should run Sphinx in your shell, and outputs to `build/html/index.html`.
-
-## Developing
-
-When developing docs locally it can be nice to view them in your browser and have changes
-reflected immediately. You can do this with [sphinx-autobuild](https://github.com/executablebooks/sphinx-autobuild).
-This tool will build your docs as above but will also host them on a local web server.
+We recommend building with [sphinx-autobuild](https://github.com/executablebooks/sphinx-autobuild).
+This tool will build your docs and host them on a local web server.
 It will watch for file changes, rebuild automatically and tell the browser page to reload. Magic!
 
 ```bash
@@ -35,6 +22,42 @@ build succeeded.
 The HTML pages are in build.
 [I 220413 12:13:40 server:335] Serving on http://127.0.0.1:8000
 ```
+
+Alternatively you can build the static site into `build/html` with `sphinx`.
+
+```bash
+$ make html
+```
+
+## Writing
+
+Content in these docs are written in markdown using the [MyST Sphinx extension](https://myst-parser.readthedocs.io/en/v0.15.1/syntax/syntax.html).
+
+### Notebooks
+
+The `examples` section of these docs are written in Jupyter Notebooks and built with [MyST-NB](https://myst-nb.readthedocs.io/en/latest/).
+
+There is also a custom Sphinx extension which shows the examples in a gallery with helpful cross linking throughout the docs. This does mean there
+are a few assumptions about how notebooks should be written.
+
+#### Adding examples
+
+1. Create a new directory inside `source/examples`.
+2. Create a new notebook file in that directory and give it a name like `notebook.ipynb`.
+   - The first cell of your notebook should be a markdown cell and contain at least a top level header.
+   - You can add tags to your notebook by adding [cell metadata tags to the first cell](https://jupyterbook.org/en/stable/content/metadata.html).
+3. Place any supporting files such as scripts, Dockerfiles, etc in the same directory. These files will be discovered and listed on the rendered notebook page.
+4. Update the `notebookgallerytoctree` section in `source/examples/index.md` with the relative path to your new notebook.
+
+#### Tags
+
+The notebook gallery extension uses tags to organize and cross-reference files.
+
+Tags are hierarchical and use slashes to separate their namespaces. For example if your notebook uses AWS Sagemaker you should add the tag `cloud/aws/sagemaker`. This aligns with the Sphinx doc path to the RAPIDS Sagemaker documentation page which you can find in `source/cloud/aws/sagemaker.md`.
+
+The extension will use this information to ensure the notebook is linked from the Sagemaker page under the "Related Examples" section.
+
+The example gallery will also allow you to filter based on these tags. The root of the tag namespace is used to create the filtering categories. So in the above example the `cloud/aws/sagemaker` tag would create a filter for `cloud` with an option of `aws/sagemaker`. You can create new filter sections simply by creating new tags with unique root namespaces, but be mindful that keeping the number of filtering sections to a minimum will provide users with the best user experience and there may already be a suitable root namespace for the tag you want to create.
 
 ## Linting
 
