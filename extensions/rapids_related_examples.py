@@ -98,7 +98,8 @@ class RelatedExamples(SphinxDirective):
             ):
                 output += node
 
-        return [output]
+            return [output]
+        return []
 
 
 def build_tag_map(app: Sphinx, env: BuildEnvironment, docnames: list[str]):
