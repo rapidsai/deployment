@@ -1,6 +1,10 @@
+---
+html_theme.sidebar_secondary.remove: true
+---
+
 # Platforms
 
-`````{cardgridtoctree} 1 2 2 3
+`````{gridtoctree} 1 2 2 3
 :gutter: 2 2 2 2
 
 ````{grid-item-card}

@@ -6,7 +6,7 @@ html_theme.sidebar_secondary.remove: true
 
 Deployment documentation to get you up and running with RAPIDS anywhere.
 
-`````{grid} 1 2 2 3
+`````{gridtoctree} 1 2 2 3
 :gutter: 2 2 2 2
 
 ````{grid-item-card}
@@ -73,7 +73,8 @@ There are many tools to deploy RAPIDS.
 ````
 
 ````{grid-item-card}
-:link: examples
+:link: examples/index
+:link-type: doc
 {fas}`book;sd-text-primary` Workflow examples
 ^^^
 For inspiration see our example notebooks with opinionated deployments of RAPIDS to boost machine learning workflows.
@@ -96,31 +97,3 @@ Detailed guides on how to deploy and optimize RAPIDS.
 {bdg}`MIG`
 ````
 `````
-
-```{toctree}
-:maxdepth: 3
-:hidden:
-:caption: Deploy RAPIDS on
-
-local
-cloud/index
-hpc
-platforms/index
-guides/index
-```
-
-```{toctree}
-:maxdepth: 3
-:hidden:
-:caption: Deploy RAPIDS with
-
-tools/index
-```
-
-```{toctree}
-:maxdepth: 3
-:hidden:
-:caption: Examples
-
-examples/index
-```

@@ -4,7 +4,7 @@ html_theme.sidebar_secondary.remove: true
 
 # Guides
 
-`````{grid} 1 2 2 3
+`````{gridtoctree} 1 2 2 3
 :gutter: 2 2 2 2
 
 ````{grid-item-card}
@@ -29,12 +29,3 @@ How to setup InfiniBand on Azure.
 ````
 
 `````
-
-```{toctree}
-:maxdepth: 2
-:caption: Guides
-:hidden:
-
-mig
-azure/infiniband
-```
