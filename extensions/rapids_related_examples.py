@@ -6,6 +6,7 @@ from docutils.parsers.rst.states import RSTState
 from docutils.statemachine import ViewList
 from markdown_it import MarkdownIt
 from sphinx.application import Sphinx
+from sphinx.directives.other import TocTree
 from sphinx.environment import BuildEnvironment
 from sphinx.util.docutils import SphinxDirective
 from sphinx.util.nodes import nested_parse_with_titles
@@ -46,7 +47,7 @@ def generate_notebook_grid_myst(
         md.append("^" * len(notebook))
         md.append("")
         for tag in read_notebook_tags(env.doc2path(notebook)):
-            md.append("{bdg-primary}`" + tag.split("/")[-1] + "`")
+            md.append("{bdg}`" + tag + "`")
         md.append("````")
         md.append("")
 
@@ -113,10 +114,6 @@ def build_tag_map(app: Sphinx, env: BuildEnvironment, docnames: list[str]):
 
     env.notebook_tag_map = {}
 
-    # If no pages are being rebuilt skip generating the tag map
-    if not docnames:
-        return
-
     # Build notebook tag map
     for doc in env.found_docs:
         path = app.env.doc2path(doc)
@@ -135,9 +132,44 @@ def build_tag_map(app: Sphinx, env: BuildEnvironment, docnames: list[str]):
                 docnames.append(doc)
 
 
+def add_notebook_tag_map_to_context(app, pagename, templatename, context, doctree):
+    context["sorted"] = sorted
+    context["notebook_tag_map"] = app.env.notebook_tag_map
+    tag_tree = {}
+    for tag in app.env.notebook_tag_map:
+        root, suffix = tag.split("/", 1)
+        try:
+            tag_tree[root].append(suffix)
+        except KeyError:
+            tag_tree[root] = [suffix]
+    context["notebook_tag_tree"] = tag_tree
+
+
+class NotebookGalleryTocTree(TocTree):
+    def run(self) -> list[nodes.Node]:
+        output = nodes.section(ids=["examplegallery"])
+
+        # Generate the actual toctree but ensure it is hidden
+        self.options["hidden"] = True
+        toctree = super().run()
+        output += toctree
+
+        # Generate the card grid for all items in the toctree
+        notebooks = [
+            notebook for _, notebook in toctree[0].children[0].attributes["entries"]
+        ]
+        grid_markdown = generate_notebook_grid_myst(notebooks=notebooks, env=self.env)
+        for node in parse_markdown(markdown=grid_markdown, state=self.state):
+            output += node
+
+        return [output]
+
+
 def setup(app: Sphinx) -> dict:
     app.connect("env-before-read-docs", build_tag_map)
+    app.connect("html-page-context", add_notebook_tag_map_to_context)
     app.add_directive("relatedexamples", RelatedExamples)
+    app.add_directive("notebookgallerytoctree", NotebookGalleryTocTree)
 
     return {
         "version": "0.1",
