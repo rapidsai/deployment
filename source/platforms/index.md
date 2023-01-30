@@ -1,7 +1,6 @@
 # Platforms
 
-`````{grid} 1 2 2 3
-:gutter: 2 2 2 2
+`````{cardgridtoctree}
 
 ````{grid-item-card}
 :link: kubernetes
@@ -36,13 +35,3 @@ Run RAPIDS on Coiled.
 ````
 
 `````
-
-```{toctree}
-:maxdepth: 2
-:caption: Platforms
-:hidden:
-
-kubernetes
-kubeflow
-coiled
-```
