@@ -1,8 +1,9 @@
+from functools import partial
+
 from docutils import nodes
-from docutils.statemachine import ViewList
 from sphinx.application import Sphinx
 from sphinx.directives.other import TocTree
-from sphinx.util.nodes import nested_parse_with_titles
+from sphinx_design.grids import GridDirective
 
 
 def find_linked_documents(node):
@@ -14,24 +15,13 @@ def find_linked_documents(node):
             pass
 
 
-class CardGridTocTree(TocTree):
-    # TODO Enable configuring all grid options and arguments
-    # https://sphinx-design.readthedocs.io/en/latest/grids.html#grid-options
-    # This probably would require changing this class to inherit from ``sphinx_design.grids.GridDirective``
-    # and instantiating the TocTree class part way through and ensuring it is configured well enough
-    # to call run.
-
+class CardGridTocTree(GridDirective):
     def run(self) -> list[nodes.Node]:
         output = nodes.container()
 
         # Generate the card grid
         grid = nodes.section(ids=["toctreegrid"])
-        # TODO Stop manipulating markdown here
-        content = ViewList(
-            ["`````{grid} 1 2 2 3", ":gutter: 2 2 2 2"] + self.content.data + ["`````"],
-            "fakefile.md",
-        )
-        nested_parse_with_titles(self.state, content, grid)
+        grid += super().run()[0]
         output += grid
 
         # Update the content with the document names referenced in the card grid ready for toctree generation
@@ -39,7 +29,8 @@ class CardGridTocTree(TocTree):
 
         # Generate the actual toctree but ensure it is hidden
         self.options["hidden"] = True
-        toctree = super().run()
+        self.parse_content = partial(TocTree.parse_content, self)
+        toctree = TocTree.run(self)[0]
         output += toctree
 
         return [output]
