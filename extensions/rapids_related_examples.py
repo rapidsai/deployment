@@ -144,6 +144,9 @@ def add_notebook_tag_map_to_context(app, pagename, templatename, context, doctre
         except KeyError:
             tag_tree[root] = [suffix]
     context["notebook_tag_tree"] = tag_tree
+    context["notebook_tags"] = [
+        tag for tag, pages in app.env.notebook_tag_map.items() if pagename in pages
+    ]
 
 
 class NotebookGalleryTocTree(TocTree):

@@ -1,0 +1,12 @@
+{% if notebook_tags %}
+<div class="tocsection onthispage"><i class="fa-solid fa-tags"></i> Tags</div>
+<nav id="bd-toc-nav" class="page-toc">
+  <div class="tagwrapper">
+    {% for tag in notebook_tags %}
+    <a href="../?filters={{ tag }}">
+      <span class="sd-sphinx-override sd-badge">{{ tag }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</nav>
+{% endif %}

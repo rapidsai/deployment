@@ -1,4 +1,37 @@
 document.addEventListener("DOMContentLoaded", function () {
+  var setURLFilters = function (filters) {
+    var newAdditionalURL = "";
+    var tempArray = window.location.href.split("?");
+    var baseURL = tempArray[0];
+    var additionalURL = tempArray[1];
+    var temp = "";
+    if (additionalURL) {
+      tempArray = additionalURL.split("&");
+      for (var i = 0; i < tempArray.length; i++) {
+        if (tempArray[i].split("=")[0] != "filters") {
+          newAdditionalURL += temp + tempArray[i];
+          temp = "&";
+        }
+      }
+    }
+    if (filters.length) {
+      newAdditionalURL += temp + "filters=" + filters.join(",");
+    }
+    if (newAdditionalURL) {
+      window.history.replaceState("", "", baseURL + "?" + newAdditionalURL);
+    } else {
+      window.history.replaceState("", "", baseURL);
+    }
+  };
+
+  var getUrlFilters = function () {
+    let search = new URLSearchParams(window.location.search);
+    let filters = search.get("filters");
+    if (filters) {
+      return filters.split(",");
+    }
+  };
+
   var tagFilterListener = function () {
     // Get filter checkbox status
     filterTagRoots = []; // Which sections are we filtering on
@@ -15,6 +48,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
     );
+
+    setURLFilters(filterTags);
 
     // Iterate notebook cards
     Array.from(document.getElementsByClassName("sd-col")).forEach(
@@ -103,4 +138,17 @@ document.addEventListener("DOMContentLoaded", function () {
       tag.innerHTML = tag.innerHTML.split("/").slice(1).join("/");
     }
   });
+
+  // Set checkboxes initial state
+  var initFilters = getUrlFilters();
+  if (initFilters) {
+    Array.from(document.getElementsByClassName("tag-filter")).forEach(
+      (checkbox) => {
+        if (initFilters.includes(checkbox.id)) {
+          checkbox.checked = true;
+        }
+      }
+    );
+    tagFilterListener();
+  }
 });

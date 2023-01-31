@@ -18,6 +18,10 @@ nav.bd-links fieldset .sd-badge {
   font-size: 0.9em;
 }
 
+.tagwrapper {
+  margin-top: 0.25em;
+}
+
 /* Tag colours */
 .sd-badge {
   /* Defaults */
