@@ -51,7 +51,9 @@ are a few assumptions about how notebooks should be written.
 
 #### Tags
 
-The notebook gallery extension uses tags to organize and cross-reference files.
+The notebook gallery extension uses cell tags to organize and cross-reference files.
+
+![Screenshot of Jupyter showing the first cell of the open notebook has tags](source/images/theme-notebook-tags.png)
 
 Tags are hierarchical and use slashes to separate their namespaces. For example if your notebook uses AWS Sagemaker you should add the tag `cloud/aws/sagemaker`. This aligns with the Sphinx doc path to the RAPIDS Sagemaker documentation page which you can find in `source/cloud/aws/sagemaker.md`.
 
@@ -62,6 +64,8 @@ The example gallery will also allow you to filter based on these tags. The root 
 ##### Styling
 
 By default tags are styled with RAPIDS purple backgrounds and white text. They also have a `0.5em` left hand border to use as an accent that is also purple by default which can be styled for a two-tone effect.
+
+![Diagram showing the tag and css side-by-side with arrows to show color sets the text, background-color sets the background and border-left sets the accent](source/images/theme-tag-style.png)
 
 This can be overridden for each tag by adding a new class with the format `.tag-{name}` to `source/_static/css/custom.css`. For example the Scikit-Learn logo is orange and blue with grey text, so the custom CSS sets an orange background with a blue accent and grey text.
 
