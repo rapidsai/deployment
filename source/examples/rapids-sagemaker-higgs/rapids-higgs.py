@@ -9,7 +9,6 @@ from sklearn.metrics import accuracy_score
 
 
 def main(args):
-
     # SageMaker options
     data_dir = args.data_dir
 
@@ -39,7 +38,6 @@ def main(args):
 
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser()
 
     # Hyper-parameters
