@@ -18,7 +18,7 @@ This can lead users to logically ask if the scheduler needs the same capabilitie
 
 Taking this even further you could even ask "Does the Dask scheduler even need to be written in Python?". Some folks even [experimented with a Rust implementation of the scheduler](https://github.com/It4innovations/rsds) a couple of years ago.
 
-There are two primary reasons why we recommend that the scheduler has the cam capabilities:
+There are two primary reasons why we recommend that the scheduler has the same capabilities:
 
 - There are edge cases where the scheduler does deserialize data.
 - Some scheduler optimizations require high-level graphs to be pickled on the client and unpickled on the scheduler.
@@ -27,7 +27,7 @@ If your workload doesn't trigger any edge-cases and you're not using the high-le
 
 ### Known edge cases
 
-When calling `dask.submit` and passing data directly to a function the whole graph is serialized and sent to the scheduler. In order for the scheduler to figure out what to do with it the graph is deserialized. If the data uses GPUs this can cause the scheduler to import RAPIDS libraries, attempt to instantiate a CUDA context and populate the data into GPU memory. If those libraries are missing and/or there are no GPUs this will cause the scheduler to fail.
+When calling `client.submit` and passing data directly to a function the whole graph is serialized and sent to the scheduler. In order for the scheduler to figure out what to do with it the graph is deserialized. If the data uses GPUs this can cause the scheduler to import RAPIDS libraries, attempt to instantiate a CUDA context and populate the data into GPU memory. If those libraries are missing and/or there are no GPUs this will cause the scheduler to fail.
 
 Many Dask collections also have a meta object which represents the overall collection but without any data. For example a Dask Dataframe has a meta Pandas Dataframe which has the same meta properties and is used during scheduling. If the underlying data is instead a cuDF Dataframe then the meta object will be too, which is deserialized on the scheduler.
 
@@ -35,7 +35,7 @@ Many Dask collections also have a meta object which represents the overall colle
 
 The Dask community is actively working on implementing high-level graphs which will both speed up client -> scheduler communication and allow the scheduler to make advanced optmizations such as predicate pushdown.
 
-Much effort has been put into using traditional serialization strategies to communicate the HLG but this has proven prohibitively difficult to implement. The current plan is to simplify HighLevelGraph/Layer so that the entire HLG can be pickled on the client, sent to the scheduler as a single binary blob, and then unpickled/materialized (HLG->dict) on the scheduler.The problem with this new plan is that the pickle/un-pickle convention will require the scheduler to have the same environment as the client. If any Layer logic also requires a device allocation, then this approach also requires the scheduler to have access to a GPU.
+Much effort has been put into using existing serialization strategies to communicate the HLG but this has proven prohibitively difficult to implement. The current plan is to simplify HighLevelGraph/Layer so that the entire HLG can be pickled on the client, sent to the scheduler as a single binary blob, and then unpickled/materialized (HLG->dict) on the scheduler. The problem with this new plan is that the pickle/un-pickle convention will require the scheduler to have the same environment as the client. If any Layer logic also requires a device allocation, then this approach also requires the scheduler to have access to a GPU.
 
 ## So what are the minimum requirements of the scheduler?
 
