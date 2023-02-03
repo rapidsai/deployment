@@ -4,7 +4,7 @@ html_theme.sidebar_secondary.remove: true
 
 # Guides
 
-`````{grid} 1 2 2 3
+`````{gridtoctree} 1 2 2 3
 :gutter: 2 2 2 2
 
 ````{grid-item-card}
@@ -14,8 +14,8 @@ Multi-Instance GPUs
 ^^^
 Use RAPIDS with Multi-Instance GPUs
 
-{bdg-primary}`Dask Cluster`
-{bdg-primary}`XGBoost with Dask Cluster`
+{bdg}`Dask Cluster`
+{bdg}`XGBoost with Dask Cluster`
 ````
 
 ````{grid-item-card}
@@ -25,7 +25,7 @@ Infiniband on Azure
 ^^^
 How to setup InfiniBand on Azure.
 
-{bdg-primary}`Microsoft Azure`
+{bdg}`Microsoft Azure`
 ````
 
 ````{grid-item-card}
@@ -39,13 +39,3 @@ Guidance on Dask scheduler software and hardware requirements.
 ````
 
 `````
-
-```{toctree}
-:maxdepth: 2
-:caption: Guides
-:hidden:
-
-mig
-azure/infiniband
-scheduler-gpu-requirements
-```

@@ -14,8 +14,6 @@ import datetime
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("../extensions"))
-
 # -- Project information -----------------------------------------------------
 
 project = "RAPIDS Deployment Documentation"
@@ -28,6 +26,7 @@ author = "NVIDIA"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
+sys.path.insert(0, os.path.abspath("../extensions"))
 extensions = [
     "sphinx.ext.intersphinx",
     "myst_nb",
@@ -35,6 +34,8 @@ extensions = [
     "sphinx_design",
     "sphinx_copybutton",
     "rapids_notebook_files",
+    "rapids_related_examples",
+    "rapids_grid_toctree",
 ]
 
 myst_enable_extensions = ["colon_fence"]
@@ -65,9 +66,15 @@ html_theme_options = {
     "secondary_sidebar_items": [
         "page-toc",
         "notebooks-extra-files-nav",
+        "notebooks-tags",
     ],
 }
 
+html_sidebars = {
+    "**": ["sidebar-nav-bs", "sidebar-ethical-ads"],
+    "index": [],
+    "examples/index": ["notebooks-tag-filter", "sidebar-ethical-ads"],
+}
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
@@ -91,7 +98,9 @@ intersphinx_mapping = {
 
 def setup(app):
     app.add_css_file("https://docs.rapids.ai/assets/css/custom.css")
+    app.add_css_file("css/custom.css")
     app.add_js_file(
         "https://docs.rapids.ai/assets/js/custom.js", loading_method="defer"
     )
     app.add_js_file("js/nav.js", loading_method="defer")
+    app.add_js_file("js/notebook-gallery.js", loading_method="defer")
