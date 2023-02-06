@@ -1,9 +1,9 @@
 # FROM rapidsai/rapidsai-cloud-ml:latest
-FROM rapidsai/rapidsai-nightly:22.12-cuda11.5-runtime-ubuntu18.04-py3.9
+FROM rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu20.04-py3.9
 
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential 
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential
 
-RUN source activate rapids && pip install sagemaker-training 
+RUN source activate rapids && pip install sagemaker-training
 
 # Copies the training code inside the container
 COPY rapids-higgs.py /opt/ml/code/rapids-higgs.py
