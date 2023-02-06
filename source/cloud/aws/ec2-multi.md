@@ -58,6 +58,7 @@ Here's a small utility for parsing credential profiles.
 ```python
 import os
 import configparser
+import contextlib
 
 def get_aws_credentials(*, aws_profile="default"):
     parser = configparser.RawConfigParser()
