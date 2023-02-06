@@ -33,16 +33,18 @@ To do this, you'll first need to run `aws configure` and ensure the credentials 
 ```python
 from dask_cloudprovider.aws import EC2Cluster
 
-cluster = EC2Cluster(instance_type="g4dn.12xlarge",  # 4 T4 GPUs
-                     docker_image="rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu20.04-py3.9",
-                     worker_class="dask_cuda.CUDAWorker",
-                     worker_options = {'rmm-managed-memory':True},
-                     security_groups=["<SECURITY GROUP ID>"],
-                     docker_args = '--shm-size=256m -e DISABLE_JUPYTER=true',
-                     n_workers=3,
-                     security=False,
-                     availability_zone="us-east-1a",
-                     region="us-east-1")
+cluster = EC2Cluster(
+    instance_type="g4dn.12xlarge",  # 4 T4 GPUs
+    docker_image="rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu20.04-py3.9",
+    worker_class="dask_cuda.CUDAWorker",
+    worker_options={"rmm-managed-memory": True},
+    security_groups=["<SECURITY GROUP ID>"],
+    docker_args="--shm-size=256m -e DISABLE_JUPYTER=true",
+    n_workers=3,
+    security=False,
+    availability_zone="us-east-1a",
+    region="us-east-1",
+)
 ```
 
 ```{warning}
@@ -60,13 +62,14 @@ import os
 import configparser
 import contextlib
 
+
 def get_aws_credentials(*, aws_profile="default"):
     parser = configparser.RawConfigParser()
-    parser.read(os.path.expanduser('~/.aws/config'))
+    parser.read(os.path.expanduser("~/.aws/config"))
     config = parser.items(
         f"profile {aws_profile}" if aws_profile != "default" else "default"
     )
-    parser.read(os.path.expanduser('~/.aws/credentials'))
+    parser.read(os.path.expanduser("~/.aws/credentials"))
     credentials = parser.items(aws_profile)
     all_credentials = {key.upper(): value for key, value in [*config, *credentials]}
     with contextlib.suppress(KeyError):
@@ -75,8 +78,7 @@ def get_aws_credentials(*, aws_profile="default"):
 ```
 
 ```python
-cluster = EC2Cluster(...,
-              env_vars=get_aws_credentials(aws_profile="foo"))
+cluster = EC2Cluster(..., env_vars=get_aws_credentials(aws_profile="foo"))
 ```
 
 ````
