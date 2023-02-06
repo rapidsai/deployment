@@ -54,7 +54,7 @@ Deploying an interactive single-user notebook can provide a great place to launc
 
 To do this you'll need to create a couple of extra resources when launching your notebook `Pod`.
 
-### RBAC Service account and role
+### Service account and role
 
 To be able to interact with the Kubernetes API from within your notebook and create Dask resources you'll need to create a service account with an attached role.
 
@@ -143,7 +143,7 @@ spec:
         name: jupyter-server-proxy-config
 ```
 
-We also might want to configure Ask to know where to look for the Dashboard via the proxied URL. We can set this via an environment variable in our `Pod`.
+We also might want to configure Dask to know where to look for the Dashboard via the proxied URL. We can set this via an environment variable in our `Pod`.
 
 ```yaml
 apiVersion: v1
