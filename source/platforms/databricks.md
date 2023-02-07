@@ -10,27 +10,25 @@ Your machine must be running a recent Docker daemon (one that is tested and work
 $ docker version
 ```
 
-Databricks recommends that you build from a Docker base that Databricks has built and tested, but it is also possible to work with your custome Follow the instructions below to get started:
+Follow the instructions below to get started with using the Rapids custom image in Databricks:
 
-## Configure and create a cluster
+## Build the RAPIDS container
 
-- Create your cluster:
+```console
+$ docker build --tag <username>/rapids_databricks:latest --build-arg RAPIDS_IMAGE=rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu18.04-py3.9 ./docker
+```
 
-  1. Name your cluster, and select either `Multi` or `Single` Node
+Push this image to a Docker registry (DockerHub, Amazon ECR or Azure ACR).
 
-  2. Select a Standard Databricks runtime. For example 12.1(Scala 2.12, Spark 3.3.1). This needs to be a Databricks runtime version that supports Databricks Container Services.
+## Configure and create GPU-enabled cluster
 
-     - **Note** Databricks Runtime for Machine Learning does not support Databricks Container Services.
-
-  3. For Node type, Select a GPU enabled worker and driver type. Selected GPU must be Pascal generation or greater.
-
-  4. Under **Advanced Options**, in the the **Docker** tab select "Use your own Docker container".
-
-     In the Docker Image URL field, enter the Rapids image name, in this case:`rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu18.04-py3.9`
-
-  5. Select the authentication type, you can use default or manually input username and password for your DockerHub account
-
-  6. Create and launch your cluster
+1. In Databricks > Compute > Create compute > Name your cluster, and select either `Multi` or `Single` Node
+2. Select a Standard Databricks runtime. This needs to be a Databricks runtime version that supports Databricks Container Services.
+   - **Note** Databricks Runtime for Machine Learning does not support Databricks Container Services.
+3. Under **Advanced Options**, in the the **Docker** tab select "Use your own Docker container". In the Docker Image URL field, enter the image that you created above
+4. For Node type, Select a GPU enabled worker and driver type. Selected GPU must be Pascal generation or greater (eg: g4dn.xlarge)
+5. Select the authentication type, you can use default or manually input username and password for your DockerHub account
+6. Create and launch your cluster
 
 ## Test Rapids
 
