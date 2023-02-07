@@ -1,6 +1,6 @@
 # RAPIDS on Databricks
 
-## Prerequisites
+## 0.Prerequisites
 
 Your Databricks workspace must have Databricks Container Services [enabled](https://docs.databricks.com/administration-guide/clusters/container-services.html).
 
@@ -22,10 +22,11 @@ It is recommended to build Docker from a base that is built and tested by Databr
 
 Follow the instructions below to get started with using a Rapids custom image in Databricks:
 
-## Build the RAPIDS container
+## 1.Build the RAPIDS container
 
 ```console
 ARG RAPIDS_IMAGE
+
 FROM $RAPIDS_IMAGE as rapids
 
 RUN conda list -n rapids --explicit > /rapids/rapids-spec.txt
@@ -44,7 +45,7 @@ $ docker build --tag <username>/rapids_databricks:latest --build-arg RAPIDS_IMAG
 
 Push this image to a Docker registry (DockerHub, Amazon ECR or Azure ACR).
 
-## Configure and create GPU-enabled cluster
+## 2.Configure and create GPU-enabled cluster
 
 1. In Databricks > Compute > Create compute > Name your cluster, and select either `Multi` or `Single` Node
 2. Select a Standard Databricks runtime. This needs to be a Databricks runtime version that supports Databricks Container Services.
@@ -54,7 +55,7 @@ Push this image to a Docker registry (DockerHub, Amazon ECR or Azure ACR).
 5. Select the authentication type, you can use default or manually input username and password for your DockerHub account
 6. Create and launch your cluster
 
-## Test Rapids
+## 3.Test Rapids
 
 ## More on Integrating Databricks Jobs with MLFlow and RAPIDS
 
