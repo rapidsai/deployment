@@ -10,9 +10,33 @@ Your machine must be running a recent Docker daemon (one that is tested and work
 $ docker version
 ```
 
-Follow the instructions below to get started with using the Rapids custom image in Databricks:
+It is recommended to build Docker from a base that is built and tested by Databricks. But you can also build your Docker base from scratch. The Docker image must meet these requirements (which are pre-installed in any of the [Databricks runtime](https://hub.docker.com/u/databricksruntime) images)
+
+- JDK 8u191 as Java on the system PATH
+- bash
+- iproute2 (ubuntu iproute)
+- coreutils (ubuntu coreutils)
+- procps (ubuntu procps)
+- sudo (ubuntu sudo)
+- Ubuntu Linux
+
+Follow the instructions below to get started with using a Rapids custom image in Databricks:
 
 ## Build the RAPIDS container
+
+```console
+ARG RAPIDS_IMAGE
+FROM $RAPIDS_IMAGE as rapids
+
+RUN conda list -n rapids --explicit > /rapids/rapids-spec.txt
+
+FROM databricksruntime/gpu-conda:cuda11
+
+COPY --from=rapids /rapids/rapids-spec.txt /tmp/spec.txt
+
+RUN conda create --name rapids --file /tmp/spec.txt && \
+    rm -f /tmp/spec.txt
+```
 
 ```console
 $ docker build --tag <username>/rapids_databricks:latest --build-arg RAPIDS_IMAGE=rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu18.04-py3.9 ./docker
