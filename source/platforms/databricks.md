@@ -34,13 +34,15 @@ Push this image to a Docker registry (DockerHub, Amazon ECR or Azure ACR).
 ## 2. Configure and create GPU-enabled cluster
 
 1. Compute > Create compute > Name your cluster > Select `Multi` or `Single` Node
-2. Select a Standard Databricks runtime.**Note** Databricks ML Runtime does not support Databricks Container Services
-3. Under **Advanced Options**, in the the **Docker** tab select "Use your own Docker container"
-4. In the Docker Image URL field, enter the image that you created above and Select authentication type
-5. Select a GPU enabled worker and driver type
+2. Select a Standard Databricks runtime.
+   - **Note** Databricks ML Runtime does not support Databricks Container Services
+3. Under **Advanced Options**, in the the **Docker** tab select **"Use your own Docker container"**
+   - In the Docker Image URL field, enter the image that you created above
+   - Select the authentication type
+4. Select a GPU enabled worker and driver type
    - Selected GPU must be Pascal generation or greater (eg: `g4dn.xlarge`)
-6. Create and launch your cluster
+5. Create and launch your cluster
 
 ## 3. Test Rapids
 
-You can find more detail on Integrating Databricks Jobs with MLFlow and RAPIDS in this [blog post](https://medium.com/rapids-ai/managing-and-deploying-high-performance-machine-learning-models-on-gpus-with-rapids-and-mlflow-753b6fcaf75a).
+For more details on Integrating Databricks Jobs with MLFlow and RAPIDS, check out this [blog post](https://medium.com/rapids-ai/managing-and-deploying-high-performance-machine-learning-models-on-gpus-with-rapids-and-mlflow-753b6fcaf75a).
