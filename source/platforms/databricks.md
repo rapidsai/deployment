@@ -1,6 +1,6 @@
 # RAPIDS on Databricks
 
-## 0.Prerequisites
+## 0. Pre-requisites
 
 1. Your Databricks workspace must have Databricks Container Services [enabled](https://docs.databricks.com/administration-guide/clusters/container-services.html).
 
@@ -8,7 +8,7 @@
 
 3. It is recommended to build from a [base image](https://hub.docker.com/u/databricksruntime) that is built and tested by Databricks. But you can also build your Docker base from scratch. The Docker image must meet these [requirements](https://docs.databricks.com/clusters/custom-containers.html#option-2-build-your-own-docker-base)
 
-## 1.Build custom RAPIDS container
+## 1. Build custom RAPIDS container
 
 ```console
 ARG RAPIDS_IMAGE
@@ -29,9 +29,9 @@ RUN conda create --name rapids --file /tmp/spec.txt && \
 $ docker build --tag <username>/rapids_databricks:latest --build-arg RAPIDS_IMAGE=rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu18.04-py3.9 ./docker
 ```
 
-## 2.Push image to Docker registry (DockerHub, Amazon ECR or Azure ACR)
+Push this image to a Docker registry (DockerHub, Amazon ECR or Azure ACR).
 
-## 3.Configure and create GPU-enabled cluster
+## 2. Configure and create GPU-enabled cluster
 
 1. In Databricks > Compute > Create compute > Name your cluster, and select either `Multi` or `Single` Node
 2. Select a Standard Databricks runtime that supports Databricks Container Services.
@@ -41,8 +41,6 @@ $ docker build --tag <username>/rapids_databricks:latest --build-arg RAPIDS_IMAG
 5. Select the authentication type, you can use default or manually input username and password for your DockerHub account
 6. Create and launch your cluster
 
-## 4.Test Rapids
+## 3. Test Rapids
 
-## More on Integrating Databricks Jobs with MLFlow and RAPIDS
-
-You can find more detail in [this blog post on MLFlow + RAPIDS](https://medium.com/rapids-ai/managing-and-deploying-high-performance-machine-learning-models-on-gpus-with-rapids-and-mlflow-753b6fcaf75a).
+More on Integrating Databricks Jobs with MLFlow and RAPIDS: You can find more detail in [this blog post on MLFlow + RAPIDS](https://medium.com/rapids-ai/managing-and-deploying-high-performance-machine-learning-models-on-gpus-with-rapids-and-mlflow-753b6fcaf75a).
