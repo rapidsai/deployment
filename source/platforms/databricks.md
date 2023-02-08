@@ -2,27 +2,13 @@
 
 ## 0.Prerequisites
 
-Your Databricks workspace must have Databricks Container Services [enabled](https://docs.databricks.com/administration-guide/clusters/container-services.html).
+1. Your Databricks workspace must have Databricks Container Services [enabled](https://docs.databricks.com/administration-guide/clusters/container-services.html).
 
-Your machine must be running a recent Docker daemon (one that is tested and works with Version 18.03.0-ce) and the docker command must be available on your PATH:
+2. Your machine must be running a recent Docker daemon (one that is tested and works with Version 18.03.0-ce) and the `$ docker version` command must be available on your PATH:
 
-```console
-$ docker version
-```
+3. It is recommended to build from a [base image](https://hub.docker.com/u/databricksruntime) that is built and tested by Databricks. But you can also build your Docker base from scratch. The Docker image must meet these [requirements](https://docs.databricks.com/clusters/custom-containers.html#option-2-build-your-own-docker-base)
 
-It is recommended to build Docker from a base that is built and tested by Databricks. But you can also build your Docker base from scratch. The Docker image must meet these requirements (which are pre-installed in any of the [Databricks runtime](https://hub.docker.com/u/databricksruntime) images)
-
-- JDK 8u191 as Java on the system PATH
-- bash
-- iproute2 (ubuntu iproute)
-- coreutils (ubuntu coreutils)
-- procps (ubuntu procps)
-- sudo (ubuntu sudo)
-- Ubuntu Linux
-
-Follow the instructions below to get started with using a Rapids custom image in Databricks:
-
-## 1.Build the RAPIDS container
+## 1.Build custom RAPIDS container
 
 ```console
 ARG RAPIDS_IMAGE
