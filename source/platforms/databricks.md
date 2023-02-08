@@ -29,19 +29,19 @@ RUN conda create --name rapids --file /tmp/spec.txt && \
 $ docker build --tag <username>/rapids_databricks:latest --build-arg RAPIDS_IMAGE=rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu18.04-py3.9 ./docker
 ```
 
-Push this image to a Docker registry (DockerHub, Amazon ECR or Azure ACR).
+## 2.Push image to Docker registry (DockerHub, Amazon ECR or Azure ACR)
 
-## 2.Configure and create GPU-enabled cluster
+## 3.Configure and create GPU-enabled cluster
 
 1. In Databricks > Compute > Create compute > Name your cluster, and select either `Multi` or `Single` Node
-2. Select a Standard Databricks runtime. This needs to be a Databricks runtime version that supports Databricks Container Services.
+2. Select a Standard Databricks runtime that supports Databricks Container Services.
    - **Note** Databricks Runtime for Machine Learning does not support Databricks Container Services.
 3. Under **Advanced Options**, in the the **Docker** tab select "Use your own Docker container". In the Docker Image URL field, enter the image that you created above
-4. For Node type, Select a GPU enabled worker and driver type. Selected GPU must be Pascal generation or greater (eg: g4dn.xlarge)
+4. For Node type, Select a GPU enabled worker and driver type. Selected GPU must be Pascal generation or greater (eg: `g4dn.xlarge`)
 5. Select the authentication type, you can use default or manually input username and password for your DockerHub account
 6. Create and launch your cluster
 
-## 3.Test Rapids
+## 4.Test Rapids
 
 ## More on Integrating Databricks Jobs with MLFlow and RAPIDS
 
