@@ -2,13 +2,11 @@
 <div class="tocsection onthispage">
   <i class="fa-regular fa-file"></i> Related files
 </div>
-<nav id="bd-toc-nav" class="page-toc">
+<nav id="bd-toc-nav" class="page-toc related-files">
   <ul class="visible nav section-nav flex-column">
-    {% for file in related_notebook_files %}
+    {% for name, url in related_notebook_files %}
     <li class="toc-h2 nav-item toc-entry">
-      <a class="reference external nav-link" href="{{ file }}">
-        {{ file.split("/")[-1] }}
-      </a>
+      <a class="reference external nav-link" href="{{ url }}"> {{ name }} </a>
     </li>
     {% endfor %}
   </ul>

@@ -19,14 +19,19 @@ def find_notebook_related_files(app, pagename, templatename, context, doctree):
         rel_page_parent = pathlib.Path(pagename).parent
         path_to_page_parent = source_root / rel_page_parent
 
+        related_notebook_dirs = []
         related_notebook_files = []
         for page in path_to_page_parent.glob("*"):
             if "ipynb" not in page.name:
-                related_notebook_files.append(
-                    f"{base_url}{rel_page_parent}/{page.name}"
-                )
+                url = f"{base_url}{rel_page_parent}/{page.name}"
+                if (path_to_page_parent / page).is_dir():
+                    related_notebook_dirs.append((page.name + "/", url))
+                else:
+                    related_notebook_files.append((page.name, url))
 
-        context["related_notebook_files"] = related_notebook_files
+        context["related_notebook_files"] = (
+            related_notebook_dirs + related_notebook_files
+        )
 
 
 def setup(app):

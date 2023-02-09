@@ -14,6 +14,10 @@ nav.bd-links fieldset input {
   padding-right: 2em;
 }
 
+nav.related-files {
+  font-family: var(--pst-font-family-monospace);
+}
+
 nav.bd-links fieldset .sd-badge {
   font-size: 0.9em;
 }
@@ -37,7 +41,9 @@ nav.bd-links fieldset .sd-badge {
 .tag-dask-yarn,
 .tag-dask-gateway,
 .tag-dask-jobqueue,
-.tag-dask-helm-chart {
+.tag-dask-helm-chart,
+.tag-dask-cloudprovider,
+.tag-dask-ml {
   color: #262326;
   background-color: #ffc11e !important;
   border-left: 0.5em #ffc11e solid;
@@ -60,8 +66,23 @@ nav.bd-links fieldset .sd-badge {
   border-left: 0.5em #045895 solid;
 }
 
+.tag-numpy {
+  background-color: #4ba6c9;
+  border-left: 0.5em #4670c8 solid;
+}
+
 .tag-scikit-learn {
   color: #030200;
   background-color: #f09436;
   border-left: 0.5em #3194c7 solid;
+}
+
+.tag-dataset {
+  background-color: #cc539d;
+  border-left: 0.5em #cc539d solid;
+}
+
+.tag-workflow {
+  background-color: #348653;
+  border-left: 0.5em #348653 solid;
 }
