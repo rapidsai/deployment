@@ -31,7 +31,7 @@ set -e
 
 sudo -u ec2-user -i <<'EOF'
 
-mamba create -y -n rapids -c rapidsai -c conda-forge -c nvidia rapids=22.12 python=3.9 cudatoolkit=11.5 ipykernel
+mamba create -y -n rapids {{ rapids_conda_channels }} {{ rapids_conda_packages }} ipykernel
 conda activate rapids
 
 # optionally install AutoGluon for AutoML GPU demo

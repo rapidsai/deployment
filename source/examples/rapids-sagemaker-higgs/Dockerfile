@@ -1,5 +1,6 @@
-# FROM rapidsai/rapidsai-cloud-ml:latest
-FROM rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu20.04-py3.9
+ARG RAPIDS_IMAGE
+
+FROM $RAPIDS_IMAGE as rapids
 
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential
 
