@@ -100,6 +100,25 @@ This repository is continuously deployed to the [nightly docs at docs.rapids.ai]
 
 We can also update the [stable documentation at docs.rapids.ai](https://docs.rapids.ai/deployment/stable/) by creating and pushing a tag which will cause the `build-and-deploy` workflow to push to the [`deployment/stable` subdirectory](https://github.com/rapidsai/docs/tree/gh-pages/deployment) instead.
 
+The RAPIDS versions for things like container images and install instructions are templated into the documentation pages and are stored in `source/conf.py`.
+
+```python
+versions = {
+    "stable": {
+        "rapids_container": "rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu20.04-py3.9",
+    },
+    "nightly": {
+        "rapids_container": "rapidsai/rapidsai-core-nightly:23.02-cuda11.5-runtime-ubuntu20.04-py3.9",
+    },
+}
+```
+
+All builds will use the nightly section by default which allows you to test with the latest and greatest containers when developing locally or previewing nightly docs builds. To build the docs using the stable images you need to set the environment variable `DEPLOYMENT_DOCS_BUILD_STABLE` to `true`. This is done automatically when building from a tag in CI.
+
+Before you publish a new version for a release ensure that the latest container images are available and then update the `stable` config to use the new release version and update `nightly` to use the next upcoming nightly.
+
+Then you can push a tag to release.
+
 ```bash
 # Set next version number
 # See https://docs.rapids.ai/resources/versions/ and past releases for version scheme

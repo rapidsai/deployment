@@ -20,6 +20,19 @@ project = "RAPIDS Deployment Documentation"
 copyright = f"{datetime.date.today().year}, NVIDIA"
 author = "NVIDIA"
 
+versions = {
+    "stable": {
+        "rapids_container": "rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu20.04-py3.9",
+    },
+    "nightly": {
+        "rapids_container": "rapidsai/rapidsai-core-nightly:23.02-cuda11.5-runtime-ubuntu20.04-py3.9",
+    },
+}
+rapids_version = (
+    versions["stable"]
+    if os.environ.get("DEPLOYMENT_DOCS_BUILD_STABLE", "false") == "true"
+    else versions["nightly"]
+)
 
 # -- General configuration ---------------------------------------------------
 
@@ -36,6 +49,7 @@ extensions = [
     "rapids_notebook_files",
     "rapids_related_examples",
     "rapids_grid_toctree",
+    "rapids_version_templating",
 ]
 
 myst_enable_extensions = ["colon_fence"]
