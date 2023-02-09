@@ -61,7 +61,7 @@ html_theme_options = {
     "header_links_before_dropdown": 7,
     "logo": {
         "link": "https://docs.rapids.ai/",
-    }, 
+    },
     "github_url": "https://github.com/rapidsai/",
     "show_toc_level": 1,
     "navbar_align": "right",
