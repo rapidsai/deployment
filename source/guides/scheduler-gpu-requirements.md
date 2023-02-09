@@ -33,7 +33,7 @@ Many Dask collections also have a meta object which represents the overall colle
 
 ### Example failure modes
 
-When using the default TCP communication protocol, the scheduler generally does _not_ inspect data communicated between clients and workers, so many workflows will not provoke failure. For example, suppose we set up a Dask cluster and do not provide the scheduler with a GPU. The following simple computation with [cupy](https://cupy.dev)-backed Dask arrays completes successfully
+When using the default TCP communication protocol, the scheduler generally does _not_ inspect data communicated between clients and workers, so many workflows will not provoke failure. For example, suppose we set up a Dask cluster and do not provide the scheduler with a GPU. The following simple computation with [CuPy](https://cupy.dev)-backed Dask arrays completes successfully
 
 ```python
 import cupy
