@@ -58,9 +58,11 @@ rapids_deployment_notebooks_base_url = (
 # -- Options for HTML output -------------------------------------------------
 
 html_theme_options = {
-    "external_links": [],
-    "github_url": "https://github.com/rapidsai/deployment",
-    "twitter_url": "https://twitter.com/rapidsai",
+    "header_links_before_dropdown": 7,
+    "logo": {
+        "link": "https://docs.rapids.ai/",
+    },
+    "github_url": "https://github.com/rapidsai/",
     "show_toc_level": 1,
     "navbar_align": "right",
     "secondary_sidebar_items": [
