@@ -39,4 +39,14 @@ Run RAPIDS on Coiled.
 {bdg}`multi-node`
 ````
 
+````{grid-item-card}
+:link: databricks
+:link-type: doc
+Databricks
+^^^
+Run RAPIDS on Databricks.
+
+{bdg}`multi-node`
+````
+
 `````
