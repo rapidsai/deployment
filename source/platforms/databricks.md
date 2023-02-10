@@ -1,4 +1,4 @@
-# RAPIDS on Databricks
+# Databricks
 
 To use RAPIDS on Databricks we can create and launch a compute cluster with the RAPIDS libraries.
 
@@ -6,7 +6,7 @@ To use RAPIDS on Databricks we can create and launch a compute cluster with the 
 
 1. Your Databricks workspace must have [Databricks Container Services enabled](https://docs.databricks.com/administration-guide/clusters/container-services.html).
 
-2. You'll need [Docker](https://docs.docker.com/engine/reference/commandline/cli/) and a Docker registry such as [DockerHub](https://hub.docker.com/) or [Amazon ECR](https://aws.amazon.com/ecr/) where you can publish images.
+2. You'll need [Docker](https://docs.docker.com/engine/reference/commandline/cli/) and a container registry such as [DockerHub](https://hub.docker.com/) or [Amazon ECR](https://aws.amazon.com/ecr/) where you can publish images.
 
 ## Build custom RAPIDS container
 
@@ -46,18 +46,21 @@ $ docker push <registry>/<username>/rapids_databricks:latest
 Next we can create a compute cluster on Databricks and use our RAPIDS powered container image.
 
 1. Open the [Databricks control panel](https://accounts.cloud.databricks.com).
-2. Navigate to Compute > Create compute
-3. Name your cluster
+2. Navigate to Compute > Create compute.
+3. Name your cluster.
 4. Select `Multi node` or `Single node` depending on the type of cluster you want to launch.
 5. Select a Standard Databricks runtime.
-   - **Note** Databricks ML Runtime does not support Databricks Container Services
+   - **Note** Databricks ML Runtime does not support Databricks Container Services.
    - You may also need to uncheck "Use Photon Acceleration".
-6. Select a GPU enabled worker and driver type
-   - Selected GPU must be Pascal generation or greater (eg: `g4dn.xlarge`)
-7. Under **Advanced Options**, in the the **Docker** tab select **"Use your own Docker container"**
-   - In the Docker Image URL field, enter the image that you created above
-   - Select the authentication type
-8. Create and launch your cluster
+6. Under **Advanced Options**, in the the **Docker** tab select **Use your own Docker container**.
+   - In the Docker Image URL field, enter the image that you created above.
+   - Select the authentication type.
+7. Also under **Advanced Options**, in the **Spark** tab add the following configuration line.
+   - `spark.databricks.driverNfs.enabled false`
+8. Scroll back up to **Performance** and select a GPU enabled node type.
+   - Selected GPU must be Pascal generation or greater (eg: `g4dn.xlarge`).
+   - You will need to have checked **Use your own Docker container** in the previous step in order for GPU nodes to be available.
+9. Create and launch your cluster.
 
 ## Test Rapids
 
