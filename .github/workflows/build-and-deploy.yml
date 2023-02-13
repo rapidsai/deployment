@@ -30,6 +30,8 @@ jobs:
           environment-file: conda/environments/deployment_docs.yml
 
       - name: Build
+        env:
+          DEPLOYMENT_DOCS_BUILD_STABLE: ${{ startsWith(github.event.ref, 'refs/tags/') && 'true' || 'false' }}
         run: make html
 
       # If on main in the upstream repo then push to docs repo
