@@ -113,6 +113,14 @@ versions = {
 }
 ```
 
+You can then use the value in any documentation page or notebook like this.
+
+```markdown
+# My doc page
+
+The latest container image is {{ rapids_container }}.
+```
+
 All builds will use the nightly section by default which allows you to test with the latest and greatest containers when developing locally or previewing nightly docs builds. To build the docs using the stable images you need to set the environment variable `DEPLOYMENT_DOCS_BUILD_STABLE` to `true`. This is done automatically when building from a tag in CI.
 
 Before you publish a new version for a release ensure that the latest container images are available and then update the `stable` config to use the new release version and update `nightly` to use the next upcoming nightly.
