@@ -58,10 +58,41 @@ Then in Jupyter select the `rapids` kernel when working with a new notebook.
 
 RAPIDS can also be used in [SageMaker Estimators](https://sagemaker.readthedocs.io/en/stable/api/training/estimators.html). Estimators allow you to launch training jobs on ephemeral VMs which SageMaker manages for you. The benefit of this is that your Notebook Instance doesn't need to have a GPU, so you are only charged for GPU instances for the time that your training job is running.
 
-Q: How do I launch a SNMG/MNMNG training job on SageMaker? A: Use an Estimator.
-Q: How do I use an Estimator? A: Write a script to run your work and package it in a container image.
-Q: What are the requirements for the container image? A: It needs your Python environment with the sagemaker package.
-Etc.
+All you’ll need to do is bring in your RAPIDS training script and libraries as a Docker container image and ask Amazon SageMaker to run copies of it in-parallel on a specified number of GPU instances in the cloud. Let’s take a closer look at how this works through a step-by-step approach:
+
+- Training script should accept hyperparameters as arguments. Starting with the base Rapids container (pulled from [Docker Hub](https://hub.docker.com/u/rapidsai)), use a Docker file to augment it by copying your training code and set WORKDIR`path to the code.
+
+- Install [sagemaker-training toolkit](https://github.com/aws/sagemaker-training-toolkit) to make the container compatible with Sagemaker. Add other packages as needed for your workflow needs e.g. python, flask (model serving), dask-ml etc.
+
+- Push the image to a container registry (ECR).
+
+![Screenshot of summarized step to build Estimator](../../images/sagemaker-containerize-and-publish.png)
+
+- Having built our container [ +custom logic], compile all efforts into an Estimator instance. Test the Estimator and run parallel hyperparameter optimization tuning jobs.
+
+```console
+estimator = sagemaker.estimator.Estimator(image_uri, role, instance_type, instance_count,
+                                        input_mode, output_path,
+                                        use_spot_instances,
+                                        max_run=86400,
+                                        sagemaker_session)
+
+estimator.fit(inputs = s3_data_input, job_name = job_name)
+
+
+hpo = sagemaker.tuner.HyperparameterTuner(estimator,,
+                                        metric_definitions,
+                                        objective_metric_name,
+                                        objective_type='Maximize',
+                                        hyperparameter_ranges,
+                                        strategy,
+                                        max_jobs,
+                                        max_parallel_jobs)
+hpo.fit(inputs=s3_data_input,
+        job_name=tuning_job_name,
+        wait=True,
+        logs='All')
+```
 
 ### Upload data to S3
 
