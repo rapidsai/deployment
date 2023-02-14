@@ -60,7 +60,7 @@ RAPIDS can also be used in [SageMaker Estimators](https://sagemaker.readthedocs.
 
 All you’ll need to do is bring in your RAPIDS training script and libraries as a Docker container image and ask Amazon SageMaker to run copies of it in-parallel on a specified number of GPU instances in the cloud. Let’s take a closer look at how this works through a step-by-step approach:
 
-- Training script should accept hyperparameters as arguments. Starting with the base Rapids container (pulled from [Docker Hub](https://hub.docker.com/u/rapidsai)), use a Docker file to augment it by copying your training code and set `WORKDIR` path to the code.
+- Training script should accept hyperparameters as arguments. Starting with the base RAPIDS container (pulled from [Docker Hub](https://hub.docker.com/u/rapidsai)), use a `Dockerfile` to augment it by copying your training code and set `WORKDIR` path to the code.
 
 - Install [sagemaker-training toolkit](https://github.com/aws/sagemaker-training-toolkit) to make the container compatible with Sagemaker. Add other packages as needed for your workflow needs e.g. python, flask (model serving), dask-ml etc.
 
