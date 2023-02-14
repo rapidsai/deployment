@@ -1,4 +1,6 @@
-FROM rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu18.04-py3.9
+ARG RAPIDS_IMAGE
+
+FROM $RAPIDS_IMAGE as rapids
 
 # add sagemaker-training-toolkit [ requires build tools ], flask [ serving ], and dask-ml
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential \
