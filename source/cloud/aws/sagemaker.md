@@ -58,6 +58,11 @@ Then in Jupyter select the `rapids` kernel when working with a new notebook.
 
 RAPIDS can also be used in [SageMaker Estimators](https://sagemaker.readthedocs.io/en/stable/api/training/estimators.html). Estimators allow you to launch training jobs on ephemeral VMs which SageMaker manages for you. The benefit of this is that your Notebook Instance doesn't need to have a GPU, so you are only charged for GPU instances for the time that your training job is running.
 
+Q: How do I launch a SNMG/MNMNG training job on SageMaker? A: Use an Estimator.
+Q: How do I use an Estimator? A: Write a script to run your work and package it in a container image.
+Q: What are the requirements for the container image? A: It needs your Python environment with the sagemaker package.
+Etc.
+
 ### Upload data to S3
 
 We offer the dataset for this demo in a public bucket hosted in either the [`us-east-1`](https://s3.console.aws.amazon.com/s3/buckets/sagemaker-rapids-hpo-us-east-1/) or [`us-west-2`](https://s3.console.aws.amazon.com/s3/buckets/sagemaker-rapids-hpo-us-west-2/) regions
