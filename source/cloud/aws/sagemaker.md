@@ -70,7 +70,7 @@ All you’ll need to do is bring in your RAPIDS training script and libraries as
 
 - Having built our container [ +custom logic], compile all efforts into an Estimator instance. Test the Estimator and run parallel hyperparameter optimization tuning jobs.
 
-```console
+```python
 estimator = sagemaker.estimator.Estimator(image_uri, role, instance_type, instance_count,
                                         input_mode, output_path,
                                         use_spot_instances,
