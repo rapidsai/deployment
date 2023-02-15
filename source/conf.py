@@ -54,6 +54,7 @@ extensions = [
     "rapids_related_examples",
     "rapids_grid_toctree",
     "rapids_version_templating",
+    "rapids_admonitions",
 ]
 
 myst_enable_extensions = ["colon_fence"]

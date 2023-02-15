@@ -33,6 +33,27 @@ $ make html
 
 Content in these docs are written in markdown using the [MyST Sphinx extension](https://myst-parser.readthedocs.io/en/v0.15.1/syntax/syntax.html).
 
+### Custom admonitions
+
+This Sphinx site has some custom admonitions to help when writing.
+
+#### Docref
+
+You can link to another documentation page with a `docref` admonition.
+
+````markdown
+```{docref} /cloud/gcp/gke
+For more detailed information on launching GPU powered Kubernetes clusters on Google Cloud see the documentation.
+```
+````
+
+Renders as:
+
+![Screenshot of the rendered docref admonition](source/images/docref-admonition.png)
+
+> **Note**
+> The `Visit the documentation >>` link is added automatically in the bottom right based on the page that is referenced in the directive argument.
+
 ### Notebooks
 
 The `examples` section of these docs are written in Jupyter Notebooks and built with [MyST-NB](https://myst-nb.readthedocs.io/en/latest/).
