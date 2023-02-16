@@ -71,27 +71,32 @@ All you’ll need to do is bring in your RAPIDS training script and libraries as
 - Having built our container [ +custom logic], compile all efforts into an Estimator instance. Test the Estimator and run parallel hyperparameter optimization tuning jobs.
 
 ```python
-estimator = sagemaker.estimator.Estimator(image_uri, role, instance_type, instance_count,
-                                        input_mode, output_path,
-                                        use_spot_instances,
-                                        max_run=86400,
-                                        sagemaker_session)
+estimator = sagemaker.estimator.Estimator(
+    image_uri,
+    role,
+    instance_type,
+    instance_count,
+    input_mode,
+    output_path,
+    use_spot_instances,
+    max_run=86400,
+    sagemaker_session,
+)
 
-estimator.fit(inputs = s3_data_input, job_name = job_name)
+estimator.fit(inputs=s3_data_input, job_name=job_name)
 
 
-hpo = sagemaker.tuner.HyperparameterTuner(estimator,,
-                                        metric_definitions,
-                                        objective_metric_name,
-                                        objective_type='Maximize',
-                                        hyperparameter_ranges,
-                                        strategy,
-                                        max_jobs,
-                                        max_parallel_jobs)
-hpo.fit(inputs=s3_data_input,
-        job_name=tuning_job_name,
-        wait=True,
-        logs='All')
+hpo = sagemaker.tuner.HyperparameterTuner(
+    estimator,
+    metric_definitions,
+    objective_metric_name,
+    objective_type="Maximize",
+    hyperparameter_ranges,
+    strategy,
+    max_jobs,
+    max_parallel_jobs,
+)
+hpo.fit(inputs=s3_data_input, job_name=tuning_job_name, wait=True, logs="All")
 ```
 
 ### Upload data to S3
