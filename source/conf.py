@@ -27,9 +27,9 @@ versions = {
         "rapids_conda_packages": "rapids=22.12 python=3.9 cudatoolkit=11.5",
     },
     "nightly": {
-        "rapids_container": "rapidsai/rapidsai-core-nightly:23.02-cuda11.5-runtime-ubuntu20.04-py3.9",
+        "rapids_container": "rapidsai/rapidsai-core-nightly:23.02-cuda11.5-runtime-ubuntu20.04-py3.10",
         "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge -c nvidia",
-        "rapids_conda_packages": "rapids=23.02 python=3.9 cudatoolkit=11.5",
+        "rapids_conda_packages": "rapids=23.02 python=3.10 cudatoolkit=11.5",
     },
 }
 rapids_version = (
