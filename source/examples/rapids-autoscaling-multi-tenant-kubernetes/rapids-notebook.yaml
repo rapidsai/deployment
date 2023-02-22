@@ -69,7 +69,7 @@ spec:
     fsGroup: 0
   containers:
     - name: rapids-notebook
-      image: rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu20.04-py3.9
+      image: us-central1-docker.pkg.dev/nv-ai-infra/rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu20.04-py3.9
       resources:
         limits:
           nvidia.com/gpu: 1
