@@ -1,30 +1,43 @@
 import re
 
+from docutils import nodes
 
-def version_template(app, docname, source):
-    """Substitute versions into each page.
-    This allows documentation pages and notebooks to substiture in values like
-    the latest container image using jinja2 syntax.
-    E.g
-        # My doc page
-        The latest container image is {{ rapids_container }}.
-    """
 
-    # Make sure we're outputting HTML
-    if app.builder.format != "html":
-        return
+class TextNodeVisitor(nodes.SparseNodeVisitor):
+    def __init__(self, app, *args, **kwargs):
+        self.app = app
+        super().__init__(*args, **kwargs)
 
-    def template_func(match):
-        return app.builder.templates.render_string(
-            match.group(), app.config.rapids_version
+    def visit_Text(self, node):
+        new_node = nodes.Text(re.sub(r"\{\{.*?\}\}", self.template_func, node.astext()))
+        node.parent.replace(node, new_node)
+
+    def template_func(self, match):
+        return self.app.builder.templates.render_string(
+            match.group(), self.app.config.rapids_version
         )
 
-    source[0] = re.sub(r"\{\{.*?\}\}", template_func, source[0])
+
+def version_template(app, doctree, docname):
+    """Substitute versions into each page.
+
+    This allows documentation pages and notebooks to substiture in values like
+    the latest container image using jinja2 syntax.
+
+    E.g
+
+        # My doc page
+
+        The latest container image is {{ rapids_container }}.
+
+    """
+
+    doctree.walk(TextNodeVisitor(app, doctree))
 
 
 def setup(app):
     app.add_config_value("rapids_version", {}, "html")
-    app.connect("source-read", version_template)
+    app.connect("doctree-resolved", version_template)
 
     return {
         "version": "0.1",
