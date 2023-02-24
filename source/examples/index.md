@@ -10,4 +10,5 @@ rapids-sagemaker-higgs/notebook
 rapids-sagemaker-hpo/notebook
 rapids-ec2-mnmg/notebook
 rapids-dask-cuml-exploration/notebook
+rapids-autoscaling-multi-tenant-kubernetes/notebook
 ```
