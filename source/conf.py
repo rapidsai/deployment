@@ -81,6 +81,8 @@ rapids_deployment_notebooks_base_url = (
 
 html_theme_options = {
     "header_links_before_dropdown": 7,
+    # https://github.com/pydata/pydata-sphinx-theme/issues/1220
+    "icon_links": [],
     "logo": {
         "link": "https://docs.rapids.ai/",
     },
