@@ -20,16 +20,16 @@ Azure's [Compute instance](https://learn.microsoft.com/en-us/azure/machine-learn
 
 ### Select your instance
 
-Sign in to Azure Machine Learning Studio and navigate to your workspace. On the left side, select Compute > +New > select a [RAPIDS compatible GPU](https://medium.com/dropout-analytics/which-gpus-work-with-rapids-ai-f562ef29c75f) (NVIDIA Pascal or greater with compute capability 6.0+) as the SageMaker Notebook instance type (e.g., ``).
+Sign in to Azure Machine Learning Studio and navigate to your workspace. On the left side, select Compute > +New > select a [RAPIDS compatible GPU](https://medium.com/dropout-analytics/which-gpus-work-with-rapids-ai-f562ef29c75f) (NVIDIA Pascal or greater with compute capability 6.0+) as the SageMaker Notebook instance type (e.g., `standard_nc12_v3`).
 
-![Screenshot of the create new notebook screen with a x selected]()
+![Screenshot of the create new notebook screen with a gpu-instance selected]()
 
 ### Provision RAPIDS setup script
 
 Create a new "startup script" (via the 'Advanced Settings' dropdown). You can upload the script from your `Notebooks` files or local computer.
 Optional to enable SSH access to your compute (if needed)
 
-![Screenshot of the create lifecycle configuration screen](../../images/sagemaker-create-lifecycle-configuration.png)
+![Screenshot of the provision setup script screen]()
 
 Check out this [link](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-customize-compute-instance) for more details on how to create the setup script. which should, resemble this:
 
@@ -55,11 +55,11 @@ Launch the instance.
 
 ### Select the RAPIDS environment
 
-Once your Notebook Instance is `InService` select "Open JupyterLab"
+Once your Notebook Instance is `Running` select "JupyterLab"
 
-Then in Jupyter select the `rapids` kernel when working with a new notebook.
+Then in JupyterLab select the `rapids` kernel when working with a new notebook
 
-![Screenshot of Jupyter with the rapids kernel highlighted](../../images/sagemaker-choose-rapids-kernel.png)
+![Screenshot of Jupyter with the rapids kernel highlighted]()
 
 ```{relatedexamples}
 
