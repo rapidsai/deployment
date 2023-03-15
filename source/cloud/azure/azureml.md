@@ -4,7 +4,7 @@ RAPIDS can be deployed at scale using Azure Machine Learning Service and easily 
 
 ## Pre-requisites
 
-[Azure Machine Learning workspace](https://learn.microsoft.com/en-us/azure/machine-learning/concept-workspace). Use existing or create new workspace through the [Azure portal](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace?tabs=azure-portal#create-a-workspace), [Azure ML Python SDK](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace?tabs=python#create-a-workspace),[Azure CLI](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace-cli?tabs=createnewresources) or [Azure Resource Manager templates](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-create-workspace-template?tabs=azcli).Follow these quick steps to get started:
+Use existing or create new Azure Machine Learning workspace through the [Azure portal](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace?tabs=azure-portal#create-a-workspace), [Azure ML Python SDK](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace?tabs=python#create-a-workspace),[Azure CLI](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace-cli?tabs=createnewresources) or [Azure Resource Manager templates](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-create-workspace-template?tabs=azcli). Follow these steps to get started:
 
 **1. Create.** Create your Azure Resource Group.
 
@@ -12,15 +12,15 @@ RAPIDS can be deployed at scale using Azure Machine Learning Service and easily 
 
 **3. Config.** Within the Workspace, download the `config.json` file and verify that `subscription_id`, `resource_group`, and `workspace_name` are set correctly for your environment.
 
-**4. Quota.** Within your Workspace, check your Usage + Quota to ensure you have enough quota to launch your desired cluster size.
+**4. Quota.** Within your Workspace, check your Usage + Quota to ensure you have enough quota within your region to launch your desired cluster size.
 
-## Azure ML Compute instance (single or multi node)
+## Azure ML Compute instance
 
 Azure's [Compute instance](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance) is a fully managed and secure development environment that can also serve as compute target for ML training and inferencing purposes. It comes with integrated Jupyter notebook server, JupyterLab, AzureML Python SDK and other tools.
 
 ### Select your instance
 
-Sign in to Azure Machine Learning Studio and navigate to your workspace. On the left side, select Compute > +New > select a [RAPIDS compatible GPU](https://medium.com/dropout-analytics/which-gpus-work-with-rapids-ai-f562ef29c75f) (NVIDIA Pascal or greater with compute capability 6.0+) as the SageMaker Notebook instance type (e.g., `standard_nc12_v3`).
+Sign in to Azure Machine Learning Studio and navigate to your workspace. On the left side, select **Compute** > **+ New** and choose a [RAPIDS compatible GPU](https://medium.com/dropout-analytics/which-gpus-work-with-rapids-ai-f562ef29c75f) (NVIDIA Pascal or greater with compute capability 6.0+) as the SageMaker Notebook instance type (e.g., `Standard_NC12_v3`)
 
 ![Screenshot of the create new notebook screen with a gpu-instance selected](../../images/azureml-create-notebook-instance.png)
 
@@ -31,7 +31,7 @@ Optional to enable SSH access to your compute (if needed)
 
 ![Screenshot of the provision setup script screen](../../images/azureml-provision-setup-script.png)
 
-Check out this [link](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-customize-compute-instance) for more details on how to create the setup script. which should, resemble this:
+Check out this [link](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-customize-compute-instance) for more details on how to create the setup script but it should resemble:
 
 ```bash
 #!/bin/bash
@@ -58,8 +58,6 @@ Launch the instance.
 Once your Notebook Instance is `Running` select "JupyterLab"
 
 Then in JupyterLab select the `rapids` kernel when working with a new notebook
-
-![Screenshot of Jupyter with the rapids kernel highlighted]()
 
 ```{relatedexamples}
 
