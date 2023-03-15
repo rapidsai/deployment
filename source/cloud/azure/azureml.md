@@ -22,7 +22,7 @@ Azure's [Compute instance](https://learn.microsoft.com/en-us/azure/machine-learn
 
 ### Select your instance
 
-Sign in to Azure Machine Learning Studio and navigate to your workspace. On the left side, select **Compute** > **+ New** and choose a [RAPIDS compatible GPU](https://medium.com/dropout-analytics/which-gpus-work-with-rapids-ai-f562ef29c75f) (NVIDIA Pascal or greater with compute capability 6.0+) as the SageMaker Notebook instance type (e.g., `Standard_NC12_v3`)
+Sign in to [Azure Machine Learning Studio](https://ml.azure.com/) and navigate to your workspace. On the left side, select **Compute** > **+ New** and choose a [RAPIDS compatible GPU](https://medium.com/dropout-analytics/which-gpus-work-with-rapids-ai-f562ef29c75f) (NVIDIA Pascal or greater with compute capability 6.0+) as the SageMaker Notebook instance type (e.g., `Standard_NC12s_v3`)
 
 ![Screenshot of the create new notebook screen with a gpu-instance selected](../../images/azureml-create-notebook-instance.png)
 
