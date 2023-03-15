@@ -22,14 +22,14 @@ Azure's [Compute instance](https://learn.microsoft.com/en-us/azure/machine-learn
 
 Sign in to Azure Machine Learning Studio and navigate to your workspace. On the left side, select Compute > +New > select a [RAPIDS compatible GPU](https://medium.com/dropout-analytics/which-gpus-work-with-rapids-ai-f562ef29c75f) (NVIDIA Pascal or greater with compute capability 6.0+) as the SageMaker Notebook instance type (e.g., `standard_nc12_v3`).
 
-![Screenshot of the create new notebook screen with a gpu-instance selected]()
+![Screenshot of the create new notebook screen with a gpu-instance selected](../../images/azureml-create-notebook-instance.png)
 
 ### Provision RAPIDS setup script
 
 Create a new "startup script" (via the 'Advanced Settings' dropdown). You can upload the script from your `Notebooks` files or local computer.
 Optional to enable SSH access to your compute (if needed)
 
-![Screenshot of the provision setup script screen]()
+![Screenshot of the provision setup script screen](../../images/azureml-provision-setup-script.png)
 
 Check out this [link](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-customize-compute-instance) for more details on how to create the setup script. which should, resemble this:
 
