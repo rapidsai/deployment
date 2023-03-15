@@ -33,7 +33,7 @@ Optional to enable SSH access to your compute (if needed)
 
 ![Screenshot of the provision setup script screen](../../images/azureml-provision-setup-script.png)
 
-Check out this [link](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-customize-compute-instance) for more details on how to create the setup script but it should resemble:
+See the [Azure ML documentation](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-customize-compute-instance) for more details on how to create the setup script but it should resemble:
 
 ```bash
 #!/bin/bash
