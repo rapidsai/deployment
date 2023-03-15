@@ -18,7 +18,7 @@ Follow these steps to get started:
 
 ## Azure ML Compute instance
 
-Azure's [Compute instance](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance) is a fully managed and secure development environment that can also serve as compute target for ML training and inferencing purposes. It comes with integrated Jupyter notebook server, JupyterLab, AzureML Python SDK and other tools.
+Azure's [ML Compute instances](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance) are a fully managed and secure development environment that can also serve as compute target for ML training and inferencing purposes. It comes with integrated Jupyter notebook server, JupyterLab, AzureML Python SDK and other tools.
 
 ### Select your instance
 
