@@ -1,4 +1,10 @@
 import pathlib
+import re
+from functools import partial
+
+
+def template_func(app, match):
+    return app.builder.templates.render_string(match.group(), app.config.rapids_version)
 
 
 def find_notebook_related_files(app, pagename, templatename, context, doctree):
@@ -15,19 +21,36 @@ def find_notebook_related_files(app, pagename, templatename, context, doctree):
     """
     if "examples/" in pagename and context["page_source_suffix"] == ".ipynb":
         source_root = pathlib.Path(__file__).parent / ".." / "source"
+        output_root = pathlib.Path(app.builder.outdir)
         base_url = app.config.rapids_deployment_notebooks_base_url
         rel_page_parent = pathlib.Path(pagename).parent
         path_to_page_parent = source_root / rel_page_parent
+        path_to_output_parent = output_root / rel_page_parent
+        path_to_output_parent.mkdir(parents=True, exist_ok=False)
 
         related_notebook_dirs = []
         related_notebook_files = []
         for page in path_to_page_parent.glob("*"):
-            if "ipynb" not in page.name:
-                url = f"{base_url}{rel_page_parent}/{page.name}"
-                if (path_to_page_parent / page).is_dir():
-                    related_notebook_dirs.append((page.name + "/", url))
-                else:
+            url = f"{base_url}{rel_page_parent}/{page.name}"
+            if page.is_dir():
+                related_notebook_dirs.append((page.name + "/", url))
+            else:
+                if "ipynb" not in page.name:
                     related_notebook_files.append((page.name, url))
+                else:
+                    with open(str(page)) as reader:
+                        notebook = reader.read()
+                        with open(
+                            str(path_to_output_parent / page.name), "w"
+                        ) as writer:
+                            writer.write(
+                                re.sub(
+                                    r"\{\{.*?\}\}",
+                                    partial(template_func, app),
+                                    notebook,
+                                )
+                            )
+                    related_notebook_files.insert(0, (page.name, page.name))
 
         context["related_notebook_files"] = (
             related_notebook_dirs + related_notebook_files
