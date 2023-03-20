@@ -59,23 +59,25 @@ def find_notebook_related_files(app, pagename, templatename, context, doctree):
         path_to_output_parent = output_root / rel_page_parent
 
         # Copy all related files to output and apply templating
-        context["related_notebook_files"] = walk_files(
+        related_notebook_files = walk_files(
             app, path_to_page_parent, path_to_output_parent
         )
 
         # Make archive of related files
-        archive_path = path_to_output_parent / "all_files.zip"
-        with contextlib.suppress(OSError):
-            os.remove(str(archive_path))
-        with tempfile.NamedTemporaryFile() as tmpf:
-            shutil.make_archive(
-                tmpf.name,
-                "zip",
-                str(path_to_output_parent.parent),
-                str(path_to_output_parent.name),
-            )
-            shutil.move(tmpf.name + ".zip", str(archive_path))
-        context["related_notebook_files_archive"] = archive_path.name
+        if related_notebook_files and len(related_notebook_files) > 1:
+            archive_path = path_to_output_parent / "all_files.zip"
+            with contextlib.suppress(OSError):
+                os.remove(str(archive_path))
+            with tempfile.NamedTemporaryFile() as tmpf:
+                shutil.make_archive(
+                    tmpf.name,
+                    "zip",
+                    str(path_to_output_parent.parent),
+                    str(path_to_output_parent.name),
+                )
+                shutil.move(tmpf.name + ".zip", str(archive_path))
+            context["related_notebook_files_archive"] = archive_path.name
+        context["related_notebook_files"] = related_notebook_files
 
 
 def setup(app):
