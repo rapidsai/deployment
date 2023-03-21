@@ -1,4 +1,42 @@
+import contextlib
+import os
 import pathlib
+import re
+import shutil
+import tempfile
+from functools import partial
+
+
+def template_func(app, match):
+    return app.builder.templates.render_string(match.group(), app.config.rapids_version)
+
+
+def walk_files(app, dir, outdir):
+    outdir.mkdir(parents=True, exist_ok=False)
+    related_notebook_files = {}
+    for page in dir.glob("*"):
+        if page.is_dir():
+            related_notebook_files[page.name] = walk_files(
+                app, page, outdir / page.name
+            )
+        else:
+            with contextlib.suppress(OSError):
+                os.remove(str(outdir / page.name))
+            if "ipynb" in page.name:
+                with open(str(page)) as reader:
+                    notebook = reader.read()
+                    with open(str(outdir / page.name), "w") as writer:
+                        writer.write(
+                            re.sub(
+                                r"\{\{.*?\}\}",
+                                partial(template_func, app),
+                                notebook,
+                            )
+                        )
+            else:
+                shutil.copy(str(page), str(outdir / page.name))
+            related_notebook_files[page.name] = page.name
+    return related_notebook_files
 
 
 def find_notebook_related_files(app, pagename, templatename, context, doctree):
@@ -15,23 +53,31 @@ def find_notebook_related_files(app, pagename, templatename, context, doctree):
     """
     if "examples/" in pagename and context["page_source_suffix"] == ".ipynb":
         source_root = pathlib.Path(__file__).parent / ".." / "source"
-        base_url = app.config.rapids_deployment_notebooks_base_url
+        output_root = pathlib.Path(app.builder.outdir)
         rel_page_parent = pathlib.Path(pagename).parent
         path_to_page_parent = source_root / rel_page_parent
+        path_to_output_parent = output_root / rel_page_parent
 
-        related_notebook_dirs = []
-        related_notebook_files = []
-        for page in path_to_page_parent.glob("*"):
-            if "ipynb" not in page.name:
-                url = f"{base_url}{rel_page_parent}/{page.name}"
-                if (path_to_page_parent / page).is_dir():
-                    related_notebook_dirs.append((page.name + "/", url))
-                else:
-                    related_notebook_files.append((page.name, url))
-
-        context["related_notebook_files"] = (
-            related_notebook_dirs + related_notebook_files
+        # Copy all related files to output and apply templating
+        related_notebook_files = walk_files(
+            app, path_to_page_parent, path_to_output_parent
         )
+
+        # Make archive of related files
+        if related_notebook_files and len(related_notebook_files) > 1:
+            archive_path = path_to_output_parent / "all_files.zip"
+            with contextlib.suppress(OSError):
+                os.remove(str(archive_path))
+            with tempfile.NamedTemporaryFile() as tmpf:
+                shutil.make_archive(
+                    tmpf.name,
+                    "zip",
+                    str(path_to_output_parent.parent),
+                    str(path_to_output_parent.name),
+                )
+                shutil.move(tmpf.name + ".zip", str(archive_path))
+            context["related_notebook_files_archive"] = archive_path.name
+        context["related_notebook_files"] = related_notebook_files
 
 
 def setup(app):
