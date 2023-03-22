@@ -75,6 +75,10 @@ Once the cluster has started you can also get the Jupyter URL and navigate to Ju
 https://cluster-abc123.dask.host/jupyter/lab?token=dddeeefff444555666
 ```
 
+![Screenshot of Jupyter Lab running on a Coiled Dask Cluster with GPUs](../_static/images/platforms/coiled/jupyter-on-coiled.png)
+
+From this Jupyter session we can see that our notebook server has a GPU and we can connect to the Dask cluster with no configuration and see all the Dask Workers have GPUs too.
+
 ```{relatedexamples}
 
 ```
