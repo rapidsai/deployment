@@ -23,7 +23,7 @@ For more information see the [Coiled Getting Started documentation](https://docs
 
 Next you'll need to register a RAPIDS software environment with Coiled.
 
-You can either build this from the Official RAPIDS Container images.
+You can either build this from the official RAPIDS Container images.
 
 ```python
 import coiled
@@ -34,7 +34,7 @@ coiled.create_software_environment(
 )
 ```
 
-Or you can create it with a list of conda packages incase you want to customize the environment further.
+Or you can create it with a list of conda packages in case you want to customize the environment further.
 
 ```python
 import coiled
@@ -73,6 +73,17 @@ Once the cluster has started you can also get the Jupyter URL and navigate to Ju
 ```python
 >>> print(cluster.jupyter_link)
 https://cluster-abc123.dask.host/jupyter/lab?token=dddeeefff444555666
+```
+
+We can run `!nvidia-smi` in our notebook to see information on the GPU available to Jupyter.
+
+We can also connect a Dask client to see that information for the workers too.
+
+```python
+from dask.distributed import Client
+
+client = Client
+client
 ```
 
 ![Screenshot of Jupyter Lab running on a Coiled Dask Cluster with GPUs](../_static/images/platforms/coiled/jupyter-on-coiled.png)
