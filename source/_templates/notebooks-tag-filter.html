@@ -6,7 +6,9 @@
 
   {% for section in sorted(notebook_tag_tree) %}
   <fieldset aria-level="2" class="caption" role="heading">
-    <legend class="caption-text">{{ section.title() }}</legend>
+    <legend class="caption-text">
+      {{ section.title().replace("-", " ") }}
+    </legend>
     {% for tag in sorted(notebook_tag_tree[section]) %}
     <div>
       <input

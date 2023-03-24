@@ -1,14 +1,32 @@
-{% if related_notebook_files %}
+{% if related_notebook_files %} {% macro gen_list(root, dir, related_files) -%}
+{{ dir }}
+<ul class="visible nav section-nav flex-column">
+  {% for name in related_files|sort(case_sensitive=False) %}
+  <li class="toc-h2 nav-item toc-entry">
+    {% if related_files[name] is mapping %} {{ gen_list(root + name + "/", name
+    + "/", related_files[name]) }} {% else %}
+    <a
+      class="reference external nav-link"
+      href="{{ root }}{{ related_files[name] }}"
+    >
+      {{ name }}
+    </a>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{%- endmacro %}
 <div class="tocsection onthispage">
   <i class="fa-regular fa-file"></i> Related files
 </div>
 <nav id="bd-toc-nav" class="page-toc related-files">
-  <ul class="visible nav section-nav flex-column">
-    {% for name, url in related_notebook_files %}
-    <li class="toc-h2 nav-item toc-entry">
-      <a class="reference external nav-link" href="{{ url }}"> {{ name }} </a>
-    </li>
-    {% endfor %}
-  </ul>
+  {{ gen_list("", "", related_notebook_files) }} {% if
+  related_notebook_files_archive %}
+  <div style="font-size: 0.9em; margin-top: 0.5em">
+    <a href="{{ related_notebook_files_archive }}"
+      ><i class="fa-solid fa-download"></i> Download all
+    </a>
+  </div>
+  {% endif %}
 </nav>
 {% endif %}
