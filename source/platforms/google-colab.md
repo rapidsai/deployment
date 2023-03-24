@@ -18,7 +18,8 @@ Check the output of `!nvidia-smi` to make sure you've been allocated a Rapids Co
 
 ## 3. Run RAPIDS install script
 
-Checks to make sure that the GPU is RAPIDS compatible, Installs the **current stable** version of RAPIDSAI's core libraries using conda, which are: cuDF, cuML, cuGraph and xgboost. Please use the [RAPIDS Conda Colab Template notebook](https://colab.research.google.com/drive/1TAAi_szMfWqRfHVfjGSqnGVLr_ztzUM9) if you need to install any RAPIDS Extended libraries OR nightly version.
+Checks to make sure that the GPU is RAPIDS compatible, Installs the **current stable** version of RAPIDSAI's core libraries using conda, which are: cuDF, cuML, cuGraph and xgboost.
+Please use the [RAPIDS Conda Colab Template notebook](https://colab.research.google.com/drive/1TAAi_szMfWqRfHVfjGSqnGVLr_ztzUM9) if you need to install any RAPIDS Extended libraries OR nightly version.
 
 ```console
 # This gets the RAPIDS-Colab install files and test checks your GPU.
@@ -40,5 +41,4 @@ cuml__version__
 ## Next steps
 
 For an overview of how you can access and work with your own datasets in Colab, check out this [guide](https://towardsdatascience.com/3-ways-to-load-csv-files-into-colab-7c14fcbdcb92).
-For more RAPIDS examples, check out our RAPIDS [notebooks](https://github.com/rapidsai/notebooks) and [notebooks-contrib](https://github.com/rapidsai/notebooks-contrib)
-repos
+For more RAPIDS examples, check out our RAPIDS [notebooks](https://github.com/rapidsai/notebooks) and [notebooks-contrib](https://github.com/rapidsai/notebooks-contrib) repos
