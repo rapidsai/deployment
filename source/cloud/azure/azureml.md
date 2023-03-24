@@ -4,7 +4,7 @@ RAPIDS can be deployed at scale using Azure Machine Learning Service and easily 
 
 ## Pre-requisites
 
-Use existing or create new Azure Machine Learning workspace through the [Azure portal](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace?tabs=azure-portal#create-a-workspace), [Azure ML Python SDK](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace?tabs=python#create-a-workspace), [Azure CLI](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace-cli?tabs=createnewresources) or [Azure Resource Manager templates](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-create-workspace-template?tabs=azcli). 
+Use existing or create new Azure Machine Learning workspace through the [Azure portal](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace?tabs=azure-portal#create-a-workspace), [Azure ML Python SDK](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace?tabs=python#create-a-workspace), [Azure CLI](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace-cli?tabs=createnewresources) or [Azure Resource Manager templates](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-create-workspace-template?tabs=azcli).
 
 Follow these steps to get started:
 
@@ -12,7 +12,7 @@ Follow these steps to get started:
 
 **2. Workspace.** Within the Resource Group, create an Azure Machine Learning service Workspace.
 
-**3. Config.** Within the Workspace, download the `config.json` file and verify that `subscription_id`, `resource_group`, and `workspace_name` are set correctly for your environment.
+**3. Config.** Within the Workspace, download the `config.json` file and verify that `subscription_id`, `resource_group`, and `workspace_name` are set correctly for your environment. You will load the details from this config file to initialize a workspace object for running ML training jobs from within your notebook.
 
 **4. Quota.** Within your Workspace, check your Usage + Quota to ensure you have enough quota within your region to launch your desired cluster size.
 
@@ -38,11 +38,9 @@ See the [Azure ML documentation](https://learn.microsoft.com/en-us/azure/machine
 ```bash
 #!/bin/bash
 
-set -e
-
 sudo -u azureuser -i <<'EOF'
 
-mamba create -y -n rapids {{ rapids_conda_channels }} {{ rapids_conda_packages }} ipykernel
+conda create -y -n rapids {{ rapids_conda_channels }} {{ rapids_conda_packages }} ipykernel
 conda activate rapids
 
 # optionally install AutoGluon for AutoML GPU demo
