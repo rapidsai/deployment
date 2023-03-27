@@ -33,8 +33,8 @@ Please use the [RAPIDS Conda Colab Template notebook](https://colab.research.goo
 
 ```console
 import cudf, cuml
-cudf__version__
-cuml__version__
+cudf.__version__
+cuml.__version__
 
 ```
 
