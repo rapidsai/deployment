@@ -14,7 +14,7 @@ spec:
     spec:
       initContainers:
         - name: prepull-rapids
-          image: us-central1-docker.pkg.dev/nv-ai-infra/rapidsai/rapidsai-core:22.12-cuda11.5-runtime-ubuntu20.04-py3.9
+          image: us-central1-docker.pkg.dev/nv-ai-infra/rapidsai/rapidsai-core:23.02-cuda11.8-runtime-ubuntu22.04-py3.10
           command: ["sh", "-c", "'true'"]
       containers:
         - name: pause
