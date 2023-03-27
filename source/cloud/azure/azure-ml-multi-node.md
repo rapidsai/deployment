@@ -1,74 +1,71 @@
 # Azure ML Cluster
 
-You can use Azure Machine Learning compute cluster to distribute a training or inference jobs across a cluster of Azure-managed GPU compute nodes.
+Launch Azure Machine Learning compute cluster to distribute your RAPIDS training or inference jobs across single or multi-GPU compute nodes. The Compute cluster scales up automatically when a job is submitted, executes in a containerized environment and packages your model dependencies in a Docker container.
 
-All you’ll need to do is copy your RAPIDS training script and libraries as a Docker container image and ask
+## Pre-requisites
 
-## AzureML Studio
+All you need to get started is an Azure machine learning workspace and development environment:
+
+- [Python SDK v2 for Azure Machine Learning](https://learn.microsoft.com/en-us/python/api/overview/azure/ai-ml-readme?view=azure-python)
+- [Azure CLI extension for machine learning (v2)](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-configure-cli?tabs=public)
 
 ### Instantiate workspace
 
-Use config.file to initate your Machine learning workspace
+If using the Python SDK, connect to your workspace using details from your config file. Make sure to replace `subscription_id`,`resource_group`, and `workspace_name` with your own.
 
 ```console
-from azureml.core import Workspace
-ws = Workspace.from_config()
+
+# Enter details of your AML workspace
+subscription_id = '<SUBSCRIPTION_ID>'
+resource_group = '<RESOURCE_GROUP>'
+workspace = '<AZUREML_WORKSPACE_NAME>'
+
+# connect to the workspace
+from azure.ai.ml import MLClient
+from azure.identity import DefaultAzureCredential
+
+ml_client = MLClient(
+    DefaultAzureCredential(), subscription_id, resource_group, workspace
+)
 ```
 
-### Create AML Compute
+### Create AMLCompute
 
-You will need to create a compute target using Azure ML managed compute (AmlCompute) for remote training.
+You will need to create a compute target using Azure ML managed compute (AmlCompute) for remote training. Note: Be sure to check limits within your available region. This article includes details on the default limits and how to request more quota.
 
-Note: Be sure to check limits within your available region. This article includes details on the default limits and how to request more quota.
+`size`: The VM family of the nodes, specify compute targets from one of NC_v2, NC_v3, ND or ND_v2 GPU virtual machines in Azure (e.g `Standard_NC12s_v3`)
 
-The steps used Azure CLI to set up , but you can also python SDK or portal
+`max_instances`: The max number of nodes to autoscale up to when you run a job
 
-vm_size describes the virtual machine type and size that will be used in the cluster. RAPIDS requires NVIDIA Pascal or newer architecture, you will need to specify compute targets from one of NC_v2, NC_v3, ND or ND_v2 GPU virtual machines in Azure; these are VMs that are provisioned with P40 and V100 GPUs. Let's create an AmlCompute cluster of Standard_NC6s_v3 GPU VMs:
+NOTE:
+You may choose to use low-priority VMs to run your workloads. These VMs don't have guaranteed availability but allow you to take advantage of Azure's unused capacity at a significant cost savings. The amount of available capacity can vary based on size, region, time of day, and more.
 
-```console
-from azureml.core.compute import AmlCompute
+````console
+from azure.ai.ml.entities import AmlCompute
 
-provisioning_config = AmlCompute.provisioning_configuration(
-                                vm_size = 'Standard_NC12s_v3', # Use VM with more than one GPU for multi-GPU option
-                                max_nodes = 5,
-                                idle_seconds_before_scaledown = 300
-                                )
+cluster_low_pri = AmlCompute(
+    name="gpu-cluster",
+    size="STANDARD_NC6S_V3",
+    min_instances=0,
+    max_instances=2,
+    idle_time_before_scale_down=120,
+    tier="low_priority",
+)
+ml_client.begin_create_or_update(cluster_low_pri).result()
 
-# Create the cluster
-    gpu_cluster = ComputeTarget.create(ws, gpu_cluster_name, provisioning_config)
-```
 
 ### Setup Environment
 
 Use RAPIDS docker image from DockerHub to set the environment in these quick steps:
 
 ```console
-from azureml.core import Environment
-from azureml.core.runconfig import DockerConfiguration
 
-environment_name = 'rapids_hpo'
-env = Environment(environment_name)
 
-docker_config = DockerConfiguration(use_docker=True) # enable docker
-env.docker.base_image = 'rapidsai/rapidsai-cloud-ml:latest' # pull latest rapids image
+````
 
-```
-
-Having built our environment and custom logic, we can now assemble all components into an `ScriptRunConfig` class to submit
+Having built our environment and custom logic, we can now assemble all components into an `X` class to submit
 hyperparameter optimization tuning jobs. Estimators have been deprecated in Azure
 
 ```console
-src = ScriptRunConfig(source_directory,
-                      arguments,
-                      compute_target,
-                      script,
-                      environment,
-                      docker_runtime_config)
 
-hyperdrive_run_config = HyperDriveConfig(run_config,
-                                         hyperparameter_sampling,
-                                         primary_metric_name,
-                                         primary_metric_goal=PrimaryMetricGoal.MAXIMIZE,
-                                         max_total_runs,
-                                         max_concurrent_runs)
 ```
