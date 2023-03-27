@@ -1,20 +1,24 @@
 # RAPIDS on Google CoLab
 
+## 0. Launch notebook
+
+To get started in [Google Colab](https://colab.research.google.com/), click `File` at the top toolbar to Create new or Upload existing notebook
+
 ## 1. Set the Runtime
 
-In [Google Colab](https://colab.research.google.com/), click the `Runtime` dropdown at the top toolbar, then `Change Runtime Type`
+Click the `Runtime` dropdown and select `Change Runtime Type`
 
-![Screenshot of create runtime and runtime type](../../images/googlecolab-select-runtime-type.png)
+![Screenshot of create runtime and runtime type](../images/googlecolab-select-runtime-type.png)
 
 Choose GPU for Hardware Accelerator
 
-![Screenshot of gpu for hardware accelerator](../../images/googlecolab-select-gpu-hardware-accelerator.png)
+![Screenshot of gpu for hardware accelerator](../images/googlecolab-select-gpu-hardware-accelerator.png)
 
 ## 2. Check GPU type
 
 Check the output of `!nvidia-smi` to make sure you've been allocated a Rapids Compatible GPU, i.e [Tesla T4, P4, or P100].
 
-![Screenshot of nvidia-smi](../../images/googlecolab-output-nvidia-smi.png)
+![Screenshot of nvidia-smi](../images/googlecolab-output-nvidia-smi.png)
 
 ## 3. Run RAPIDS install script
 
