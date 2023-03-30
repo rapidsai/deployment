@@ -1,13 +1,15 @@
 # Azure ML Cluster
 
-Launch Azure Machine Learning compute cluster to distribute your RAPIDS training or inference jobs across single or multi-GPU compute nodes. The Compute cluster scales up automatically when a job is submitted, executes in a containerized environment and packages your model dependencies in a Docker container.
+Launch Azure's [ML Compute cluster](jj) to distribute your RAPIDS training or inference jobs across single or multi-GPU compute nodes. The Compute cluster scales up automatically when a job is submitted, executes in a containerized environment and packages your model dependencies in a Docker container.
 
 ## Pre-requisites
 
-All you need to get started is an Azure machine learning workspace and development environment:
+All you need to get started is an Azure machine learning workspace and your development environment must be installed with one of the following:
 
 - [Python SDK v2 for Azure Machine Learning](https://learn.microsoft.com/en-us/python/api/overview/azure/ai-ml-readme?view=azure-python)
 - [Azure CLI extension for machine learning (v2)](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-configure-cli?tabs=public)
+
+the reocmmended path is to use a compute instance that has been augmented with rapids conda environment and (follow these instructions)
 
 ### Instantiate workspace
 

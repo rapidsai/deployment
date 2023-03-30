@@ -1,24 +1,26 @@
 # Azure Machine Learning (Azure ML)
 
-RAPIDS can be deployed at scale using [Azure Machine Learning Service](https://learn.microsoft.com/en-us/azure/machine-learning/overview-what-is-azure-machine-learning) and easily scales up to any size needed. You can configure your environment on a local computer, Azure Machine Learning notebook service via compute instance or cluster.
+RAPIDS can be deployed using [Azure Machine Learning Service](https://learn.microsoft.com/en-us/azure/machine-learning/overview-what-is-azure-machine-learning) and easily scales up to any size needed. You can configure your environment on a local computer or use Azure Machine Learning notebook service via compute instance.
+
+## Azure ML Compute instance
+
+Azure's [ML Compute instances](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance) are a secure, fully configured and managed development environment that can also serve as compute target for ML training and inferencing purposes. It comes with integrated Jupyter notebook server, JupyterLab, AzureML Python SDK and other tools.
+
+This guide demonstrates how to launch compute instance via Studio portal but you can also use python SDK or CLI
 
 ## Pre-requisites
 
 Use existing or create new Azure Machine Learning workspace through the [Azure portal](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace?tabs=azure-portal#create-a-workspace), [Azure ML Python SDK](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace?tabs=python#create-a-workspace), [Azure CLI](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace-cli?tabs=createnewresources) or [Azure Resource Manager templates](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-create-workspace-template?tabs=azcli).
 
-Follow these steps to get started:
+Follow these high-level steps to get started:
 
 **1. Create.** Create your Azure Resource Group.
 
 **2. Workspace.** Within the Resource Group, create an Azure Machine Learning service Workspace.
 
-**3. Config.** Within the Workspace, download the `config.json` file and verify that `subscription_id`, `resource_group`, and `workspace_name` are set correctly for your environment. You will load the details from this config file to initialize a workspace object for running ML training jobs from within your notebook.
+**3. Config.** Within the Workspace, download the `config.json` file and verify that `subscription_id`, `resource_group`, and `workspace_name` are set correctly for your environment. You will load the details from this config file to initialize workspace for running ML training jobs from within your notebook.
 
 **4. Quota.** Within your Workspace, check your Usage + Quota to ensure you have enough quota within your region to launch your desired cluster size.
-
-## Azure ML Compute instance
-
-Azure's [ML Compute instances](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance) are a fully managed and secure development environment that can also serve as compute target for ML training and inferencing purposes. It comes with integrated Jupyter notebook server, JupyterLab, AzureML Python SDK and other tools.
 
 ### Select your instance
 
@@ -28,7 +30,7 @@ Sign in to [Azure Machine Learning Studio](https://ml.azure.com/) and navigate t
 
 ### Provision RAPIDS setup script
 
-Create a new "startup script" (via the 'Advanced Settings' dropdown). You can upload the script from your `Notebooks` files or local computer.
+Create a new "startup script" (via the 'Advanced Settings' dropdown) to install RAPIDS and dependencies. You can upload the script from your `Notebooks` files or local computer.
 Optional to enable SSH access to your compute (if needed)
 
 ![Screenshot of the provision setup script screen](../../images/azureml-provision-setup-script.png)
