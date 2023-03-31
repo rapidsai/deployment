@@ -65,6 +65,7 @@ cluster = coiled.Cluster(
     n_workers=4,
     worker_gpu=1,  # single T4 per worker
     worker_class="dask_cuda.CUDAWorker",  # recommended
+    environ={"DISABLE_JUPYTER": "true"},  # needed if using environment built from RAPIDS container image
 )
 ```
 
