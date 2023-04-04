@@ -1,12 +1,8 @@
-# Azure Machine Learning (Azure ML)
+# Azure ML Compute instance
 
-RAPIDS can be deployed using [Azure Machine Learning Service](https://learn.microsoft.com/en-us/azure/machine-learning/overview-what-is-azure-machine-learning) and easily scales up to any size needed. You can configure your environment on a local computer or use Azure Machine Learning notebook service via compute instance.
+RAPIDS can be deployed at scale using [Azure Machine Learning Service](https://learn.microsoft.com/en-us/azure/machine-learning/overview-what-is-azure-machine-learning) and easily scales up to any size needed.
 
-## Azure ML Compute instance
-
-Azure's [ML Compute instances](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance) are a secure, fully configured and managed development environment that can also serve as compute target for ML training and inferencing purposes. It comes with integrated Jupyter notebook server, JupyterLab, AzureML Python SDK and other tools.
-
-This guide demonstrates how to launch compute instance via Studio portal but you can also use python SDK or CLI
+[Azure's ML Compute instances](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance) are a fully managed and secure development environment that can also serve as compute target for ML training, and comes with integrated Jupyter notebook server, JupyterLab, AzureML Python SDK and other tools.
 
 ## Pre-requisites
 
@@ -42,8 +38,11 @@ See the [Azure ML documentation](https://learn.microsoft.com/en-us/azure/machine
 
 sudo -u azureuser -i <<'EOF'
 
-conda create -y -n rapids {{ rapids_conda_channels }} {{ rapids_conda_packages }} ipykernel
+conda create -y -n rapids -c rapidsai -c conda-forge -c nvidia rapids=23.02 python=3.10 cudatoolkit=11.5 ipykernel
 conda activate rapids
+
+# install Python SDK v2 in rapids env
+python -m pip install azure-ai-ml azure-identity
 
 # optionally install AutoGluon for AutoML GPU demo
 # python -m pip install --pre autogluon
