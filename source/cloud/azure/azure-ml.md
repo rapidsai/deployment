@@ -2,7 +2,7 @@
 
 RAPIDS can be deployed at scale using [Azure Machine Learning Service](https://learn.microsoft.com/en-us/azure/machine-learning/overview-what-is-azure-machine-learning) and easily scales up to any size needed.
 
-[Azure's ML Compute instances](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance) are a fully managed and secure development environment that can also serve as compute target for ML training, and comes with integrated Jupyter notebook server, JupyterLab, AzureML Python SDK and other tools.
+You could install Azure Machine Learning on your local computer but it is recommended to create [Azure's ML Compute instances](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance), a fully managed and secure development environment that can also serve as compute target for ML training, and comes with integrated Jupyter notebook server, JupyterLab, AzureML Python SDK and other tools.
 
 ## Pre-requisites
 
