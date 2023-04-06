@@ -22,11 +22,13 @@ author = "NVIDIA"
 
 versions = {
     "stable": {
+        "rapids_version": "23.02",
         "rapids_container": "nvcr.io/nvidia/rapidsai/rapidsai-core:23.02-cuda11.8-runtime-ubuntu22.04-py3.10",
         "rapids_conda_channels": "-c rapidsai -c conda-forge -c nvidia",
         "rapids_conda_packages": "rapids=23.02 python=3.10 cudatoolkit=11.5",
     },
     "nightly": {
+        "rapids_version": "23.04-nightly",
         "rapids_container": "rapidsai/rapidsai-core-nightly:23.04-cuda11.8-runtime-ubuntu22.04-py3.10",
         "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge -c nvidia",
         "rapids_conda_packages": "rapids=23.04 python=3.10 cudatoolkit=11.5",
@@ -37,6 +39,14 @@ rapids_version = (
     if os.environ.get("DEPLOYMENT_DOCS_BUILD_STABLE", "false") == "true"
     else versions["nightly"]
 )
+rapids_version["rapids_conda_channels_list"] = [
+    channel
+    for channel in rapids_version["rapids_conda_channels"].split(" ")
+    if channel != "-c"
+]
+rapids_version["rapids_conda_packages_list"] = rapids_version[
+    "rapids_conda_packages"
+].split(" ")
 
 # -- General configuration ---------------------------------------------------
 
