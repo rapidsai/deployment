@@ -4,11 +4,11 @@ Create a cluster of one or more GPUs on your local machine. You can launch a Das
 
 In addition to enabling multi-GPU computation, `LocalCUDACluster` also provides a simple interface for managing the cluster, such as starting and stopping the cluster, querying the status of the nodes, and monitoring the workload distribution.
 
-## 0.Pre-requisites
+## Pre-requisites
 
 Before running these instructions, ensure you have installed the [`dask`](https://docs.dask.org/en/stable/install.html) and [`dask_cuda`](https://docs.rapids.ai/api/dask-cuda/nightly/install.html) packages in your local environment
 
-## 1.Cluster setup
+## Cluster setup
 
 ### Instantiate a LocalCUDACluster object
 
@@ -26,7 +26,7 @@ Dask scheduler coordinates the execution of tasks, whereas Dask client is the us
 client = Client(cluster)
 ```
 
-## 2.Test RAPIDS
+## Test RAPIDS
 
 To test RAPIDS, create a distributed client for the cluster and query for the GPU model.
 
