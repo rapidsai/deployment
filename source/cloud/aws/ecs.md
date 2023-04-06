@@ -1,9 +1,5 @@
 # Elastic Container Service (ECS)
 
-```{warning}
-This is a legacy page and may contain outdated information. We are working hard to update our documentation with the latest and greatest information, thank you for bearing with us.
-```
-
 RAPIDS can be deployed on a multi-node ECS cluster using Dask’s
 dask-cloudprovider management tools. For more details, see our **[blog post on
 deploying on
@@ -11,7 +7,7 @@ ECS.](https://medium.com/rapids-ai/getting-started-with-rapids-on-aws-ecs-using-
 
 **0. Run from within AWS.** The following steps assume you are running them from
 within the same AWS VPC. One way to ensure this is to run through the [AWS
-Single Instance (EC2)](#aws-single-instance-ec2) instructions and then run these steps from
+Single Instance (EC2)](link) instructions and then run these steps from
 there.
 
 **1. Setup AWS credentials.** First, you will need AWS credentials to allow us
@@ -34,20 +30,13 @@ $ pip install dask-cloudprovider[aws]
 **3. Create an EC2 cluster:** In the AWS console, visit the ECS dashboard. From
 the “Clusters” section on the left hand side, click “Create Cluster”.
 
-Make sure to select an EC 2 Linux + Networking cluster so that we can specify
-our networking options.
+a. Give the cluster a name EX. `rapids-cluster`.
 
-Give the cluster a name EX. `rapids-cluster`.
+b. For Networking, select the default VPC and all the subnets available in that VPC.
 
-Change the instance type to one that supports RAPIDS-supported GPUs (see
-introduction section for list of supported instance types). For this example, we
-will use `p3.2xlarge`, each of which comes with one NVIDIA V100 GPU.
+c. Select "Amazon EC2 instances" for the Infrastructure type and configure your settings: "Linux" operating system, choose an instance type that supports RAPIDS-supported GPUs (see introduction section for list of supported instance types). For this example, we will use `p3.2xlarge`. Finally, select an existing SSH key pair.
 
-In the networking section, select the default VPC and all the subnets available
-in that VPC.
-
-All other options can be left at defaults. You can now click “create” and wait
-for the cluster creation to complete.
+d. All other options can be left at defaults. Review your settings and click on the "Create" button and wait for the cluster creation to complete.
 
 **4. Create a Dask cluster:**
 
