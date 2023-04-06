@@ -30,7 +30,7 @@ Please use the [RAPIDS Conda Colab Template notebook](https://colab.research.goo
 # Please read the output of this cell.  If your Colab Instance is not RAPIDS compatible, it will warn you and give you remediation steps.
 
 !git clone https://github.com/rapidsai/rapidsai-csp-utils.git
-!python rapidsai-csp-utils/colab/install_rapids.py
+!python rapidsai-csp-utils/colab/pip-install.py
 ```
 
 ## 4. Test Rapids
