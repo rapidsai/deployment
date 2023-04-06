@@ -34,8 +34,9 @@ You will need to create a compute target using Azure ML managed compute (AmlComp
 
 `max_instances`: The max number of nodes to autoscale up to when you run a job
 
-NOTE:
+```{note}
 You may choose to use low-priority VMs to run your workloads. These VMs don't have guaranteed availability but allow you to take advantage of Azure's unused capacity at a significant cost savings. The amount of available capacity can vary based on size, region, time of day, and more.
+```
 
 ```console
 gpu_compute = AmlCompute(
