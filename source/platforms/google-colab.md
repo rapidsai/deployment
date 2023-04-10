@@ -22,8 +22,8 @@ Check the output of `!nvidia-smi` to make sure you've been allocated a Rapids Co
 
 ## 3. Run RAPIDS install script
 
-Checks to make sure that the GPU is RAPIDS compatible, Installs the **current stable** version of RAPIDSAI's core libraries using conda, which are: cuDF, cuML, cuGraph and xgboost.
-Please use the [RAPIDS Conda Colab Template notebook](https://colab.research.google.com/drive/1TAAi_szMfWqRfHVfjGSqnGVLr_ztzUM9) if you need to install any RAPIDS Extended libraries OR nightly version.
+Checks to make sure that the GPU is RAPIDS compatible, Installs the **current stable** version of RAPIDSAI's core libraries, which are: cuDF, cuML, cuGraph and xgboost.
+By default, you can install using `pip` but it is recommended to use `conda` with the [RAPIDS Conda Colab Template](https://colab.research.google.com/drive/1TAAi_szMfWqRfHVfjGSqnGVLr_ztzUM9) notebook if you need to install any RAPIDS Extended libraries OR nightly version.
 
 ```console
 # This gets the RAPIDS-Colab install files and test checks your GPU.
@@ -31,14 +31,26 @@ Please use the [RAPIDS Conda Colab Template notebook](https://colab.research.goo
 
 !git clone https://github.com/rapidsai/rapidsai-csp-utils.git
 !python rapidsai-csp-utils/colab/pip-install.py
+
+# Installing RAPIDS with conda is now 'python rapidsai-csp-utils/colab/install_rapids.py <release> <packages>'
+# The <release> options are 'stable' and 'nightly'. Leaving it blank or adding any other words will default to stable.
+!python rapidsai-csp-utils/colab/env-check.py
+!bash rapidsai-csp-utils/colab/update_gcc.sh
+!python rapidsai-csp-utils/colab/install_rapids.py stable
+
 ```
 
 ## 4. Test Rapids
 
 ```console
-import cudf, cuml
-cudf.__version__
-cuml.__version__
+import cudf
+
+gdf = cudf.DataFrame({"a":[1,2,3],"b":[4,5,6]})
+gdf
+    a   b
+0   1   4
+1   2   5
+2   3   6
 
 ```
 
