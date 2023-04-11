@@ -53,7 +53,7 @@ Run RAPIDS on Databricks.
 ````{grid-item-card}
 :link: colab
 :link-type: doc
-GoogleColab
+Google Colab
 ^^^
 Run RAPIDS on Google Colab.
 
