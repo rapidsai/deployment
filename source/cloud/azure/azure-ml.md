@@ -39,7 +39,7 @@ See the [Azure ML documentation](https://learn.microsoft.com/en-us/azure/machine
 
 sudo -u azureuser -i <<'EOF'
 
-conda create -y -n rapids -c rapidsai -c conda-forge -c nvidia rapids=23.02 python=3.10 cudatoolkit=11.5 ipykernel
+conda create -y -n rapids {{ rapids_conda_channels }} {{ rapids_conda_packages }} ipykernel
 conda activate rapids
 
 # install Python SDK v2 in rapids env
@@ -192,6 +192,16 @@ returned_sweep_job = ml_client.create_or_update(sweep_job)
 
 ```
 
+### CleanUp
+
+```python
+
+# Delete amlcompute cluster
+gpu_compute.delete()
+
+# Delete Compute instance
+ml_client.compute.begin_delete("compute_instance_name").wait()
+```
 
 ```{relatedexamples}
 
