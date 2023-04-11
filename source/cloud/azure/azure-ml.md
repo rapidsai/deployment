@@ -2,11 +2,7 @@
 
 RAPIDS can be deployed at scale using [Azure Machine Learning Service](https://learn.microsoft.com/en-us/azure/machine-learning/overview-what-is-azure-machine-learning) and easily scales up to any size needed.
 
-## Azure ML Compute instance
-
-You could install Azure Machine Learning on your local computer but it is recommended to create [Azure's ML Compute instances](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance), a fully managed and secure development environment that can also serve as compute target for ML training. It comes with integrated Jupyter notebook server, JupyterLab, AzureML Python SDK and other tools.
-
-### Pre-requisites
+## Pre-requisites
 
 Use existing or create new Azure Machine Learning workspace through the [Azure portal](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace?tabs=azure-portal#create-a-workspace), [Azure ML Python SDK](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace?tabs=python#create-a-workspace), [Azure CLI](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace-cli?tabs=createnewresources) or [Azure Resource Manager templates](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-create-workspace-template?tabs=azcli).
 
@@ -18,13 +14,19 @@ Follow these high-level steps to get started:
 
 **3. Config.** Within the Workspace, download the `config.json` file and verify that `subscription_id`, `resource_group`, and `workspace_name` are set correctly for your environment. You will load the details from this config file to initialize workspace for running ML training jobs from within your notebook.
 
+![Screenshot of download config file](../../images/azureml-download-config-file.png)
+
 **4. Quota.** Within your Workspace, check your Usage + Quota to ensure you have enough quota within your region to launch your desired cluster size.
+
+## Azure ML Compute instance
+
+You could install Azure Machine Learning on your local computer but it is recommended to create [Azure's ML Compute instances](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance), a fully managed and secure development environment that can also serve as compute target for ML training. It comes with integrated Jupyter notebook server, JupyterLab, AzureML Python SDK and other tools.
 
 ### Select your instance
 
 Sign in to [Azure Machine Learning Studio](https://ml.azure.com/) and navigate to your workspace. On the left side, select **Compute** > **+ New** and choose a [RAPIDS compatible GPU](https://medium.com/dropout-analytics/which-gpus-work-with-rapids-ai-f562ef29c75f) (NVIDIA Pascal or greater with compute capability 6.0+) as the SageMaker Notebook instance type (e.g., `Standard_NC12s_v3`)
 
-![Screenshot of the create new notebook screen with a gpu-instance selected](../../images/azureml-create-notebook-instance.png)
+![Screenshot of create new notebook with a gpu-instance](../../images/azureml-create-notebook-instance.png)
 
 ### Provision RAPIDS setup script
 
@@ -91,7 +93,7 @@ ml_client = MLClient.from_config(
 
 ### Create AMLCompute
 
-You will need to create a compute target using Azure ML managed compute (AmlCompute) for remote training. Note: Be sure to check limits within your available region. This [article](**link**) includes details on the default limits and how to request more quota.
+You will need to create a [compute target](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-target?view=azureml-api-2#azure-machine-learning-compute-managed) using Azure ML managed compute ([AmlCompute](https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-ml/0.1.0b4/azure.ai.ml.entities.html)) for remote training. Note: Be sure to check limits within your available region. This [article](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-quotas?view=azureml-api-2#azure-machine-learning-compute) includes details on the default limits and how to request more quota.
 
 `size`: The VM family of the nodes, specify compute targets from one of `NC_v2`, `NC_v3`, `ND` or `ND_v2` GPU virtual machines in Azure (e.g `Standard_NC12s_v3`)
 
@@ -115,9 +117,15 @@ gpu_compute = AmlCompute(
 ml_client.begin_create_or_update(gpu_compute).result()
 ```
 
-### Upload data to Datastore
+### Access Datastore URI
 
-You can use existing dataset stored in Datastore bucket, or follow these quick steps to setup datastore
+A datastore URI is a reference to a blob storage location (path) on your Azure account. You can copy-and-paste the datastore URI from the AzureML
+Studio UI by selecting **Data** from the left-hand menu > **Datastores** tab. Select your datastore name and then **Browse** tab.
+
+Find the file/folder containing your dataset and click the elipsis (...) next to it. From the menu, choose **Copy URI** and select **Datastore URI** format
+to copy into your notebook.
+
+![Screenshot of access datastore uri screen](../../images/azureml-access-datastore-uri.png)
 
 ### Custom RAPIDS Environment
 
@@ -127,7 +135,9 @@ When you create an AzureML experiment, you need to specify the environment that 
 
 In this case, we would like to create a custom RAPIDS docker image. Simply specify the directory that will serve as the build context, which should contain a Dockerfile (similar to below) and any other necessary files:
 
-```console
+```bash
+#!/bin/bash
+
 # Use rapids base image v23.02 with the necessary dependencies
 FROM rapidsai/rapidsai:23.02-cuda11.8-runtime-ubuntu22.04-py3.10
 
@@ -140,21 +150,21 @@ RUN apt-get update && \
 RUN /bin/bash -c "source activate rapids && pip install azureml-mlflow azureml-dataprep"
 ```
 
-Now you create the Environment:
+Now create the Environment:
 
 ```python
 from azure.ai.ml.entities import Environment, BuildContext
 
 env_docker_image = Environment(
     build=BuildContext(path="path_to_Dockerfile"),
-    name="rapids-docker-image",
-    description="Rapids training Environment",
+    name="rapids-latest-image",
+    description,
 )
 
 ml_client.environments.create_or_update(env_docker_image)
 ```
 
-### Test RAPIDS
+### Submit RAPIDS Training jobs
 
 Now that we have our environment and custom logic, we can configure and run `command` class to submit hyperparameter optimization tuning jobs. `inputs` is a dictionary of command-line arguments to pass to the training script. The code below demonstrates how to submit training job and hyper parameter sweeps.
 
@@ -164,32 +174,28 @@ Navigate to the [source/examples/rapids-azureml-hpo/notebook.ipynb](/examples/ra
 from azure.ai.ml import command, Input
 from azure.ai.ml.sweep import Choice, Uniform, MedianStoppingPolicy
 
-
+# submit training job
 command_job = command(
-        environment,
-        experiment_name,
-        code, # project_folder,
-        command, # "python train_rapids.py --data_dir ${{inputs.data_dir}}...",
+        environment="rapids-latest-image",
+        experiment_name=environment_name,
+        code=project_folder,
+        command="python train_rapids.py --data_dir ${{inputs.data_dir}} ...",
         inputs = {
                     'data_dir': Input(type="uri_file", path=data_uri),
                     ...
                   },
         compute="gpu-cluster",
     )
-
-
-# submit the command
 returned_job = ml_client.jobs.create_or_update(command_job)
 
 
-# apply sweep parameter to obtain the sweep_job
+# apply sweep_job, i.e hyperparameter tuning job
 sweep_job = command_job.sweep(
-    compute="gpu-cluster",
-    sampling_algorithm="random",
-    primary_metric="Accuracy",
-    goal="Maximize",
-)
-
+        compute="gpu-cluster",
+        sampling_algorithm="random",
+        primary_metric="Accuracy",
+        goal="Maximize",
+    )
 returned_sweep_job = ml_client.create_or_update(sweep_job)
 
 ```
