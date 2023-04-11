@@ -131,7 +131,7 @@ to copy into your notebook.
 
 In Azure Machine Learning, the environment is used to define the necessary software dependencies (packages, libaries and settings) to run a training job.
 
-When you create an AzureML experiment, you need to specify the environment that will be used to run copies of the training script across the cluster node. You can either use a pre-built environment provided by AzureML or create a custom environment by defining a Docker container image.
+When you create an AzureML experiment, you need to specify the environment that will be used to run copies of the training script across the cluster nodes. You can either use a pre-built environment provided by AzureML or create a custom environment by defining a Docker container image.
 
 In this case, we would like to create a custom RAPIDS docker image. Simply specify the directory that will serve as the build context, which should contain a Dockerfile (similar to below) and any other necessary files:
 
@@ -158,7 +158,7 @@ from azure.ai.ml.entities import Environment, BuildContext
 env_docker_image = Environment(
     build=BuildContext(path="path_to_Dockerfile"),
     name="rapids-latest-image",
-    description,
+    description="Rapids on Azureml",
 )
 
 ml_client.environments.create_or_update(env_docker_image)
@@ -166,9 +166,9 @@ ml_client.environments.create_or_update(env_docker_image)
 
 ### Submit RAPIDS Training jobs
 
-Now that we have our environment and custom logic, we can configure and run `command` class to submit hyperparameter optimization tuning jobs. `inputs` is a dictionary of command-line arguments to pass to the training script. The code below demonstrates how to submit training job and hyper parameter sweeps.
+Now that we have our environment and custom logic, we can configure and run the `command` [class](https://learn.microsoft.com/en-us/python/api/azure-ai-ml/azure.ai.ml?view=azure-python#azure-ai-ml-command) to submit training jobs. `inputs` is a dictionary of command-line arguments to pass to the training script. The code below demonstrates how to submit hyperparameters sweeps.
 
-Navigate to the [source/examples/rapids-azureml-hpo/notebook.ipynb](/examples/rapids-azureml-hpo/notebook) notebook for detailed instructions on how to do so.
+Navigate to the [source/examples/rapids-azureml-hpo/notebook.ipynb](/../../examples/rapids-azureml-hpo/notebook) for detailed example.
 
 ```python
 from azure.ai.ml import command, Input
