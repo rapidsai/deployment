@@ -3,6 +3,7 @@
 RAPIDS can be deployed at scale using [Azure Machine Learning Service](https://learn.microsoft.com/en-us/azure/machine-learning/overview-what-is-azure-machine-learning) and easily scales up to any size needed.
 
 ## Azure ML Compute instance
+
 You could install Azure Machine Learning on your local computer but it is recommended to create [Azure's ML Compute instances](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance), a fully managed and secure development environment that can also serve as compute target for ML training. It comes with integrated Jupyter notebook server, JupyterLab, AzureML Python SDK and other tools.
 
 ### Pre-requisites
@@ -61,14 +62,13 @@ Once your Notebook Instance is `Running` select "JupyterLab"
 
 Then in JupyterLab select the `rapids` kernel when working with a new notebook
 
-
 ## Azure ML Compute cluster
 
 Launch Azure's [ML Compute cluster](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-create-attach-compute-cluster?tabs=python) to distribute your RAPIDS training jobs across single or multi-GPU compute nodes. The Compute cluster scales up automatically when a job is submitted, and executes in a containerized environment, packaging your model dependencies in a Docker container.
 
 ### Instantiate workspace
 
-If using the Python SDK, connect to your workspace either by explicitly providing the workspace details or load from  the `config.json` file downloaded in the pre-requisites steps above.
+If using the Python SDK, connect to your workspace either by explicitly providing the workspace details or load from the `config.json` file downloaded in the pre-requisites section.
 
 ```python
 from azure.ai.ml import MLClient
@@ -83,9 +83,10 @@ ml_client = MLClient(
 )
 
 # or load details from config file
-ml_client = MLClient.from_config(credential=DefaultAzureCredential(),
-                                path="path_to_config_file",
-                                )
+ml_client = MLClient.from_config(
+    credential=DefaultAzureCredential(),
+    path="path_to_config_file",
+)
 ```
 
 ### Create AMLCompute
@@ -109,7 +110,7 @@ gpu_compute = AmlCompute(
     size="STANDARD_NC12S_V3",
     max_instances=2,
     idle_time_before_scale_down=300,
-    tier="low_priority", # optional
+    tier="low_priority",  # optional
 )
 ml_client.begin_create_or_update(gpu_compute).result()
 ```
@@ -118,12 +119,11 @@ ml_client.begin_create_or_update(gpu_compute).result()
 
 You can use existing dataset stored in Datastore bucket, or follow these quick steps to setup datastore
 
-
 ### Custom RAPIDS Environment
 
-In Azure Machine Learning, the environment is used to define the necessary software dependencies (packages, libaries and settings) to run a training job. 
+In Azure Machine Learning, the environment is used to define the necessary software dependencies (packages, libaries and settings) to run a training job.
 
-When you create an AzureML experiment, you need to specify the environment that will be used to run copies of the training script across the cluster node. You can either use a pre-built environment provided by AzureML or create a custom environment by defining a Docker container image. 
+When you create an AzureML experiment, you need to specify the environment that will be used to run copies of the training script across the cluster node. You can either use a pre-built environment provided by AzureML or create a custom environment by defining a Docker container image.
 
 In this case, we would like to create a custom RAPIDS docker image. Simply specify the directory that will serve as the build context, which should contain a Dockerfile (similar to below) and any other necessary files:
 
@@ -141,20 +141,22 @@ RUN /bin/bash -c "source activate rapids && pip install azureml-mlflow azureml-d
 ```
 
 Now you create the Environment:
+
 ```python
 from azure.ai.ml.entities import Environment, BuildContext
 
 env_docker_image = Environment(
     build=BuildContext(path="path_to_Dockerfile"),
     name="rapids-docker-image",
-    description="Rapids training Environment")
+    description="Rapids training Environment",
+)
 
 ml_client.environments.create_or_update(env_docker_image)
 ```
 
 ### Test RAPIDS
 
-Now that we have our environment and custom logic, we can configure and run `command` class to submit hyperparameter optimization tuning jobs. `inputs` is a dictionary of command-line arguments to pass to the training script. The code below demonstrates how to submit training  job and hyper parameter sweeps.
+Now that we have our environment and custom logic, we can configure and run `command` class to submit hyperparameter optimization tuning jobs. `inputs` is a dictionary of command-line arguments to pass to the training script. The code below demonstrates how to submit training job and hyper parameter sweeps.
 
 Navigate to the [source/examples/rapids-azureml-hpo/notebook.ipynb](/examples/rapids-azureml-hpo/notebook) notebook for detailed instructions on how to do so.
 
@@ -195,7 +197,6 @@ returned_sweep_job = ml_client.create_or_update(sweep_job)
 ### CleanUp
 
 ```python
-
 # Delete amlcompute cluster
 gpu_compute.delete()
 
