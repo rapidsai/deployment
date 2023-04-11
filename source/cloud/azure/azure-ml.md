@@ -168,8 +168,6 @@ ml_client.environments.create_or_update(env_docker_image)
 
 Now that we have our environment and custom logic, we can configure and run the `command` [class](https://learn.microsoft.com/en-us/python/api/azure-ai-ml/azure.ai.ml?view=azure-python#azure-ai-ml-command) to submit training jobs. `inputs` is a dictionary of command-line arguments to pass to the training script. The code below demonstrates how to submit hyperparameters sweeps.
 
-Navigate to the [source/examples/rapids-azureml-hpo/notebook.ipynb](/../../examples/rapids-azureml-hpo/notebook) for detailed example.
-
 ```python
 from azure.ai.ml import command, Input
 from azure.ai.ml.sweep import Choice, Uniform, MedianStoppingPolicy
