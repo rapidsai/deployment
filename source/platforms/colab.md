@@ -22,22 +22,25 @@ Check the output of `!nvidia-smi` to make sure you've been allocated a Rapids Co
 
 ## 3. Run RAPIDS install script
 
-Checks to make sure that the GPU is RAPIDS compatible, Installs the **current stable** version of RAPIDSAI's core libraries, which are: cuDF, cuML, cuGraph and xgboost.
-By default, you can install using `pip` but it is recommended to use `conda` with the [RAPIDS Conda Colab Template](https://colab.research.google.com/drive/1TAAi_szMfWqRfHVfjGSqnGVLr_ztzUM9) notebook if you need to install any RAPIDS Extended libraries OR nightly version.
+Checks GPU compatibility with RAPIDS, then installs the latest **stable** versions of RAPIDSAI's core libraries (cuDF, cuML, cuGraph, and xgboost) using `pip`.
 
 ```console
-# This gets the RAPIDS-Colab install files and test checks your GPU.
-# Please read the output of this cell.  If your Colab Instance is not RAPIDS compatible, it will warn you and give you remediation steps.
+# Colab warns and provides remediation steps if it's not compatible with RAPIDS.
 
 !git clone https://github.com/rapidsai/rapidsai-csp-utils.git
 !python rapidsai-csp-utils/colab/pip-install.py
+```
 
-# Installing RAPIDS with conda is now 'python rapidsai-csp-utils/colab/install_rapids.py <release> <packages>'
-# The <release> options are 'stable' and 'nightly'. Leaving it blank or adding any other words will default to stable.
+<br>
+
+If you need to install any RAPIDS Extended libraries or the nightly version, you can use the [RAPIDS Conda Colab Template](https://colab.research.google.com/drive/1TAAi_szMfWqRfHVfjGSqnGVLr_ztzUM9) notebook and install via `conda`.
+
+```console
+# The <release> options are 'stable' and 'nightly'. Leaving it blank or adding any other words will default to 'stable'.
+
 !python rapidsai-csp-utils/colab/env-check.py
 !bash rapidsai-csp-utils/colab/update_gcc.sh
-!python rapidsai-csp-utils/colab/install_rapids.py stable
-
+!python rapidsai-csp-utils/colab/install_rapids.py <release> <packages>
 ```
 
 ## 4. Test Rapids
@@ -56,5 +59,6 @@ gdf
 
 ## Next steps
 
-For an overview of how you can access and work with your own datasets in Colab, check out this [guide](https://towardsdatascience.com/3-ways-to-load-csv-files-into-colab-7c14fcbdcb92).
+Check out this [guide](https://towardsdatascience.com/) for an overview of how to access and work with your own datasets in Colab.
+
 For more RAPIDS examples, check out our RAPIDS [notebooks](https://github.com/rapidsai/notebooks) and [notebooks-contrib](https://github.com/rapidsai/notebooks-contrib) repos
