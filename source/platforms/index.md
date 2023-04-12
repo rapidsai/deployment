@@ -30,6 +30,17 @@ Integrate RAPIDS with Kubeflow notebooks and pipelines.
 ````
 
 ````{grid-item-card}
+:link: kserve
+:link-type: doc
+KServe
+^^^
+Deploy RAPIDS models with KServe, a standard model inference platform
+for Kubernetes.
+
+{bdg}`multi-node`
+````
+
+````{grid-item-card}
 :link: coiled
 :link-type: doc
 Coiled
