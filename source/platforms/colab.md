@@ -1,10 +1,10 @@
 # RAPIDS on Google Colab
 
-## 0. Launch notebook
+## Launch notebook
 
 To get started in [Google Colab](https://colab.research.google.com/), click `File` at the top toolbar to Create new or Upload existing notebook
 
-## 1. Set the Runtime
+## Set the Runtime
 
 Click the `Runtime` dropdown and select `Change Runtime Type`
 
@@ -14,13 +14,13 @@ Choose GPU for Hardware Accelerator
 
 ![Screenshot of gpu for hardware accelerator](../images/googlecolab-select-gpu-hardware-accelerator.png)
 
-## 2. Check GPU type
+## Check GPU type
 
 Check the output of `!nvidia-smi` to make sure you've been allocated a Rapids Compatible GPU, i.e [Tesla T4, P4, or P100].
 
 ![Screenshot of nvidia-smi](../images/googlecolab-output-nvidia-smi.png)
 
-## 3. Run RAPIDS install script
+## Run RAPIDS install script
 
 Checks GPU compatibility with RAPIDS, then installs the latest **stable** versions of RAPIDSAI's core libraries (cuDF, cuML, cuGraph, and xgboost) using `pip`.
 
@@ -43,7 +43,7 @@ If you need to install any RAPIDS Extended libraries or the nightly version, you
 !python rapidsai-csp-utils/colab/install_rapids.py <release> <packages>
 ```
 
-## 4. Test Rapids
+## Test Rapids
 
 ```console
 import cudf
