@@ -24,6 +24,7 @@ Once KServe is installed, visit [First InferenceService](https://kserve.github.i
 [The FIL backend for Triton Inference Server](https://github.com/triton-inference-server/fil_backend) (Triton-FIL in short) is an optimized inference runtime for many kinds of tree-based models including: XGBoost, LightGBM, scikit-learn, and cuML RandomForest. We can use Triton-FIL together with KServe and serve any tree-based models.
 
 The following manifest sets up an inference endpoint using Triton-FIL:
+
 ```yaml
 # triton-fil.yaml
 apiVersion: serving.kserve.io/v1beta1
@@ -36,7 +37,9 @@ spec:
       storageUri: gs://path-to-gcloud-storage-bucket/model-directory
       runtimeVersion: 22.12-py3
 ```
+
 where `model-directory` is set up with the following hierarchy:
+
 ```text
 model-directory/
 \__ model/
@@ -44,11 +47,13 @@ model-directory/
    \__ 1/
       \__ [model file goes here]
 ```
+
 where `config.pbtxt` contains the configuration for the Triton-FIL backend.
 A typical `config.pbtxt` is given below, with explanation interspersed as
 `#` comments. Before use, make sure to remove `#` comments and fill in
 the blanks.
-```
+
+```text
 backend: "fil"
 max_batch_size: 32768
 input [
@@ -93,7 +98,8 @@ dynamic_batching {}
 
 We will show you concrete examples below. But first some general notes:
 
-* The payload JSON will look different from the First InferenceService example:
+- The payload JSON will look different from the First InferenceService example:
+
 ```json
 {
   "inputs" : [
@@ -111,7 +117,9 @@ We will show you concrete examples below. But first some general notes:
   ]
 }
 ```
-* Triton-FIL uses v2 version of KServe protocol, so make sure to use `v2` URL when sending inference request:
+
+- Triton-FIL uses v2 version of KServe protocol, so make sure to use `v2` URL when sending inference request:
+
 ```console
 $ INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway \
   -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -126,7 +134,9 @@ $ curl -v -H "Host: ${SERVICE_HOSTNAME}" -H "Content-Type: application/json" \
 ```
 
 ### XGBoost
+
 To deploy an XGBoost model, save it using the JSON format:
+
 ```python
 import xgboost as xgb
 
@@ -134,8 +144,10 @@ clf = xgb.XGBClassifier(...)
 clf.fit(X, y)
 clf.save_model("my_xgboost_model.json")  # Note the .json extension
 ```
+
 Rename the model file to `xgboost.json`, as this is convention used by Triton-FIL.
 After moving the model file into the model directory, the directory should look like this:
+
 ```text
 model-directory/
 \__ model/
@@ -146,9 +158,10 @@ model-directory/
 
 In `config.pbtxt`, set `model_type="xgboost_json"`.
 
-
 ### cuML RandomForest
+
 To deploy a cuML random forest, save it as a Treelite checkpoint file:
+
 ```python
 from cuml.ensemble import RandomForestClassifier as cumlRandomForestClassifier
 
@@ -156,8 +169,10 @@ clf = cumlRandomForestClassifier(...)
 clf.fit(X, y)
 clf.convert_to_treelite_model().to_treelite_checkpoint("./checkpoint.tl")
 ```
+
 Rename the checkpoint file to `checkpoint.tl`, as this is convention used by Triton-FIL.
 After moving the model file into the model directory, the directory should look like this:
+
 ```text
 model-directory/
 \__ model/
@@ -167,6 +182,7 @@ model-directory/
 ```
 
 ### Configurating Triton-FIL
+
 Triton-FIL offers many configuration options, and we only showed you a few of them. Please visit [FIL Backend Model Configuration](https://github.com/triton-inference-server/fil_backend/blob/main/docs/model_config.md) to check out the rest.
 
 ## Setting up InferenceService with other RAPIDS models
