@@ -1,4 +1,4 @@
-# RAPIDS on Google CoLab
+# RAPIDS on Google Colab
 
 ## 0. Launch notebook
 
