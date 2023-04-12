@@ -20,13 +20,15 @@ Follow these high-level steps to get started:
 
 ## Azure ML Compute instance
 
-You could install Azure Machine Learning on your local computer but it is recommended to create [Azure's ML Compute instances](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance), a fully managed and secure development environment that can also serve as compute target for ML training.
+Although it is possible to install Azure Machine Learning on your local computer, it is recommended to utilize [Azure's ML Compute instances](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance), fully managed and secure development environments that can also serve as a [compute target](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-target?view=azureml-api-2) for ML training.
 
-The compute instance comes with integrated Jupyter notebook service, JupyterLab, Azure ML Python SDK, CLI and other [tools](link).
+The compute instance provides an integrated Jupyter notebook service, JupyterLab, Azure ML Python SDK, CLI, and other essential [tools](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-target?view=azureml-api-2).
 
 ### Select your instance
 
-Sign in to [Azure Machine Learning Studio](https://ml.azure.com/) and navigate to your workspace. On the left side, select **Compute** > **+ New** and choose a [RAPIDS compatible GPU](https://medium.com/dropout-analytics/which-gpus-work-with-rapids-ai-f562ef29c75f) VM size (e.g., `Standard_NC12s_v3`)
+Sign in to [Azure Machine Learning Studio](https://ml.azure.com/) and navigate to your workspace on the left-side menu.
+
+Select **Compute** > **+ New** > choose a [RAPIDS compatible GPU](https://medium.com/dropout-analytics/which-gpus-work-with-rapids-ai-f562ef29c75f) VM size (e.g., `Standard_NC12s_v3`)
 
 ![Screenshot of create new notebook with a gpu-instance](../../images/azureml-create-notebook-instance.png)
 
@@ -63,7 +65,7 @@ Launch the instance.
 
 ### Select the RAPIDS environment
 
-Once your Notebook Instance is `Running` select "JupyterLab". Then in JupyterLab select the `rapids` kernel when working with a new notebook
+Once your Notebook Instance is `Running`, open "JupyterLab" and select the `rapids` kernel when working with a new notebook.
 
 ## Azure ML Compute cluster
 
@@ -90,7 +92,7 @@ ml_client = MLClient(
 # or load details from config file
 ml_client = MLClient.from_config(
     credential=DefaultAzureCredential(),
-    path="path_to_config_file",
+    path="config.json",
 )
 ```
 
@@ -99,7 +101,7 @@ ml_client = MLClient.from_config(
 You will need to create a [compute target](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-target?view=azureml-api-2#azure-machine-learning-compute-managed) using Azure ML managed compute ([AmlCompute](https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-ml/0.1.0b4/azure.ai.ml.entities.html)) for remote training. Note: Be sure to check limits within your available region. This [article](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-quotas?view=azureml-api-2#azure-machine-learning-compute) includes details on the default limits and how to request more quota.
 
 [**size**]: The VM family of the nodes.
-Specify from one of `NC_v2`, `NC_v3`, `ND` or `ND_v2` GPU virtual machines (e.g `Standard_NC12s_v3`)
+Specify from one of **NC_v2**, **NC_v3**, **ND** or **ND_v2** GPU virtual machines (e.g `Standard_NC12s_v3`)
 
 [**max_instances**]: The max number of nodes to autoscale up to when you run a job
 
@@ -123,7 +125,7 @@ ml_client.begin_create_or_update(gpu_compute).result()
 
 ### Access Datastore URI
 
-A [datastore URI](link) is a reference to a blob storage location (path) on your Azure account. You can copy-and-paste the datastore URI from the AzureML Studio UI:
+A [datastore URI](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-access-data-interactive?tabs=adls&view=azureml-api-2#access-data-from-a-datastore-uri-like-a-filesystem-preview) is a reference to a blob storage location (path) on your Azure account. You can copy-and-paste the datastore URI from the AzureML Studio UI:
 
 1. Select **Data** from the left-hand menu > **Datastores** > choose your datastore name > **Browse**
 2. Find the file/folder containing your dataset and click the elipsis (...) next to it.
@@ -133,11 +135,10 @@ A [datastore URI](link) is a reference to a blob storage location (path) on your
 
 ### Custom RAPIDS Environment
 
-To run an AzureML experiment, you need to specify an environment containing all necessary software dependencies that will be used to run copies of the training script across the nodes.
+To run an AzureML experiment, you must specify an [environment](https://learn.microsoft.com/en-us/azure/machine-learning/concept-environments?view=azureml-api-2) that contains all the necessary software dependencies to run the training script on distributed nodes. <br>
+You can define an environment from a [pre-built](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-environments-v2?tabs=python&view=azureml-api-2#create-an-environment-from-a-docker-image) docker image or create-your-own from a [Dockerfile](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-environments-v2?tabs=python&view=azureml-api-2#create-an-environment-from-a-docker-build-context) or [conda](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-environments-v2?tabs=python&view=azureml-api-2#create-an-environment-from-a-conda-specification) specification file.
 
-You can use a [pre-built](link) environment provided by AzureML or create a [custom](link) environment by defining a Docker container image.
-
-To create a custom RAPIDS docker image, specify the directory that will serve as the build context, which should contain a Dockerfile (similar to below) and any other necessary files:
+Create your custom RAPIDS docker image using the example below, making sure to install additional packages needed for your workflows.
 
 ```dockerfile
 
@@ -159,7 +160,7 @@ Now create the Environment, making sure to label and provide a description:
 from azure.ai.ml.entities import Environment, BuildContext
 
 env_docker_image = Environment(
-    build=BuildContext(path="path_to_Dockerfile"),
+    build=BuildContext(path="Dockerfile"),
     name,
     description,
 )
