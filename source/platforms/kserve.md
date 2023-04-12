@@ -1,6 +1,6 @@
 # KServe
 
-KServe is a standard model inference platform built for Kubernetes. It provides consistent interface for multiple machine learning frameworks.
+[KServe](https://kserve.github.io/website) is a standard model inference platform built for Kubernetes. It provides consistent interface for multiple machine learning frameworks.
 In this page, we will show you how to deploy RAPIDS models using KServe.
 
 ```{note}
@@ -17,7 +17,7 @@ Visit [Getting Started with KServe](https://kserve.github.io/website/latest/get_
 
 ## Setting up First InferenceService
 
-Once KServe is installed, visit [First InferenceService](https://kserve.github.io/website/latest/get_started/first_isvc/) to quickly set up a first inference endpoint. (The example uses the [Support Vector Machine from scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html) to classify [the Iris dataset](https://scikit-learn.org/stable/auto_examples/datasets/plot_iris_dataset.html).) Follow through all the steps carefully and make sure everything works. In particular, you should be able to submit inference request using cURL.
+Once KServe is installed, visit [First InferenceService](https://kserve.github.io/website/latest/get_started/first_isvc/) to quickly set up a first inference endpoint. (The example uses the [Support Vector Machine from scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html) to classify [the Iris dataset](https://scikit-learn.org/stable/auto_examples/datasets/plot_iris_dataset.html).) Follow through all the steps carefully and make sure everything works. In particular, you should be able to submit inference requests using cURL.
 
 ## Setting up InferenceService with Triton-FIL
 
@@ -184,7 +184,3 @@ model-directory/
 ### Configurating Triton-FIL
 
 Triton-FIL offers many configuration options, and we only showed you a few of them. Please visit [FIL Backend Model Configuration](https://github.com/triton-inference-server/fil_backend/blob/main/docs/model_config.md) to check out the rest.
-
-## Setting up InferenceService with other RAPIDS models
-
-[Under construction]
