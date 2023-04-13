@@ -34,6 +34,21 @@ jobs:
           DEPLOYMENT_DOCS_BUILD_STABLE: ${{ startsWith(github.event.ref, 'refs/tags/') && 'true' || 'false' }}
         run: make html
 
+      - uses: aws-actions/configure-aws-credentials@v1-node16
+        if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+          role-duration-seconds: 3600 # 1h
+
+      - name: Sync HTML files to S3
+        if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}
+        env:
+          DESTINATION_DIR: ${{ startsWith(github.event.ref, 'refs/tags/') && 'stable' || 'nightly' }}
+        run: aws s3 sync --no-progress --delete build/html "s3://rapidsai-docs/deployment/${DESTINATION_DIR}/html"
+
+      # TODO: Remove the following step to commit files after docs repository
+      # overhaul is complete.
       # If on main in the upstream repo then push to docs repo
       - name: Pushes build files
         uses: cpina/github-action-push-to-another-repository@v1.5.1
