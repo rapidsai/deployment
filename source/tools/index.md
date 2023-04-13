@@ -13,6 +13,14 @@ Container Images
 Container images containing the RAPIDS software environment.
 ````
 
+````{grid-item-card}
+:link: dask-cuda
+:link-type: doc
+Dask CUDA
+^^^
+Dask-CUDA is a library extending Dask.distributed’s single-machine LocalCluster and Worker for use in distributed GPU workloads.
+````
+
 `````
 
 ## Kubernetes
