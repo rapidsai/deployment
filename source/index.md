@@ -56,6 +56,7 @@ Use RAPIDS on compute platforms.
 {bdg}`Kubeflow`
 {bdg}`Coiled`
 {bdg}`Databricks`
+{bdg}`Google Colab`
 ````
 
 ````{grid-item-card}

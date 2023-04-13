@@ -50,4 +50,14 @@ Run RAPIDS on Databricks.
 {bdg}`multi-node`
 ````
 
+````{grid-item-card}
+:link: colab
+:link-type: doc
+Google Colab
+^^^
+Run RAPIDS on Google Colab.
+
+{bdg}`single-node`
+````
+
 `````
