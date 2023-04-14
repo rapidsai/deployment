@@ -36,7 +36,7 @@ jobs:
       - name: Build
         env:
           DEPLOYMENT_DOCS_BUILD_STABLE: ${{ startsWith(github.event.ref, 'refs/tags/') && 'true' || 'false' }}
-        run: make html
+        run: make dirhtml
 
       - uses: aws-actions/configure-aws-credentials@v1-node16
         if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}
@@ -49,4 +49,4 @@ jobs:
         if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}
         env:
           DESTINATION_DIR: ${{ startsWith(github.event.ref, 'refs/tags/') && 'stable' || 'nightly' }}
-        run: aws s3 sync --no-progress --delete build/html "s3://rapidsai-docs/deployment/${DESTINATION_DIR}/html"
+        run: aws s3 sync --no-progress --delete build/dirhtml "s3://rapidsai-docs/deployment/${DESTINATION_DIR}/html"
