@@ -161,8 +161,8 @@ from azure.ai.ml.entities import Environment, BuildContext
 
 env_docker_image = Environment(
     build=BuildContext(path="Dockerfile"),
-    name,
-    description,
+    name="rapids-mlflow",
+    description="RAPIDS environment with azureml-mlflow",
 )
 
 ml_client.environments.create_or_update(env_docker_image)
