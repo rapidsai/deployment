@@ -9,7 +9,9 @@ class TextNodeVisitor(nodes.SparseNodeVisitor):
         super().__init__(*args, **kwargs)
 
     def visit_Text(self, node):
-        new_node = nodes.Text(re.sub(r"\{\{.*?\}\}", self.template_func, node.astext()))
+        new_node = nodes.Text(
+            re.sub(r"(?<!\$)\{\{.*?\}\}", self.template_func, node.astext())
+        )
         node.parent.replace(node, new_node)
 
     def template_func(self, match):
