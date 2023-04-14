@@ -200,11 +200,8 @@ returned_sweep_job = ml_client.create_or_update(sweep_job)
 ### CleanUp
 
 ```python
-# Delete amlcompute cluster
-gpu_compute.delete()
-
-# Delete Compute instance
-ml_client.compute.begin_delete("compute_instance_name").wait()
+# Delete compute cluster
+ml_client.compute.begin_delete(gpu_compute.name).wait()
 ```
 
 ```{relatedexamples}
