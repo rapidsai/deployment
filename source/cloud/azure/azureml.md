@@ -113,7 +113,7 @@ You may choose to use low-priority VMs to run your workloads. These VMs don't ha
 from azure.ai.ml.entities import AmlCompute
 
 gpu_compute = AmlCompute(
-    name="rapids-example",
+    name="rapids-cluster",
     type="amlcompute",
     size="Standard_NC12s_v3",
     max_instances=3,
@@ -174,27 +174,48 @@ Now that we have our environment and custom logic, we can configure and run the 
 
 ```python
 from azure.ai.ml import command, Input
+from azure.ai.ml.sweep import Choice, Uniform
 
-# submit training job
 command_job = command(
-    environment,
-    experiment_name,
-    code,
-    command,
-    inputs,
-    compute,
+    environment="rapids-mlflow:1",  # specify version of environment to use
+    experiment_name="test_rapids_mlflow",
+    code=project_folder,
+    command="python train_rapids.py --data_dir ${{inputs.data_dir}} \
+                    --n_bins ${{inputs.n_bins}} \
+                    --cv_folds ${{inputs.cv_folds}} \
+                    --n_estimators ${{inputs.n_estimators}} \
+                    --max_depth ${{inputs.max_depth}} \
+                    --max_features ${{inputs.max_features}}",
+    inputs={
+        "data_dir": Input(type="uri_file", path=data_uri),
+        "n_bins": 32,
+        "cv_folds": 5,
+        "n_estimators": 50,
+        "max_depth": 10,
+        "max_features": 1.0,
+    },
+    compute="rapids-cluster",
 )
-returned_job = ml_client.jobs.create_or_update(command_job)
 
+returned_job = ml_client.jobs.create_or_update(command_job)  # submit training job
+
+
+# define hyperparameter space to sweep over
+command_job_for_sweep = command_job(
+    n_estimators=Choice(values=range(50, 500)),
+    max_depth=Choice(values=range(5, 19)),
+    max_features=Uniform(min_value=0.2, max_value=1.0),
+)
 
 # apply hyperparameter sweep_job
-sweep_job = command_job.sweep(
-    compute,
-    sampling_algorithm,
-    primary_metric,
+sweep_job = command_job_for_sweep.sweep(
+    compute="rapids-cluster",
+    sampling_algorithm="random",
+    primary_metric="Accuracy",
     goal="Maximize",
 )
-returned_sweep_job = ml_client.create_or_update(sweep_job)
+
+returned_sweep_job = ml_client.create_or_update(sweep_job)  # submit hpo job
 ```
 
 ### CleanUp
