@@ -113,11 +113,11 @@ You may choose to use low-priority VMs to run your workloads. These VMs don't ha
 from azure.ai.ml.entities import AmlCompute
 
 gpu_compute = AmlCompute(
-    name,
+    name="rapids-example",
     type="amlcompute",
-    size,
-    max_instances,
-    idle_time_before_scale_down,
+    size="Standard_NC12s_v3",
+    max_instances=3,
+    idle_time_before_scale_down=300,  # Seconds of idle time before scaling down
     tier="low_priority",  # optional
 )
 ml_client.begin_create_or_update(gpu_compute).result()
