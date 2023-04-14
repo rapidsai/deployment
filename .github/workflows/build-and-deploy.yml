@@ -50,19 +50,3 @@ jobs:
         env:
           DESTINATION_DIR: ${{ startsWith(github.event.ref, 'refs/tags/') && 'stable' || 'nightly' }}
         run: aws s3 sync --no-progress --delete build/html "s3://rapidsai-docs/deployment/${DESTINATION_DIR}/html"
-
-      # TODO: Remove the following step to commit files after docs repository
-      # overhaul is complete.
-      # If on main in the upstream repo then push to docs repo
-      - name: Pushes build files
-        uses: cpina/github-action-push-to-another-repository@v1.5.1
-        if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.WORKFLOW_TOKEN }}
-        with:
-          source-directory: "build/html"
-          target-directory: ${{ startsWith(github.event.ref, 'refs/tags/') && 'deployment/stable' || 'deployment/nightly' }}
-          destination-github-username: "rapidsai"
-          destination-repository-name: "docs"
-          user-email: 1898282+github-actions[bot]@users.noreply.github.com
-          target-branch: gh-pages
