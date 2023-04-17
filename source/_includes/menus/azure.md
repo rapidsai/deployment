@@ -36,8 +36,9 @@ Launch a RAPIDS cluster on Azure VMs or Azure ML with Dask.
 :link-type: doc
 Azure Machine Learning (Azure ML)
 ^^^
-Launch a RAPIDS cluster on Azure ML.
+Launch RAPIDS Experiment on Azure ML.
 
+{bdg}`single-node`
 {bdg}`multi-node`
 ````
 
