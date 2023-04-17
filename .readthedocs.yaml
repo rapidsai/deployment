@@ -7,3 +7,6 @@ build:
 
 conda:
   environment: conda/environments/deployment_docs.yml
+
+sphinx:
+  builder: dirhtml
