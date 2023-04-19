@@ -62,7 +62,7 @@ Create the ECSCluster object in your Python session:
 from dask_cloudprovider.aws import ECSCluster
 
 cluster = ECSCluster(
-    cluster_arn=[CLUSTER_ARN],
+    cluster_arn="<cluster arn>",
     n_workers=[NUM_WORKERS],
     worker_gpu=[NUM_GPUS],
     skip_cleaup=True,
