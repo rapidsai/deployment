@@ -50,13 +50,11 @@ Review your settings then click on the "Create" button and wait for the cluster 
 
 Get the Amazon Resource Name (ARN) for the cluster you just created.
 
-Set `AWS_REGION` environment variable to your **[default region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-regions)**:
+Set `AWS_REGION` environment variable to your **[default region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-regions)**, for instance `us-east-1`
 
 ```shell
-$ export AWS_REGION=[REGION]
+AWS_REGION=[REGION]
 ```
-
-[REGION] = code for the region being used, e.g. `us-east-1`
 
 Create the ECSCluster object in your Python session:
 
