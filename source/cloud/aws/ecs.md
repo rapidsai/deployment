@@ -62,39 +62,39 @@ Create the ECSCluster object in your Python session:
 from dask_cloudprovider.aws import ECSCluster
 
 cluster = ECSCluster(
-    cluster_arn="<cluster arn>",
-    n_workers=[NUM_WORKERS],
-    worker_gpu=[NUM_GPUS],
+    cluster_arn= "<cluster arn>",
+    n_workers=<nuum_workers>,
+    worker_gpu=<num_gpus>,
     skip_cleaup=True,
-    execution_role_arn=[EXECUTION_ROLE_ARN],
-    task_role_arn=[TASK_ROLE_ARN],
+    execution_role_arn=" <execution_role_arn>",
+    task_role_arn= "<task_role_arn>",
     scheduler_timeout="20 minutes",
 )
 ```
 
 ````{note}
-When calling this command for the first time, a security group that matches the cluster name will automatically be created. <br />
+When you call this command for the first time, `ECSCluster()` will automatically create a **security group** with the same name as the ECS cluster you created above..
 
-However, if the cluster creation fails and you want to use the same cluster for subsequent runs of ECSCluster(), you'll need to provide the `security_groups` parameter with the value of the security group, e.g
+However, if the Dask cluster creation fails or you'd like to reuse the same ECS cluster for subsequent runs of `ECSCluster()`, then you will need to provide this security group value.
 
 ```shell
 security_groups=["sg-0fde781be42651"]
 
 ````
 
-[**CLUSTER_ARN**] = The ARN of an existing ECS cluster to use for launching tasks <br />
+[**cluster_arn**] = ARN of an existing ECS cluster to use for launching tasks <br />
 
-[**NUM_WORKERS**] = Number of workers to start on cluster creation <br />
+[**num_workers**] = number of workers to start on cluster creation <br />
 
-[**NUM_GPUS**] = The number of GPUs to expose to the worker, this must be less than or equal to the number of GPUs in the instance type you selected for the ECS cluster (e.g `1` for `p3.2xlarge`).<br />
+[**num_gpus**] = number of GPUs to expose to the worker, this must be less than or equal to the number of GPUs in the instance type you selected for the ECS cluster (e.g `1` for `p3.2xlarge`).<br />
 
-[**skip_cleanup**] = If True, Dask workers won't be automatically terminated when cluster is shut down <br />
+[**skip_cleanup**] = if True, Dask workers won't be automatically terminated when cluster is shut down <br />
 
-[**EXECUTION_ROLE_ARN**] = The ARN of the IAM role that allows the Dask cluster to create and manage ECS resources <br />
+[**execution_role_arn**] = ARN of the IAM role that allows the Dask cluster to create and manage ECS resources <br />
 
-[**TASK_ROLE_ARN**] = The ARN of the IAM role that the Dask workers assume when they run <br />
+[**task_role_arn**] = ARN of the IAM role that the Dask workers assume when they run <br />
 
-[**scheduler_timeout**] = The maximum time scheduler will wait for workers to connect to the cluster
+[**scheduler_timeout**] = maximum time scheduler will wait for workers to connect to the cluster
 
 ## Test RAPIDS
 
@@ -128,9 +128,9 @@ Name: id, dtype: int64
 
 ## Cleanup
 
-Your cluster will continue to run (and incur charges!) until you shut it down. You can either scale down to zero instances, or shut it down altogether. <br />
+You can scale down or delete the Dask cluster, but the ECS cluster will continue to run (and incur charges!) until you also scale it down or shut down altogether. <br />
 
-If you are planning to use the cluster again soon, it is probably preferable to reduce the nodes to zero.
+If you are planning to use the ECS cluster again soon, it is probably preferable to reduce the nodes to zero.
 
 ```{relatedexamples}
 
