@@ -63,7 +63,7 @@ from dask_cloudprovider.aws import ECSCluster
 
 cluster = ECSCluster(
     cluster_arn= "<cluster arn>",
-    n_workers=<nuum_workers>,
+    n_workers=<num_workers>,
     worker_gpu=<num_gpus>,
     skip_cleaup=True,
     execution_role_arn=" <execution_role_arn>",
