@@ -111,7 +111,6 @@ Sign in to the Amazon SageMaker [console](https://console.aws.amazon.com/sagemak
 - **NOTEBOOK_INSTANCE_TYPE** = Type of notebook instance. We recommend a lightweight instance (e.g., ml.t2.medium) since the instance will only be used to build the container and launch work
 - **PLATFORM_IDENTIFIER** = 'Amazon Linux 2, Jupyter Lab 3'
 - **IAM_ROLE** = Create a new role > Create role
-- **GIT_REPOSITORIES** = Under Default Repository > Repository, select 'Clone a public Git repository to this notebook instance only' and add the [RAPIDS deployment repository](https://github.com/rapidsai/deployment)
 
 ### Launch Jupyter Notebook
 
@@ -123,7 +122,7 @@ If you see Pending to the right of the notebook instance in the Status column, y
 
 ### Run the Example Notebook
 
-Once inside JupyterLab you should be able to navigate to the example notebook named [source/examples/rapids-sagemaker-higgs/notebook.ipynb](/examples/rapids-sagemaker-higgs/notebook) and continue following those instructions.
+Once inside JupyterLab you should be able to upload the [Running RAPIDS hyperparameter experiments at scale](/examples/rapids-sagemaker-higgs/notebook) example notebook and continue following those instructions.
 
 ## Further reading
 
