@@ -12,9 +12,9 @@ Installation instructions for conda are hosted at the [RAPIDS Conda Installation
 
 Installation instructions for Docker are hosted at the [RAPIDS Docker Installation Docs Page](https://docs.rapids.ai/install#docker).
 
-## Pip
+## pip
 
-RAPIDS packages can be installed with pip (currently experimental support). See [RAPIDS PiP Installation Docs Page](https://docs.rapids.ai/install#pip) for installation instructions and requirements.
+RAPIDS packages can be installed with pip. See [RAPIDS pip Installation Docs Page](https://docs.rapids.ai/install#pip) for installation instructions and requirements.
 
 ## WSL2
 
