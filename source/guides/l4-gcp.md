@@ -68,13 +68,13 @@ $ sudo systemctl restart docker
 
 ### Install RAPIDS
 
-```{include} ../../_includes/install-rapids-with-docker.md
+```{include} ../_includes/install-rapids-with-docker.md
 
 ```
 
 ### Test RAPIDS
 
-```{include} ../../_includes/test-rapids-docker-vm.md
+```{include} ../_includes/test-rapids-docker-vm.md
 
 ```
 
