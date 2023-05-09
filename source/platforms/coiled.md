@@ -25,16 +25,12 @@ Next you'll need to register a RAPIDS software environment with Coiled.
 
 You can either build this from the official RAPIDS Container images.
 
-```{warning}
-Currently Coiled does not support Ubuntu 22.04 based images so be sure to select the 20.04 based image.
-```
-
 ```python
 import coiled
 
 coiled.create_software_environment(
     name="rapids-{{ rapids_version.replace(".", "-") }}",
-    container="{{ rapids_container.replace("ubuntu22.04", "ubuntu20.04") }}",
+    container="{{ rapids_container }}",
 )
 ```
 

@@ -16,7 +16,7 @@ html_theme.sidebar_secondary.remove: true
 
 ```
 
-## Google Cloud Platforms
+## Google Cloud Platform
 
 ```{include} ../_includes/menus/gcp.md
 
