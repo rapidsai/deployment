@@ -24,7 +24,7 @@ Check the output of `!nvidia-smi` to make sure you've been allocated a Rapids Co
 
 Checks GPU compatibility with RAPIDS, then installs the latest **stable** versions of RAPIDSAI's core libraries (cuDF, cuML, cuGraph, and xgboost) using `pip`.
 
-```console
+```bash
 # Colab warns and provides remediation steps if it's not compatible with RAPIDS.
 
 !git clone https://github.com/rapidsai/rapidsai-csp-utils.git
@@ -35,7 +35,7 @@ Checks GPU compatibility with RAPIDS, then installs the latest **stable** versio
 
 If you need to install any RAPIDS Extended libraries or the nightly version, you can use the [RAPIDS Conda Colab Template](https://colab.research.google.com/drive/1TAAi_szMfWqRfHVfjGSqnGVLr_ztzUM9) notebook and install via `conda`.
 
-```console
+```bash
 # The <release> options are 'stable' and 'nightly'. Leaving it blank or adding any other words will default to 'stable'.
 
 !python rapidsai-csp-utils/colab/env-check.py
@@ -45,7 +45,7 @@ If you need to install any RAPIDS Extended libraries or the nightly version, you
 
 ## Test Rapids
 
-```console
+```python
 import cudf
 
 gdf = cudf.DataFrame({"a":[1,2,3],"b":[4,5,6]})

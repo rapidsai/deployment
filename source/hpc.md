@@ -106,7 +106,7 @@ python /tmp/dask-cudf-example.py
 
 Putting the above together will result in the following output:
 
-```raw
+```bash
                       x                          y
                    mean        sum count      mean        sum count
 id   name

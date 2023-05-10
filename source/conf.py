@@ -55,6 +55,7 @@ rapids_version["rapids_conda_packages_list"] = rapids_version[
 # ones.
 sys.path.insert(0, os.path.abspath("../extensions"))
 extensions = [
+    "IPython.sphinxext.ipython_console_highlighting",
     "sphinx.ext.intersphinx",
     "myst_nb",
     "sphinxcontrib.mermaid",
@@ -79,6 +80,8 @@ exclude_patterns = []
 
 copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
 copybutton_prompt_is_regexp = True
+
+suppress_warnings = ["myst.header", "myst.nested_header"]
 
 # -- Options for notebooks -------------------------------------------------
 
