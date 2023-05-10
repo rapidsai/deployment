@@ -2,6 +2,8 @@
 
 RAPIDS integrates with Kubernetes in many ways depending on your use case.
 
+(interactive-notebook)=
+
 ## Interactive Notebook
 
 For single-user interactive sessions you can run the [RAPIDS docker image](/tools/rapids-docker) which contains a conda environment with the RAPIDS libraries and Jupyter for interactive use.
@@ -277,16 +279,18 @@ Individual users can also install the [Dask Helm Chart](https://helm.dask.org) w
 
 Find out more on the [Dask Helm Chart page](/tools/kubernetes/dask-helm-chart).
 
+(dask-operator)=
+
 ## Dask Operator
 
-[Dask has an operator](https://kubernetes.dask.org/en/latest/operator.html) that empowers users to create Dask clusters as native Kubernetes resources. This is useful for creating, scaling and removing Dask clusters dynamically and in a flexible way. Usually this is used in conjunction with an interactive session such as the [interactive notebook](#interactive-notebook) example above or from another service like [KubeFlow Notebooks](/platforms/kubeflow). By dynamically launching Dask clusters configured to use RAPIDS on Kubernetes user's can burst beyond their notebook session to many GPUs spreak across many nodes.
+[Dask has an operator](https://kubernetes.dask.org/en/latest/operator.html) that empowers users to create Dask clusters as native Kubernetes resources. This is useful for creating, scaling and removing Dask clusters dynamically and in a flexible way. Usually this is used in conjunction with an interactive session such as the [interactive notebook](interactive-notebook) example above or from another service like [KubeFlow Notebooks](/platforms/kubeflow). By dynamically launching Dask clusters configured to use RAPIDS on Kubernetes user's can burst beyond their notebook session to many GPUs spreak across many nodes.
 
 Find out more on the [Dask Operator page](/tools/kubernetes/dask-operator).
 
 ## Dask Kubernetes (classic)
 
 ```{warning}
-Unless you are already using the [classic Dask Kubernetes integration](https://kubernetes.dask.org/en/latest/kubecluster.html) we recommend using the [Dask Operator](#dask-operator) instead.
+Unless you are already using the [classic Dask Kubernetes integration](https://kubernetes.dask.org/en/latest/kubecluster.html) we recommend using the [Dask Operator](dask-operator) instead.
 ```
 
 Dask has an older tool for dynamically launching Dask clusters on Kubernetes that does not use an operator. It is possible to configure this to run RAPIDS too but it is being phased out in favour of the operator.
@@ -298,8 +302,6 @@ Find out more on the [Dask Kubernetes page](/tools/kubernetes/dask-kubernetes).
 Some organisations may want to provide Dask cluster provisioning as a central service where users are abstracted from the underlying platform like Kubernetes. This can be useful for reducing user permissions, limiting resources that users can consume and exposing things in a centralised way. For this you can deploy Dask Gateway which provides a server that users interact with programatically and in turn launches Dask clusters on Kubernetes and proxies the connection back to the user.
 
 Users can configure what they want their Dask cluster to look like so it is possible to utilize GPUs and RAPIDS for an accelerated cluster.
-
-Find out more on the [Dask Gateway page](/tools/kubernetes/dask-gateway).
 
 ## KubeFlow
 

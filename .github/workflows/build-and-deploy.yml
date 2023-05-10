@@ -36,7 +36,7 @@ jobs:
       - name: Build
         env:
           DEPLOYMENT_DOCS_BUILD_STABLE: ${{ startsWith(github.event.ref, 'refs/tags/') && 'true' || 'false' }}
-        run: make dirhtml
+        run: make dirhtml SPHINXOPTS="-W --keep-going -n"
 
       - uses: aws-actions/configure-aws-credentials@v1-node16
         if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}

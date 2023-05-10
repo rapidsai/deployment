@@ -6,7 +6,7 @@ For new, user-managed notebooks, it is recommended to use a RAPIDS docker image 
 
 ## Prepare RAPIDS Docker Image
 
-Before configuring a new notebook, the [RAPIDS Docker image](#rapids-docker) will need to be built to expose port 8080 to be used as a notebook service.
+Before configuring a new notebook, the [RAPIDS Docker image](/tools/rapids-docker) will need to be built to expose port 8080 to be used as a notebook service.
 
 ```dockerfile
 FROM {{ rapids_container }}
