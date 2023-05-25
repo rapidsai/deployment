@@ -1,4 +1,4 @@
-# NVIDIA DGX Cloud (Base Command Platform)
+# Base Command Platform (BCP)
 
 [NVIDIA Base Command™ Platform (BCP)](https://www.nvidia.com/en-gb/data-center/base-command-platform/) is a software service in [NVIDIA DGX Cloud](https://www.nvidia.com/en-us/data-center/dgx-cloud/) for enterprise-class AI training that enables businesses and their data scientists to accelerate AI development.
 
