@@ -2,11 +2,11 @@
 :gutter: 2 2 2 2
 
 ````{grid-item-card}
-:link: /cloud/nvidia/pym
+:link: /cloud/nvidia/bcp
 :link-type: doc
-Pym (Base Command Platform)
+Base Command Platform
 ^^^
-Run RAPIDS workloads on NVIDIA Base Command Platform with Pym.
+Run RAPIDS workloads on NVIDIA DGX Cloud with Base Command Platform.
 
 {bdg}`single-node`
 {bdg}`multi-node`
