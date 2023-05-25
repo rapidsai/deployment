@@ -7,7 +7,7 @@
     + "/", related_files[name]) }} {% else %}
     <a
       class="reference external nav-link"
-      href="{{ root }}{{ related_files[name] }}"
+      href="../{{ root }}{{ related_files[name] }}"
     >
       {{ name }}
     </a>
@@ -23,7 +23,7 @@
   {{ gen_list("", "", related_notebook_files) }} {% if
   related_notebook_files_archive %}
   <div style="font-size: 0.9em; margin-top: 0.5em">
-    <a href="{{ related_notebook_files_archive }}"
+    <a href="../{{ related_notebook_files_archive }}"
       ><i class="fa-solid fa-download"></i> Download all
     </a>
   </div>
