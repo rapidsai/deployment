@@ -48,7 +48,7 @@ Since [GCP recommends CUDA 12](https://cloud.google.com/compute/docs/gpus/instal
 1. [Install CUDA Toolkit 12](https://developer.nvidia.com/cuda-downloads) in your VM and accept the default prompts with the following commands.
 
 ```bash
-$ wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_installers/cuda_12.1.1_530.30.02_linux.runsudo sh cuda_12.1.1_530.30.02_linux.run
+$ wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_installers/cuda_12.1.1_530.30.02_linux.run
 $ sudo sh cuda_12.1.1_530.30.02_linux.run
 ```
 
