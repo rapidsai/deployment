@@ -12,3 +12,8 @@ docker run --gpus all --rm -it \
     -p 8888:8888 -p 8787:8787 -p 8786:8786 \
     {{ rapids_container }}
 ```
+
+```{note}
+If you see a "docker socket permission denied" error while running these commands try closing and reconnecting your
+SSH window. This happens because your user was added to the `docker` group only after you signed in.
+```
