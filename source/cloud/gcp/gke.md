@@ -62,7 +62,7 @@ Now that you have a GPU enables Kubernetes cluster on GKE you can install RAPIDS
 You can also delete the GKE cluster to stop billing with the following command.
 
 ```console
-$ gcloud container clusters delete rapids --zone us-central1-c
+$ gcloud container clusters delete rapids-gpu-kubeflow --zone us-central1-c
 Deleting cluster rapids...⠼
 ```
 
