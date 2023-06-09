@@ -54,10 +54,10 @@ client = Client(cluster)
 
 
 def get_gpu_model():
-    import pynvml
+    import nvidia-ml-py
 
-    pynvml.nvmlInit()
-    return pynvml.nvmlDeviceGetName(pynvml.nvmlDeviceGetHandleByIndex(0))
+    nvidia-ml-py.nvmlInit()
+    return nvidia-ml-py.nvmlDeviceGetName(nvidia-ml-py.nvmlDeviceGetHandleByIndex(0))
 
 
 client.submit(get_gpu_model).result()
