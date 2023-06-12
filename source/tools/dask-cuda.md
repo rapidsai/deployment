@@ -48,10 +48,10 @@ cluster = LocalCUDACluster()
 client = Client(cluster)
 
 def get_gpu_model():
-    import nvidia-ml-py
+    import pynvml
 
-    nvidia-ml-py.nvmlInit()
-    return nvidia-ml-py.nvmlDeviceGetName(nvidia-ml-py.nvmlDeviceGetHandleByIndex(0))
+    pynvml.nvmlInit()
+    return pynvml.nvmlDeviceGetName(pynvml.nvmlDeviceGetHandleByIndex(0))
 
 
 client.submit(get_gpu_model).result()
