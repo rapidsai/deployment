@@ -26,7 +26,7 @@ The HTML pages are in build.
 Alternatively you can build the static site into `build/html` with `sphinx`.
 
 ```bash
-$ make html
+$ make dirhtml
 ```
 
 ## Writing

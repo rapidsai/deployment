@@ -4,6 +4,12 @@ html_theme.sidebar_secondary.remove: true
 
 # Cloud
 
+## NVIDIA DGX Cloud
+
+```{include} ../_includes/menus/nvidia.md
+
+```
+
 ## Amazon Web Services
 
 ```{include} ../_includes/menus/aws.md
@@ -16,7 +22,7 @@ html_theme.sidebar_secondary.remove: true
 
 ```
 
-## Google Cloud Platforms
+## Google Cloud Platform
 
 ```{include} ../_includes/menus/gcp.md
 
@@ -33,6 +39,7 @@ html_theme.sidebar_secondary.remove: true
 :caption: Cloud
 :hidden:
 
+nvidia/index
 aws/index
 azure/index
 gcp/index

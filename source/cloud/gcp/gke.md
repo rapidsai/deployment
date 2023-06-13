@@ -19,12 +19,12 @@ $ gcloud init
 Now we can launch a GPU enabled GKE cluster.
 
 ```console
-$ gcloud container clusters create rapids \
+$ gcloud container clusters create rapids-gpu-kubeflow \
   --accelerator type=nvidia-tesla-a100,count=2 --machine-type a2-highgpu-2g \
   --zone us-central1-c --release-channel stable
 ```
 
-With this command, you’ve launched a GKE cluster called rapids-gpu-kubeflow. You’ve specified that it should use nodes of type a2-highgpu-2g, each with two A100 GPUs.
+With this command, you’ve launched a GKE cluster called `rapids-gpu-kubeflow`. You’ve specified that it should use nodes of type a2-highgpu-2g, each with two A100 GPUs.
 
 ## Install drivers
 
@@ -62,7 +62,7 @@ Now that you have a GPU enables Kubernetes cluster on GKE you can install RAPIDS
 You can also delete the GKE cluster to stop billing with the following command.
 
 ```console
-$ gcloud container clusters delete rapids --zone us-central1-c
+$ gcloud container clusters delete rapids-gpu-kubeflow --zone us-central1-c
 Deleting cluster rapids...⠼
 ```
 

@@ -12,6 +12,10 @@ defaults:
   run:
     shell: bash -l {0}
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   conda:
     name: Build (and deploy)
@@ -32,18 +36,17 @@ jobs:
       - name: Build
         env:
           DEPLOYMENT_DOCS_BUILD_STABLE: ${{ startsWith(github.event.ref, 'refs/tags/') && 'true' || 'false' }}
-        run: make html
+        run: make dirhtml SPHINXOPTS="-W --keep-going -n"
 
-      # If on main in the upstream repo then push to docs repo
-      - name: Pushes build files
-        uses: cpina/github-action-push-to-another-repository@v1.5.1
+      - uses: aws-actions/configure-aws-credentials@v1-node16
+        if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+          role-duration-seconds: 3600 # 1h
+
+      - name: Sync HTML files to S3
         if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}
         env:
-          API_TOKEN_GITHUB: ${{ secrets.WORKFLOW_TOKEN }}
-        with:
-          source-directory: "build/html"
-          target-directory: ${{ startsWith(github.event.ref, 'refs/tags/') && 'deployment/stable' || 'deployment/nightly' }}
-          destination-github-username: "rapidsai"
-          destination-repository-name: "docs"
-          user-email: 1898282+github-actions[bot]@users.noreply.github.com
-          target-branch: gh-pages
+          DESTINATION_DIR: ${{ startsWith(github.event.ref, 'refs/tags/') && 'stable' || 'nightly' }}
+        run: aws s3 sync --no-progress --delete build/dirhtml "s3://rapidsai-docs/deployment/${DESTINATION_DIR}/html"

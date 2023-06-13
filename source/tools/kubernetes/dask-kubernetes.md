@@ -19,7 +19,7 @@ The minimal requirements mentioned above by:
 
 ```bash
 conda create -n rapids {{ rapids_conda_channels }}  \
-    {{ rapids_conda_packages }} dask_kubernetes
+    {{ rapids_conda_packages }} dask-kubernetes
 ```
 
 ## Cluster setup

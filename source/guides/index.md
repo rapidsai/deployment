@@ -38,4 +38,14 @@ Guidance on Dask scheduler software and hardware requirements.
 {bdg-primary}`Dask`
 ````
 
+````{grid-item-card}
+:link: l4-gcp
+:link-type: doc
+L4 on Google Cloud Platform
+^^^
+How to setup a VM instance on GCP with an L4 GPU.
+
+{bdg-primary}`Google Cloud Platform`
+````
+
 `````
