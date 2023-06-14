@@ -23,6 +23,8 @@ COPY --from=rapids /rapids/rapids-spec.txt /tmp/spec.txt
 
 RUN conda create --name rapids --file /tmp/spec.txt && \
     rm -f /tmp/spec.txt
+
+RUN /databricks/conda/envs/rapids/bin/python -m pip install --upgrade virtualenv
 ```
 
 ```console
