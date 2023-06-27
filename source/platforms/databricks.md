@@ -23,6 +23,8 @@ COPY --from=rapids /rapids/rapids-spec.txt /tmp/spec.txt
 
 RUN conda create --name rapids --file /tmp/spec.txt && \
     rm -f /tmp/spec.txt
+
+RUN /databricks/conda/envs/rapids/bin/python -m pip install --upgrade virtualenv
 ```
 
 ```console
@@ -34,7 +36,8 @@ Push this image to a Docker registry (DockerHub, Amazon ECR or Azure ACR).
 ## 2. Configure and create GPU-enabled cluster
 
 1. Compute > Create compute > Name your cluster > Select `Multi` or `Single` Node
-2. Select a Standard Databricks runtime.
+2. Select the 10.4 LTS Standard Databricks runtime.
+   - **Note** The 12.2 LTS runtime is known to not work with the `databricksruntime/gpu-conda:cuda11` base image
    - **Note** Databricks ML Runtime does not support Databricks Container Services
 3. Under **Advanced Options**, in the the **Docker** tab select **"Use your own Docker container"**
    - In the Docker Image URL field, enter the image that you created above
