@@ -22,16 +22,16 @@ author = "NVIDIA"
 
 versions = {
     "stable": {
-        "rapids_version": "23.04",
-        "rapids_container": "nvcr.io/nvidia/rapidsai/rapidsai-core:23.04-cuda11.8-runtime-ubuntu22.04-py3.10",
+        "rapids_version": "23.06",
+        "rapids_container": "nvcr.io/nvidia/rapidsai/rapidsai-core:23.06-cuda11.8-runtime-ubuntu22.04-py3.10",
         "rapids_conda_channels": "-c rapidsai -c conda-forge -c nvidia",
-        "rapids_conda_packages": "rapids=23.04 python=3.10 cudatoolkit=11.8",
+        "rapids_conda_packages": "rapids=23.06 python=3.10 cudatoolkit=11.8",
     },
     "nightly": {
-        "rapids_version": "23.06-nightly",
-        "rapids_container": "rapidsai/rapidsai-core-nightly:23.06-cuda11.8-runtime-ubuntu22.04-py3.10",
+        "rapids_version": "23.08-nightly",
+        "rapids_container": "rapidsai/rapidsai-core-nightly:23.08-cuda11.8-runtime-ubuntu22.04-py3.10",
         "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge -c nvidia",
-        "rapids_conda_packages": "rapids=23.06 python=3.10 cudatoolkit=11.8",
+        "rapids_conda_packages": "rapids=23.08 python=3.10 cudatoolkit=11.8",
     },
 }
 rapids_version = (
