@@ -28,7 +28,7 @@ def walk_files(app, dir, outdir):
                     with open(str(outdir / page.name), "w") as writer:
                         writer.write(
                             re.sub(
-                                r"\{\{.*?\}\}",
+                                r"(?<!\$)\{\{.*?\}\}",
                                 partial(template_func, app),
                                 notebook,
                             )
