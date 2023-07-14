@@ -59,7 +59,8 @@ class RapidsCloudML:
         self.compute_type = compute_type
         self.verbose_estimator = verbose_estimator
         self.log_to_file(
-            f"\n> RapidsCloudML\n\tCompute, Data , Model, Cloud types {self.compute_type, self.data_type, self.model_type, self.cloud_type}"
+            f"\n> RapidsCloudML\n\tCompute, Data, Model, Cloud types "
+            f"{self.compute_type, self.data_type, self.model_type, self.cloud_type}"
         )
 
         # Setting up client for multi-GPU option
