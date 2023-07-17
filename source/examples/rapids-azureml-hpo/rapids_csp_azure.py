@@ -25,6 +25,7 @@ import dask
 import dask_cudf
 import numpy as np
 import pandas as pd
+import pyarrow.orc as pyarrow_orc
 import sklearn
 import xgboost
 from cuml.dask.common import utils as dask_utils
