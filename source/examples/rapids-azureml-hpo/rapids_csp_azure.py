@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
+#
 import json
 import logging
 import pprint
@@ -185,7 +185,7 @@ class RapidsCloudML:
                     elif "multi" in self.compute_type:
                         self.log_to_file("\n\tReading using dask dataframe")
                         dataset = dask.dataframe.read_parquet(
-                            target_filename, columns=columns
+                            target_filename, columns=col_labels
                         )
 
             elif "GPU" in self.compute_type:
