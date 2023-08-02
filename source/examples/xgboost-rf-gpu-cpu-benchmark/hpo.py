@@ -4,12 +4,8 @@ import os
 import time
 
 import dask
-import dask_cudf
 import optuna
 import xgboost as xgb
-from cuml.dask.common.utils import persist_across_workers
-from cuml.dask.ensemble import RandomForestClassifier as RF_gpu
-from cuml.metrics import accuracy_score as accuracy_score_gpu
 from dask.distributed import Client, LocalCluster, wait
 from dask_cuda import LocalCUDACluster
 from dask_ml.model_selection import train_test_split
@@ -40,6 +36,8 @@ feature_columns = [
 
 def ingest_data(mode):
     if mode == "gpu":
+        import dask_cudf
+
         dataset = dask_cudf.read_parquet(
             glob.glob("./data/*.parquet"),
             columns=feature_columns,
@@ -61,6 +59,8 @@ def preprocess_data(dataset, *, client, i_fold, mode):
     X_test, y_test = X_test.astype("float32"), y_test.astype("int32")
 
     if mode == "gpu":
+        from cuml.dask.common.utils import persist_across_workers
+
         X_train, y_train, X_test, y_test = persist_across_workers(
             client, [X_train, y_train, X_test, y_test], workers=client.has_what().keys()
         )
@@ -94,6 +94,8 @@ def train_xgboost(trial, *, dataset, client, mode):
         )
 
         if mode == "gpu":
+            from cuml.metrics import accuracy_score as accuracy_score_gpu
+
             params["tree_method"] = "gpu_hist"
             dtrain = xgb.dask.DaskDeviceQuantileDMatrix(client, X_train, y_train)
             dtest = xgb.dask.DaskDeviceQuantileDMatrix(client, X_test)
@@ -125,7 +127,6 @@ def train_randomforest(trial, *, dataset, client, mode):
         "n_estimators": trial.suggest_int("n_estimators", 100, 500, step=10),
         "criterion": trial.suggest_categorical("criterion", ["gini", "entropy"]),
         "min_samples_split": trial.suggest_int("min_samples_split", 2, 1000, log=True),
-        "n_bins": 256,
     }
 
     cv_fold_scores = []
@@ -135,14 +136,21 @@ def train_randomforest(trial, *, dataset, client, mode):
         )
 
         if mode == "gpu":
+            from cuml.dask.ensemble import RandomForestClassifier as RF_gpu
+            from cuml.metrics import accuracy_score as accuracy_score_gpu
+
+            params["n_bins"] = 256
             trained_model = RF_gpu(client=client, **params)
             accuracy_score_func = accuracy_score_gpu
         else:
+            params["n_jobs"] = -1
             trained_model = RF_cpu(**params)
             accuracy_score_func = accuracy_score_cpu
 
         trained_model.fit(X_train, y_train)
-        pred = trained_model.predict(X_test).compute()
+        pred = trained_model.predict(X_test)
+        if mode == "gpu":
+            pred = pred.compute()
         y_test = y_test.compute()
         score = accuracy_score_func(y_test, pred)
         cv_fold_scores.append(score)
