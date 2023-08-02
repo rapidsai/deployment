@@ -37,6 +37,7 @@ feature_columns = [
 def ingest_data(mode):
     if mode == "gpu":
         import dask_cudf
+
         dataset = dask_cudf.read_parquet(
             glob.glob("./data/*.parquet"),
             columns=feature_columns,
@@ -59,6 +60,7 @@ def preprocess_data(dataset, *, client, i_fold, mode):
 
     if mode == "gpu":
         from cuml.dask.common.utils import persist_across_workers
+
         X_train, y_train, X_test, y_test = persist_across_workers(
             client, [X_train, y_train, X_test, y_test], workers=client.has_what().keys()
         )
@@ -93,6 +95,7 @@ def train_xgboost(trial, *, dataset, client, mode):
 
         if mode == "gpu":
             from cuml.metrics import accuracy_score as accuracy_score_gpu
+
             params["tree_method"] = "gpu_hist"
             dtrain = xgb.dask.DaskDeviceQuantileDMatrix(client, X_train, y_train)
             dtest = xgb.dask.DaskDeviceQuantileDMatrix(client, X_test)
@@ -133,8 +136,9 @@ def train_randomforest(trial, *, dataset, client, mode):
         )
 
         if mode == "gpu":
-            from cuml.metrics import accuracy_score as accuracy_score_gpu
             from cuml.dask.ensemble import RandomForestClassifier as RF_gpu
+            from cuml.metrics import accuracy_score as accuracy_score_gpu
+
             params["n_bins"] = 256
             trained_model = RF_gpu(client=client, **params)
             accuracy_score_func = accuracy_score_gpu
