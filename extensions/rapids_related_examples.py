@@ -72,6 +72,8 @@ def get_title_for_notebook(path: str) -> str:
         if cell["cell_type"] == "markdown":
             cell_source = MarkdownIt().parse(cell["source"])
             for i, token in enumerate(cell_source):
+                if i == len(cell_source) - 1:  # no next_token
+                    continue
                 next_token = cell_source[i + 1]
                 if (
                     token.type == "heading_open"

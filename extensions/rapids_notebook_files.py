@@ -12,7 +12,7 @@ def template_func(app, match):
 
 
 def walk_files(app, dir, outdir):
-    outdir.mkdir(parents=True, exist_ok=False)
+    outdir.mkdir(parents=True, exist_ok=True)
     related_notebook_files = {}
     for page in dir.glob("*"):
         if page.is_dir():
