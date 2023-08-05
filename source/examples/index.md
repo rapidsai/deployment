@@ -15,4 +15,5 @@ rapids-autoscaling-multi-tenant-kubernetes/notebook
 xgboost-randomforest-gpu-hpo-dask/notebook
 rapids-azureml-hpo/notebook
 xgboost-rf-gpu-cpu-benchmark/notebook
+xgboost-azure-mnmg-daskcloudprovider/notebook
 ```
