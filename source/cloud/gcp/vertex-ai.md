@@ -31,9 +31,15 @@ $ docker push gcr.io/<project>/<folder>/{{ rapids_container.replace('rapidsai/',
 5. Check the **Install NVIDIA GPU Driver** option.
 6. After customizing any other aspects of the machine you wish, click **CREATE**.
 
-## TEST RAPIDS
+## Test RAPIDS
 
-Once the managed notebook is fully configured, you can click **OPEN JUPYTERLAB** to navigate to another tab running JupyterLab to use the latest version of RAPIDS with Vertex AI.
+Once the managed notebook is fully configured, you can click **OPEN JUPYTERLAB** to navigate to another tab running JupyterLab.
+
+```warning
+You should see a popup letting you know it is loading the RAPIDS kernel, this can take a long time so please be patient.
+```
+
+Once the kernel is loaded you can launch a notebook with the `rapids` kernel to use the latest version of RAPIDS with Vertex AI.
 
 For example we could import and use RAPIDS libraries like `cudf`.
 
