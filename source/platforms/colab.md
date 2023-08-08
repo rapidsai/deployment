@@ -14,7 +14,9 @@ In both sections, will be installing RAPIDS on colab using pip or conda. Here ar
 
 RAPIDS install on Colab strives to be an "always working" solution, and sometimes will **pin** RAPIDS versions to ensure compatiblity.
 
-## <a id="quick"></a>Section 1: RAPIDS Quick Install
+(quick)=
+
+## Section 1: RAPIDS Quick Install
 
 ### Links
 
@@ -43,7 +45,9 @@ Please follow the links below to our install templates:
 1. Run the rest of the cells to complete the installation of RAPIDS on Colab.
 1. Add your code in the cells below the template.
 
-## <a id="custom"></a>Section 2: User Customizable RAPIDS Install Instructions
+(custom)=
+
+## Section 2: User Customizable RAPIDS Install Instructions
 
 ### 1. Launch notebook
 
