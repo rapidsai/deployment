@@ -12,7 +12,8 @@ To create a VM instance with an L4 GPU to run RAPIDS:
 1. Select **Create Instance**.
 1. Under the **Machine configuration** section, select **GPUs** and then select `NVIDIA L4` in the **GPU type** dropdown.
 1. Under the **Boot Disk** section, click **CHANGE** and select `Deep Learning on Linux` in the **Operating System** dropdown.
-1. Once you have customized other attributes of the instance, click **CREATE**
+1. It is also recommended to increase the default boot disk size to something like `100GB`.
+1. Once you have customized other attributes of the instance, click **CREATE**.
 
 ### Allow network access
 
@@ -55,11 +56,6 @@ $ sudo sh cuda_12.1.1_530.30.02_linux.run
 1. [Install NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#setting-up-nvidia-container-toolkit) with the following commands.
 
 ```bash
-$ distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
-      && curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
-      && curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | \
-            sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-            sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 $ sudo apt-get update
 $ sudo apt-get install -y nvidia-container-toolkit
 $ sudo nvidia-ctk runtime configure --runtime=docker
