@@ -35,7 +35,7 @@ $ docker push gcr.io/<project>/<folder>/{{ rapids_container.replace('rapidsai/',
 
 Once the managed notebook is fully configured, you can click **OPEN JUPYTERLAB** to navigate to another tab running JupyterLab.
 
-```warning
+```{warning}
 You should see a popup letting you know it is loading the RAPIDS kernel, this can take a long time so please be patient.
 ```
 
