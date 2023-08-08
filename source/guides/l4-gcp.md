@@ -25,7 +25,7 @@ To access Jupyter and Dask we will need to set up some firewall rules to open up
 3. Give the rule a name like `rapids` and ensure the network matches the one you selected for the VM.
 4. Add a tag like `rapids` which we will use to assign the rule to our VM.
 5. Set your source IP range. We recommend you restrict this to your own IP address or your corporate network rather than `0.0.0.0/0` which will allow anyone to access your VM.
-6. Under **Protocols and ports** allow TCP connections on ports `8786,8787,8888`.
+6. Under **Protocols and ports** allow TCP connections on ports `22,8786,8787,8888`.
 
 #### Assign it to the VM
 
