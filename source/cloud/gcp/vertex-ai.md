@@ -25,10 +25,11 @@ $ docker push gcr.io/<project>/<folder>/{{ rapids_container.replace('rapidsai/',
 ## Create a New Notebook
 
 1. From the Google Cloud UI, navigate to [**Vertex AI**](https://console.cloud.google.com/vertex-ai) -> **Dashboard** and select **+ CREATE NOTEBOOK INSTANCE**.
-2. Under the **Environment** section, specify **Custom container**, and in the section below, select the `gcr.io` path to your pushed RAPIDS Docker image.
-3. Under **Machine Configuration** select an NVIDIA GPU.
-4. Check the **Install NVIDIA GPU Driver** option.
-5. After customizing any other aspects of the machine you wish, click **CREATE**.
+2. In the **Workbench type** section select **Managed Notebook** from the drop down menu.
+3. Under the **Environment** section, specify **Custom container**, and in the section below, select the `gcr.io` path to your pushed RAPIDS Docker image.
+4. Under **Machine Configuration** select an NVIDIA GPU.
+5. Check the **Install NVIDIA GPU Driver** option.
+6. After customizing any other aspects of the machine you wish, click **CREATE**.
 
 ## TEST RAPIDS
 
