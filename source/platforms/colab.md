@@ -9,7 +9,7 @@ This guide is broken into two sections:
 
 In both sections, will be installing RAPIDS on colab using pip or conda. Here are the differences between the two installation methods
 
-- Pip installation allows usrs to install cuDF, cuML, cuGraph, and cuSpatial stable versions in few minutes (1/5 ease of install)
+- Pip installation allows users to install cuDF, cuML, cuGraph, and cuSpatial stable versions in a few minutes (1/5 ease of install)
 - Conda installation installs the complete, customized RAPIDS library package (such as installing stable or nightly) however, it can take around 15 minutes to install and has a couple of break points requiring the user to manually continue the installation (2/5 ease of install)
 
 RAPIDS install on Colab strives to be an "always working" solution, and sometimes will **pin** RAPIDS versions to ensure compatiblity.
