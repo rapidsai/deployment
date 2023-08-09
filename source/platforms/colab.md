@@ -4,8 +4,8 @@
 
 This guide is broken into two sections:
 
-1. [RAPIDS Quick Install](#quick) - applicable for most users
-2. [RAPIDS Custom Setup Instructions](#custom) - step by step set up instructions covering the **must haves** for when a user needs to adapt instance to their workflows
+1. [RAPIDS Quick Install](colab-quick) - applicable for most users
+2. [RAPIDS Custom Setup Instructions](colab-custom) - step by step set up instructions covering the **must haves** for when a user needs to adapt instance to their workflows
 
 In both sections, will be installing RAPIDS on colab using pip or conda. Here are the differences between the two installation methods
 
@@ -14,7 +14,7 @@ In both sections, will be installing RAPIDS on colab using pip or conda. Here ar
 
 RAPIDS install on Colab strives to be an "always working" solution, and sometimes will **pin** RAPIDS versions to ensure compatiblity.
 
-(quick)=
+(colab-quick)=
 
 ## Section 1: RAPIDS Quick Install
 
@@ -45,7 +45,7 @@ Please follow the links below to our install templates:
 1. Run the rest of the cells to complete the installation of RAPIDS on Colab.
 1. Add your code in the cells below the template.
 
-(custom)=
+(colab-custom)=
 
 ## Section 2: User Customizable RAPIDS Install Instructions
 
