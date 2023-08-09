@@ -33,7 +33,7 @@ versions = {
     },
     "nightly": {
         "rapids_version": nightly_version,
-        "rapids_container": f"rapidsai/base:{nightly_version}-cuda11.8-runtime-ubuntu22.04-py3.10",
+        "rapids_container": f"rapidsai/base:{nightly_version}-cuda11.8-py3.10",
         "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge -c nvidia",
         "rapids_conda_packages": f"rapids={nightly_version[:-1]} python=3.10 cudatoolkit=11.8",
     },
