@@ -22,7 +22,7 @@ author = "NVIDIA"
 
 # Single modifiable version for all of the docs - easier for future updates
 stable_version = "23.08"
-nightly_version = "23.10a"
+nightly_version = "23.10"
 
 versions = {
     "stable": {
@@ -33,9 +33,9 @@ versions = {
     },
     "nightly": {
         "rapids_version": nightly_version,
-        "rapids_container": f"rapidsai/base:{nightly_version}-cuda11.8-py3.10",
+        "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-cuda11.8-py3.10",
         "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge -c nvidia",
-        "rapids_conda_packages": f"rapids={nightly_version[:-1]} python=3.10 cudatoolkit=11.8",
+        "rapids_conda_packages": f"rapids={nightly_version} python=3.10 cudatoolkit=11.8",
     },
 }
 rapids_version = (
