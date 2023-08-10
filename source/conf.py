@@ -32,7 +32,7 @@ versions = {
         "rapids_conda_packages": f"rapids={stable_version} python=3.10 cudatoolkit=11.8",
     },
     "nightly": {
-        "rapids_version": nightly_version,
+        "rapids_version": f"{nightly_version}-nightly",
         "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-cuda11.8-py3.10",
         "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge -c nvidia",
         "rapids_conda_packages": f"rapids={nightly_version} python=3.10 cudatoolkit=11.8",
