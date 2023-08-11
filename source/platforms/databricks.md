@@ -8,7 +8,7 @@ You can install RAPIDS libraries into a Databricks GPU Notebook environment.
 
 Navigate to the **All Purpose Compute** tab of the **Compute** section in Databricks and select **Create Compute**.
 
-![Screenshot of the Databricks compute page](../images/databricks-reate-compute.png)
+![Screenshot of the Databricks compute page](../images/databricks-create-compute.png)
 
 In order to launch a GPU node uncheck **Use Photon Acceleration**.
 
