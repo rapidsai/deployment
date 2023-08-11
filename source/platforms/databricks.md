@@ -14,11 +14,7 @@ In order to launch a GPU node uncheck **Use Photon Acceleration**.
 
 ![Screenshot of Use Photon Acceleration unchecked](../images/databricks-deselect-photon.png)
 
-Then expand the **Advanced Options** section and open the **Docker** tab. Select **Use your own Docker container** and enter the image `databricksruntime/gpu-tensorflow:cuda11.8`.
-
-```{warning}
-At the time of writing the `databricksruntime/gpu-pytorch:cuda11.8` image does not work with this method.
-```
+Then expand the **Advanced Options** section and open the **Docker** tab. Select **Use your own Docker container** and enter the image `databricksruntime/gpu-tensorflow:cuda11.8` or `databricksruntime/gpu-pytorch:cuda11.8`.
 
 ![Screenshot of setting the custom container](../images/databricks-custom-container.png)
 
@@ -35,6 +31,18 @@ Select **Create Compute**.
 ### Install RAPIDS in your notebook
 
 Once your cluster has started create a new notebook or open an existing one.
+
+````{warning}
+At the time of writing the `databricksruntime/gpu-pytorch:cuda11.8` image does not contain the full `cuda-toolkit` so if you selected that one you will need to install that before installing RAPIDS.
+
+```text
+!cd /etc/apt/sources.list.d && \
+    mv cuda-ubuntu2204-x86_64.list.disabled cuda-ubuntu2204-x86_64.list && \
+    apt-get update && apt-get --no-install-recommends -y install cuda-toolkit-11-8 && \
+    mv cuda-ubuntu2204-x86_64.list cuda-ubuntu2204-x86_64.list.disabled
+```
+
+````
 
 At the top of your notebook run any of the following `pip` install commands to install your preferred RAPIDS libraries.
 
