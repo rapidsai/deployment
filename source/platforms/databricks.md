@@ -23,7 +23,7 @@ Once you have done this the GPU nodes should be available in the **Node type** d
 ![Screenshot of selecting a g4dn.xlarge node type](../images/databricks-choose-gpu-node.png)
 
 ```{warning}
-It is also possible to use the Databricks ML GPU Runtime to enable GPU nodes, however at the time of writing the newest version (13.3 LTS ML Beta) contains an older version of `tensorflow` and `protobuf` which is not compatible with RAPIDS. So using a custom container with the latest Databricks GPU Tensorflow image is necessary.
+It is also possible to use the Databricks ML GPU Runtime to enable GPU nodes, however at the time of writing the newest version (13.3 LTS ML Beta) contains an older version of `tensorflow` and `protobuf` which is not compatible with RAPIDS. So using a custom container with the latest Databricks GPU container images is recommended.
 ```
 
 Select **Create Compute**.
