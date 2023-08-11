@@ -38,7 +38,7 @@ Once your cluster has started create a new notebook or open an existing one.
 
 At the top of your notebook run any of the following `pip` install commands to install your preferred RAPIDS libraries.
 
-```python
+```text
 !pip install cudf-cu11 dask-cudf-cu11 --extra-index-url=https://pypi.nvidia.com
 !pip install cuml-cu11 --extra-index-url=https://pypi.nvidia.com
 !pip install cugraph-cu11 --extra-index-url=https://pypi.nvidia.com
