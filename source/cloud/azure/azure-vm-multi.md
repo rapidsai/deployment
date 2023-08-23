@@ -39,7 +39,7 @@ cluster = AzureVMCluster(
     n_workers=2,
     worker_class="dask_cuda.CUDAWorker",
     docker_image="{{rapids_container}}",
-    docker_args="-e DISABLE_JUPYTER=true -p 8787:8787 -p 8786:8786",
+    docker_args="-p 8787:8787 -p 8786:8786",
 )
 ```
 

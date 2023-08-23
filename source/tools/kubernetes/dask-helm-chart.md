@@ -18,9 +18,6 @@ scheduler:
   image:
     repository: "{{ rapids_container.split(":")[0] }}"
     tag: "{{ rapids_container.split(":")[1] }}"
-  env:
-    - name: DISABLE_JUPYTER
-      value: "true"
 
 worker:
   image:
@@ -28,9 +25,6 @@ worker:
     tag: "{{ rapids_container.split(":")[1] }}"
   dask_worker: "dask_cuda_worker"
   replicas: 3
-  env:
-    - name: DISABLE_JUPYTER
-      value: "true"
   resources:
     limits:
       nvidia.com/gpu: 1
