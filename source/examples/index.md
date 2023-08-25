@@ -15,4 +15,5 @@ rapids-autoscaling-multi-tenant-kubernetes/notebook
 xgboost-randomforest-gpu-hpo-dask/notebook
 rapids-azureml-hpo/notebook
 time-series-forecasting-with-hpo/start_here
+xgboost-rf-gpu-cpu-benchmark/notebook
 ```
