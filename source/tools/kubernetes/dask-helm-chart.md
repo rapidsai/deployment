@@ -47,9 +47,6 @@ which includes environment necessary to launch run accelerated libraries in RAPI
 Note that all scheduler, worker and jupyter pods are required to use the same image.
 This ensures that dask scheduler and worker versions match.
 
-`[jupyter|scheduler|worker].env` is required as of current release as a workaround for limitations in the image.
-_Will be removed in the future._
-
 `[jupyter|worker].resources` explicitly requests a GPU for each worker pod and the Jupyter pod, required by many accelerated libraries in RAPIDS.
 
 `worker.dask_worker` is the launch command for dask worker inside worker pod.
