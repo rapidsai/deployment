@@ -4,13 +4,11 @@ import os
 import time
 from functools import partial
 
-import dask
 import optuna
 import pandas as pd
 import xgboost as xgb
 from dask.distributed import Client, LocalCluster, wait
 from dask_cuda import LocalCUDACluster
-from optuna.samplers import RandomSampler
 from sklearn.ensemble import RandomForestClassifier as RF_cpu
 from sklearn.metrics import accuracy_score as accuracy_score_cpu
 from sklearn.model_selection import train_test_split
@@ -119,7 +117,7 @@ def train_randomforest(trial, *, target, dataset=None, threads_per_worker=None):
     }
 
     cv_fold_scores = []
-    for i_fold in range(n_cv_folds):
+    for _i_fold in range(n_cv_folds):
         X_train, y_train, X_test, y_test = preprocess_data(dataset)
 
         if target == "gpu":
