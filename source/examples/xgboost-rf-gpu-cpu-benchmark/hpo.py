@@ -151,7 +151,7 @@ def main(args):
             threads_per_worker=args.threads_per_worker,
         )
     n_workers = len(cluster.workers)
-    n_trials = 8
+    n_trials = 100
 
     dataset = None
     # For CPU target, load the data matrix once and shared it among workers
