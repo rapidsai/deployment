@@ -1,4 +1,5 @@
 import argparse
+import gc
 import glob
 import os
 import time
@@ -82,7 +83,7 @@ def train_xgboost(trial, *, target, dataset=None, threads_per_worker=None):
     for i_fold in range(n_cv_folds):
         X_train, y_train, X_test, y_test = preprocess_data(dataset, i_fold=i_fold)
         dtrain = xgb.QuantileDMatrix(X_train, label=y_train)
-        dtest = xgb.QuantileDMatrix(X_test)
+        dtest = xgb.QuantileDMatrix(X_test, ref=dtrain)
 
         if target == "gpu":
             from cuml.metrics import accuracy_score as accuracy_score_gpu
@@ -101,6 +102,14 @@ def train_xgboost(trial, *, target, dataset=None, threads_per_worker=None):
         score = accuracy_score_func(y_test, pred)
         cv_fold_scores.append(score)
     final_score = sum(cv_fold_scores) / len(cv_fold_scores)
+    del dtest
+    del dtrain
+    del X_train
+    del y_train
+    del X_test
+    del y_test
+    del dataset
+    gc.collect()
     return final_score
 
 
