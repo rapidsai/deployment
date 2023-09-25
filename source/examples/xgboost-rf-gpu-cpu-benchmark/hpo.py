@@ -5,6 +5,7 @@ import os
 import time
 from functools import partial
 
+import dask
 import optuna
 import pandas as pd
 import xgboost as xgb
@@ -52,7 +53,7 @@ def ingest_data(target):
 
 
 def preprocess_data(dataset, *, i_fold):
-    dataset = dataset.dropna()
+    dataset.dropna(inplace=True)
     train, test = train_test_split(dataset, random_state=i_fold, shuffle=True)
     X_train, y_train = train.drop(label_column, axis=1), train[label_column]
     X_test, y_test = test.drop(label_column, axis=1), test[label_column]
@@ -62,9 +63,9 @@ def preprocess_data(dataset, *, i_fold):
     return X_train, y_train, X_test, y_test
 
 
-def train_xgboost(trial, *, target, dataset=None, threads_per_worker=None):
-    if target == "gpu":
-        dataset = ingest_data(target)
+def train_xgboost(trial, *, target, reseed_rng, threads_per_worker=None):
+    reseed_rng()  # Work around a bug in DaskStorage: https://github.com/optuna/optuna/issues/4859
+    dataset = ingest_data(target)
 
     params = {
         "max_depth": trial.suggest_int("max_depth", 4, 8),
@@ -101,43 +102,49 @@ def train_xgboost(trial, *, target, dataset=None, threads_per_worker=None):
         pred = pred.astype("int32")
         score = accuracy_score_func(y_test, pred)
         cv_fold_scores.append(score)
+
+        del dtrain, dtest, X_train, y_train, X_test, y_test, trained_model
+        gc.collect()
+
     final_score = sum(cv_fold_scores) / len(cv_fold_scores)
-    del dtest
-    del dtrain
-    del X_train
-    del y_train
-    del X_test
-    del y_test
+
     del dataset
     gc.collect()
+
     return final_score
 
 
-def train_randomforest(trial, *, target, dataset=None, threads_per_worker=None):
-    if target == "gpu":
-        dataset = ingest_data(target)
+def train_randomforest(trial, *, target, reseed_rng, threads_per_worker=None):
+    reseed_rng()  # Work around a bug in DaskStorage: https://github.com/optuna/optuna/issues/4859
+    dataset = ingest_data(target)
 
     params = {
         "max_depth": trial.suggest_int("max_depth", 5, 15),
         "max_features": trial.suggest_float("max_features", 0.1, 1.0),
-        "n_estimators": trial.suggest_int("n_estimators", 100, 500, step=10),
-        "criterion": trial.suggest_categorical("criterion", ["gini", "entropy"]),
+        "n_estimators": trial.suggest_int("n_estimators", 50, 100, step=5),
         "min_samples_split": trial.suggest_int("min_samples_split", 2, 1000, log=True),
     }
 
     cv_fold_scores = []
-    for _i_fold in range(n_cv_folds):
-        X_train, y_train, X_test, y_test = preprocess_data(dataset)
+    for i_fold in range(n_cv_folds):
+        X_train, y_train, X_test, y_test = preprocess_data(dataset, i_fold=i_fold)
 
         if target == "gpu":
             from cuml.ensemble import RandomForestClassifier as RF_gpu
             from cuml.metrics import accuracy_score as accuracy_score_gpu
 
+            params["n_streams"] = 4
             params["n_bins"] = 256
+            params["split_criterion"] = trial.suggest_categorical(
+                "split_criterion", ["gini", "entropy"]
+            )
             trained_model = RF_gpu(**params)
             accuracy_score_func = accuracy_score_gpu
         else:
             params["n_jobs"] = threads_per_worker
+            params["criterion"] = trial.suggest_categorical(
+                "criterion", ["gini", "entropy"]
+            )
             trained_model = RF_cpu(**params)
             accuracy_score_func = accuracy_score_cpu
 
@@ -145,7 +152,15 @@ def train_randomforest(trial, *, target, dataset=None, threads_per_worker=None):
         pred = trained_model.predict(X_test)
         score = accuracy_score_func(y_test, pred)
         cv_fold_scores.append(score)
+
+        del X_train, y_train, X_test, y_test, trained_model
+        gc.collect()
+
     final_score = sum(cv_fold_scores) / len(cv_fold_scores)
+
+    del dataset
+    gc.collect()
+
     return final_score
 
 
@@ -155,71 +170,69 @@ def main(args):
     if args.target == "gpu":
         cluster = LocalCUDACluster()
     else:
+        dask.config.set({"distributed.worker.daemon": False})
         cluster = LocalCluster(
             n_workers=os.cpu_count() // args.threads_per_worker,
             threads_per_worker=args.threads_per_worker,
         )
     n_workers = len(cluster.workers)
     n_trials = 100
-
-    dataset = None
-    # For CPU target, load the data matrix once and shared it among workers
-    # For GPU target, each worker process will get its own data matrix
-    if args.target == "cpu":
-        dataset = ingest_data("cpu")
-
-    futures = []
-    if args.model_type == "XGBoost":
-        if args.target == "gpu":
-            objective_func = partial(train_xgboost, target=args.target)
-        else:
-            objective_func = partial(
-                train_xgboost,
-                target=args.target,
-                dataset=dataset,
-                threads_per_worker=args.threads_per_worker,
-            )
-    else:
-        if args.target == "gpu":
-            objective_func = partial(train_randomforest, target=args.target)
-        else:
-            objective_func = partial(
-                train_randomforest,
-                target=args.target,
-                dataset=dataset,
-                threads_per_worker=args.threads_per_worker,
-            )
     with Client(cluster) as client:
-        backend_storage = optuna.storages.InMemoryStorage()
-        dask_storage = optuna.integration.DaskStorage(
-            storage=backend_storage, client=client
-        )
+        dask_storage = optuna.integration.DaskStorage(storage=None, client=client)
 
         study = optuna.create_study(
             direction="maximize",
-            sampler=optuna.samplers.RandomSampler(seed=args.seed),
+            sampler=optuna.samplers.RandomSampler(),
             storage=dask_storage,
         )
-        for i in range(0, n_trials, n_workers):
-            iter_range = (i, min([i + n_workers, n_trials]))
-            futures.append(
-                {
-                    "range": iter_range,
-                    "futures": [
-                        client.submit(
-                            study.optimize, objective_func, n_trials=1, pure=False
-                        )
-                        for _ in range(*iter_range)
-                    ],
-                }
-            )
-        for partition in futures:
-            iter_range = partition["range"]
+
+        futures = []
+
+        if args.model_type == "XGBoost":
+            if args.target == "gpu":
+                objective_func = partial(
+                    train_xgboost,
+                    target=args.target,
+                    reseed_rng=study.sampler.reseed_rng,
+                )
+            else:
+                objective_func = partial(
+                    train_xgboost,
+                    target=args.target,
+                    reseed_rng=study.sampler.reseed_rng,
+                    threads_per_worker=args.threads_per_worker,
+                )
+        else:
+            if args.target == "gpu":
+                objective_func = partial(
+                    train_randomforest,
+                    target=args.target,
+                    reseed_rng=study.sampler.reseed_rng,
+                )
+            else:
+                objective_func = partial(
+                    train_randomforest,
+                    target=args.target,
+                    reseed_rng=study.sampler.reseed_rng,
+                    threads_per_worker=args.threads_per_worker,
+                )
+
+        for i in range(0, n_trials, n_workers * 2):
+            iter_range = (i, min([i + n_workers * 2, n_trials]))
+            futures = [
+                client.submit(
+                    study.optimize,
+                    objective_func,
+                    n_trials=1,
+                    pure=False,
+                )
+                for _ in range(*iter_range)
+            ]
             print(
                 f"Testing hyperparameter combinations {iter_range[0]}..{iter_range[1]}"
             )
-            _ = wait(partition["futures"])
-            for fut in partition["futures"]:
+            _ = wait(futures)
+            for fut in futures:
                 _ = fut.result()  # Ensure that the training job was successful
             tnow = time.perf_counter()
             print(
@@ -236,12 +249,11 @@ if __name__ == "__main__":
         "--model-type", type=str, required=True, choices=["XGBoost", "RandomForest"]
     )
     parser.add_argument("--target", required=True, choices=["gpu", "cpu"])
-    parser.add_argument("--seed", required=False, type=int, default=1)
     parser.add_argument(
         "--threads_per_worker",
         required=False,
         type=int,
-        default=4,
+        default=8,
         help="Number of threads per worker process. Only applicable for CPU target",
     )
     args = parser.parse_args()
