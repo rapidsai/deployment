@@ -49,4 +49,4 @@ jobs:
         if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}
         env:
           DESTINATION_DIR: ${{ startsWith(github.event.ref, 'refs/tags/') && 'stable' || 'nightly' }}
-        run: aws s3 sync --no-progress --delete build/dirhtml "s3://rapidsai-docs/deployment/${DESTINATION_DIR}/html"
+        run: aws s3 sync --no-progress --delete build/dirhtml "s3://rapidsai-docs/deployment/html/${DESTINATION_DIR}"
