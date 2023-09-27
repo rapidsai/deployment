@@ -1,17 +1,19 @@
 import argparse
+import gc
 import glob
 import os
 import time
+from functools import partial
 
 import dask
 import optuna
+import pandas as pd
 import xgboost as xgb
 from dask.distributed import Client, LocalCluster, wait
 from dask_cuda import LocalCUDACluster
-from dask_ml.model_selection import train_test_split
-from optuna.samplers import RandomSampler
 from sklearn.ensemble import RandomForestClassifier as RF_cpu
 from sklearn.metrics import accuracy_score as accuracy_score_cpu
+from sklearn.model_selection import train_test_split
 
 n_cv_folds = 5
 
@@ -34,46 +36,37 @@ feature_columns = [
 ]
 
 
-def ingest_data(mode):
-    if mode == "gpu":
-        import dask_cudf
+def ingest_data(target):
+    if target == "gpu":
+        import cudf
 
-        dataset = dask_cudf.read_parquet(
+        dataset = cudf.read_parquet(
             glob.glob("./data/*.parquet"),
             columns=feature_columns,
         )
     else:
-        dataset = dask.dataframe.read_parquet(
+        dataset = pd.read_parquet(
             glob.glob("./data/*.parquet"),
             columns=feature_columns,
-        ).repartition(npartitions=1000)
+        )
     return dataset
 
 
-def preprocess_data(dataset, *, client, i_fold, mode):
-    dataset = dataset.dropna()
+def preprocess_data(dataset, *, i_fold):
+    dataset.dropna(inplace=True)
     train, test = train_test_split(dataset, random_state=i_fold, shuffle=True)
     X_train, y_train = train.drop(label_column, axis=1), train[label_column]
     X_test, y_test = test.drop(label_column, axis=1), test[label_column]
     X_train, y_train = X_train.astype("float32"), y_train.astype("int32")
     X_test, y_test = X_test.astype("float32"), y_test.astype("int32")
 
-    if mode == "gpu":
-        from cuml.dask.common.utils import persist_across_workers
-
-        X_train, y_train, X_test, y_test = persist_across_workers(
-            client, [X_train, y_train, X_test, y_test], workers=client.has_what().keys()
-        )
-    else:
-        X_train, y_train = X_train.persist(), y_train.persist()
-        X_test, y_test = X_test.persist(), y_test.persist()
-
-    wait([X_train, y_train, X_test, y_test])
-
     return X_train, y_train, X_test, y_test
 
 
-def train_xgboost(trial, *, dataset, client, mode):
+def train_xgboost(trial, *, target, reseed_rng, threads_per_worker=None):
+    reseed_rng()  # Work around a bug in DaskStorage: https://github.com/optuna/optuna/issues/4859
+    dataset = ingest_data(target)
+
     params = {
         "max_depth": trial.suggest_int("max_depth", 4, 8),
         "learning_rate": trial.suggest_float("learning_rate", 0.001, 0.1, log=True),
@@ -89,109 +82,165 @@ def train_xgboost(trial, *, dataset, client, mode):
 
     cv_fold_scores = []
     for i_fold in range(n_cv_folds):
-        X_train, y_train, X_test, y_test = preprocess_data(
-            dataset, client=client, i_fold=i_fold, mode=mode
-        )
+        X_train, y_train, X_test, y_test = preprocess_data(dataset, i_fold=i_fold)
+        dtrain = xgb.QuantileDMatrix(X_train, label=y_train)
+        dtest = xgb.QuantileDMatrix(X_test, ref=dtrain)
 
-        if mode == "gpu":
+        if target == "gpu":
             from cuml.metrics import accuracy_score as accuracy_score_gpu
 
             params["tree_method"] = "gpu_hist"
-            dtrain = xgb.dask.DaskDeviceQuantileDMatrix(client, X_train, y_train)
-            dtest = xgb.dask.DaskDeviceQuantileDMatrix(client, X_test)
             accuracy_score_func = accuracy_score_gpu
         else:
             params["tree_method"] = "hist"
-            dtrain = xgb.dask.DaskDMatrix(client, X_train, y_train)
-            dtest = xgb.dask.DaskDMatrix(client, X_test)
+            params["nthread"] = threads_per_worker
             accuracy_score_func = accuracy_score_cpu
 
-        xgboost_output = xgb.dask.train(
-            client, params, dtrain, num_boost_round=num_boost_round
-        )
-        trained_model = xgboost_output["booster"]
+        trained_model = xgb.train(params, dtrain, num_boost_round=num_boost_round)
 
-        pred = xgb.dask.predict(client, trained_model, dtest) > 0.5
-        pred = pred.astype("int32").compute()
-        y_test = y_test.compute()
+        pred = trained_model.predict(dtest) > 0.5
+        pred = pred.astype("int32")
         score = accuracy_score_func(y_test, pred)
         cv_fold_scores.append(score)
+
+        del dtrain, dtest, X_train, y_train, X_test, y_test, trained_model
+        gc.collect()
+
     final_score = sum(cv_fold_scores) / len(cv_fold_scores)
+
+    del dataset
+    gc.collect()
+
     return final_score
 
 
-def train_randomforest(trial, *, dataset, client, mode):
+def train_randomforest(trial, *, target, reseed_rng, threads_per_worker=None):
+    reseed_rng()  # Work around a bug in DaskStorage: https://github.com/optuna/optuna/issues/4859
+    dataset = ingest_data(target)
+
     params = {
         "max_depth": trial.suggest_int("max_depth", 5, 15),
         "max_features": trial.suggest_float("max_features", 0.1, 1.0),
-        "n_estimators": trial.suggest_int("n_estimators", 100, 500, step=10),
-        "criterion": trial.suggest_categorical("criterion", ["gini", "entropy"]),
+        "n_estimators": trial.suggest_int("n_estimators", 50, 100, step=5),
         "min_samples_split": trial.suggest_int("min_samples_split", 2, 1000, log=True),
     }
 
     cv_fold_scores = []
     for i_fold in range(n_cv_folds):
-        X_train, y_train, X_test, y_test = preprocess_data(
-            dataset, client=client, i_fold=i_fold, mode=mode
-        )
+        X_train, y_train, X_test, y_test = preprocess_data(dataset, i_fold=i_fold)
 
-        if mode == "gpu":
-            from cuml.dask.ensemble import RandomForestClassifier as RF_gpu
+        if target == "gpu":
+            from cuml.ensemble import RandomForestClassifier as RF_gpu
             from cuml.metrics import accuracy_score as accuracy_score_gpu
 
+            params["n_streams"] = 4
             params["n_bins"] = 256
-            trained_model = RF_gpu(client=client, **params)
+            params["split_criterion"] = trial.suggest_categorical(
+                "split_criterion", ["gini", "entropy"]
+            )
+            trained_model = RF_gpu(**params)
             accuracy_score_func = accuracy_score_gpu
         else:
-            params["n_jobs"] = -1
+            params["n_jobs"] = threads_per_worker
+            params["criterion"] = trial.suggest_categorical(
+                "criterion", ["gini", "entropy"]
+            )
             trained_model = RF_cpu(**params)
             accuracy_score_func = accuracy_score_cpu
 
         trained_model.fit(X_train, y_train)
         pred = trained_model.predict(X_test)
-        if mode == "gpu":
-            pred = pred.compute()
-        y_test = y_test.compute()
         score = accuracy_score_func(y_test, pred)
         cv_fold_scores.append(score)
+
+        del X_train, y_train, X_test, y_test, trained_model
+        gc.collect()
+
     final_score = sum(cv_fold_scores) / len(cv_fold_scores)
+
+    del dataset
+    gc.collect()
+
     return final_score
 
 
 def main(args):
     tstart = time.perf_counter()
 
-    study = optuna.create_study(
-        sampler=RandomSampler(seed=args.seed), direction="maximize"
-    )
-
-    if args.mode == "gpu":
+    if args.target == "gpu":
         cluster = LocalCUDACluster()
     else:
-        cluster = LocalCluster(n_workers=os.cpu_count())
-
+        dask.config.set({"distributed.worker.daemon": False})
+        cluster = LocalCluster(
+            n_workers=os.cpu_count() // args.threads_per_worker,
+            threads_per_worker=args.threads_per_worker,
+        )
+    n_workers = len(cluster.workers)
+    n_trials = 100
     with Client(cluster) as client:
-        dataset = ingest_data(mode=args.mode)
-        client.persist(dataset)
-        if args.model_type == "XGBoost":
-            study.optimize(
-                lambda trial: train_xgboost(
-                    trial, dataset=dataset, client=client, mode=args.mode
-                ),
-                n_trials=100,
-                n_jobs=1,
-            )
-        else:
-            study.optimize(
-                lambda trial: train_randomforest(
-                    trial, dataset=dataset, client=client, mode=args.mode
-                ),
-                n_trials=100,
-                n_jobs=1,
-            )
+        dask_storage = optuna.integration.DaskStorage(storage=None, client=client)
 
+        study = optuna.create_study(
+            direction="maximize",
+            sampler=optuna.samplers.RandomSampler(),
+            storage=dask_storage,
+        )
+
+        futures = []
+
+        if args.model_type == "XGBoost":
+            if args.target == "gpu":
+                objective_func = partial(
+                    train_xgboost,
+                    target=args.target,
+                    reseed_rng=study.sampler.reseed_rng,
+                )
+            else:
+                objective_func = partial(
+                    train_xgboost,
+                    target=args.target,
+                    reseed_rng=study.sampler.reseed_rng,
+                    threads_per_worker=args.threads_per_worker,
+                )
+        else:
+            if args.target == "gpu":
+                objective_func = partial(
+                    train_randomforest,
+                    target=args.target,
+                    reseed_rng=study.sampler.reseed_rng,
+                )
+            else:
+                objective_func = partial(
+                    train_randomforest,
+                    target=args.target,
+                    reseed_rng=study.sampler.reseed_rng,
+                    threads_per_worker=args.threads_per_worker,
+                )
+
+        for i in range(0, n_trials, n_workers * 2):
+            iter_range = (i, min([i + n_workers * 2, n_trials]))
+            futures = [
+                client.submit(
+                    study.optimize,
+                    objective_func,
+                    n_trials=1,
+                    pure=False,
+                )
+                for _ in range(*iter_range)
+            ]
+            print(
+                f"Testing hyperparameter combinations {iter_range[0]}..{iter_range[1]}"
+            )
+            _ = wait(futures)
+            for fut in futures:
+                _ = fut.result()  # Ensure that the training job was successful
+            tnow = time.perf_counter()
+            print(
+                f"Best cross-validation metric: {study.best_value}, Time elapsed = {tnow - tstart}"
+            )
     tend = time.perf_counter()
     print(f"Time elapsed: {tend - tstart} sec")
+    cluster.close()
 
 
 if __name__ == "__main__":
@@ -199,7 +248,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--model-type", type=str, required=True, choices=["XGBoost", "RandomForest"]
     )
-    parser.add_argument("--mode", required=True, choices=["gpu", "cpu"])
-    parser.add_argument("--seed", required=False, type=int, default=1)
+    parser.add_argument("--target", required=True, choices=["gpu", "cpu"])
+    parser.add_argument(
+        "--threads_per_worker",
+        required=False,
+        type=int,
+        default=8,
+        help="Number of threads per worker process. Only applicable for CPU target",
+    )
     args = parser.parse_args()
     main(args)
