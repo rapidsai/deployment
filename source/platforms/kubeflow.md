@@ -150,7 +150,6 @@ cluster = KubeCluster(
     worker_command="dask-cuda-worker",
     n_workers=2,
     resources={"limits": {"nvidia.com/gpu": "1"}},
-    env={"DISABLE_JUPYTER": "true"},
 )
 ```
 
