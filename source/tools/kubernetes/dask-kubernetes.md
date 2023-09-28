@@ -31,7 +31,6 @@ from dask_kubernetes import KubeCluster, make_pod_spec
 
 gpu_worker_spec = make_pod_spec(
     image="{{ rapids_container }}",
-    env={"DISABLE_JUPYTER": "true"},
     cpu_limit=2,
     cpu_request=2,
     memory_limit="3G",
@@ -55,9 +54,6 @@ spec:
   containers:
     - image: { { rapids_container } }
       imagePullPolicy: IfNotPresent
-      env:
-        - name: DISABLE_JUPYTER
-          value: "true"
       args: [dask-cuda-worker, $(DASK_SCHEDULER_ADDRESS), --rmm-managed-memory]
       name: dask-cuda
       resources:

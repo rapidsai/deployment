@@ -75,9 +75,6 @@ spec:
         - name: worker
           image: "{{ rapids_container }}"
           imagePullPolicy: "IfNotPresent"
-          env:
-            - name: DISABLE_JUPYTER
-              value: "true"
           args:
             - dask-cuda-worker
             - --name
@@ -92,8 +89,6 @@ spec:
           image: "{{ rapids_container }}"
           imagePullPolicy: "IfNotPresent"
           env:
-            - name: DISABLE_JUPYTER
-              value: "true"
           args:
             - dask-scheduler
           ports:
@@ -176,9 +171,6 @@ spec:
         - name: worker
           image: "{{ rapids_container }}"
           imagePullPolicy: "IfNotPresent"
-          env:
-            - name: DISABLE_JUPYTER
-              value: "true"
           args:
             - dask-cuda-worker
             - --name
@@ -192,10 +184,6 @@ spec:
 
 Inside our pod spec we are configuring one container that uses the `rapidsai/rapidsai-core` container image.
 It also sets the `args` to start the `dask-cuda-worker` and configures one NVIDIA GPU.
-
-```{note}
-We also have to set the environment variable `DISABLE_JUPYTER=true` because the RAPIDS container images will run Jupyter instead of our supplied command.
-```
 
 #### Scheduler
 
@@ -212,9 +200,6 @@ spec:
         - name: scheduler
           image: "{{ rapids_container }}"
           imagePullPolicy: "IfNotPresent"
-          env:
-            - name: DISABLE_JUPYTER
-              value: "true"
           args:
             - dask-scheduler
           ports:
@@ -332,7 +317,6 @@ cluster = KubeCluster(
     image="{{ rapids_container }}",
     n_workers=3,
     resources={"limits": {"nvidia.com/gpu": "1"}},
-    env={"DISABLE_JUPYTER": "true"},
     worker_command="dask-cuda-worker",
 )
 ```

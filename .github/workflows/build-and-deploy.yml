@@ -21,7 +21,7 @@ jobs:
     name: Build (and deploy)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -38,7 +38,7 @@ jobs:
           DEPLOYMENT_DOCS_BUILD_STABLE: ${{ startsWith(github.event.ref, 'refs/tags/') && 'true' || 'false' }}
         run: make dirhtml SPHINXOPTS="-W --keep-going -n"
 
-      - uses: aws-actions/configure-aws-credentials@v1-node16
+      - uses: aws-actions/configure-aws-credentials@v4
         if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}
         with:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
@@ -49,4 +49,4 @@ jobs:
         if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}
         env:
           DESTINATION_DIR: ${{ startsWith(github.event.ref, 'refs/tags/') && 'stable' || 'nightly' }}
-        run: aws s3 sync --no-progress --delete build/dirhtml "s3://rapidsai-docs/deployment/${DESTINATION_DIR}/html"
+        run: aws s3 sync --no-progress --delete build/dirhtml "s3://rapidsai-docs/deployment/html/${DESTINATION_DIR}"

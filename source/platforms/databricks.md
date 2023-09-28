@@ -1,48 +1,71 @@
-# RAPIDS on Databricks
+# Databricks
 
-## 0. Pre-requisites
+## Databricks Notebooks
 
-1. Your Databricks workspace must have Databricks Container Services [enabled](https://docs.databricks.com/administration-guide/clusters/container-services.html).
+You can install RAPIDS libraries into a Databricks GPU Notebook environment.
 
-2. Your machine must be running a recent Docker daemon (one that is tested and works with Version 18.03.0-ce) and the `docker` command must be available on your PATH:
+### Launch a single-node Databricks cluster
 
-3. It is recommended to build from a [Databricks base image](https://hub.docker.com/u/databricksruntime). But you can also build your Docker base from scratch. The Docker image must meet these [requirements](https://docs.databricks.com/clusters/custom-containers.html#option-2-build-your-own-docker-base)
+Navigate to the **All Purpose Compute** tab of the **Compute** section in Databricks and select **Create Compute**.
 
-## 1. Build custom RAPIDS container
+![Screenshot of the Databricks compute page](../images/databricks-create-compute.png)
 
-```console
-ARG RAPIDS_IMAGE
+In order to launch a GPU node uncheck **Use Photon Acceleration**.
 
-FROM $RAPIDS_IMAGE as rapids
+![Screenshot of Use Photon Acceleration unchecked](../images/databricks-deselect-photon.png)
 
-RUN conda list -n rapids --explicit > /rapids/rapids-spec.txt
+Then expand the **Advanced Options** section and open the **Docker** tab. Select **Use your own Docker container** and enter the image `databricksruntime/gpu-tensorflow:cuda11.8` or `databricksruntime/gpu-pytorch:cuda11.8`.
 
-FROM databricksruntime/gpu-conda:cuda11
+![Screenshot of setting the custom container](../images/databricks-custom-container.png)
 
-COPY --from=rapids /rapids/rapids-spec.txt /tmp/spec.txt
+Once you have done this the GPU nodes should be available in the **Node type** dropdown.
 
-RUN conda create --name rapids --file /tmp/spec.txt && \
-    rm -f /tmp/spec.txt
+![Screenshot of selecting a g4dn.xlarge node type](../images/databricks-choose-gpu-node.png)
+
+```{warning}
+It is also possible to use the Databricks ML GPU Runtime to enable GPU nodes, however at the time of writing the newest version (13.3 LTS ML Beta) contains an older version of `tensorflow` and `protobuf` which is not compatible with RAPIDS. So using a custom container with the latest Databricks GPU container images is recommended.
 ```
 
-```console
-$ docker build --tag <username>/rapids_databricks:latest --build-arg RAPIDS_IMAGE={{ rapids_container }} ./docker
+Select **Create Compute**.
+
+### Install RAPIDS in your notebook
+
+Once your cluster has started create a new notebook or open an existing one.
+
+````{warning}
+At the time of writing the `databricksruntime/gpu-pytorch:cuda11.8` image does not contain the full `cuda-toolkit` so if you selected that one you will need to install that before installing RAPIDS.
+
+```text
+!cd /etc/apt/sources.list.d && \
+    mv cuda-ubuntu2204-x86_64.list.disabled cuda-ubuntu2204-x86_64.list && \
+    apt-get update && apt-get --no-install-recommends -y install cuda-toolkit-11-8 && \
+    mv cuda-ubuntu2204-x86_64.list cuda-ubuntu2204-x86_64.list.disabled
 ```
 
-Push this image to a Docker registry (DockerHub, Amazon ECR or Azure ACR).
+````
 
-## 2. Configure and create GPU-enabled cluster
+At the top of your notebook run any of the following `pip` install commands to install your preferred RAPIDS libraries.
 
-1. Compute > Create compute > Name your cluster > Select `Multi` or `Single` Node
-2. Select a Standard Databricks runtime.
-   - **Note** Databricks ML Runtime does not support Databricks Container Services
-3. Under **Advanced Options**, in the the **Docker** tab select **"Use your own Docker container"**
-   - In the Docker Image URL field, enter the image that you created above
-   - Select the authentication type
-4. Select a GPU enabled worker and driver type
-   - Selected GPU must be Pascal generation or greater (eg: `g4dn.xlarge`)
-5. Create and launch your cluster
+```text
+!pip install cudf-cu11 dask-cudf-cu11 --extra-index-url=https://pypi.nvidia.com
+!pip install cuml-cu11 --extra-index-url=https://pypi.nvidia.com
+!pip install cugraph-cu11 --extra-index-url=https://pypi.nvidia.com
+```
 
-## 3. Test Rapids
+### Test Rapids
 
-For more details on Integrating Databricks Jobs with MLFlow and RAPIDS, check out this [blog post](https://medium.com/rapids-ai/managing-and-deploying-high-performance-machine-learning-models-on-gpus-with-rapids-and-mlflow-753b6fcaf75a).
+```python
+import cudf
+
+gdf = cudf.DataFrame({"a":[1,2,3],"b":[4,5,6]})
+gdf
+    a   b
+0   1   4
+1   2   5
+2   3   6
+
+```
+
+## Databricks Spark
+
+You can also use the RAPIDS Accelerator for Apache Spark 3.x on Databricks. See the [Spark RAPIDS documentation](https://nvidia.github.io/spark-rapids/docs/get-started/getting-started-databricks.html) for more information.

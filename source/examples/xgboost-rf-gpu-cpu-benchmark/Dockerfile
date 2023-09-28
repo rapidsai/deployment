@@ -1,5 +1,3 @@
-#FROM rapidsai/rapidsai:23.06-cuda11.5-runtime-ubuntu20.04-py3.10
+FROM rapidsai/base:23.10a-cuda12.0-py3.10
 
-FROM rapidsai/rapidsai:23.06-cuda11.8-runtime-ubuntu22.04-py3.10
-
-RUN mamba install -y -n rapids optuna
+RUN mamba install -y -n base optuna

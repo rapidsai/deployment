@@ -39,7 +39,7 @@ cluster = EC2Cluster(
     worker_class="dask_cuda.CUDAWorker",
     worker_options={"rmm-managed-memory": True},
     security_groups=["<SECURITY GROUP ID>"],
-    docker_args="--shm-size=256m -e DISABLE_JUPYTER=true",
+    docker_args="--shm-size=256m",
     n_workers=3,
     security=False,
     availability_zone="us-east-1a",

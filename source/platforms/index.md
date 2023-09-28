@@ -58,7 +58,6 @@ Databricks
 Run RAPIDS on Databricks.
 
 {bdg}`single-node`
-{bdg}`multi-node`
 ````
 
 ````{grid-item-card}
