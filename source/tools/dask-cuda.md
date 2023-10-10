@@ -44,9 +44,6 @@ To test RAPIDS, create a `distributed` client for the cluster and query for the 
 from dask_cuda import LocalCUDACluster
 from dask.distributed import Client
 
-cluster = LocalCUDACluster()
-client = Client(cluster)
-
 def get_gpu_model():
     import pynvml
 
@@ -54,5 +51,13 @@ def get_gpu_model():
     return pynvml.nvmlDeviceGetName(pynvml.nvmlDeviceGetHandleByIndex(0))
 
 
-client.submit(get_gpu_model).result()
+def main():
+    cluster = LocalCUDACluster()
+    client = Client(cluster)
+
+    result = client.submit(get_gpu_model).result()
+    print(f"{result=}")
+
+if __name__ == "__main__":
+    main()
 ```
