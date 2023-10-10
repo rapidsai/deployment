@@ -14,5 +14,6 @@ rapids-ec2-mnmg/notebook
 rapids-autoscaling-multi-tenant-kubernetes/notebook
 xgboost-randomforest-gpu-hpo-dask/notebook
 rapids-azureml-hpo/notebook
+time-series-forecasting-with-hpo/notebook
 xgboost-rf-gpu-cpu-benchmark/notebook
 ```
