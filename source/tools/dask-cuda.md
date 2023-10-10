@@ -1,6 +1,6 @@
 # dask-cuda
 
-[Dask-CUDA](https://docs.rapids.ai/api/dask-cuda/stable/) is a library extending Dask.distributed’s single-machine LocalCluster and Worker for use in distributed GPU workloads.
+[Dask-CUDA](https://docs.rapids.ai/api/dask-cuda/stable/) is a library extending `LocalCluster` from `dask.distributed` to enable multi-GPU workloads.
 
 ## LocalCUDACluster
 
@@ -30,7 +30,7 @@ cluster = LocalCUDACluster(CUDA_VISIBLE_DEVICES="0,1")  # Creates one worker for
 
 ### Connecting a Dask client
 
-Dask scheduler coordinates the execution of tasks, whereas Dask client is the user-facing interface that submits tasks to the scheduler and monitors their progress.
+The Dask scheduler coordinates the execution of tasks, whereas the Dask client is the user-facing interface that submits tasks to the scheduler and monitors their progress.
 
 ```console
 client = Client(cluster)
@@ -38,7 +38,7 @@ client = Client(cluster)
 
 ## Test RAPIDS
 
-To test RAPIDS, create a distributed client for the cluster and query for the GPU model.
+To test RAPIDS, create a `distributed` client for the cluster and query for the GPU model.
 
 ```Python
 from dask_cuda import LocalCUDACluster
