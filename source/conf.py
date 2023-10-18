@@ -21,19 +21,21 @@ copyright = f"{datetime.date.today().year}, NVIDIA"
 author = "NVIDIA"
 
 # Single modifiable version for all of the docs - easier for future updates
-stable_version = "23.08"
-nightly_version = "23.10"
+stable_version = "23.10"
+nightly_version = "23.12"
 
 versions = {
     "stable": {
         "rapids_version": stable_version,
         "rapids_container": f"nvcr.io/nvidia/rapidsai/base:{stable_version}-cuda11.8-py3.10",
+        "rapids_notebooks_container": f"nvcr.io/nvidia/rapidsai/notebooks:{stable_version}-cuda11.8-py3.10",
         "rapids_conda_channels": "-c rapidsai -c conda-forge -c nvidia",
         "rapids_conda_packages": f"rapids={stable_version} python=3.10 cudatoolkit=11.8",
     },
     "nightly": {
         "rapids_version": f"{nightly_version}-nightly",
         "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-cuda11.8-py3.10",
+        "rapids_notebooks_container": f"rapidsai/notebooks:{nightly_version + 'a'}-cuda11.8-py3.10",
         "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge -c nvidia",
         "rapids_conda_packages": f"rapids={nightly_version} python=3.10 cudatoolkit=11.8",
     },
@@ -72,7 +74,7 @@ extensions = [
     "rapids_admonitions",
 ]
 
-myst_enable_extensions = ["colon_fence"]
+myst_enable_extensions = ["colon_fence", "dollarmath"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
