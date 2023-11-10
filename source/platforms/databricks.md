@@ -48,13 +48,13 @@ Then expand the **Advanced Options** section and open the **Docker** tab. Select
 
 ![Screenshot of setting the custom container](../images/databricks-custom-container.png)
 
-Once you have done this the GPU nodes should be available in the **Node type** dropdown.
+Switch to the **Init Scripts** tab and add the file path to the init script in your Workspace directory starting with `/Users`.
+
+You can also configure cluster log delivery in the **Logging** tab, which will write the init script logs to DBFS in a subdirectory called `dbfs:/cluster-logs/<cluster-id>/init_scripts/`. Refer to [docs](https://docs.databricks.com/en/init-scripts/logs.html) for more information.
+
+Once you have completed, the "GPU accelerated" nodes should be available in the **Worker type** and **Driver type** dropdown.
 
 ![Screenshot of selecting a g4dn.xlarge node type](../images/databricks-choose-gpu-node.png)
-
-```{warning}
-It is also possible to use the Databricks ML GPU Runtime to enable GPU nodes, however at the time of writing the newest version (13.3 LTS ML Beta) contains an older version of `tensorflow` and `protobuf` which is not compatible with RAPIDS. So using a custom container with the latest Databricks GPU container images is recommended.
-```
 
 Select **Create Compute**.
 
@@ -88,7 +88,7 @@ gdf
 
 ```
 
-You can also connect to the dask client using the scheduler address and submit tasks.
+Connect to the dask client and submit tasks.
 
 ```python
 from dask.distributed import Client
