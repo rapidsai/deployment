@@ -92,10 +92,9 @@ Connect to the dask client and submit tasks.
 
 ```python
 from dask.distributed import Client
-from dask_databricks import DatabricksCluster
+import dask_databricks
 
-cluster = DatabricksCluster()
-client = Client(cluster)
+client = dask_databricks.get_client()
 
 def inc(x):
     return x + 1
