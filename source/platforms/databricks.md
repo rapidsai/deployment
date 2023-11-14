@@ -2,38 +2,6 @@
 
 You can install RAPIDS libraries into a Databricks GPU Notebook environment.
 
-## DASK Rapids in Databricks MNMG Cluster
-
-You can launch Dask RAPIDS cluster on a multi-node GPU Databricks cluster. To do this, you must first create an [initialization script](https://docs.databricks.com/en/init-scripts/index.html) to install Dask before launching the Databricks cluster.
-
-Databricks recommends storing all cluster-scoped init scripts using workspace files. Each user has a Home directory configured under the `/Users` directory in the workspace. Navigate to your home directory in the UI and select **Create** > **File** from the menu, create an `init.sh` script with contents:
-
-```bash
-#!/bin/bash
-set -e
-
-# The Databricks Python directory isn't on the path in
-# databricksruntime/gpu-tensorflow:cuda11.8 for some reason
-export PATH="/databricks/python/bin:$PATH"
-
-# Install RAPIDS (cudf & dask-cudf) and dask-databricks
-/databricks/python/bin/pip install --extra-index-url=https://pypi.nvidia.com \
-      bokeh==3.2.2 \
-      cudf-cu11 \
-      dask[complete] \
-      dask-cudf-cu11 \
-      dask-cuda==23.10.0 \
-      dask-databricks
-
-# Start the Dask cluster with CUDA workers
-dask databricks run --cuda
-
-```
-
-```{note}
-If you only need to install RAPIDS in a Databricks GPU Notebook environment, then skip this section and proceed directly to launch a Databricks cluster.
-```
-
 ## Launch Databricks cluster
 
 Navigate to the **All Purpose Compute** tab of the **Compute** section in Databricks and select **Create Compute**. Name your cluster and choose "Multi node" or "Single node".
@@ -57,6 +25,37 @@ Once you have completed, the "GPU accelerated" nodes should be available in the 
 ![Screenshot of selecting a g4dn.xlarge node type](../images/databricks-choose-gpu-node.png)
 
 Select **Create Compute**.
+
+## DASK Rapids in Databricks MNMG Cluster
+
+You can launch Dask RAPIDS cluster on a multi-node GPU Databricks cluster. To do this, you must first create an [initialization script](https://docs.databricks.com/en/init-scripts/index.html) to install Dask before launching the Databricks cluster.
+
+Databricks recommends storing all cluster-scoped init scripts using workspace files. Each user has a Home directory configured under the `/Users` directory in the workspace. Navigate to your home directory in the UI and select **Create** > **File** from the menu, create an `init.sh` script with contents:
+
+```bash
+#!/bin/bash
+set -e
+
+# The Databricks Python directory isn't on the path in
+# databricksruntime/gpu-tensorflow:cuda11.8 for some reason
+export PATH="/databricks/python/bin:$PATH"
+
+# Install RAPIDS (cudf & dask-cudf) and dask-databricks
+/databricks/python/bin/pip install --extra-index-url=https://pypi.nvidia.com \
+      cudf-cu11 \
+      dask[complete] \
+      dask-cudf-cu11 \
+      dask-cuda=={rapids_version} \
+      dask-databricks
+
+# Start the Dask cluster with CUDA workers
+dask databricks run --cuda
+
+```
+
+```{note}
+If you only need to install RAPIDS in a Databricks GPU Notebook environment, then skip this section and proceed directly to launch the notebook after starting a cluster.
+```
 
 ## Databricks notebook
 
@@ -91,18 +90,16 @@ gdf
 Connect to the dask client and submit tasks.
 
 ```python
-from dask.distributed import Client
 import dask_databricks
+import cudf
+import dask
+
 
 client = dask_databricks.get_client()
 
-def inc(x):
-    return x + 1
 
-x = client.submit(inc, 10)
-x.result()
- 11
-
+df = dask.datasets.timeseries().map_partitions(cudf.from_pandas)
+print(df.x.mean().compute())
 ```
 
 ## Databricks Spark
