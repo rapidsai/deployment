@@ -22,7 +22,7 @@ You can also configure cluster log delivery in the **Logging** tab, which will w
 
 Once you have completed, the "GPU accelerated" nodes should be available in the **Worker type** and **Driver type** dropdown.
 
-![Screenshot of selecting a g4dn.xlarge node type](../images/databricks-choose-gpu-node.png)
+![Screenshot of selecting a g4dn.xlarge node type](../images/databricks-ML-runtime.png)
 
 Select **Create Compute**.
 
