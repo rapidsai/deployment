@@ -104,7 +104,7 @@ dask databricks run --cuda
 
 ### Launch Dask cluster
 
-Once your script is ready, follow the previous instructions to launch a Databricks cluster, with **Multi node** option instead.
+Once your script is ready, follow the [instructions](#launch-cluster) to launch a Databricks cluster with **Multi node** option instead.
 
 After docker setup in **Advanced Options**, switch to the **Init Scripts** tab and add the file path to the init-script in your Workspace directory starting with `/Users/<user-name>/<script-name>.sh`.
 
