@@ -16,13 +16,15 @@ To get started with a single-node Databricks cluster, navigate to the **All Purp
 
 In order to launch a GPU node uncheck **Use Photon Acceleration**.
 
-![Screenshot of Use Photon Acceleration unchecked](../images/databricks-deselect-photon.png)
+![Screenshot of Photon Acceleration unchecked](../images/databricks-runtime-deselect-photon.png)
 
 Then expand the **Advanced Options** section and open the **Docker** tab. Select **Use your own Docker container** and enter the image `databricksruntime/gpu-tensorflow:cuda11.8` or `databricksruntime/gpu-pytorch:cuda11.8`.
 
 ![Screenshot of setting the custom container](../images/databricks-custom-container.png)
 
 Once you have completed, the "GPU accelerated" nodes should be available in the **Worker type** and **Driver type** dropdown.
+
+![Screenshot of worker and driver nodes](../images/databricks-worker-driver-node.png)
 
 Select **Create Compute**
 
@@ -65,15 +67,17 @@ gdf
 
 ## Multi-node Dask cluster
 
+We now provide a [dask-databricks](https://github.com/jacobtomlinson/dask-databricks) CLI tool (via [`conda`](https://github.com/conda-forge/dask-databricks-feedstock) and [`pip`](https://pypi.org/project/dask-databricks/)) to simplify the Dask cluster startup process within Databricks.
+
+Running `pip install dask-databricks` should launch a dask scheduler in the driver node and workers on remaining nodes in just a few minutes.
+
 ### Create init-script
 
-We now provide a [dask-databricks](https://pypi.org/project/dask-databricks/) CLI tool that simplifies the Dask cluster startup process in Databricks.`pip install dask-databricks` should launch a dask scheduler in the driver node and workers on remaining nodes within a few minutes.
+To get started, you must first configure an [initialization script](https://docs.databricks.com/en/init-scripts/index.html) to install `dask`, RAPIDS libraries and all other dependencies for your project.
 
-To get started, you must first create an [initialization script](https://docs.databricks.com/en/init-scripts/index.html) to install dask, Rapids and other dependencies.
+Databricks recommends using [cluster-scoped](https://docs.databricks.com/en/init-scripts/cluster-scoped.html) init scripts stored in the workspace files.
 
-Databricks recommends storing all cluster-scoped init scripts using workspace files. Each user has a Home directory configured under the `/Users` directory in the workspace. \
-
-Navigate to your home directory in the UI and select **Create** > **File** from the menu to create an `init.sh` script with contents:
+Navigate to the top-left **Workspace** tab and click on your **Home** directory then select **Add** > **File** from the menu. Create an `init.sh` script with contents:
 
 ```bash
 #!/bin/bash
@@ -96,32 +100,25 @@ dask databricks run --cuda
 
 ```
 
-**Note**: To launch dask cuda workers, you must parse in `--cuda` flag option when running the command, otherwise the script will launch standard dask workers by default.
+**Note**: To launch a dask cluster with GPU workers, you must parse in `--cuda` flag option when running the command, otherwise the script will launch standard dask workers by default.
 
 ### Launch Dask cluster
 
-Once your script is ready, follow the instructions in the **"Launch a Single-node cluster"** section, making sure to select **Multi node** instead.
+Once your script is ready, follow the previous instructions to launch a Databricks cluster, with **Multi node** option instead.
 
-Under **Advanced Option**, switch to the **Init Scripts** tab and add the file path to the init script you created in your Workspace directory starting with `/Users`.
+After docker setup in **Advanced Options**, switch to the **Init Scripts** tab and add the file path to the init-script in your Workspace directory starting with `/Users/<user-name>/<script-name>.sh`.
 
 You can also configure cluster log delivery in the **Logging** tab, which will write the init script logs to DBFS in a subdirectory called `dbfs:/cluster-logs/<cluster-id>/init_scripts/`. Refer to [docs](https://docs.databricks.com/en/init-scripts/logs.html) for more information.
+
+![Screenshot of init script](../images/databricks-dask-init-script.png)
 
 ### Connect to Client
 
 To test RAPIDS, Connect to the dask client and submit tasks.
 
-```python
-import dask_databricks
-import cudf
-import dask
+![Screenshot of dask-client](../images/databricks-mnmg-dask-client.png)
 
-
-client = dask_databricks.get_client()
-
-
-df = dask.datasets.timeseries().map_partitions(cudf.from_pandas)
-print(df.x.mean().compute())
-```
+![Screenshot of dask-client](../images/databricks-mnmg-dask-example.png)
 
 ### Clean up
 
