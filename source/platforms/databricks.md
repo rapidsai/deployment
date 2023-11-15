@@ -10,7 +10,7 @@ You can install RAPIDS on Databricks in a few different ways:
 
 ### Launch cluster
 
-To get started with a single-node Databricks cluster, navigate to the **All Purpose Compute** tab of the **Compute** section in Databricks and select **Create Compute**. Name your cluster and choose "Single node".
+To get started with a single-node Databricks cluster, navigate to the **All Purpose Compute** tab of the **Compute** section in Databricks and select **Create Compute**. Name your cluster and choose "Single node" (or "Multi node").
 
 ![Screenshot of the Databricks compute page](../images/databricks-create-compute.png)
 
@@ -104,7 +104,7 @@ dask databricks run --cuda
 
 ### Launch Dask cluster
 
-Once your script is ready, follow the [instructions](#launch-cluster) to launch a Databricks cluster with **Multi node** option instead.
+Once your script is ready, follow the same [instructions](#launch-cluster) to launch a **Multi-node** Databricks cluster.
 
 After docker setup in **Advanced Options**, switch to the **Init Scripts** tab and add the file path to the init-script in your Workspace directory starting with `/Users/<user-name>/<script-name>.sh`.
 
@@ -129,4 +129,4 @@ cluster.close()
 
 ## Spark-RAPIDS Cluster
 
-You can also use the RAPIDS Accelerator for Apache Spark 3.x on Databricks. See the [Spark RAPIDS documentation](https://nvidia.github.io/spark-rapids/docs/get-started/getting-started-databricks.html) for more information.
+If you are interested in using the RAPIDS Accelerator for Apache Spark 3.x in Databricks, refer to [Spark RAPIDS documentation](https://nvidia.github.io/spark-rapids/docs/get-started/getting-started-databricks.html) for more information.
