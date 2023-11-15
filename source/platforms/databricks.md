@@ -1,10 +1,12 @@
 # Databricks
 
-You can install RAPIDS libraries into a Databricks GPU Notebook environment.
+You can install RAPIDS on Databricks in a few different ways. You can accelerate your machine learning workflows in a Databricks GPU notebook environment using a single-node or multi-node cluster. Spark users can install Spark-RAPIDS or alternatively install Dask alongside Spark and then use libraries like `dask-cudf` for multi-node workloads.
 
 ## Launch Databricks cluster
 
-Navigate to the **All Purpose Compute** tab of the **Compute** section in Databricks and select **Create Compute**. Name your cluster and choose "Multi node" or "Single node".
+### Single-node compute node
+
+To get started with a single-node Databricks cluster, navigate to the **All Purpose Compute** tab of the **Compute** section in Databricks and select **Create Compute**. Name your cluster and choose "Single node" or "Multi-node" (if desired).
 
 ![Screenshot of the Databricks compute page](../images/databricks-create-compute.png)
 
@@ -15,6 +17,49 @@ In order to launch a GPU node uncheck **Use Photon Acceleration**.
 Then expand the **Advanced Options** section and open the **Docker** tab. Select **Use your own Docker container** and enter the image `databricksruntime/gpu-tensorflow:cuda11.8` or `databricksruntime/gpu-pytorch:cuda11.8`.
 
 ![Screenshot of setting the custom container](../images/databricks-custom-container.png)
+
+Once you have completed, the "GPU accelerated" nodes should be available in the **Worker type** and **Driver type** dropdown.
+
+Select **Create Compute**
+
+#### Install RAPIDS in your notebook
+
+Once your cluster has started, you can create a new notebook or open an existing one from the `/Workspace` directory and attach it to your running cluster.
+
+````{warning}
+At the time of writing the `databricksruntime/gpu-pytorch:cuda11.8` image does not contain the full `cuda-toolkit` so if you selected that one you will need to install that before installing RAPIDS.
+
+```text
+!cd /etc/apt/sources.list.d && \
+    mv cuda-ubuntu2204-x86_64.list.disabled cuda-ubuntu2204-x86_64.list && \
+    apt-get update && apt-get --no-install-recommends -y install cuda-toolkit-11-8 && \
+    mv cuda-ubuntu2204-x86_64.list cuda-ubuntu2204-x86_64.list.disabled
+```
+
+````
+
+At the top of your notebook run any of the following pip install commands to install your preferred RAPIDS libraries.
+
+```text
+!pip install cudf-cu11 dask-cudf-cu11 --extra-index-url=https://pypi.nvidia.com
+!pip install cuml-cu11 --extra-index-url=https://pypi.nvidia.com
+!pip install cugraph-cu11 --extra-index-url=https://pypi.nvidia.com
+```
+
+#### Test RAPIDS
+
+```python
+import cudf
+
+gdf = cudf.DataFrame({"a":[1,2,3],"b":[4,5,6]})
+gdf
+    a   b
+0   1   4
+1   2   5
+2   3   6
+```
+
+### Multi-node compute node with Dask RAPIDS
 
 Switch to the **Init Scripts** tab and add the file path to the init script in your Workspace directory starting with `/Users`.
 
@@ -50,40 +95,6 @@ export PATH="/databricks/python/bin:$PATH"
 
 # Start the Dask cluster with CUDA workers
 dask databricks run --cuda
-
-```
-
-```{note}
-If you only need to install RAPIDS in a Databricks GPU Notebook environment, then skip this section and proceed directly to launch the notebook after starting a cluster.
-```
-
-## Databricks notebook
-
-Once your cluster has started create a new notebook or open an existing one.
-
-````{warning}
-At the time of writing the `databricksruntime/gpu-pytorch:cuda11.8` image does not contain the full `cuda-toolkit` so if you selected that one you will need to install that before installing RAPIDS.
-
-```text
-!cd /etc/apt/sources.list.d && \
-    mv cuda-ubuntu2204-x86_64.list.disabled cuda-ubuntu2204-x86_64.list && \
-    apt-get update && apt-get --no-install-recommends -y install cuda-toolkit-11-8 && \
-    mv cuda-ubuntu2204-x86_64.list cuda-ubuntu2204-x86_64.list.disabled
-```
-
-````
-
-### Test Rapids
-
-```python
-import cudf
-
-gdf = cudf.DataFrame({"a":[1,2,3],"b":[4,5,6]})
-gdf
-    a   b
-0   1   4
-1   2   5
-2   3   6
 
 ```
 
