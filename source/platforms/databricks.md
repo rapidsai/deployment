@@ -3,7 +3,7 @@
 You can install RAPIDS on Databricks in a few different ways:
 
 1. Accelerate machine learning workflows in a single-node GPU notebook environment
-2. Spark users can install RAPIDS Accelerator for Apache Spark 3.x on Databricks
+2. Spark users can install [RAPIDS Accelerator for Apache Spark 3.x on Databricks](https://docs.nvidia.com/spark-rapids/user-guide/latest/getting-started/databricks.html)
 3. Install Dask alongside Spark and then use libraries like `dask-cudf` for multi-node workloads
 
 ## Single-node GPU Notebook environment
