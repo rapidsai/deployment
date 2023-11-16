@@ -106,13 +106,15 @@ dask databricks run --cuda
 
 Once your script is ready, follow the same [instructions](#launch-cluster) to launch a **Multi-node** Databricks cluster.
 
-![Screenshot of driver worker node](../images/databricks-worker-driver-node.png)
-
 After docker setup in **Advanced Options**, switch to the **Init Scripts** tab and add the file path to the init-script in your Workspace directory starting with `/Users/<user-name>/<script-name>.sh`.
 
 You can also configure cluster log delivery in the **Logging** tab, which will write the init script logs to DBFS in a subdirectory called `dbfs:/cluster-logs/<cluster-id>/init_scripts/`. Refer to [docs](https://docs.databricks.com/en/init-scripts/logs.html) for more information.
 
 ![Screenshot of init script](../images/databricks-dask-init-script.png)
+
+Now you should be able to select a "GPU-Accelerated" instance for both **Worker** and **Driver** nodes.
+
+![Screenshot of driver worker node](../images/databricks-worker-driver-node.png)
 
 ### Connect to Client
 
