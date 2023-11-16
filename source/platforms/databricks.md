@@ -10,21 +10,21 @@ You can install RAPIDS on Databricks in a few different ways:
 
 ### Launch cluster
 
-To get started with a single-node Databricks cluster, navigate to the **All Purpose Compute** tab of the **Compute** section in Databricks and select **Create Compute**. Name your cluster and choose "Single node" (or "Multi node").
+To get started with a single-node Databricks cluster, navigate to the **All Purpose Compute** tab of the **Compute** section in Databricks and select **Create Compute**. Name your cluster and choose "Single node".
 
 ![Screenshot of the Databricks compute page](../images/databricks-create-compute.png)
 
 In order to launch a GPU node uncheck **Use Photon Acceleration**.
 
-![Screenshot of Photon Acceleration unchecked](../images/databricks-runtime-deselect-photon.png)
+![Screenshot of Use Photon Acceleration unchecked](../images/databricks-deselect-photon.png)
 
 Then expand the **Advanced Options** section and open the **Docker** tab. Select **Use your own Docker container** and enter the image `databricksruntime/gpu-tensorflow:cuda11.8` or `databricksruntime/gpu-pytorch:cuda11.8`.
 
 ![Screenshot of setting the custom container](../images/databricks-custom-container.png)
 
-Once you have completed, the "GPU accelerated" nodes should be available in the **Worker type** and **Driver type** dropdown.
+Once you have completed, the "GPU accelerated" nodes should be available in the **Node type** dropdown.
 
-![Screenshot of worker and driver nodes](../images/databricks-worker-driver-node.png)
+![Screenshot of selecting a g4dn.xlarge node type](../images/databricks-choose-gpu-node.png)
 
 Select **Create Compute**
 
@@ -106,6 +106,8 @@ dask databricks run --cuda
 
 Once your script is ready, follow the same [instructions](#launch-cluster) to launch a **Multi-node** Databricks cluster.
 
+![Screenshot of driver worker node](../images/databricks-worker-driver-node.png)
+
 After docker setup in **Advanced Options**, switch to the **Init Scripts** tab and add the file path to the init-script in your Workspace directory starting with `/Users/<user-name>/<script-name>.sh`.
 
 You can also configure cluster log delivery in the **Logging** tab, which will write the init script logs to DBFS in a subdirectory called `dbfs:/cluster-logs/<cluster-id>/init_scripts/`. Refer to [docs](https://docs.databricks.com/en/init-scripts/logs.html) for more information.
@@ -126,7 +128,3 @@ To test RAPIDS, Connect to the dask client and submit tasks.
 client.close()
 cluster.close()
 ```
-
-## Spark-RAPIDS Cluster
-
-If you are interested in using the RAPIDS Accelerator for Apache Spark 3.x in Databricks, refer to [Spark RAPIDS documentation](https://nvidia.github.io/spark-rapids/docs/get-started/getting-started-databricks.html) for more information.
