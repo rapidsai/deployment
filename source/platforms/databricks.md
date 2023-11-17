@@ -100,7 +100,9 @@ dask databricks run --cuda
 
 ```
 
-**Note**: To launch a dask cluster with GPU workers, you must parse in `--cuda` flag option when running the `dask databricsk run` command, otherwise the script will launch standard dask workers by default. Running this script should launch a dask scheduler in the driver node and workers on remaining nodes within a few minutes.
+**Note**: By default, the `dask databricks run` command will launch a dask scheduler in the driver node and standard workers on remaining nodes.
+
+To launch a dask cluster with GPU workers, you must parse in `--cuda` flag option.
 
 ### Launch Dask cluster
 
