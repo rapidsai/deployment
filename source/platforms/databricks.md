@@ -91,9 +91,9 @@ export PATH="/databricks/python/bin:$PATH"
 
 # Install RAPIDS (cudf & dask-cudf) and dask-databricks
 /databricks/python/bin/pip install --extra-index-url=https://pypi.nvidia.com \
-      cudf-cu11 \  # installs cudf
+      cudf-cu11 \
       dask[complete] \
-      dask-cudf-cu11  \ #installs dask-cudf
+      dask-cudf-cu11  \
       dask-cuda=={rapids_version} \
       dask-databricks
 
