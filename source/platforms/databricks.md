@@ -122,9 +122,29 @@ Now you should be able to select a "GPU-Accelerated" instance for both **Worker*
 
 To test RAPIDS, Connect to the dask client and submit tasks.
 
+```python
+import dask_databricks
+
+client = dask_databricks.get_client()
+client
+```
+
 ![Screenshot of dask-client](../images/databricks-mnmg-dask-client.png)
 
-![Screenshot of dask-client](../images/databricks-mnmg-dask-example.png)
+```python
+import cudf
+import dask
+
+
+df = dask.datasets.timeseries().map_partitions(cudf.from_pandas)
+df
+
+type(df.get_partition(0))
+
+df.x.mean().compute())
+
+
+```
 
 ### Clean up
 
