@@ -8,6 +8,8 @@ You can install RAPIDS on Databricks in a few different ways:
 
 ## Single-node GPU Notebook environment
 
+(launch-databricks-cluster)=
+
 ### Launch cluster
 
 To get started with a single-node Databricks cluster, navigate to the **All Purpose Compute** tab of the **Compute** section in Databricks and select **Create Compute**. Name your cluster and choose "Single node".
@@ -87,9 +89,9 @@ export PATH="/databricks/python/bin:$PATH"
 
 # Install RAPIDS (cudf & dask-cudf) and dask-databricks
 /databricks/python/bin/pip install --extra-index-url=https://pypi.nvidia.com \
-      cudf-cu11 \  # installs cudf
+      cudf-cu11 \
       dask[complete] \
-      dask-cudf-cu11  \ #installs dask-cudf
+      dask-cudf-cu11  \
       dask-cuda=={rapids_version} \
       dask-databricks
 
@@ -102,7 +104,7 @@ dask databricks run --cuda
 
 ### Launch Dask cluster
 
-Once your script is ready, follow the same [instructions](#launch-cluster) to launch a **Multi-node** Databricks cluster.
+Once your script is ready, follow the same [instructions](launch-databricks-cluster) to launch a **Multi-node** Databricks cluster.
 
 After docker setup in **Advanced Options**, switch to the **Init Scripts** tab and add the file path to the init-script in your Workspace directory starting with `/Users/<user-name>/<script-name>.sh`.
 
