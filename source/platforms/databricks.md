@@ -67,13 +67,11 @@ gdf
 
 ## Multi-node Dask cluster
 
-We now provide a [dask-databricks](https://github.com/jacobtomlinson/dask-databricks) CLI tool (via [`conda`](https://github.com/conda-forge/dask-databricks-feedstock) and [`pip`](https://pypi.org/project/dask-databricks/)) to simplify the Dask cluster startup process within Databricks.
-
-Running `pip install dask-databricks` should launch a dask scheduler in the driver node and workers on remaining nodes in just a few minutes.
+Dask now has a [dask-databricks](https://github.com/jacobtomlinson/dask-databricks) CLI tool (via [`conda`](https://github.com/conda-forge/dask-databricks-feedstock) and [`pip`](https://pypi.org/project/dask-databricks/)) to simplify the Dask cluster startup process within Databricks.
 
 ### Create init-script
 
-To get started, you must first configure an [initialization script](https://docs.databricks.com/en/init-scripts/index.html) to install `dask`, RAPIDS libraries and all other dependencies for your project.
+To get started, you must first configure an [initialization script](https://docs.databricks.com/en/init-scripts/index.html) to install `dask`, `dask-databricks` RAPIDS libraries and all other dependencies for your project.
 
 Databricks recommends using [cluster-scoped](https://docs.databricks.com/en/init-scripts/cluster-scoped.html) init scripts stored in the workspace files.
 
@@ -100,7 +98,7 @@ dask databricks run --cuda
 
 ```
 
-**Note**: To launch a dask cluster with GPU workers, you must parse in `--cuda` flag option when running the command, otherwise the script will launch standard dask workers by default.
+**Note**: To launch a dask cluster with GPU workers, you must parse in `--cuda` flag option when running the `dask databricsk run` command, otherwise the script will launch standard dask workers by default. Running this script should launch a dask scheduler in the driver node and workers on remaining nodes within a few minutes.
 
 ### Launch Dask cluster
 
