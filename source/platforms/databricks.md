@@ -153,5 +153,4 @@ df.x.mean().compute()
 
 ```python
 client.close()
-cluster.close()
 ```
