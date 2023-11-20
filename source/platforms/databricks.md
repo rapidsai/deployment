@@ -125,11 +125,18 @@ To test RAPIDS, Connect to the dask client and submit tasks.
 ```python
 import dask_databricks
 
+
 client = dask_databricks.get_client()
 client
 ```
 
-![Screenshot of dask-client](../images/databricks-mnmg-dask-client.png)
+Dask host interactive diagnostic web servers using [Bokeh](https://docs.bokeh.org/en/latest/). The **[Dask dashboard](https://docs.dask.org/en/latest/dashboard.html)**, in particular provides a web-based UI with visualizations and real-time information about the Dask cluster's status i.e task progress, resource utilization, etc.
+
+The Dask dashboard server will start up automatically when the scheduler is created, and is hosted on port `8787` by default (configurable with the `--dashboard-address` flag).
+
+To access, follow the provided URL link to the dashboard status endpoint from within Databricks.
+
+![Screenshot of dask-client.png](../images/databricks-mnmg-dask-client.png)
 
 ```python
 import cudf
@@ -137,14 +144,10 @@ import dask
 
 
 df = dask.datasets.timeseries().map_partitions(cudf.from_pandas)
-df
-
-type(df.get_partition(0))
-
-df.x.mean().compute())
-
-
+df.x.mean().compute()
 ```
+
+![Screenshot of dask-cudf-example.png](../images/databricks-dask-cudf-example.png)
 
 ### Clean up
 
