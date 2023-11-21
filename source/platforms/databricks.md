@@ -132,7 +132,7 @@ client
 
 The **[Dask dashboard](https://docs.dask.org/en/latest/dashboard.html)** provides a web-based UI with visualizations and real-time information about the Dask cluster's status i.e task progress, resource utilization, etc.
 
-The Dask dashboard server will start up automatically when the scheduler is created, and is hosted on ports `8087, 8787` by default.
+The Dask dashboard server will start up automatically when the scheduler is created, and is hosted on ports `8087` by default.
 
 To access, follow the provided URL link to the dashboard status endpoint from within Databricks.
 
