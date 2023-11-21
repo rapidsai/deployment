@@ -130,7 +130,7 @@ client = dask_databricks.get_client()
 client
 ```
 
-Dask host interactive diagnostic web servers using [Bokeh](https://docs.bokeh.org/en/latest/). The **[Dask dashboard](https://docs.dask.org/en/latest/dashboard.html)**, in particular provides a web-based UI with visualizations and real-time information about the Dask cluster's status i.e task progress, resource utilization, etc.
+The **[Dask dashboard](https://docs.dask.org/en/latest/dashboard.html)** provides a web-based UI with visualizations and real-time information about the Dask cluster's status i.e task progress, resource utilization, etc.
 
 The Dask dashboard server will start up automatically when the scheduler is created, and is hosted on ports `8087, 8787` by default.
 
