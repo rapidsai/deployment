@@ -16,4 +16,5 @@ xgboost-randomforest-gpu-hpo-dask/notebook
 rapids-azureml-hpo/notebook
 time-series-forecasting-with-hpo/notebook
 xgboost-rf-gpu-cpu-benchmark/notebook
+xgboost-azure-mnmg-daskcloudprovider/notebook
 ```
