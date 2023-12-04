@@ -2,44 +2,34 @@
 
 RAPIDS can be deployed on [Vertex AI Workbench](https://cloud.google.com/vertex-ai-workbench).
 
-For new, user-managed notebooks, it is recommended to use a RAPIDS docker image to access the latest RAPIDS software.
+## Create a new user-managed Notebook
 
-## Prepare RAPIDS Docker Image
-
-Before configuring a new notebook, the [RAPIDS Docker image](/tools/rapids-docker) will need to be built to expose port 8080 to be used as a notebook service.
-
-```dockerfile
-FROM {{ rapids_container }}
-EXPOSE 8080
-
-ENTRYPOINT ["jupyter-lab", "--allow-root", "--ip=0.0.0.0", "--port=8080", "--no-browser", "--NotebookApp.token=''", "--NotebookApp.allow_origin='*'"]
-```
-
-Once you have built this image, it needs to be pushed to [Google Container Registry](https://cloud.google.com/container-registry/docs/pushing-and-pulling) for Vertex AI to access.
-
-```console
-$ docker build -t gcr.io/<project>/<folder>/{{ rapids_container.replace('rapidsai/', '') }} .
-$ docker push gcr.io/<project>/<folder>/{{ rapids_container.replace('rapidsai/', '') }}
-```
-
-## Create a New Notebook
-
-1. From the Google Cloud UI, navigate to [**Vertex AI**](https://console.cloud.google.com/vertex-ai) -> **Dashboard** and select **+ CREATE NOTEBOOK INSTANCE**.
-2. In the **Details** section, under the **Workbench type** heading select **Managed Notebook** from the drop down menu.
-3. Under the **Environment** section, select **Provide custom docker images**, and in the input field below, select the `gcr.io` path to your pushed RAPIDS Docker image.
-4. Under the **Machine type** section select an NVIDIA GPU.
-5. Check the **Install NVIDIA GPU Driver** option.
+1. From the Google Cloud UI, navigate to [**Vertex AI**](https://console.cloud.google.com/vertex-ai/workbench/user-managed) -> **Workbench**
+2. Make sure you select **User-Managed Notebooks** (**Managed Notebooks** are currently not supported) and select **+ CREATE NEW**.
+3. In the **Details** section give the instance a name.
+4. Under the **Environment** section choose "Python 3 with CUDA".
+5. Check the "Attach 1 NVIDIA T4 GPU" option.
 6. After customizing any other aspects of the machine you wish, click **CREATE**.
+
+```{tip}
+If you want to select a different GPU or select other hardware options you can select "Advanced Options" at the bottom and then make changes in the "Machine type" seciton.
+```
+
+## Install RAPIDS
+
+Once the instance has started select **OPEN JUPYTER LAB** and open a terminal.
+
+Install the RAPIDS libraries you wish to use.
+
+```bash
+pip install cudf-cu11 dask-cudf-cu11 --extra-index-url=https://pypi.nvidia.com
+pip install cuml-cu11 --extra-index-url=https://pypi.nvidia.com
+pip install cugraph-cu11 --extra-index-url=https://pypi.nvidia.com
+```
 
 ## Test RAPIDS
 
-Once the managed notebook is fully configured, you can click **OPEN JUPYTERLAB** to navigate to another tab running JupyterLab.
-
-```{warning}
-You should see a popup letting you know it is loading the RAPIDS kernel, this can take a long time so please be patient.
-```
-
-Once the kernel is loaded you can launch a notebook with the `rapids` kernel to use the latest version of RAPIDS with Vertex AI.
+You should now be able to open a notebook and use RAPIDS.
 
 For example we could import and use RAPIDS libraries like `cudf`.
 
