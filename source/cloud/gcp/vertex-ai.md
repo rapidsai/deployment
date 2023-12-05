@@ -7,7 +7,7 @@ RAPIDS can be deployed on [Vertex AI Workbench](https://cloud.google.com/vertex-
 1. From the Google Cloud UI, navigate to [**Vertex AI**](https://console.cloud.google.com/vertex-ai/workbench/user-managed) -> **Workbench**
 2. Make sure you select **User-Managed Notebooks** (**Managed Notebooks** are currently not supported) and select **+ CREATE NEW**.
 3. In the **Details** section give the instance a name.
-4. Under the **Environment** section choose "Python 3 with CUDA".
+4. Under the **Environment** section choose "Python 3 with CUDA 11.8".
 5. Check the "Attach 1 NVIDIA T4 GPU" option.
 6. After customizing any other aspects of the machine you wish, click **CREATE**.
 
@@ -17,14 +17,12 @@ If you want to select a different GPU or select other hardware options you can s
 
 ## Install RAPIDS
 
-Once the instance has started select **OPEN JUPYTER LAB** and open a terminal.
-
-Install the RAPIDS libraries you wish to use.
+Once the instance has started select **OPEN JUPYTER LAB** and at the top of a notebook install the RAPIDS libraries you wish to use.
 
 ```bash
-pip install cudf-cu11 dask-cudf-cu11 --extra-index-url=https://pypi.nvidia.com
-pip install cuml-cu11 --extra-index-url=https://pypi.nvidia.com
-pip install cugraph-cu11 --extra-index-url=https://pypi.nvidia.com
+!pip install cudf-cu11 dask-cudf-cu11 --extra-index-url=https://pypi.nvidia.com
+!pip install cuml-cu11 --extra-index-url=https://pypi.nvidia.com
+!pip install cugraph-cu11 --extra-index-url=https://pypi.nvidia.com
 ```
 
 ## Test RAPIDS
