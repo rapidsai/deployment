@@ -34,7 +34,7 @@ Select **Compute** > **+ New** > choose a [RAPIDS compatible GPU](https://medium
 
 ### Provision RAPIDS setup script
 
-Create a new "startup script" via the **Advanced Settings** dropdown to install RAPIDS and dependencies. You can upload the script from your Notebooks files or local computer.
+Navigate to the **Applications** section and choose "Provision with a startup script" to install RAPIDS and dependencies. You can upload the script from your Notebooks files or local computer.
 
 Optional to enable SSH access to your compute (if needed).
 
