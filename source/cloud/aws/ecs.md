@@ -66,8 +66,6 @@ cluster = ECSCluster(
     n_workers=<num_workers>,
     worker_gpu=<num_gpus>,
     skip_cleaup=True,
-    execution_role_arn=" <execution_role_arn>",
-    task_role_arn= "<task_role_arn>",
     scheduler_timeout="20 minutes",
 )
 ```
