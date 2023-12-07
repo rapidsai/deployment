@@ -22,7 +22,7 @@ author = "NVIDIA"
 
 # Single modifiable version for all of the docs - easier for future updates
 stable_version = "23.12"
-nightly_version = "23.10"
+nightly_version = "24.02"
 
 versions = {
     "stable": {
