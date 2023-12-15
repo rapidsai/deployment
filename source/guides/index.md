@@ -48,4 +48,15 @@ How to setup a VM instance on GCP with an L4 GPU.
 {bdg-primary}`Google Cloud Platform`
 ````
 
+````{grid-item-card}
+:link: deploy-dask-spark
+:link-type: doc
+How do Dask and Spark relate to deploying RAPIDS?
+^^^
+Why does deploying RAPIDS often mean deploying a distributed framework?
+
+{bdg-primary}`Dask`
+{bdg-primary}`Spark`
+````
+
 `````
