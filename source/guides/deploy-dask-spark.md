@@ -50,7 +50,7 @@ To execute these parallel APIs Dask provides a lightweight cluster framework cal
 
 Because Dask uses PyData libraries internally and RAPIDS integrates with existing PyData libraries it is easy to compose the two things together and use Dask to distributed over GPU accelerated code. Projects from the _Extended RAPIDS_ ecosystem also include Dask support, for example [XGBoost has an `xgboost.dask` package](https://xgboost.readthedocs.io/en/stable/tutorials/dask.html) for distributing training over a Dask cluster.
 
-Also due to it's lightweight nature Dask has a goal to be able to deploy a Dask cluster anywhere. This could be on a laptop or workstation, on a generic distributed compute platform like [Kubernetes](../platforms/kubernetes) or [SLURM](../hpc) or even on other managed services like [Google Cloud Dataproc](../cloud/gcp/dataproc) or [Databricks](../platforms/databricks) running alongside Spark on the same hardware.
+Also due to it's lightweight nature Dask has a goal to be able to deploy a Dask cluster anywhere. This could be on a laptop or workstation, on a generic distributed compute platform like [Kubernetes](../platforms/kubernetes) or [SLURM](../hpc) or even on other managed services like [Google Cloud Dataproc](../cloud/gcp/dataproc) or [Databricks](../platforms/databricks) running **alongside** Spark on the same hardware.
 
 Deploying a **Dask RAPIDS** cluster therefore involves deploying a Dask cluster with additional RAPIDS libraries installed.
 
