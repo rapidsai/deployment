@@ -17,4 +17,5 @@ rapids-azureml-hpo/notebook
 time-series-forecasting-with-hpo/notebook
 xgboost-rf-gpu-cpu-benchmark/notebook
 xgboost-azure-mnmg-daskcloudprovider/notebook
+databricks-10min-intro-cudfpandas/notebook
 ```
