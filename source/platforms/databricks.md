@@ -23,7 +23,7 @@ Navigate to the top-left **Workspace** tab and click on your **Home** directory 
 set -e
 
 # Install RAPIDS libraries
-pip install \
+/databricks/python/bin/pip install \
     --extra-index-url=https://pypi.nvidia.com \
     cudf-cu12 \
     dask-cudf-cu12 \
@@ -74,21 +74,17 @@ Dask now has a [dask-databricks](https://github.com/jacobtomlinson/dask-databric
 
 ### Install RAPIDS and Dask
 
-You will first [create the init script](create-init-script) below to install `dask`, `dask-databricks` RAPIDS libraries and all other dependencies for your project.
+[Create the init script](create-init-script) below to install `dask`, `dask-databricks` RAPIDS libraries and all other dependencies for your project.
 
 ```bash
 #!/bin/bash
 set -e
 
-# The Databricks Python directory isn't on the path in
-# databricksruntime/gpu-tensorflow:cuda11.8 for some reason
-export PATH="/databricks/python/bin:$PATH"
-
-# Install RAPIDS (cudf & dask-cudf) and dask-databricks
+# Install RAPIDS, dask-databricks and other dependencies.
 /databricks/python/bin/pip install --extra-index-url=https://pypi.nvidia.com \
-      cudf-cu11 \
+      cudf-cu12 \
       dask[complete] \
-      dask-cudf-cu11  \
+      dask-cudf-cu12  \
       dask-cuda=={rapids_version} \
       dask-databricks
 
