@@ -28,7 +28,7 @@ set -e
     cudf-cu12 \
     dask-cudf-cu12 \
     cuml-cu12 \
-    dask-cuda=={rapids_version}
+    dask-cuda=={{rapids_version}}
 ```
 
 (launch-databricks-cluster)=
