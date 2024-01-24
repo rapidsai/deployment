@@ -99,13 +99,13 @@ To launch a dask cluster with GPU workers, you must parse in `--cuda` flag optio
 
 ### Launch Dask cluster
 
-Once your script is ready, follow the same [instructions](launch-databricks-cluster) to launch a **Multi-node** Databricks cluster.
+Once your script is ready, follow [instructions](launch-databricks-cluster) to launch a **Multi-node** Databricks cluster.
 
 Now you should be able to select a "GPU-Accelerated" instance for both **Worker** and **Driver** nodes.
 
 ![Screenshot of driver worker node](../images/databricks-worker-driver-node.png)
 
-You can also configure cluster log delivery in the **Logging** tab, which will write the init script logs to DBFS in a subdirectory called `dbfs:/cluster-logs/<cluster-id>/init_scripts/`. Refer to [docs](https://docs.databricks.com/en/init-scripts/logs.html) for more information.
+You can also configure cluster log delivery in the **Logging** tab, which will write the [init script logs](https://docs.databricks.com/en/init-scripts/logs.html) to DBFS in a subdirectory called `dbfs:/cluster-logs/<cluster-id>/init_scripts/`.
 
 ### Connect to Client
 
