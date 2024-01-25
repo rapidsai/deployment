@@ -39,7 +39,7 @@ To get started with a single-node Databricks cluster, navigate to the **All Purp
 
 ![Screenshot of the Databricks compute page](../images/databricks-create-compute.png)
 
-In order to launch a GPU node uncheck **Use Photon Acceleration**.
+Choose `14.2 ML (GPU, Scala 2.12, Spark 3.5.0)` **Databricks runtime version** from the drop-down and uncheck **Use Photon Acceleration**.
 
 ![Screenshot of Use Photon Acceleration unchecked](../images/databricks-deselect-photon.png)
 
