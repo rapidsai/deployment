@@ -31,7 +31,7 @@ $ gcloud dataproc clusters create $CLUSTER_NAME\
     --initialization-actions=gs://$GCS_BUCKET/install_gpu_driver.sh,gs://$GCS_BUCKET/dask.sh,gs://$GCS_BUCKET/rapids.sh\
     --initialization-action-timeout 60m\
     --optional-components=JUPYTER\
-    --metadata gpu-driver-provider=NVIDIA,dask-runtime=$DASK_RUNTIME,rapids-runtime=DASK\
+    --metadata gpu-driver-provider=NVIDIA,dask-runtime=$DASK_RUNTIME,rapids-runtime=DASK,rapids-version=$RAPIDS_VERSION,cuda-version=12.0\
     --enable-component-gateway
 
 ```
