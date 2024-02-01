@@ -23,33 +23,33 @@ Navigate to the top-left **Workspace** tab and click on your **Home** directory 
 set -e
 
 # Install RAPIDS libraries
-/databricks/python/bin/pip install \
-    --extra-index-url=https://pypi.nvidia.com \
-    cudf-cu12 \
-    dask-cudf-cu12 \
-    cuml-cu12 \
-    dask-cuda=={{rapids_version}}
+pip install --extra-index-url=https://pypi.nvidia.com \
+    "cudf-cu11" \
+    "cuml-cu11" \
+    "dask-cudf-cu11" \
+    "dask-cuda=={{rapids_version}}"
+
 ```
 
 (launch-databricks-cluster)=
 
 ### Launch cluster
 
-To get started with a single-node Databricks cluster, navigate to the **All Purpose Compute** tab of the **Compute** section in Databricks and select **Create Compute**. Name your cluster and choose "Single node".
+To get started, navigate to the **All Purpose Compute** tab of the **Compute** section in Databricks and select **Create Compute**. Name your cluster and choose **"Single node"**.
 
 ![Screenshot of the Databricks compute page](../images/databricks-create-compute.png)
 
-Choose `14.2 ML (GPU, Scala 2.12, Spark 3.5.0)` **Databricks runtime version** from the drop-down and uncheck **Use Photon Acceleration**.
+In order to launch a GPU node uncheck **Use Photon Acceleration** and select `14.2 ML (GPU, Scala 2.12, Spark 3.5.0)` runtime version.
 
 ![Screenshot of Use Photon Acceleration unchecked](../images/databricks-deselect-photon.png)
 
-The "GPU accelerated" nodes should be available in the **Node type** dropdown.
+The "GPU accelerated" nodes should now be available in the **Node type** dropdown.
 
 ![Screenshot of selecting a g4dn.xlarge node type](../images/databricks-choose-gpu-node.png)
 
 Then expand the **Advanced Options** section, open the **Init Scripts** tab and add the file path to the init-script in your Workspace directory starting with `/Users/<user-name>/<script-name>.sh`.
 
-![Screenshot of init script](../images/databricks-dask-init-script.png)
+![Screenshot of init script path](../images/databricks-dask-init-script.png)
 
 Select **Create Compute**
 
@@ -68,6 +68,40 @@ gdf
 2   3   6
 ```
 
+#### Quickstart with cuDF Pandas
+
+RAPIDS recently introduced cuDF’s [pandas accelerator mode](https://rapids.ai/cudf-pandas/) to accelerate existing pandas workflows with zero changes to code.
+
+Using `cudf.pandas` in Databricks on a single-node can offer significant performance improvements over traditional pandas when dealing with large datasets; operations are optimized to run on the GPU (cuDF) whenever possible, seamlessly falling back to the CPU (pandas) when necessary, with synchronization happening in the background.
+
+Below is a quick example how to load the `cudf.pandas` extension in a Jupyter notebook:
+
+```python
+
+%load_ext cudf.pandas
+
+%%time
+
+import pandas as pd
+
+df = pd.read_parquet(
+    "nyc_parking_violations_2022.parquet",
+    columns=["Registration State", "Violation Description", "Vehicle Body Type", "Issue Date", "Summons Number"]
+)
+
+(df[["Registration State", "Violation Description"]]
+ .value_counts()
+ .groupby("Registration State")
+ .head(1)
+ .sort_index()
+ .reset_index()
+)
+```
+
+Upload the [10 Minutes to RAPIDS cuDF Pandas notebook](https://colab.research.google.com/drive/12tCzP94zFG2BRduACucn5Q_OcX1TUKY3) in your single-node Databricks cluster and run through the cells.
+
+**NOTE**: cuDF pandas is open beta and under active development. You can [learn more through the documentation](https://docs.rapids.ai/api/cudf/nightly/?_gl=1*1oyfbsi*_ga*MTc5NDYzNzYyNC4xNjgzMDc2ODc2*_ga_RKXFW6CM42*MTcwNTU4NDUyNS4yMC4wLjE3MDU1ODQ1MjUuNjAuMC4w) and the [release blog](https://developer.nvidia.com/blog/rapids-cudf-accelerates-pandas-nearly-150x-with-zero-code-changes/).
+
 ## Multi-node Dask cluster
 
 Dask now has a [dask-databricks](https://github.com/jacobtomlinson/dask-databricks) CLI tool (via [`conda`](https://github.com/conda-forge/dask-databricks-feedstock) and [`pip`](https://pypi.org/project/dask-databricks/)) to simplify the Dask cluster startup process within Databricks.
@@ -80,12 +114,16 @@ Dask now has a [dask-databricks](https://github.com/jacobtomlinson/dask-databric
 #!/bin/bash
 set -e
 
-# Install RAPIDS, dask-databricks and other dependencies.
+# The Databricks Python directory isn't on the path in
+# databricksruntime/gpu-tensorflow:cuda11.8 for some reason
+export PATH="/databricks/python/bin:$PATH"
+
+# Install RAPIDS (cudf & dask-cudf) and dask-databricks
 /databricks/python/bin/pip install --extra-index-url=https://pypi.nvidia.com \
-      cudf-cu12 \
+      cudf-cu11 \
       dask[complete] \
-      dask-cudf-cu12  \
-      dask-cuda=={rapids_version} \
+      dask-cudf-cu11  \
+      dask-cuda=={{rapids_version}} \
       dask-databricks
 
 # Start the Dask cluster with CUDA workers
@@ -99,17 +137,27 @@ To launch a dask cluster with GPU workers, you must parse in `--cuda` flag optio
 
 ### Launch Dask cluster
 
-Once your script is ready, follow [instructions](launch-databricks-cluster) to launch a **Multi-node** Databricks cluster.
+Once your script is ready, follow the [instructions](launch-databricks-cluster) to launch a **Multi-node** cluster.
 
-Now you should be able to select a "GPU-Accelerated" instance for both **Worker** and **Driver** nodes.
+Be sure to select `14.2 (Scala 2.12, Spark 3.5.0)` Standard Runtime as shown below.
+
+![Screenshot of standard runtime](../images/databricks-standard-runtime.png)
+
+Then expand the **Advanced Options** section and open the **Docker** tab. Select **Use your own Docker container** and enter the image `databricksruntime/gpu-tensorflow:cuda11.8` or `databricksruntime/gpu-pytorch:cuda11.8`.
+
+![Screenshot of custom docker container](../images/databricks-custom-container.png)
+
+Configure the path to your init script in the **Init Scripts** tab. Optionally, you can also configure cluster log delivery in the **Logging** tab, which will write the [init script logs](https://docs.databricks.com/en/init-scripts/logs.html) to DBFS in a subdirectory called `dbfs:/cluster-logs/<cluster-id>/init_scripts/`.
+
+![Screenshot of log delivery](../images/databricks-dask-logging.png)
+
+Once you have completed, you should be able to select a "GPU-Accelerated" instance for both **Worker** and **Driver** nodes.
 
 ![Screenshot of driver worker node](../images/databricks-worker-driver-node.png)
 
-You can also configure cluster log delivery in the **Logging** tab, which will write the [init script logs](https://docs.databricks.com/en/init-scripts/logs.html) to DBFS in a subdirectory called `dbfs:/cluster-logs/<cluster-id>/init_scripts/`.
+Select **Create Compute**
 
 ### Connect to Client
-
-To test RAPIDS, Connect to the dask client and submit tasks.
 
 ```python
 import dask_databricks
@@ -119,13 +167,15 @@ client = dask_databricks.get_client()
 client
 ```
 
-The **[Dask dashboard](https://docs.dask.org/en/latest/dashboard.html)** provides a web-based UI with visualizations and real-time information about the Dask cluster's status i.e task progress, resource utilization, etc.
+#### Dashboard
 
-The Dask dashboard server will start up automatically when the scheduler is created, and is hosted on ports `8087` by default.
+The **[Dask dashboard](https://docs.dask.org/en/latest/dashboard.html)** provides a web-based UI with visualizations and real-time information about the Dask cluster status i.e task progress, resource utilization, etc.
 
-To access, follow the provided URL link to the dashboard status endpoint from within Databricks.
+The dashboard server will start up automatically when the scheduler is created, and is hosted on port `8087` by default. To access follow the URL to the dashboard status endpoint within Databricks.
 
 ![Screenshot of dask-client.png](../images/databricks-mnmg-dask-client.png)
+
+#### Submit tasks
 
 ```python
 import cudf
@@ -137,6 +187,10 @@ df.x.mean().compute()
 ```
 
 ![Screenshot of dask-cudf-example.png](../images/databricks-dask-cudf-example.png)
+
+#### Dask-Databricks example
+
+In your multi-node cluster, upload the [Training XGBoost with Dask RAPIDS in Databricks](https://github.com/rapidsai/deployment/blob/main/source/examples/xgboost-dask-databricks/notebook.ipynb) example in Jupyter notebook and run through the cells.
 
 ### Clean up
 
