@@ -31,7 +31,7 @@ Dask-CUDA is a library extending Dask.distributed’s single-machine LocalCluste
 ````{grid-item-card}
 :link: kubernetes/dask-operator
 :link-type: doc
-Dask Kubernetes Operator (Classic)
+Dask Kubernetes Operator
 ^^^
 Launch RAPIDS containers and clusters as native Kubernetes resources with the Dask Operator.
 ````
