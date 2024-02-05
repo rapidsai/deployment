@@ -31,7 +31,7 @@ worker:
 
 jupyter:
   image:
-    repository: "{{ rapids_container.split(":")[0] }}"
+    repository: "{{ rapids_container.split(":")[0].replace('base', 'notebooks') }}"
     tag: "{{ rapids_container.split(":")[1] }}"
   servicePort: 8888
   # Default password hash for "rapids"
@@ -58,10 +58,7 @@ You can compute password hash by following the [jupyter notebook guide](https://
 ### Installing the Helm Chart
 
 ```console
-$ helm repo add dask https://helm.dask.org
-$ helm repo update
-
-$ helm install rapids-release dask/dask -f rapids-config.yaml
+$ helm install rapids-release --repo https://helm.dask.org dask -f rapids-config.yaml
 ```
 
 This will deploy the cluster with the same topography as dask helm chart,
