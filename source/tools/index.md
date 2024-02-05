@@ -37,14 +37,6 @@ Launch RAPIDS containers and clusters as native Kubernetes resources with the Da
 ````
 
 ````{grid-item-card}
-:link: kubernetes/dask-kubernetes
-:link-type: doc
-Dask Kubernetes (Classic)
-^^^
-Spawn RAPIDS Pods on Kubernetes with `dask-kubernetes` (deprecated).
-````
-
-````{grid-item-card}
 :link: kubernetes/dask-helm-chart
 :link-type: doc
 Dask Helm Chart
