@@ -273,12 +273,6 @@ alt: Screenshot of the RAPIDS container running Jupyter showing the nvidia-smi c
 ---
 ```
 
-## Helm Chart
-
-Individual users can also install the [Dask Helm Chart](https://helm.dask.org) which provides a `Pod` running Jupyter alongside a Dask cluster consisting of pods running the Dask scheduler and worker components. You can customize this helm chart to run the RAPIDS container images as both the notebook server and Dask cluster components so that everything can benefit from GPU acceleration.
-
-Find out more on the [Dask Helm Chart page](/tools/kubernetes/dask-helm-chart).
-
 (dask-operator)=
 
 ## Dask Operator
@@ -287,15 +281,11 @@ Find out more on the [Dask Helm Chart page](/tools/kubernetes/dask-helm-chart).
 
 Find out more on the [Dask Operator page](/tools/kubernetes/dask-operator).
 
-## Dask Kubernetes (classic)
+## Helm Chart
 
-```{warning}
-Unless you are already using the [classic Dask Kubernetes integration](https://kubernetes.dask.org/en/latest/kubecluster.html) we recommend using the [Dask Operator](dask-operator) instead.
-```
+Individual users can also install the [Dask Helm Chart](https://helm.dask.org) which provides a `Pod` running Jupyter alongside a Dask cluster consisting of pods running the Dask scheduler and worker components. You can customize this helm chart to run the RAPIDS container images as both the notebook server and Dask cluster components so that everything can benefit from GPU acceleration.
 
-Dask has an older tool for dynamically launching Dask clusters on Kubernetes that does not use an operator. It is possible to configure this to run RAPIDS too but it is being phased out in favour of the operator.
-
-Find out more on the [Dask Kubernetes page](/tools/kubernetes/dask-kubernetes).
+Find out more on the [Dask Helm Chart page](/tools/kubernetes/dask-helm-chart).
 
 ## Dask Gateway
 
