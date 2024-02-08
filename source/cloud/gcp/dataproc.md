@@ -19,7 +19,7 @@ $ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/rapids/rapids.sh
 **1. Create Dataproc cluster with Dask RAPIDS.** Use the gcloud command to create a new cluster. Because of an Anaconda version conflict, script deployment on older images is slow, we recommend using Dask with Dataproc 2.0+.
 
 ````{warning}
-At the time of writing Dataproc only supports RAPIDS version 23.12 and earlier with CUDA<=11.8 and Ubuntu 18.04.
+At the time of writing [Dataproc only supports RAPIDS version 23.12 and earlier with CUDA<=11.8 and Ubuntu 18.04](https://github.com/GoogleCloudDataproc/initialization-actions/issues/1137).
 
 Please ensure that your setup complies with this compatibility requirement. Using newer RAPIDS versions may result in unexpected behavior or errors.
 
