@@ -18,9 +18,18 @@ $ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/rapids/rapids.sh
 
 **1. Create Dataproc cluster with Dask RAPIDS.** Use the gcloud command to create a new cluster. Because of an Anaconda version conflict, script deployment on older images is slow, we recommend using Dask with Dataproc 2.0+.
 
+````{warning}
+At the time of writing Dataproc only supports RAPIDS version 23.12 and earlier with CUDA<=11.8 and Ubuntu 18.04.
+
+Please ensure that your setup complies with this compatibility requirement. Using newer RAPIDS versions may result in unexpected behavior or errors.
+
+
 ```console
 $ CLUSTER_NAME=<CLUSTER_NAME>
 $ DASK_RUNTIME=yarn
+$ RAPIDS_VERSION=23.12
+$ CUDA_VERSION=11.8
+
 $ gcloud dataproc clusters create $CLUSTER_NAME\
     --region $REGION\
     --image-version 2.0-ubuntu18\
@@ -31,10 +40,12 @@ $ gcloud dataproc clusters create $CLUSTER_NAME\
     --initialization-actions=gs://$GCS_BUCKET/install_gpu_driver.sh,gs://$GCS_BUCKET/dask.sh,gs://$GCS_BUCKET/rapids.sh\
     --initialization-action-timeout 60m\
     --optional-components=JUPYTER\
-    --metadata gpu-driver-provider=NVIDIA,dask-runtime=$DASK_RUNTIME,rapids-runtime=DASK,rapids-version=$RAPIDS_VERSION,cuda-version=12.0\
+    --metadata gpu-driver-provider=NVIDIA,dask-runtime=$DASK_RUNTIME,rapids-runtime=DASK,rapids-version=$RAPIDS_VERSION,cuda-version=$CUDA_VERSION\
     --enable-component-gateway
 
 ```
+
+````
 
 [GCS_BUCKET] = name of the bucket to use.\
 [CLUSTER_NAME] = name of the cluster.\
