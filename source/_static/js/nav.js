@@ -20,10 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
     ` + sidebar.innerHTML;
 
   let versionSection = document.getElementById(
-    "rapids-selector__container-version"
+    "rapids-selector__container-version",
   );
   let selectorSelected = versionSection.getElementsByClassName(
-    "rapids-selector__selected"
+    "rapids-selector__selected",
   )[0];
   if (window.location.href.includes("/deployment/stable")) {
     selectorSelected.innerHTML = "stable";
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
   } else {
     selectorSelected.innerHTML = "dev";
     let menu = versionSection.getElementsByClassName(
-      "rapids-selector__menu"
+      "rapids-selector__menu",
     )[0];
     menu.innerHTML =
       menu.innerHTML +
