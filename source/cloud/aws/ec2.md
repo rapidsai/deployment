@@ -28,6 +28,10 @@ Next we need to connect to the instance.
 
 ```
 
+```{note}
+If you see a "modprobe: FATAL: Module nvidia not found in directory /lib/modules/6.2.0-1011-aws" while first connecting to the EC2 instance, try logging out and reconnecting again.
+```
+
 ## Test RAPIDS
 
 ```{include} ../../_includes/test-rapids-docker-vm.md
