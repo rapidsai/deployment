@@ -1,4 +1,5 @@
 """ Airline Dataset target label and feature column names  """
+
 airline_label_column = "ArrDel15"
 airline_feature_columns = [
     "Year",

@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
             filterTagRoots.push(root);
           }
         }
-      }
+      },
     );
 
     setURLFilters(filterTags);
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
         Array.from(notebook.getElementsByClassName("sd-badge")).forEach(
           (tag) => {
             tags.push(tag.getAttribute("aria-label"));
-          }
+          },
         );
 
         // Iterate each of the sections we are filtering on
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           notebook.setAttribute("style", "display:flex");
         }
-      }
+      },
     );
   };
 
@@ -108,11 +108,11 @@ document.addEventListener("DOMContentLoaded", function () {
         Array.from(document.getElementsByClassName("tag-filter")).forEach(
           (checkbox) => {
             checkbox.checked = false;
-          }
+          },
         );
         tagFilterListener();
       },
-      false
+      false,
     );
   }
 
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
   Array.from(document.getElementsByClassName("tag-filter")).forEach(
     (checkbox) => {
       checkbox.addEventListener("change", tagFilterListener, false);
-    }
+    },
   );
 
   // Simplify tags and add class for styling
@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (initFilters.includes(checkbox.id)) {
           checkbox.checked = true;
         }
-      }
+      },
     );
     tagFilterListener();
   }
