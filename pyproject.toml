@@ -1,4 +1,17 @@
 [tool.ruff]
-line-length = 120
-select = ["E", "F", "I", "UP", "B"]
 fix = true
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # pyflakes
+    "F",
+    # isort
+    "I",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B"
+]
