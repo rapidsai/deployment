@@ -10,9 +10,8 @@ dependencies:
   - pydata-sphinx-theme>=0.12.0
   - python=3.9
   - pre-commit
-  - sphinx
+  - sphinx>=7.3.5
   - sphinx-autobuild
   - sphinx-copybutton
   - sphinx-design
   - sphinxcontrib-mermaid
-  - tomli
