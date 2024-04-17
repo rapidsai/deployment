@@ -15,6 +15,7 @@ NC (>=v3) series
 
 | Size                     | vCPU | Memory: GiB | Temp Storage (with NVMe) : GiB | GPU | GPU Memory: GiB | Max data disks | Max uncached disk throughput: IOPS / MBps | Max NICs/network bandwidth (MBps) |
 | ------------------------ | ---- | ----------- | ------------------------------ | --- | --------------- | -------------- | ----------------------------------------- | --------------------------------- |
+| Standard_ND96isr_H100_v5 | 96   | 1900        | 1000                           | 8   | 80              | 32             | 40800/612                                 | 8/80,000                          |
 | Standard_NC24ads_A100_v4 | 24   | 220         | 1123                           | 1   | 80              | 12             | 30000/1000                                | 2/20,000                          |
 | Standard_NC48ads_A100_v4 | 48   | 440         | 2246                           | 2   | 160             | 24             | 60000/2000                                | 4/40,000                          |
 | Standard_NC96ads_A100_v4 | 96   | 880         | 4492                           | 4   | 320             | 32             | 120000/4000                               | 8/80,000                          |
