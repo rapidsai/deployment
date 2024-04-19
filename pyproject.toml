@@ -15,3 +15,11 @@ select = [
     # flake8-bugbear
     "B"
 ]
+
+[tool.ruff.lint.per-file-ignores]
+"source/examples/xgboost-dask-databricks/notebook.ipynb" = [
+    # "undefined name spark" because Databricks magically makes a SparkSession
+    # available with name 'spark'
+    # ref: https://docs.databricks.com/en/migration/spark.html#remove-sparksession-creation-commands
+    "F821",
+]
