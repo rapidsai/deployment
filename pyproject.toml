@@ -17,10 +17,6 @@ select = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"source/examples/*.ipynb" = [
-    # "Do not use bare `except`"
-    "E722"
-]
 "source/examples/xgboost-dask-databricks/notebook.ipynb" = [
     # "undefined name spark" because Databricks magically makes a SparkSession
     # available with name 'spark'
