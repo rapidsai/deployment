@@ -23,6 +23,11 @@ select = [
     # around with Dask.
     "E402",
 ]
+"source/examples/rapids-ec2-mnmg/notebook.ipynb" = [
+    # "undefined name cluster", because in this notebook we recommend, in a markdown
+    # cell, creating a Dask cluster separately and then running the rest of the notebook's code
+    "F821",
+]
 "source/examples/xgboost-dask-databricks/notebook.ipynb" = [
     # "undefined name spark" because Databricks magically makes a SparkSession
     # available with name 'spark'
