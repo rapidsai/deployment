@@ -2,7 +2,7 @@
 
 ## Overview
 
-RAPIDS cuDF is preinstalled on Google Colab and instantly accelerates Pandas with zero code changes. [You can quickly get started with our tutorial notebook](https://nvda.ws/rapids-cudf). This guide is applicable for users who want to utilize the full suite of the RAPIDS libraries for their workflows.  It is broken into two sections:
+RAPIDS cuDF is preinstalled on Google Colab and instantly accelerates Pandas with zero code changes. [You can quickly get started with our tutorial notebook](https://nvda.ws/rapids-cudf). This guide is applicable for users who want to utilize the full suite of the RAPIDS libraries for their workflows. It is broken into two sections:
 
 1. [RAPIDS Quick Install](colab-quick) - applicable for most users and quickly installs all the RAPIDS Stable packages.
 2. [RAPIDS Custom Setup Instructions](colab-custom) - step by step set up instructions covering the **must haves** for when a user needs to adapt instance to their workflows.
