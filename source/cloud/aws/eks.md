@@ -1,3 +1,7 @@
+---
+review_priority: "p1"
+---
+
 # AWS Elastic Kubernetes Service (EKS)
 
 RAPIDS can be deployed on AWS via the [Elastic Kubernetes Service](https://aws.amazon.com/eks/) (EKS).

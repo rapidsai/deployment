@@ -1,3 +1,7 @@
+---
+review_priority: "p0"
+---
+
 # SageMaker
 
 RAPIDS can be used in a few ways with [AWS SageMaker](https://aws.amazon.com/sagemaker/).

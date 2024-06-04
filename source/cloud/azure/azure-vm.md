@@ -1,3 +1,7 @@
+---
+review_priority: "p1"
+---
+
 # Azure Virtual Machine
 
 ## Create Virtual Machine

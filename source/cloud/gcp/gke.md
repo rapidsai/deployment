@@ -1,3 +1,7 @@
+---
+review_priority: "p1"
+---
+
 # Google Kubernetes Engine
 
 RAPIDS can be deployed on Google Cloud via the [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine) (GKE).

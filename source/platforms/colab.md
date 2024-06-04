@@ -1,3 +1,7 @@
+---
+review_priority: "p0"
+---
+
 # RAPIDS on Google Colab
 
 ## Overview

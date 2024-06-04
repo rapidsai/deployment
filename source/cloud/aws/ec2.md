@@ -1,3 +1,7 @@
+---
+review_priority: "p1"
+---
+
 # Elastic Compute Cloud (EC2)
 
 ## Create Instance

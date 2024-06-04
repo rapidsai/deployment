@@ -1,3 +1,7 @@
+---
+review_priority: "p0"
+---
+
 # Azure Machine Learning
 
 RAPIDS can be deployed at scale using [Azure Machine Learning Service](https://learn.microsoft.com/en-us/azure/machine-learning/overview-what-is-azure-machine-learning) and easily scales up to any size needed.

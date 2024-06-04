@@ -1,3 +1,7 @@
+---
+review_priority: "p1"
+---
+
 # Azure Kubernetes Service
 
 RAPIDS can be deployed on Azure via the [Azure Kubernetes Service](https://azure.microsoft.com/en-us/products/kubernetes-service/) (AKS).
