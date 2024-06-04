@@ -1,4 +1,6 @@
-In the terminal we can open `ipython` and check that we can import and use RAPIDS libraries like `cudf`.
+To access Jupyter, navigate to `<VM ip>:8888` in the browser.
+
+In a Python notebook, check that you can import and use RAPIDS libraries like `cudf`.
 
 ```ipython
 In [1]: import cudf
@@ -14,7 +16,6 @@ timestamp
 2000-01-01 00:00:04   998    Quinn  0.651381 -0.525398
 ```
 
-You can also access Jupyter via `<VM ip>:8888` in the browser.
-Visit `cudf/10-min.ipynb` and execute the cells to try things out.
+Open `cudf/10min.ipynb` and execute the cells to explore more of how `cudf` works.
 
 When running a Dask cluster you can also visit `<VM ip>:8787` to monitor the Dask cluster status.
