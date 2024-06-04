@@ -1,3 +1,7 @@
+---
+review_priority: "p0"
+---
+
 # Vertex AI
 
 RAPIDS can be deployed on [Vertex AI Workbench](https://cloud.google.com/vertex-ai-workbench).

@@ -1,3 +1,7 @@
+---
+review_priority: "index"
+---
+
 # HPC
 
 RAPIDS works extremely well in traditional HPC (High Performance Computing) environments where GPUs are often co-located with accelerated networking hardware such as InfiniBand. Deploying on HPC often means using queue management systems such as SLURM, LSF, PBS, etc.
