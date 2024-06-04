@@ -8,3 +8,4 @@ __pycache__
 
 cufile.log
 node_modules/
+jupyter_execute/
