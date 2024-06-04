@@ -13,7 +13,7 @@ RUN conda install --yes -n base \
 COPY rapids-higgs.py /opt/ml/code/rapids-higgs.py
 
 # Defines rapids-higgs.py as script entry point
-# ref: # ref: https://docs.aws.amazon.com/sagemaker/latest/dg/adapt-training-container.html
+# ref: https://docs.aws.amazon.com/sagemaker/latest/dg/adapt-training-container.html
 ENV SAGEMAKER_PROGRAM rapids-higgs.py
 
 # override entrypoint from the base image with one that accepts
