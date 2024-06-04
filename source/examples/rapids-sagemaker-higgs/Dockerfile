@@ -17,3 +17,5 @@ COPY rapids-higgs.py /opt/ml/code/rapids-higgs.py
 
 # Defines rapids-higgs.py as script entry point
 ENV SAGEMAKER_PROGRAM rapids-higgs.py
+
+# O
