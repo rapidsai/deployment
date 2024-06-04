@@ -13,8 +13,7 @@ set -e
 
 if [[ "$1" == "train" ]]; then
     echo -e "@ entrypoint -> launching training script \n"
-    # 'train' entrypoint is defined by 'pip install sagemaker-training'
-    train "${@}"
+    python /opt/ml/code/rapids-higgs.py
 else
     echo -e "@ entrypoint -> did not recognize option '${1}' \n"
     exit 1
