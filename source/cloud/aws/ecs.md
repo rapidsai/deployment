@@ -40,7 +40,7 @@ For Networking, select the default VPC and all the subnets available in that VPC
 Select "Amazon EC2 instances" for the Infrastructure type and configure your settings:
 
 - Operating system: must be Linux-based architecture
-- EC2 instance type: must support RAPIDS-compatible GPUs (Pascal or greater), e.g `p3.2xlarge`
+- EC2 instance type: must support RAPIDS-compatible GPUs ([see the RAPIDS docs](https://docs.rapids.ai/install#system-req))
 - Desired capacity: number of maximum instances to launch (default maximum 5)
 - SSH Key pair
 

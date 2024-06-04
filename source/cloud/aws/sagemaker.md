@@ -16,7 +16,7 @@ To get started head to SageMaker and create a [new SageMaker Notebook Instance](
 
 ### Select your instance
 
-Select a [RAPIDS compatible GPU](https://medium.com/dropout-analytics/which-gpus-work-with-rapids-ai-f562ef29c75f) (NVIDIA Pascal or greater with compute capability 6.0+) as the SageMaker Notebook instance type (e.g., `ml.p3.2xlarge`).
+Select a RAPIDS-compatible GPU ([see the RAPIDS docs](https://docs.rapids.ai/install#system-req)) as the SageMaker Notebook instance type (e.g., `ml.p3.2xlarge`).
 
 ![Screenshot of the create new notebook screen with a ml.p3.2xlarge selected](../../images/sagemaker-create-notebook-instance.png)
 
