@@ -1,0 +1,5 @@
+# ignore everything by default
+*
+
+# except these specific things
+!rapids-higgs.py

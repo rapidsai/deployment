@@ -10,11 +10,15 @@ ENV AWS_CV_FOLDS="10"
 # ensure printed output/log-messages retain correct order
 ENV PYTHONUNBUFFERED=True
 
-# add sagemaker-training-toolkit [ requires build tools ], flask [ serving ], and dask-ml
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential \
-    && source activate rapids \
-    && pip3 install sagemaker-training cupy-cuda11x flask dask-ml \
-    && pip3 install --upgrade protobuf
+# install a few more dependencies
+# (cxx-compiler is necessary because 'sagemaker-training' is only available as a source distribution)
+RUN conda install --yes -n base \
+        cupy \
+        cxx-compiler \
+        flask \
+        protobuf \
+        sagemaker \
+ && pip install sagemaker-training
 
 # path where SageMaker looks for code when container runs in the cloud
 ENV CLOUD_PATH="/opt/ml/code"
