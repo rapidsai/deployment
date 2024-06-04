@@ -18,21 +18,26 @@ Before running these instructions, ensure you have installed the [`dask`](https:
 
 The `LocalCUDACluster` class autodetects the GPUs in your system, so if you create it on a machine with two GPUs it will create a cluster with two workers, each of which is responsible for executing tasks on a separate GPU.
 
-```console
+```python
+from dask_cuda import LocalCUDACluster
+from dask.distributed import Client
+
 cluster = LocalCUDACluster()
 ```
 
 You can also restrict your cluster to use specific GPUs by setting the `CUDA_VISIBLE_DEVICES` environment variable, or as a keyword argument.
 
-```console
-cluster = LocalCUDACluster(CUDA_VISIBLE_DEVICES="0,1")  # Creates one worker for GPUs 0 and 1
+```python
+cluster = LocalCUDACluster(
+    CUDA_VISIBLE_DEVICES="0,1"
+)  # Creates one worker for GPUs 0 and 1
 ```
 
 ### Connecting a Dask client
 
 The Dask scheduler coordinates the execution of tasks, whereas the Dask client is the user-facing interface that submits tasks to the scheduler and monitors their progress.
 
-```console
+```python
 client = Client(cluster)
 ```
 
@@ -40,10 +45,7 @@ client = Client(cluster)
 
 To test RAPIDS, create a `distributed` client for the cluster and query for the GPU model.
 
-```Python
-from dask_cuda import LocalCUDACluster
-from dask.distributed import Client
-
+```python
 def get_gpu_model():
     import pynvml
 
@@ -51,13 +53,8 @@ def get_gpu_model():
     return pynvml.nvmlDeviceGetName(pynvml.nvmlDeviceGetHandleByIndex(0))
 
 
-def main():
-    cluster = LocalCUDACluster()
-    client = Client(cluster)
+result = client.submit(get_gpu_model).result()
 
-    result = client.submit(get_gpu_model).result()
-    print(f"{result=}")
-
-if __name__ == "__main__":
-    main()
+print(result)
+# b'Tesla V100-SXM2-16GB
 ```
