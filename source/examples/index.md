@@ -8,6 +8,7 @@ html_theme.sidebar_secondary.remove: true
 ```{notebookgallerytoctree}
 xgboost-gpu-hpo-job-parallel-ngc/notebook
 xgboost-gpu-hpo-job-parallel-k8s/notebook
+xgboost-gpu-hpo-mnmg-parallel-k8s/notebook
 rapids-optuna-hpo/notebook
 rapids-sagemaker-higgs/notebook
 rapids-sagemaker-hpo/notebook
