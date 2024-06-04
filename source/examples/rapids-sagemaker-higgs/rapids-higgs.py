@@ -4,7 +4,7 @@ import argparse
 
 import cudf
 from cuml import RandomForestClassifier as cuRF
-from cuml.preprocessing.model_selection import train_test_split
+from cuml.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
 
