@@ -2,4 +2,5 @@
 *
 
 # except these specific things
+!entrypoint.sh
 !rapids-higgs.py

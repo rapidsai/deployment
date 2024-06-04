@@ -18,4 +18,7 @@ COPY rapids-higgs.py /opt/ml/code/rapids-higgs.py
 # Defines rapids-higgs.py as script entry point
 ENV SAGEMAKER_PROGRAM rapids-higgs.py
 
-# O
+# override entrypoint from the base image with one that accepts
+# 'train' and 'serve' (as SageMaker expects to provide)
+COPY entrypoint.sh /opt/entrypoint.sh
+ENTRYPOINT ["/opt/entrypoint.sh"]
