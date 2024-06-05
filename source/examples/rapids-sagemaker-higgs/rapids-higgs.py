@@ -50,7 +50,7 @@ if __name__ == "__main__":
     parser.add_argument("--max_features", type=float, default=0.2)
 
     # SageMaker parameters
-    # ref: https://docs.aws.amazon.com/sagemaker/latest/dg/model-train-storage.htm
+    # ref: https://docs.aws.amazon.com/sagemaker/latest/dg/model-train-storage.html
     parser.add_argument("--model_output_dir", type=str, default="/opt/ml/output/")
     parser.add_argument("--data_dir", type=str, default="/opt/ml/input/data/training/")
 
