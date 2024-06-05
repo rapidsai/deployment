@@ -18,7 +18,7 @@ RUN conda install --yes -n base \
 # path where SageMaker looks for code when container runs in the cloud
 ENV CLOUD_PATH="/opt/ml/code"
 
-# copy our latest [local] code into the container 
+# copy our latest [local] code into the container
 COPY . $CLOUD_PATH
 
 WORKDIR $CLOUD_PATH
