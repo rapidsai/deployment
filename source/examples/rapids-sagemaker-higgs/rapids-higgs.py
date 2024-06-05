@@ -1,16 +1,19 @@
 #!/usr/bin/env python
 
 import argparse
+import os
 
 import cudf
 from cuml import RandomForestClassifier as cuRF
+from cuml.metrics import accuracy_score
 from cuml.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
 
 
 def main(args):
     # SageMaker options
-    data_dir = args.data_dir
+    data_dir = os.environ["SM_CHANNEL_DATASET"]
+    print(f"data_dir: {data_dir}")
+    print(os.listdir(data_dir))
 
     col_names = ["label"] + [f"col-{i}" for i in range(2, 30)]  # Assign column names
     dtypes_ls = ["int32"] + [
@@ -50,8 +53,9 @@ if __name__ == "__main__":
     parser.add_argument("--max_features", type=float, default=0.2)
 
     # SageMaker parameters
+    # ref: https://docs.aws.amazon.com/sagemaker/latest/dg/model-train-storage.htm
     parser.add_argument("--model_output_dir", type=str, default="/opt/ml/output/")
-    parser.add_argument("--data_dir", type=str, default="/opt/ml/input/data/dataset/")
+    parser.add_argument("--data_dir", type=str, default="/opt/ml/input/data/training")
 
     args = parser.parse_args()
     main(args)
