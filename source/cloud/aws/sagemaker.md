@@ -35,7 +35,11 @@ set -e
 
 sudo -u ec2-user -i <<'EOF'
 
-mamba create -y -n rapids {{ rapids_conda_channels }} {{ rapids_conda_packages }} ipykernel
+mamba create -y -n rapids {{ rapids_conda_channels }} {{ rapids_conda_packages }} \
+    boto3 \
+    ipykernel \
+    sagemaker
+
 conda activate rapids
 
 # optionally install AutoGluon for AutoML GPU demo

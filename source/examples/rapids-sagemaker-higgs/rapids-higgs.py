@@ -4,8 +4,8 @@ import argparse
 
 import cudf
 from cuml import RandomForestClassifier as cuRF
-from cuml.preprocessing.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from cuml.metrics import accuracy_score
+from cuml.model_selection import train_test_split
 
 
 def main(args):
@@ -50,8 +50,9 @@ if __name__ == "__main__":
     parser.add_argument("--max_features", type=float, default=0.2)
 
     # SageMaker parameters
+    # ref: https://docs.aws.amazon.com/sagemaker/latest/dg/model-train-storage.html
     parser.add_argument("--model_output_dir", type=str, default="/opt/ml/output/")
-    parser.add_argument("--data_dir", type=str, default="/opt/ml/input/data/dataset/")
+    parser.add_argument("--data_dir", type=str, default="/opt/ml/input/data/training/")
 
     args = parser.parse_args()
     main(args)

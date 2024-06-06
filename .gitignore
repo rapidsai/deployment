@@ -1,3 +1,6 @@
+*.csv
+*.csv.gz
+
 build
 *.swp
 
@@ -9,3 +12,6 @@ __pycache__
 cufile.log
 node_modules/
 jupyter_execute/
+
+# exclusions
+!source/examples/rapids-1brc-single-node/lookup.csv
