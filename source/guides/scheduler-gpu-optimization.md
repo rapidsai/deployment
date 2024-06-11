@@ -308,7 +308,7 @@ affinity_config = {
 Now you can add this configuration to the spec created in the previous step, and create the Dask cluster using this custom spec.
 
 ```python
-spec['spec']['scheduler']['spec']['affinity'] = affinity_config
+spec["spec"]["scheduler"]["spec"]["affinity"] = affinity_config
 cluster = KubeCluster(custom_cluster_spec=spec)
 ```
 
