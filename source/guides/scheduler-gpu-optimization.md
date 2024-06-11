@@ -278,7 +278,7 @@ In the following example, the same cluster configuration as the `kubectl` exampl
 from dask_kubernetes.operator import KubeCluster, make_cluster_spec
 
 spec = make_cluster_spec(
-    name = "rapids-dask-cluster",
+    name="rapids-dask-cluster",
     image="nvcr.io/nvidia/rapidsai/base:24.06-cuda11.8-py3.10",
     n_workers=2,
     resources={"limits": {"nvidia.com/gpu": "1"}},
