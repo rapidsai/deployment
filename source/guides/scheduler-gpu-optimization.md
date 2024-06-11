@@ -268,3 +268,91 @@ from dask.distributed import Client
 
 client = Client("localhost:8786")
 ```
+
+## Example using `KubeCluster`
+
+In additon to creating clusters via `kubectl` you can also do so from Python with {class}`dask_kubernetes.operator.KubeCluster`. This class implements the Dask Cluster Manager interface and under the hood creates and manages the `DaskCluster` resource for you. You can also generate a spec with make_cluster_spec() which KubeCluster uses internally and then modify it with your custom options. We will use this to add node affinity to the scheduler.
+In the following example, the same cluster configuration as the `kubectl` example is used.
+
+```python
+from dask_kubernetes.operator import KubeCluster, make_cluster_spec
+
+spec = make_cluster_spec(
+    name = "rapids-dask-cluster",
+    image="nvcr.io/nvidia/rapidsai/base:24.06-cuda11.8-py3.10",
+    n_workers=2,
+    resources={"limits": {"nvidia.com/gpu": "1"}},
+    worker_command="dask-cuda-worker",
+)
+```
+
+To add the node affinity to the scheduler, you can create a custom dictionary specifying the type of node affinity and the label of the node.
+
+```python
+affinity_config = {
+    "nodeAffinity": {
+        "preferredDuringSchedulingIgnoredDuringExecution": [
+            {
+                "weight": 100,
+                "preference": {
+                    "matchExpressions": [
+                        {"key": "dedicated", "operator": "In", "values": ["scheduler"]}
+                    ]
+                },
+            }
+        ]
+    }
+}
+```
+
+Now you can add this configuration to the spec created in the previous step, and create the Dask cluster using this custom spec.
+
+```python
+spec['spec']['scheduler']['spec']['affinity'] = affinity_config
+cluster = KubeCluster(custom_cluster_spec=spec)
+```
+
+If we check with `kubectl` we can see the above Python generated the same `DaskCluster` resource as the `kubectl` example above.
+
+```console
+$ kubectl get daskclusters
+NAME                  AGE
+rapids-dask-cluster   3m28s
+
+$ kubectl get all -l dask.org/cluster-name=rapids-dask-cluster
+NAME                                                             READY   STATUS    RESTARTS   AGE
+pod/rapids-dask-cluster-default-worker-group-worker-07d674589a   1/1     Running   0          3m30s
+pod/rapids-dask-cluster-default-worker-group-worker-a55ed88265   1/1     Running   0          3m30s
+pod/rapids-dask-cluster-scheduler                                1/1     Running   0          3m30s
+
+NAME                                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
+service/rapids-dask-cluster-service   ClusterIP   10.96.200.202   <none>        8786/TCP,8787/TCP   3m30s
+```
+
+With this cluster object in Python we can also connect a client to it directly without needing to know the address as Dask will discover that for us. It also automatically sets up port forwarding if you are outside of the Kubernetes cluster.
+
+```python
+from dask.distributed import Client
+
+client = Client(cluster)
+```
+
+This object can also be used to scale the workers up and down.
+
+```python
+cluster.scale(5)
+```
+
+And to manually close the cluster.
+
+```python
+cluster.close()
+```
+
+```{note}
+By default the `KubeCluster` command registers an exit hook so when the Python process exits the cluster is deleted automatically. You can disable this by setting `KubeCluster(..., shutdown_on_close=False)` when launching the cluster.
+
+This is useful if you have a multi-stage pipeline made up of multiple Python processes and you want your Dask cluster to persist between them.
+
+You can also connect a `KubeCluster` object to your existing cluster with `cluster = KubeCluster.from_name(name="rapids-dask")` if you wish to use the cluster or manually call `cluster.close()` in the future.
+```
