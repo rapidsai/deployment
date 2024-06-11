@@ -40,6 +40,16 @@ Guidance on Dask scheduler software and hardware requirements.
 ````
 
 ````{grid-item-card}
+:link: scheduler-gpu-optimization
+:link-type: doc
+Optimizing Dask Scheduler
+^^^
+Use a T4 for the scheduler to optimize resource costs
+
+{bdg-primary}`Dask`
+````
+
+````{grid-item-card}
 :link: l4-gcp
 :link-type: doc
 L4 on Google Cloud Platform
