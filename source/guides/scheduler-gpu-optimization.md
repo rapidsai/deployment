@@ -1,12 +1,12 @@
 # GPU optimization for the scheduler pod
 
-An optimization users can make while deploying Dask clusters is to ensure that the scheduler is placed on a node with a less powerful GPU to reduce overall cost. [This previous guide](https://docs.rapids.ai/deployment/stable/guides/scheduler-gpu-requirements/) explains why the scheduler needs access to the same environment as the workers, as there are a few edge cases where the scheduler does serialize data and unpickles high-level graphs. 
+An optimization users can make while deploying Dask clusters is to ensure that the scheduler is placed on a node with a less powerful GPU to reduce overall cost. [This previous guide](https://docs.rapids.ai/deployment/stable/guides/scheduler-gpu-requirements/) explains why the scheduler needs access to the same environment as the workers, as there are a few edge cases where the scheduler does serialize data and unpickles high-level graphs.
 
 ```{warning}
 This guide outlines our current advice on scheduler hardware requirements, but this may be subject to change.
 ```
 
-However, when working with nodes with multiple GPUs, placing the scheduler on one of these nodes would be a waste of resources. This guide walks through the steps to create a Kubernetes cluster on GKE along with a nodepool of less powerful Nvidia Tesla T4 GPUs and placing the scheduler on this node using Kubernetes node affinity. 
+However, when working with nodes with multiple GPUs, placing the scheduler on one of these nodes would be a waste of resources. This guide walks through the steps to create a Kubernetes cluster on GKE along with a nodepool of less powerful Nvidia Tesla T4 GPUs and placing the scheduler on this node using Kubernetes node affinity.
 
 ## Prerequisites
 
@@ -28,20 +28,21 @@ $ gcloud container clusters create rapids-gpu \
   --zone us-central1-c --release-channel stable
 ```
 
-With this command, you’ve launched a GKE cluster called `rapids-gpu`. You’ve specified that it should use nodes of type a2-highgpu-2g, each with two A100 GPUs.
+With this command, you’ve launched a GKE cluster called `rapids-gpu`. You’ve specified that it should use nodes of type
+a2-highgpu-2g, each with two A100 GPUs.
 
 ## Create the dedicated nodepool for the scheduler
 
 Now create a new nodepool on this GPU cluster.
 
-``` console
+```console
 $ gcloud container node-pools create scheduler-pool --cluster rapids-gpu \
   --accelerator type=nvidia-tesla-p4,count=1 --machine-type n1-standard-2 \
   --num-nodes 1 --node-labels dedicated=scheduler --zone us-central1-c
 ```
 
-With this command, you've created an additional nodepool called `scheduler-pool` with 1 node. You've also specified that it should use a node of type n1-standard-2, with one T4 GPU. 
-We also add a Kubernetes label `dedicated=scheduled` to the node in this nodepool which will be used to place the scheduler onto this node. 
+With this command, you've created an additional nodepool called `scheduler-pool` with 1 node. You've also specified that it should use a node of type n1-standard-2, with one T4 GPU.
+We also add a Kubernetes label `dedicated=scheduled` to the node in this nodepool which will be used to place the scheduler onto this node.
 
 ## Install drivers
 
@@ -74,7 +75,7 @@ After your drivers are installed, you are ready to test your cluster.
 
 The operator has a Helm chart which can be used to manage the installation of the operator. The chart is published in the [Dask Helm Repo](https://helm.dask.org) repository, and can be installed via:
 
-``` console
+```console
 $ helm repo add dask https://helm.dask.org
 "dask" has been added to your repositories
 
@@ -95,14 +96,14 @@ Operator has been installed successfully.
 
 Then you should be able to list your Dask clusters via `kubectl`.
 
-``` console
+```console
 $ kubectl get daskclusters
 No resources found in default namespace.
 ```
 
 We can also check the operator pod is running:
 
-``` console
+```console
 $ kubectl get pods -A -l app.kubernetes.io/name=dask-kubernetes-operator
 NAMESPACE       NAME                                        READY   STATUS    RESTARTS   AGE
 dask-operator   dask-kubernetes-operator-775b8bbbd5-zdrf7   1/1     Running   0          74s
@@ -120,7 +121,7 @@ To configure the `DaskCluster` resource to run RAPIDS you need to set a few thin
 
 Here is an example resource manifest for launching a RAPIDS Dask cluster with the scheduler optimzation
 
-``` yaml
+```yaml
 # rapids-dask-cluster.yaml
 apiVersion: kubernetes.dask.org/v1
 kind: DaskCluster
@@ -177,13 +178,13 @@ spec:
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100  
-            preference:
-              matchExpressions:
-              - key: dedicated
-                operator: In
-                values:
-                - scheduler
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: dedicated
+                    operator: In
+                    values:
+                      - scheduler
     service:
       type: ClusterIP
       selector:
@@ -208,26 +209,26 @@ $ kubectl apply -f rapids-dask-cluster.yaml
 
 ### Manifest breakdown
 
-Most of this manifest is explain in the [Dask Operator](https://docs.rapids.ai/deployment/stable/tools/kubernetes/dask-operator/#example-using-kubecluster) documentation in the tools section of the RAPIDS documentation. 
+Most of this manifest is explained in the [Dask Operator](https://docs.rapids.ai/deployment/stable/tools/kubernetes/dask-operator/#example-using-kubecluster) documentation in the tools section of the RAPIDS documentation.
 
 The only addition made to the example from the above documentation page is the following section in the scheduler configuration
 
 ```yaml
-# ... 
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100  
-            preference:
-              matchExpressions:
-              - key: dedicated
-                operator: In
-                values:
+# ...
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        preference:
+          matchExpressions:
+            - key: dedicated
+              operator: In
+              values:
                 - scheduler
 # ...
 ```
 
-For the Dask scheduler pod we are setting a node affinity using the label previously specified on our node. Node affinity in Kubernetes allows you to constrain which nodes your Pod can be scheduled based on node labels. This is also intended to be a soft requirement as we are using the `preferredDuringSchedulingIgnoredDuringExecution` type of node affinity. The Kubernetes scheduler tries to find a node which meets the rule. If a matching node is not available, the Kubernetes scheduler still schedules the pod on any available node. This ensures that you will not face any issues with the Dask cluster even if the T4 node is unavailable. 
+For the Dask scheduler pod we are setting a node affinity using the label previously specified on our node. Node affinity in Kubernetes allows you to constrain which nodes your Pod can be scheduled based on node labels. This is also intended to be a soft requirement as we are using the `preferredDuringSchedulingIgnoredDuringExecution` type of node affinity. The Kubernetes scheduler tries to find a node which meets the rule. If a matching node is not available, the Kubernetes scheduler still schedules the pod on any available node. This ensures that you will not face any issues with the Dask cluster even if the T4 node is unavailable.
 
 ### Accessing your Dask cluster
 
