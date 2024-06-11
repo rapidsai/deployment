@@ -37,7 +37,7 @@ Now create a new nodepool on this GPU cluster.
 
 ```console
 $ gcloud container node-pools create scheduler-pool --cluster rapids-gpu \
-  --accelerator type=nvidia-tesla-p4,count=1 --machine-type n1-standard-2 \
+  --accelerator type=nvidia-tesla-t4,count=1 --machine-type n1-standard-2 \
   --num-nodes 1 --node-labels dedicated=scheduler --zone us-central1-c
 ```
 
