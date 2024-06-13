@@ -48,6 +48,7 @@ Use a T4 for the scheduler to optimize resource costs
 
 {bdg-primary}`Dask`
 {bdg-primary}`Kubernetes`
+{bdg-primary}`dask-operator`
 ````
 
 ````{grid-item-card}
