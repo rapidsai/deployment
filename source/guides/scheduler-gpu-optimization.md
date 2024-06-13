@@ -1,4 +1,4 @@
-# GPU optimization for the Dask scheduler
+# GPU optimization for the Dask scheduler on Kubernetes
 
 An optimization users can make while deploying Dask clusters is to ensure that the scheduler is placed on a node with a less powerful GPU to reduce overall cost. [This previous guide](https://docs.rapids.ai/deployment/stable/guides/scheduler-gpu-requirements/) explains why the scheduler needs access to the same environment as the workers, as there are a few edge cases where the scheduler does serialize data and unpickles high-level graphs.
 
