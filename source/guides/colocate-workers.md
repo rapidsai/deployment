@@ -79,7 +79,6 @@ To configure the `DaskCluster` resource to run RAPIDS you need to set a few thin
 
 Here is an example resource manifest for launching a RAPIDS Dask cluster with worker pod affinity
 
-<!-- prettier-ignore-start -->
 ```yaml
 # rapids-dask-cluster.yaml
 apiVersion: kubernetes.dask.org/v1
@@ -94,7 +93,7 @@ spec:
     spec:
       containers:
         - name: worker
-          image: {{ rapids_container }}
+          image: "{{ rapids_container }}"
           imagePullPolicy: "IfNotPresent"
           args:
             - dask-cuda-worker
@@ -119,7 +118,7 @@ spec:
     spec:
       containers:
         - name: scheduler
-          image: {{ rapids_container }}
+          image: "{{ rapids_container }}"
           imagePullPolicy: "IfNotPresent"
           env:
           args:
@@ -161,7 +160,6 @@ spec:
           port: 8787
           targetPort: "http-dashboard"
 ```
-<!-- prettier-ignore-end -->
 
 You can create this cluster with `kubectl`.
 

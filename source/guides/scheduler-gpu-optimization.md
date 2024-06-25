@@ -135,7 +135,7 @@ spec:
     spec:
       containers:
         - name: worker
-          image: "nvcr.io/nvidia/rapidsai/base:24.06-cuda11.8-py3.10"
+          image: "{{ rapids_container }}"
           imagePullPolicy: "IfNotPresent"
           args:
             - dask-cuda-worker
@@ -148,7 +148,7 @@ spec:
     spec:
       containers:
         - name: scheduler
-          image: "nvcr.io/nvidia/rapidsai/base:24.06-cuda11.8-py3.10"
+          image: "{{ rapids_container }}"
           imagePullPolicy: "IfNotPresent"
           env:
           args:
@@ -278,7 +278,7 @@ from dask_kubernetes.operator import KubeCluster, make_cluster_spec
 
 spec = make_cluster_spec(
     name="rapids-dask-cluster",
-    image="nvcr.io/nvidia/rapidsai/base:24.06-cuda11.8-py3.10",
+    image="{{ rapids_container }}",
     n_workers=2,
     resources={"limits": {"nvidia.com/gpu": "1"}},
     worker_command="dask-cuda-worker",
