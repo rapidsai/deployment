@@ -79,6 +79,7 @@ To configure the `DaskCluster` resource to run RAPIDS you need to set a few thin
 
 Here is an example resource manifest for launching a RAPIDS Dask cluster with worker pod affinity
 
+<!-- prettier-ignore-start -->
 ```yaml
 # rapids-dask-cluster.yaml
 apiVersion: kubernetes.dask.org/v1
@@ -93,7 +94,7 @@ spec:
     spec:
       containers:
         - name: worker
-          image: { { rapids_container } }
+          image: {{ rapids_container }}
           imagePullPolicy: "IfNotPresent"
           args:
             - dask-cuda-worker
@@ -118,7 +119,7 @@ spec:
     spec:
       containers:
         - name: scheduler
-          image: { { rapids_container } }
+          image: {{ rapids_container }}
           imagePullPolicy: "IfNotPresent"
           env:
           args:
@@ -160,6 +161,7 @@ spec:
           port: 8787
           targetPort: "http-dashboard"
 ```
+<!-- prettier-ignore-end -->
 
 You can create this cluster with `kubectl`.
 
@@ -236,12 +238,12 @@ client = Client("localhost:8786")
 In additon to creating clusters via `kubectl` you can also do so from Python with {class}`dask_kubernetes.operator.KubeCluster`. This class implements the Dask Cluster Manager interface and under the hood creates and manages the `DaskCluster` resource for you. You can also generate a spec with make_cluster_spec() which KubeCluster uses internally and then modify it with your custom options. We will use this to add node affinity to the scheduler.
 In the following example, the same cluster configuration as the `kubectl` example is used.
 
-```python exec="1" result="python"
+```python
 from dask_kubernetes.operator import KubeCluster, make_cluster_spec
 
 spec = make_cluster_spec(
     name="rapids-dask-cluster",
-    image={{ rapids_container }},
+    image="{{ rapids_container }}",
     n_workers=2,
     resources={"limits": {"nvidia.com/gpu": "1"}},
     worker_command="dask-cuda-worker",
