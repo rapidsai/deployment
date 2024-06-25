@@ -1,6 +1,6 @@
 # Colocate Dask workers on Kubernetes while using nodes with multiple GPUs
 
-An optimization users can use while working with nodes with multiple GPUs is to schedule all the Dask workers as tightly grouped as possible to minimize communication overhead between the worker pods. This guide outlines the process of adding pod affinities to worker pods to make sure they are scheduled together as possible.
+To optimize performance when working with nodes that have multiple GPUs, a best practice is to schedule Dask workers in a tightly grouped manner, thereby minimizing communication overhead between worker pods. This guide provides a step-by-step process for adding pod affinities to worker pods ensuring they are scheduled together as much as possible on Google Kubernetes Engine (GKE), but the principles can be adapted for use with other Kubernetes distributions.
 
 ## Prerequisites
 
@@ -54,18 +54,10 @@ After your drivers are installed, you are ready to test your cluster.
 
 ### Installing Dask operator with Helm
 
-The operator has a Helm chart which can be used to manage the installation of the operator. The chart is published in the [Dask Helm Repo](https://helm.dask.org) repository, and can be installed via:
+The operator has a Helm chart which can be used to manage the installation of the operator. Follow the instructions provided in the [Dask documention](https://kubernetes.dask.org/en/latest/installing.html#installing-with-helm), or alternatively can be installed via:
 
 ```console
-$ helm repo add dask https://helm.dask.org
-"dask" has been added to your repositories
-
-$ helm repo update
-Hang tight while we grab the latest from your chart repositories...
-...Successfully got an update from the "dask" chart repository
-Update Complete. ⎈Happy Helming!⎈
-
-$ helm install --create-namespace -n dask-operator --generate-name dask/dask-kubernetes-operator
+$ helm install --create-namespace -n dask-operator --generate-name --repo https://helm.dask.org dask-kubernetes-operator
 NAME: dask-kubernetes-operator-1666875935
 NAMESPACE: dask-operator
 STATUS: deployed
@@ -73,21 +65,6 @@ REVISION: 1
 TEST SUITE: None
 NOTES:
 Operator has been installed successfully.
-```
-
-Then you should be able to list your Dask clusters via `kubectl`.
-
-```console
-$ kubectl get daskclusters
-No resources found in default namespace.
-```
-
-We can also check the operator pod is running:
-
-```console
-$ kubectl get pods -A -l app.kubernetes.io/name=dask-kubernetes-operator
-NAMESPACE       NAME                                        READY   STATUS    RESTARTS   AGE
-dask-operator   dask-kubernetes-operator-775b8bbbd5-zdrf7   1/1     Running   0          74s
 ```
 
 ## Configuring a RAPIDS `DaskCluster`
@@ -116,7 +93,7 @@ spec:
     spec:
       containers:
         - name: worker
-          image: "nvcr.io/nvidia/rapidsai/base:24.06-cuda11.8-py3.10"
+          image: { { rapids_container } }
           imagePullPolicy: "IfNotPresent"
           args:
             - dask-cuda-worker
@@ -141,7 +118,7 @@ spec:
     spec:
       containers:
         - name: scheduler
-          image: "nvcr.io/nvidia/rapidsai/base:24.06-cuda11.8-py3.10"
+          image: { { rapids_container } }
           imagePullPolicy: "IfNotPresent"
           env:
           args:
@@ -213,7 +190,7 @@ podAffinity:
 # ...
 ```
 
-For the Dask Worker pod configuration, we are setting a pod affinity using the name of the node as the topology key. Pod affinity in Kubernetes allows you to constrain which nodes the Pod can be scheduled on and allows you to configure a set of workloads that should be co-located in the same defined topology, in this case, preferring to place two worker pods on the same node. This is also intended to be a soft requirement as we are using the `preferredDuringSchedulingIgnoredDuringExecution` type of pod affinity. The Kubernetes scheduler tries to find a node which meets the rule. If a matching node is not available, the Kubernetes scheduler still schedules the pod on any available node. This ensures that you will not face any issues with the Dask cluster even if placing worker pods on nodes already in use is not possible.
+For the Dask Worker pod configuration, we are setting a pod affinity using the name of the node as the topology key. [Pod affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity) in Kubernetes allows you to constrain which nodes the Pod can be scheduled on and allows you to configure a set of workloads that should be co-located in the same defined topology, in this case, preferring to place two worker pods on the same node. This is also intended to be a soft requirement as we are using the `preferredDuringSchedulingIgnoredDuringExecution` type of pod affinity. The Kubernetes scheduler tries to find a node which meets the rule. If a matching node is not available, the Kubernetes scheduler still schedules the pod on any available node. This ensures that you will not face any issues with the Dask cluster even if placing worker pods on nodes already in use is not possible.
 
 ### Accessing your Dask cluster
 
@@ -264,7 +241,7 @@ from dask_kubernetes.operator import KubeCluster, make_cluster_spec
 
 spec = make_cluster_spec(
     name="rapids-dask-cluster",
-    image="nvcr.io/nvidia/rapidsai/base:24.06-cuda11.8-py3.10",
+    image={{ rapids_container }},
     n_workers=2,
     resources={"limits": {"nvidia.com/gpu": "1"}},
     worker_command="dask-cuda-worker",
