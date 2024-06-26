@@ -179,7 +179,7 @@ affinity:
 podAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
     - weight: 100
-        podAffinityTerm:
+      podAffinityTerm:
         labelSelector:
             matchExpressions:
             - key: dask.org/component
