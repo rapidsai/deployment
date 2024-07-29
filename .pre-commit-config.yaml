@@ -22,9 +22,13 @@ repos:
       - id: markdownlint
         args: [--ignore-path=.markdownlintignore]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.5.4"
+    rev: "v0.5.5"
     hooks:
       - id: ruff
         types_or: [jupyter, python]
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
 default_language_version:
   python: python3
