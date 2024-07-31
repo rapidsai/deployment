@@ -64,6 +64,18 @@ Use pod affinity for the workers to optimize communication overhead on Kubernete
 ````
 
 ````{grid-item-card}
+:link: caching-docker-images
+:link-type: doc
+Caching Docker Images for autoscaling workloads
+^^^
+Prepull Docker Images while using the Dask Autoscaler on Kubernetes
+
+{bdg-primary}`Dask`
+{bdg-primary}`Kubernetes`
+{bdg-primary}`dask-operator`
+````
+
+````{grid-item-card}
 :link: l4-gcp
 :link-type: doc
 L4 on Google Cloud Platform
