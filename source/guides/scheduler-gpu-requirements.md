@@ -173,7 +173,7 @@ RuntimeError: CUDA error at: .../rmm/include/rmm/cuda_device.hpp:56: cudaErrorNo
 ...
 ```
 
-The critical error comes from [RMM](https://docs.rapids.ai/api/rmm/stable/), we're attempting to allocate a [`DeviceBuffer`](https://docs.rapids.ai/api/rmm/stable/basics.html#devicebuffers) on the scheduler, but there is no GPU available to do so:
+The critical error comes from [RMM](https://docs.rapids.ai/api/rmm/{{rapids_api_docs_version}}/), we're attempting to allocate a [`DeviceBuffer`](https://docs.rapids.ai/api/rmm/stable/basics.html#devicebuffers) on the scheduler, but there is no GPU available to do so:
 
 ```pytb
   File ".../distributed/distributed/comm/ucx.py", line 171, in device_array
