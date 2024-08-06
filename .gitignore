@@ -1,5 +1,10 @@
+*.bz2
 *.csv
 *.csv.gz
+*.csv.zip
+*.tar.gz
+*.zip
+*.7z
 
 build
 *.swp
