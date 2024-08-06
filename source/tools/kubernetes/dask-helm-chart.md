@@ -50,7 +50,7 @@ This ensures that dask scheduler and worker versions match.
 `[jupyter|worker].resources` explicitly requests a GPU for each worker pod and the Jupyter pod, required by many accelerated libraries in RAPIDS.
 
 `worker.dask_worker` is the launch command for dask worker inside worker pod.
-To leverage the GPUs assigned to each Pod the [`dask_cuda_worker`](https://docs.rapids.ai/api/dask-cuda/{{ rapids_api_docs_version }}/index.html) command is launched in place of the regular `dask_worker`.
+To leverage the GPUs assigned to each Pod the [`dask_cuda_worker`](https://docs.rapids.ai/api/dask-cuda/~~~rapids_api_docs_version~~~/index.html) command is launched in place of the regular `dask_worker`.
 
 If desired to have a different jupyter notebook password than default, compute the hash for `<your-password>` and update `jupyter.password`.
 You can compute password hash by following the [jupyter notebook guide](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html?highlight=passwd#preparing-a-hashed-password).

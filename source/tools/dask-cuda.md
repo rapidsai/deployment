@@ -1,6 +1,6 @@
 # dask-cuda
 
-[Dask-CUDA](https://docs.rapids.ai/api/dask-cuda/{{ rapids_api_docs_version }}/) is a library extending `LocalCluster` from `dask.distributed` to enable multi-GPU workloads.
+[Dask-CUDA](https://docs.rapids.ai/api/dask-cuda/~~~rapids_api_docs_version~~~/) is a library extending `LocalCluster` from `dask.distributed` to enable multi-GPU workloads.
 
 ## LocalCUDACluster
 
@@ -10,7 +10,7 @@ In addition to enabling multi-GPU computation, `LocalCUDACluster` also provides 
 
 ## Pre-requisites
 
-Before running these instructions, ensure you have installed the [`dask`](https://docs.dask.org/en/stable/install.html) and [`dask-cuda`](https://docs.rapids.ai/api/dask-cuda/{{ rapids_api_docs_version }}/install.html) packages in your local environment.
+Before running these instructions, ensure you have installed the [`dask`](https://docs.dask.org/en/stable/install.html) and [`dask-cuda`](https://docs.rapids.ai/api/dask-cuda/~~~rapids_api_docs_version~~~/install.html) packages in your local environment.
 
 ## Cluster setup
 

@@ -110,7 +110,7 @@ class RapidsCloudML:
             }
 
         elif self.model_type == "RandomForest":
-            # https://docs.rapids.ai/api/cuml/{{ rapids_api_docs_version }}/  -> cuml.ensemble.RandomForestClassifier
+            # https://docs.rapids.ai/api/cuml/~~~rapids_api_docs_version~~~/  -> cuml.ensemble.RandomForestClassifier
             model_params = {
                 "n_estimators": 10,
                 "max_depth": 10,

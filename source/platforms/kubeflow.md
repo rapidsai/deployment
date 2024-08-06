@@ -67,7 +67,7 @@ There is one A100 GPU listed which is available for use in your Notebook.
 
 The RAPIDS container also comes with some example notebooks which you can find in `/rapids/notebooks`. You can make a symbolic link to these from your home directory so you can easily navigate using the file explorer on the left `ln -s /rapids/notebooks /home/jovyan/notebooks`.
 
-Now you can navigate those example notebooks and explore all the libraries RAPIDS offers. For example, ETL developers that use [Pandas](https://pandas.pydata.org/) should check out the [cuDF](https://docs.rapids.ai/api/cudf/{{ rapids_api_docs_version }}/) notebooks for examples of accelerated dataframes.
+Now you can navigate those example notebooks and explore all the libraries RAPIDS offers. For example, ETL developers that use [Pandas](https://pandas.pydata.org/) should check out the [cuDF](https://docs.rapids.ai/api/cudf/~~~rapids_api_docs_version~~~/) notebooks for examples of accelerated dataframes.
 
 ```{figure} /images/kubeflow-jupyter-example-notebook.png
 ---
