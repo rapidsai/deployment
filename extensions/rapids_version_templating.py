@@ -13,7 +13,7 @@ class TextNodeVisitor(nodes.SparseNodeVisitor):
             re.sub(r"(?<!\$)\{\{.*?\}\}", self.template_func, node.astext())
         )
         new_node = nodes.Text(
-            re.sub(r"(?<!\$)~~~.*?~~~", self.template_func, new_node.astext())
+            re.sub(r"(?<!\$)\~\~\~.*?\~\~\~", self.template_func, new_node.astext())
         )
         node.parent.replace(node, new_node)
 
