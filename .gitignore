@@ -1,7 +1,12 @@
 *.bz2
+*.crt
 *.csv
 *.csv.gz
 *.csv.zip
+*.env
+*.pem
+*.pub
+.ruff_cache
 *.tar.gz
 *.zip
 *.7z
