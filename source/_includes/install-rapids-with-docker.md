@@ -6,10 +6,10 @@ On the release selector choose **Docker** in the **Method** column.
 Then copy the commands shown:
 
 ```bash
-docker pull {{ rapids_container }}
+docker pull {{ rapids_notebooks_container }}
 docker run --gpus all --rm -it \
     --shm-size=1g --ulimit memlock=-1 \
-    -p 8888:80 -p 8787:8787 -p 8786:8786 \
+    -p 8888:8888 -p 8787:8787 -p 8786:8786 \
     {{ rapids_notebooks_container }}
 ```
 
