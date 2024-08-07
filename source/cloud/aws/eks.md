@@ -34,6 +34,8 @@ $ eksctl create cluster rapids \
                       --zones=us-east-1c,us-east-1b,us-east-1d \
                       --auto-kubeconfig \
                       --install-nvidia-plugin=false
+
+                      amazon-eks-gpu-node-1.24-v20240415
 ```
 
 With this command, you’ve launched an EKS cluster called `rapids`. You’ve specified that it should use nodes of type `p3.8xlarge`. We also specified that we don't want to install the NVIDIA drivers as we will do that with the NVIDIA operator.

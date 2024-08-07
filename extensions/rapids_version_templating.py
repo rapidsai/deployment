@@ -26,7 +26,7 @@ class TextNodeVisitor(nodes.SparseNodeVisitor):
 def version_template(app, doctree, docname):
     """Substitute versions into each page.
 
-    This allows documentation pages and notebooks to substiture in values like
+    This allows documentation pages and notebooks to substitute in values like
     the latest container image using jinja2 syntax.
 
     E.g
