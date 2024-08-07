@@ -8,19 +8,26 @@ RAPIDS can be used in a few ways with [AWS SageMaker](https://aws.amazon.com/sag
 
 ## SageMaker Notebooks
 
-[SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html) can be augmented with a RAPIDS conda environment.
+To get started head to [the SageMaker console]((https://console.aws.amazon.com/sagemaker/) and create a [new SageMaker Notebook Instance](https://console.aws.amazon.com/sagemaker/home#/notebook-instances/create).
 
-We can add a RAPIDS conda environment to the set of Jupyter ipython kernels available in our SageMaker notebook instance by installing in a [lifecycle configuration script](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
-
-To get started head to SageMaker and create a [new SageMaker Notebook Instance](https://console.aws.amazon.com/sagemaker/home#/notebook-instances/create).
+Choose `Notebook > Notebook Instances > Create notebook instance`.
 
 ### Select your instance
 
-Select a RAPIDS-compatible GPU ([see the RAPIDS docs](https://docs.rapids.ai/install#system-req)) as the SageMaker Notebook instance type (e.g., `ml.p3.2xlarge`).
+If a field is not mentioned below, leave the default values:
+
+- **NOTEBOOK_INSTANCE_NAME** = Name of the notebook instance
+- **NOTEBOOK_INSTANCE_TYPE** = Type of notebook instance. Select a RAPIDS-compatible GPU ([see the RAPIDS docs](https://docs.rapids.ai/install#system-req)) as the SageMaker Notebook instance type (e.g., `ml.p3.2xlarge`).
+- **PLATFORM_IDENTIFIER** = 'Amazon Linux 2, Jupyter Lab 3'
+- **IAM_ROLE** = Create a new role > Create role
 
 ![Screenshot of the create new notebook screen with a ml.p3.2xlarge selected](../../images/sagemaker-create-notebook-instance.png)
 
 ### Create a RAPIDS lifecycle configuration
+
+[SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html) can be augmented with a RAPIDS conda environment.
+
+We can add a RAPIDS conda environment to the set of Jupyter ipython kernels available in our SageMaker notebook instance by installing in a [lifecycle configuration script](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
 
 Create a new lifecycle configuration (via the 'Additional Options' dropdown).
 
@@ -58,15 +65,27 @@ Then launch the instance.
 
 Once your Notebook Instance is `InService` select "Open JupyterLab"
 
+```{note}
+If you see Pending to the right of the notebook instance in the Status column, your notebook is still being created. The status will change to InService when the notebook is ready for use.
+```
+
 Then in Jupyter select the `rapids` kernel when working with a new notebook.
 
 ![Screenshot of Jupyter with the rapids kernel highlighted](../../images/sagemaker-choose-rapids-kernel.png)
 
+### Run the Example Notebook
+
+Once inside JupyterLab you should be able to upload the [Running RAPIDS hyperparameter experiments at scale](/examples/rapids-sagemaker-higgs/notebook) example notebook and continue following those instructions.
+
 ## SageMaker Estimators
 
-RAPIDS can also be used in [SageMaker Estimators](https://sagemaker.readthedocs.io/en/stable/api/training/estimators.html). Estimators allow you to launch training jobs on ephemeral VMs which SageMaker manages for you. The benefit of this is that your Notebook Instance doesn't need to have a GPU, so you are only charged for GPU instances for the time that your training job is running.
+RAPIDS can also be used in [SageMaker Estimators](https://sagemaker.readthedocs.io/en/stable/api/training/estimators.html).
+Estimators allow you to launch training jobs on ephemeral VMs which SageMaker manages for you.
+With this option, your Notebook Isntance doesn't need to have a GPU... you are only charged for GPU instances for the time that your training job is running.
 
-All you’ll need to do is bring in your RAPIDS training script and libraries as a Docker container image and ask Amazon SageMaker to run copies of it in-parallel on a specified number of GPU instances in the cloud. Let’s take a closer look at how this works through a step-by-step approach:
+All you’ll need to do is bring in your RAPIDS training script and libraries as a Docker container image and ask Amazon SageMaker to run copies of it in parallel on a specified number of GPU instances.
+
+Let’s take a closer look at how this works through a step-by-step approach:
 
 - Training script should accept hyperparameters as command line arguments. Starting with the base RAPIDS container (pulled from [Docker Hub](https://hub.docker.com/u/rapidsai)), use a `Dockerfile` to augment it by copying your training code and set `WORKDIR` path to the code.
 
@@ -74,11 +93,12 @@ All you’ll need to do is bring in your RAPIDS training script and libraries as
 
 - Push the image to a container registry (ECR).
 
-![Screenshot of summarized step to build Estimator](../../images/sagemaker-containerize-and-publish.png)
-
 - Having built our container and custom logic, we can now assemble all components into an Estimator. We can now test the Estimator and run parallel hyperparameter optimization tuning jobs.
 
+Estimators follow an API roughly like this:
+
 ```python
+# set up configuration for the estimator
 estimator = sagemaker.estimator.Estimator(
     image_uri,
     role,
@@ -91,9 +111,10 @@ estimator = sagemaker.estimator.Estimator(
     sagemaker_session,
 )
 
+# launch a single remote training job
 estimator.fit(inputs=s3_data_input, job_name=job_name)
 
-
+# set up configuration for HyperparameterTuner
 hpo = sagemaker.tuner.HyperparameterTuner(
     estimator,
     metric_definitions,
@@ -104,33 +125,12 @@ hpo = sagemaker.tuner.HyperparameterTuner(
     max_jobs,
     max_parallel_jobs,
 )
+
+# launch multiple training jobs (one per combination of hyperparameters)
 hpo.fit(inputs=s3_data_input, job_name=tuning_job_name, wait=True, logs="All")
 ```
 
-### Upload data to S3
-
-We offer the dataset for this demo in a public bucket hosted in either the [`us-east-1`](https://s3.console.aws.amazon.com/s3/buckets/sagemaker-rapids-hpo-us-east-1/) or [`us-west-2`](https://s3.console.aws.amazon.com/s3/buckets/sagemaker-rapids-hpo-us-west-2/) regions
-
-### Create Notebook Instance
-
-Sign in to the Amazon SageMaker [console](https://console.aws.amazon.com/sagemaker/). Choose Notebook > Notebook Instances > Create notebook instance. If a field is not mentioned below, leave the default values:
-
-- **NOTEBOOK_INSTANCE_NAME** = Name of the notebook instance
-- **NOTEBOOK_INSTANCE_TYPE** = Type of notebook instance. We recommend a lightweight instance (e.g., ml.t2.medium) since the instance will only be used to build the container and launch work
-- **PLATFORM_IDENTIFIER** = 'Amazon Linux 2, Jupyter Lab 3'
-- **IAM_ROLE** = Create a new role > Create role
-
-### Launch Jupyter Notebook
-
-In a few minutes, Amazon SageMaker launches an ML compute instance — when its ready you should see several links appear in the Actions tab of the 'Notebook Instances' section, click on **Open JupyerLab** to launch into the notebook.
-
-```{note}
-If you see Pending to the right of the notebook instance in the Status column, your notebook is still being created. The status will change to InService when the notebook is ready for use.
-```
-
-### Run the Example Notebook
-
-Once inside JupyterLab you should be able to upload the [Running RAPIDS hyperparameter experiments at scale](/examples/rapids-sagemaker-higgs/notebook) example notebook and continue following those instructions.
+For a hands-on demo of this, try ["Deep Dive into running Hyper Parameter Optimization on AWS SageMaker"]/examples/rapids-sagemaker-higgs/notebook).
 
 ## Further reading
 
