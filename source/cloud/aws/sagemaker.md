@@ -8,7 +8,7 @@ RAPIDS can be used in a few ways with [AWS SageMaker](https://aws.amazon.com/sag
 
 ## SageMaker Notebooks
 
-To get started head to [the SageMaker console]((https://console.aws.amazon.com/sagemaker/) and create a [new SageMaker Notebook Instance](https://console.aws.amazon.com/sagemaker/home#/notebook-instances/create).
+To get started head to [the SageMaker console](https://console.aws.amazon.com/sagemaker/) and create a [new SageMaker Notebook Instance](https://console.aws.amazon.com/sagemaker/home#/notebook-instances/create).
 
 Choose `Notebook > Notebook Instances > Create notebook instance`.
 
