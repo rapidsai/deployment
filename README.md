@@ -136,12 +136,22 @@ versions = {
 }
 ```
 
-You can then use the value in any documentation page or notebook like this.
+These can then be referenced in templating statements.
+For most text, use Jinja2-style `{{` and `}}`, like this:
 
 ```markdown
 # My doc page
 
 The latest container image is {{ rapids_container }}.
+```
+
+For inline URLs, the templating will only work if the entire URL contains URL-valid characters.
+In those cases, use `~~~` with no spaces, like this:
+
+```markdown
+# My doc page
+
+For more, see the docs on [dask-cuda](https://docs.rapids.ai/api/dask-cuda/~~~rapids_api_docs_version~~~/install.html)
 ```
 
 All builds will use the nightly section by default which allows you to test with the latest and greatest containers when developing locally or previewing nightly docs builds. To build the docs using the stable images you need to set the environment variable `DEPLOYMENT_DOCS_BUILD_STABLE` to `true`. This is done automatically when building from a tag in CI.
