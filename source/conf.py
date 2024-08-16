@@ -21,8 +21,8 @@ copyright = f"{datetime.date.today().year}, NVIDIA"
 author = "NVIDIA"
 
 # Single modifiable version for all of the docs - easier for future updates
-stable_version = "24.06"
-nightly_version = "24.08"
+stable_version = "24.08"
+nightly_version = "24.10"
 
 versions = {
     "stable": {
@@ -34,10 +34,10 @@ versions = {
     },
     "nightly": {
         "rapids_version": f"{nightly_version}-nightly",
-        "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-cuda11.8-py3.10",
-        "rapids_notebooks_container": f"rapidsai/notebooks:{nightly_version + 'a'}-cuda11.8-py3.10",
+        "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-cuda12.5-py3.11",
+        "rapids_notebooks_container": f"rapidsai/notebooks:{nightly_version + 'a'}-cuda12.5-py3.11",
         "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge -c nvidia",
-        "rapids_conda_packages": f"rapids={nightly_version} python=3.10 cuda-version=11.8",
+        "rapids_conda_packages": f"rapids={nightly_version} python=3.11 cuda-version=12.5",
     },
 }
 rapids_version = (

@@ -182,7 +182,7 @@ spec:
     # ...
 ```
 
-Inside our pod spec we are configuring one container that uses the `rapidsai/rapidsai-core` container image.
+Inside our pod spec we are configuring one container that uses the `rapidsai/base` container image.
 It also sets the `args` to start the `dask-cuda-worker` and configures one NVIDIA GPU.
 
 #### Scheduler
@@ -225,7 +225,7 @@ spec:
       # ...
 ```
 
-For the scheduler pod we are also setting the `rapidsai/rapidsai-core` container image, mainly to ensure our Dask versions match between
+For the scheduler pod we are also setting the `rapidsai/base` container image, mainly to ensure our Dask versions match between
 the scheduler and workers. We also disable Jupyter and ensure that the `dask-scheduler` command is configured.
 
 Then we configure both the Dask communication port on `8786` and the Dask dashboard on `8787` and add some probes so that Kubernetes can monitor
