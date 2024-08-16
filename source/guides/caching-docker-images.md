@@ -2,11 +2,11 @@
 
 The [Dask Autoscaler](https://kubernetes.dask.org/en/latest/operator_resources.html#daskautoscaler) leverages Dask's adaptive mode and allows the scheduler to scale the number of workers up and down based on the task graph.
 
-However, when the Dask cluster is scaling up and down, there are no assurances that the new worker pod will be scheduled on the same node from which a worker pod was previously removed. When scheduling on a new node, the cluster pull penalty will have to be paid when downloading the Docker image.
+When scaling the Dask cluster up or down, there is no guarantee that newly created worker pods will be scheduled on the same node as previously removed workers. As a result, when a new node is allocated for a worker pod, the cluster will incur a pull penalty due to the need to download the Docker image.
 
 ## Using a Daemonset to cache images
 
-A [Daemonset](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) in Kubernetes ensures that all nodes run a copy of a pod. We will create a Daemonset with the RAPIDS image, ensuring that Dask worker pods created with this image will not be stuck in pending state when tasks are scheduled.
+To guarantee that each node runs a consistent workload, we will deploy a Kubernetes [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) utilizing the RAPIDS image. This DaemonSet will prevent Dask worker pods created from this image from entering a pending state when tasks are scheduled.
 
 This is an example manifest to deploy a Daemonset with the RAPIDS container.
 
@@ -49,6 +49,6 @@ You can create this Daemonset with `kubectl`.
 $ kubectl apply -f caching-daemonset.yaml
 ```
 
-This Daemonset is created in the `image-cache` namespace. In the `initContainers` section, we specify the image to be pulled to the cluster. Any known command that will exit successfully can be used. And the `pause` container ensures that the pod goes into a Running phase but does not take up resources on the container.
+The DaemonSet is deployed in the `image-cache` namespace. In the `initContainers` section, we specify the image to be pulled and cached within the cluster, utilizing any executable command that terminates successfully. Additionally, the `pause` container is used to ensure the pod transitions into a Running state without consuming resources or running any processes.
 
-Upon applying this Daemonset, once all the pre-puller pods are in Running state, you know that the images have been pulled on all nodes. When the Kubernetes cluster is scaled, images will be pulled automatically on any new nodes added as well.
+When deploying the DaemonSet, after all pre-puller pods are running successfully, you can confirm that the images have been cached across all nodes in the cluster. As the Kubernetes cluster is scaled up or down, the DaemonSet will automatically pull and cache the necessary images on any newly added nodes, ensuring consistent image availability throughout
