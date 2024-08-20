@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e -u -o pipefail
+
 imagepaths=$(find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.svg" \) ! -path "./build/*" ! -path "./node_modules/*" ! -path "./jupyter_execute/*" ! -path "./.ipynb_checkpoints/*")
 counter=0
 
