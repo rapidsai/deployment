@@ -37,5 +37,6 @@ repos:
         entry: bash scripts/unused_images.sh
         language: system
         pass_filenames: false
+        always_run: true
 default_language_version:
   python: python3
