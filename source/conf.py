@@ -27,6 +27,7 @@ nightly_version = "24.10"
 versions = {
     "stable": {
         "rapids_version": stable_version,
+        "rapids_api_docs_version": "stable",
         "rapids_container": f"nvcr.io/nvidia/rapidsai/base:{stable_version}-cuda12.5-py3.11",
         "rapids_notebooks_container": f"nvcr.io/nvidia/rapidsai/notebooks:{stable_version}-cuda12.5-py3.11",
         "rapids_conda_channels": "-c rapidsai -c conda-forge -c nvidia",
@@ -34,6 +35,7 @@ versions = {
     },
     "nightly": {
         "rapids_version": f"{nightly_version}-nightly",
+        "rapids_api_docs_version": "nightly",
         "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-cuda12.5-py3.11",
         "rapids_notebooks_container": f"rapidsai/notebooks:{nightly_version + 'a'}-cuda12.5-py3.11",
         "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge -c nvidia",
