@@ -63,16 +63,16 @@ The "Deployments" section will show that your Jupyter Notebook is running on por
 
 Simply click on the link or copy and paste the URL into your web browser's address bar to access the Jupyter Notebook interface directly.
 
-2. Share the Service:
+3. Share the Service:
 If you want to share access to this service with others, you can click on the "Share a Service" button.
 
 You can also manage access by clicking "Edit Access" to control who has the ability to use this service.
 
-3. Check that your notebook has GPU Capabilities
+# Section 3. Check that your notebook has GPU Capabilities
 
 ![Alt Text](/_static/images/platforms/brev/brev6.png)
 
-4. Test RAPIDS
+# Section 4. Test RAPIDS
 
 ![Alt Text](/_static/images/platforms/brev/brev7.png)
 
