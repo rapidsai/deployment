@@ -55,7 +55,7 @@ This command forwards port 8888 on your local machine to port 8888 on the remote
 Replace username with your username and ip with the ip listed if it's different.
 
 **Accessing the Service:**
-After running the command, open your web browser and navigate to http://localhost:8888. You will be able to access the Jupyter Notebook running in your Brev environment as if it were running locally.
+After running the command, open your web browser and navigate to your local host. You will be able to access the Jupyter Notebook running in your Brev environment as if it were running locally.
 
 Access the Jupyter Notebook via the Tunnel:
 
