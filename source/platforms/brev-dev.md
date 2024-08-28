@@ -26,6 +26,7 @@ To simply create and use a Jupyter Notebook:
 Click Open Notebook at the top right after the page has deployed
 
 On VS Code:  
+
 Go to VS Code and type:  
 ```bash
 brev open
@@ -33,9 +34,9 @@ brev open
 
 And it will automatically open a new VS Code window for you to use with RAPIDS. 
 
-
 On Terminal 
 Type: 
+
 ```bash
 brev shell 
 ```
@@ -43,12 +44,15 @@ brev shell
 SSH
 **Forwarding a Port Locally:**
 Assuming your Jupyter Notebook is running on port 8888 in your Brev environment, you can forward this port to your local machine using the following SSH command:
+
 ```bash
-ssh -L 8888:localhost:8888 ubuntu@35.225.170.238 -p 22
+ssh -L 8888:localhost:8888 <username>@<ip> -p 22
 ```
+
 Or for port 2222
+
 ```bash
-ssh @35.225.170.238 -p 2222
+ssh @<ip> -p 2222
 ```
 
 This command forwards port 8888 on your local machine to port 8888 on the remote Brev environment.
