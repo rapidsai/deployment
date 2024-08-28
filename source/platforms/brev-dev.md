@@ -1,6 +1,6 @@
 ## Setting up your instance
 
-Navigate to the Brev.dev console and click on "Create your first instance"
+Navigate to the Brev.dev console ("https://console.brev.dev/") and click on "Create your first instance"
 
 ![Alt Text](/_static/images/platforms/brev/brev1.png)
 
