@@ -12,7 +12,7 @@ Attach NVIDIA RAPIDS Container
 
 ![Alt Text](/_static/images/platforms/brev/brev3.png)
 
-Configure your own instance 
+Configure your own instance
 
 ![Alt Text](/_static/images/platforms/brev/brev4.png)
 
@@ -25,12 +25,12 @@ And hit Deploy
 To simply create and use a Jupyter Notebook:
 Click Open Notebook at the top right after the page has deployed
 
-
-On VS Code:
-Go to VS Code and type: 
+On VS Code:  
+Go to VS Code and type:  
 ```bash
-brev open 
+brev open
 ```
+
 And it will automatically open a new VS Code window for you to use with RAPIDS. 
 
 
@@ -41,7 +41,7 @@ brev shell
 ```
 
 SSH
-1. Forwarding a Port Locally:
+**Forwarding a Port Locally:**
 Assuming your Jupyter Notebook is running on port 8888 in your Brev environment, you can forward this port to your local machine using the following SSH command:
 ```bash
 ssh -L 8888:localhost:8888 ubuntu@35.225.170.238 -p 22
@@ -54,7 +54,7 @@ ssh @35.225.170.238 -p 2222
 This command forwards port 8888 on your local machine to port 8888 on the remote Brev environment.
 Replace username with your username and ip with the ip listed if it's different.
 
-2. Accessing the Service:
+**Accessing the Service:**
 After running the command, open your web browser and navigate to http://localhost:8888. You will be able to access the Jupyter Notebook running in your Brev environment as if it were running locally.
 
 Access the Jupyter Notebook via the Tunnel:
@@ -63,7 +63,7 @@ The "Deployments" section will show that your Jupyter Notebook is running on por
 
 Simply click on the link or copy and paste the URL into your web browser's address bar to access the Jupyter Notebook interface directly.
 
-3. Share the Service:
+**Share the Service:**
 If you want to share access to this service with others, you can click on the "Share a Service" button.
 
 You can also manage access by clicking "Edit Access" to control who has the ability to use this service.
