@@ -63,16 +63,16 @@ ssh <username>@<ip> -p 2222
 
 Replace username with your username and ip with the ip listed if it's different.
 
-### Accessing the Service:
+### Accessing the Service
 
 After running the command, open your web browser and navigate to your local host. You will be able to access the Jupyter Notebook running in your Brev environment as if it were running locally.
 
-### Access the Jupyter Notebook via the Tunnel:
+### Access the Jupyter Notebook via the Tunnel
 
 The "Deployments" section will show that your Jupyter Notebook is running on port '8888', and it is accessible via a shareable URL Ex: 'jupyter0-i55ymhsr8.brevlab.com'.
 Click on the link or copy and paste the URL into your web browser's address bar to access the Jupyter Notebook interface directly.
 
-##### Share the Service:
+#### Share the Service
 
 If you want to share access to this service with others, you can click on the "Share a Service" button.
 
@@ -86,6 +86,6 @@ You can also manage access by clicking "Edit Access" to control who has the abil
 
 ![Alt Text](/_static/images/platforms/brev/brev7.png)
 
-### Resources:
+### Resources
 
 - [Brev.dev Docs](https://brev.dev/)
