@@ -13,6 +13,7 @@ rapids-optuna-hpo/notebook
 rapids-sagemaker-higgs/notebook
 rapids-sagemaker-hpo/notebook
 rapids-ec2-mnmg/notebook
+rapids-dask-cuml-exploration/notebook
 rapids-autoscaling-multi-tenant-kubernetes/notebook
 xgboost-randomforest-gpu-hpo-dask/notebook
 rapids-azureml-hpo/notebook
