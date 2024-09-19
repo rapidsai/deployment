@@ -22,7 +22,7 @@ While you're in your billing settings you should also decide what the maximum is
 
 Next you can go into the GitHub Actions settings for your account and configure a [larger runner](https://docs.github.com/en/actions/using-github-hosted-runners/using-larger-runners/about-larger-runners). You can find this settings page by visiting `https://github.com/organizations/<YOUR_ORG>/settings/actions/runners`.
 
-![Screenshot of the GitHub Actions runner configuration page with the new runner button highlighted](/_static/images/developer/ci/new-hosted-runner.png)
+![Screenshot of the GitHub Actions runner configuration page with the new runner button highlighted](/_static/images/developer/ci/github-actions/new-hosted-runner.png)
 
 Next you need to give your runner a name, for example `linux-nvidia-gpu`, you'll need to remember this for configuring your workflows later. Then you need to choose your runner settings:
 
@@ -30,7 +30,7 @@ Next you need to give your runner a name, for example `linux-nvidia-gpu`, you'll
 - Under "Image" switch to the "Partner" tab and choose "NVIDIA GPU-Optimized Image for AI and HPC"
 - Under "Size" switch to the "GPU-powered" tab and select your preferred NVIDIA hardware
 
-![Screenshot of the GitHub Actions runner configuration page a new GPU runner configured](/_static/images/developer/ci/new-runner-config.png)
+![Screenshot of the GitHub Actions runner configuration page a new GPU runner configured](/_static/images/developer/ci/github-actions/new-runner-config.png)
 
 Then set your preferred maximum concurrency and then choose "Create runner".
 
