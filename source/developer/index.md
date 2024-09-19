@@ -7,7 +7,7 @@ html_theme.sidebar_secondary.remove: true
 
 ## Continuous Integration
 
-```{include} ../../_includes/menus/ibm.md
+```{include} ../../_includes/menus/ci.md
 
 ```
 

@@ -98,4 +98,14 @@ Detailed guides on how to deploy and optimize RAPIDS.
 {bdg}`Infiniband`
 {bdg}`MIG`
 ````
+
+````{grid-item-card}
+:link: developer/index
+:link-type: doc
+{fas}`wrench;sd-text-primary` Guides
+^^^
+Build on RAPIDS in your development environments.
+
+{bdg}`CI`
+````
 `````
