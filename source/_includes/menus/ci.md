@@ -2,7 +2,7 @@
 :gutter: 2 2 2 2
 
 ````{grid-item-card}
-:link: ci/github-actions
+:link: /developer/ci/github-actions
 :link-type: doc
 GitHub Actions
 ^^^
