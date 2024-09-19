@@ -102,7 +102,7 @@ Detailed guides on how to deploy and optimize RAPIDS.
 ````{grid-item-card}
 :link: developer/index
 :link-type: doc
-{fas}`wrench;sd-text-primary` Guides
+{fas}`wrench;sd-text-primary` Developer
 ^^^
 Build on RAPIDS in your development environments.
 
