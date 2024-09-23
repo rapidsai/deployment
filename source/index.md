@@ -102,7 +102,7 @@ Detailed guides on how to deploy and optimize RAPIDS.
 ````{grid-item-card}
 :link: nims/index
 :link-type: doc
-{fas}`zap;sd-text-primary` NVIDIA NIMs
+{fas}`zap;sd-text-primary` NVIDIA NIM Microservices
 ^^^
 NVIDIA NIM Microservices using RAPIDS to accelerate your AI deployment.
 
