@@ -11,8 +11,8 @@ html_theme.sidebar_secondary.remove: true
 :gutter: 2 2 2 2
 
 ````{grid-item-card}
-:link: nemo
-:link-type: doc
+:link: https://docs.nvidia.com/nim/index.html#nemo-retriever
+:link-type: link
 NeMo Retriever
 ^^^
 Get access to state-of-the-art models for building text Q&A retrieval pipelines with high accuracy. 
