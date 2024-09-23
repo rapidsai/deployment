@@ -106,8 +106,8 @@ Detailed guides on how to deploy and optimize RAPIDS.
 ^^^
 NVIDIA NIM Microservices using RAPIDS to accelerate your AI deployment.
 
-{bdg}`NeMo Retriever`
-{bdg}`---`
+{bdg}`Natural Language Processing`
+{bdg}`Data Processing`
 {bdg}`---`
 ````
 `````
