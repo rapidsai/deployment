@@ -3,7 +3,7 @@ review_priority: "index"
 html_theme.sidebar_secondary.remove: true
 ---
 
-# NIMs Microservices
+# NVIDIA NIM Microservices
 
 `````{gridtoctree} 1 2 2 3
 :gutter: 2 2 2 2
