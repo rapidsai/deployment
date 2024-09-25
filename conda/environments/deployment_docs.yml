@@ -3,16 +3,16 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - myst-nb>=1.1.1
-  - myst-parser>=3.0.1
-  - nbsphinx>=0.9.4
-  - numpydoc>=1.7.0
-  - pydata-sphinx-theme>=0.12.0
-  - python=3.11
-  - pre-commit>=3.7.1
-  - sphinx>=7.4.0
-  - sphinx-autobuild>=2024.4.16
+  - myst-nb>=1.1.2
+  - myst-parser>=4.0.0
+  - nbsphinx>=0.9.5
+  - numpydoc>=1.8.0
+  - pydata-sphinx-theme>=0.15.4
+  - python=3.12
+  - pre-commit>=3.8.0
+  - sphinx>=8.0.2
+  - sphinx-autobuild>=2024.9.19
   - sphinx-copybutton>=0.5.2
-  - sphinx-design>=0.6.0
+  - sphinx-design>=0.6.1
   - sphinxcontrib-mermaid>=0.9.2
   - python-frontmatter>=1.1.0
