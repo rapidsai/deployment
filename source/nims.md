@@ -12,7 +12,7 @@ html_theme.sidebar_secondary.remove: true
 
 ````{grid-item-card}
 :link: https://docs.nvidia.com/nim/index.html#nemo-retriever
-:link-type: link
+:link-type: url
 NeMo Retriever
 ^^^
 Get access to state-of-the-art models for building text Q&A retrieval pipelines with high accuracy.
