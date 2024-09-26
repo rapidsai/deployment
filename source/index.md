@@ -108,5 +108,16 @@ NVIDIA NIM Microservices using RAPIDS to accelerate your AI deployment.
 
 {bdg}`Natural Language Processing`
 {bdg}`Data Processing`
+
 ````
-`````
+
+````{grid-item-card}
+:link: developer/index
+:link-type: doc
+{fas}`wrench;sd-text-primary` Developer
+^^^
+Build on RAPIDS in your development environments.
+
+{bdg}`CI`
+
+````
