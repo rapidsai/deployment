@@ -26,7 +26,7 @@ Please follow the links below to our install templates:
 #### Pip
 
 1. Open the pip template link by clicking this button -->
-   <a target="_blank" href="https://colab.research.google.com/drive/13sspqiEZwso4NYTbsflpPyNFaVAAxUgr">
+   <a target="_blank" href="https://nvda.ws/3XEO6hK">
    <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
    </a> .
 1. Click **Runtime** > **Run All**.
