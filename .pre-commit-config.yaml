@@ -20,7 +20,6 @@ repos:
     rev: v0.42.0
     hooks:
       - id: markdownlint
-        args: [--ignore-path=.markdownlintignore]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: "v0.6.7"
     hooks:
