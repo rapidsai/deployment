@@ -57,9 +57,6 @@ conda activate rapids
 # install Python SDK v2 in rapids env
 python -m pip install azure-ai-ml azure-identity
 
-# optionally install AutoGluon for AutoML GPU demo
-# python -m pip install --pre autogluon
-
 python -m ipykernel install --user --name rapids
 echo "kernel install completed"
 EOF
