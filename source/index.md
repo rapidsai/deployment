@@ -77,7 +77,7 @@ There are many tools to deploy RAPIDS.
 ````{grid-item-card}
 :link: examples/index
 :link-type: doc
-{fas}`book;sd-text-primary` Workflow examples
+{fas}`book;sd-text-primary` Workflow Examples
 ^^^
 For inspiration see our example notebooks with opinionated deployments of RAPIDS to boost machine learning workflows.
 
