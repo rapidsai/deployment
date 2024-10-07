@@ -53,13 +53,13 @@ Choose GPU for Hardware Accelerator
 
 ### 3. Check GPU type
 
-Check the output of `!nvidia-smi` to make sure you've been allocated a Rapids Compatible GPU, i.e [Tesla T4, P4, or P100].
+Check the output of `!nvidia-smi` to make sure you've been allocated a Rapids Compatible GPU ([see the RAPIDS install docs](https://docs.rapids.ai/install/#system-req)).
 
 ![Screenshot of nvidia-smi](../images/googlecolab-output-nvidia-smi.png)
 
 ### 4. Install RAPIDS on Colab
 
-You can install RAPIDS using pip. The script first checks GPU compatibility with RAPIDS, then installs the latest **stable** versions some core RAPIDS libraries (e.g. cuDF, cuML, cuGraph, and xgboost) using `pip`.
+You can install RAPIDS using pip. The script first checks GPU compatibility with RAPIDS, then installs the latest **stable** versions of some core RAPIDS libraries (e.g. cuDF, cuML, cuGraph, and xgboost) using `pip`.
 
 ```bash
 # Colab warns and provides remediation steps if the GPUs is not compatible with RAPIDS.
