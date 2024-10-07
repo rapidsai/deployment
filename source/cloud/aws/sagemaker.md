@@ -49,9 +49,6 @@ mamba create -y -n rapids {{ rapids_conda_channels }} {{ rapids_conda_packages }
 
 conda activate rapids
 
-# optionally install AutoGluon for AutoML GPU demo
-# python -m pip install --pre autogluon
-
 python -m ipykernel install --user --name rapids
 echo "kernel install completed"
 EOF
