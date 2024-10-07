@@ -59,7 +59,7 @@ Check the output of `!nvidia-smi` to make sure you've been allocated a Rapids Co
 
 ### 4. Install RAPIDS on Colab
 
-You can install RAPIDS using pip. The script first checks GPU compatibility with RAPIDS, then installs the latest **stable** versions of RAPIDSAI's core libraries (cuDF, cuML, cuGraph, and xgboost) using `pip`.
+You can install RAPIDS using pip. The script first checks GPU compatibility with RAPIDS, then installs the latest **stable** versions some core RAPIDS libraries (e.g. cuDF, cuML, cuGraph, and xgboost) using `pip`.
 
 ```bash
 # Colab warns and provides remediation steps if the GPUs is not compatible with RAPIDS.
@@ -68,7 +68,7 @@ You can install RAPIDS using pip. The script first checks GPU compatibility with
 !python rapidsai-csp-utils/colab/pip-install.py
 ```
 
-### 5. Test Rapids
+### 5. Test RAPIDS
 
 ```python
 import cudf
