@@ -23,7 +23,7 @@ $ gcloud init
 Now we can launch a GPU enabled GKE cluster.
 
 ```console
-$ gcloud container clusters create rapids-gpu-kubeflow \
+gcloud container clusters create rapids-gpu-kubeflow \
   --accelerator type=nvidia-tesla-a100,count=2 --machine-type a2-highgpu-2g \
   --zone us-central1-c --release-channel stable
 ```
