@@ -8,7 +8,7 @@ RAPIDS can be deployed on [Vertex AI Workbench](https://cloud.google.com/vertex-
 
 ## Create a new user-managed Notebook
 
-1. From the Google Cloud UI, navigate to [**Vertex AI**](https://console.cloud.google.com/vertex-ai/workbench/user-managed) -> **Workbench**
+1. From the Google Cloud UI, navigate to [**Vertex AI**](https://console.cloud.google.com/vertex-ai/workbench/user-managed) -> Notebook -> **Workbench**
 2. Make sure you select **User-Managed Notebooks** (**Managed Notebooks** are currently not supported) and select **+ CREATE NEW**.
 3. In the **Details** section give the instance a name.
 4. Under the **Environment** section choose "Python 3 with CUDA 11.8".
