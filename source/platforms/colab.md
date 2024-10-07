@@ -70,10 +70,12 @@ You can install RAPIDS using pip. The script first checks GPU compatibility with
 
 ### 5. Test RAPIDS
 
+Run the following in a Python cell.
+
 ```python
 import cudf
 
-gdf = cudf.DataFrame({"a":[1,2,3],"b":[4,5,6]})
+gdf = cudf.DataFrame({"a":[1,2,3], "b":[4,5,6]})
 gdf
     a   b
 0   1   4
@@ -84,6 +86,4 @@ gdf
 
 ### 6. Next steps
 
-Check out this [guide](https://towardsdatascience.com/) for an overview of how to access and work with your own datasets in Colab.
-
-For more RAPIDS examples, check out our RAPIDS [notebooks](https://github.com/rapidsai/notebooks) and [notebooks-contrib](https://github.com/rapidsai/notebooks-contrib) repos
+Try a more thorough example of using cuDF on Google Colab, "10 Minutes to RAPIDS cuDF's pandas accelerator mode (cudf.pandas)" ([Google Colab link](https://nvda.ws/rapids-cudf)).
