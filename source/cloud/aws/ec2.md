@@ -13,7 +13,7 @@ NVIDIA maintains an [Amazon Machine Image (AMI) that pre-installs NVIDIA drivers
 1. Open the [**EC2 Dashboard**](https://console.aws.amazon.com/ec2/home).
 1. Select **Launch Instance**.
 1. In the AMI selection box search for "nvidia", then switch to the **AWS Marketplace AMIs** tab.
-1. Select **NVIDIA GPU-Optimized AMI**, then select **Select** and then **Continue**.
+1. Select **NVIDIA GPU-Optimized AMI**, then select **Subscribe on Instance Launch**.
 1. In **Key pair** select your SSH keys (create these first if you haven't already).
 1. Under network settings create a security group (or choose an existing) that allows SSH access on port `22` and also allow ports `8888,8786,8787` to access Jupyter and Dask.
 1. Select **Launch**.
