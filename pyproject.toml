@@ -28,6 +28,10 @@ select = [
     # cell, creating a Dask cluster separately and then running the rest of the notebook's code
     "F821",
 ]
+"source/examples/rapids-sagemaker-higgs/notebook.ipynb" = [
+    # "Line too long", because of a 1-liner shell command starting with '!'
+    "E501",
+]
 "source/examples/xgboost-dask-databricks/notebook.ipynb" = [
     # "undefined name spark" because Databricks magically makes a SparkSession
     # available with name 'spark'
