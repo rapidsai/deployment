@@ -23,7 +23,7 @@ $ az login
 Now we can launch a GPU enabled AKS cluster. First launch an AKS cluster.
 
 ```console
-$ az aks create -g <resource group> -n rapids \
+    az aks create -g <resource group> -n rapids \
         --enable-managed-identity \
         --node-count 1 \
         --enable-addons monitoring \
@@ -92,7 +92,7 @@ $ az extension add --name aks-preview
 `````
 
 ```console
-$ az aks nodepool add \
+    az aks nodepool add \
     --resource-group <resource group> \
     --cluster-name rapids \
     --name gpunp \
