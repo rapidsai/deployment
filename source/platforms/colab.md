@@ -53,13 +53,13 @@ Choose GPU for Hardware Accelerator
 
 ### 3. Check GPU type
 
-Check the output of `!nvidia-smi` to make sure you've been allocated a Rapids Compatible GPU, i.e [Tesla T4, P4, or P100].
+Check the output of `!nvidia-smi` to make sure you've been allocated a Rapids Compatible GPU ([see the RAPIDS install docs](https://docs.rapids.ai/install/#system-req)).
 
 ![Screenshot of nvidia-smi](../images/googlecolab-output-nvidia-smi.png)
 
 ### 4. Install RAPIDS on Colab
 
-You can install RAPIDS using pip. The script first checks GPU compatibility with RAPIDS, then installs the latest **stable** versions of RAPIDSAI's core libraries (cuDF, cuML, cuGraph, and xgboost) using `pip`.
+You can install RAPIDS using pip. The script first checks GPU compatibility with RAPIDS, then installs the latest **stable** versions of some core RAPIDS libraries (e.g. cuDF, cuML, cuGraph, and xgboost) using `pip`.
 
 ```bash
 # Colab warns and provides remediation steps if the GPUs is not compatible with RAPIDS.
@@ -68,12 +68,14 @@ You can install RAPIDS using pip. The script first checks GPU compatibility with
 !python rapidsai-csp-utils/colab/pip-install.py
 ```
 
-### 5. Test Rapids
+### 5. Test RAPIDS
+
+Run the following in a Python cell.
 
 ```python
 import cudf
 
-gdf = cudf.DataFrame({"a":[1,2,3],"b":[4,5,6]})
+gdf = cudf.DataFrame({"a":[1,2,3], "b":[4,5,6]})
 gdf
     a   b
 0   1   4
@@ -84,6 +86,4 @@ gdf
 
 ### 6. Next steps
 
-Check out this [guide](https://towardsdatascience.com/) for an overview of how to access and work with your own datasets in Colab.
-
-For more RAPIDS examples, check out our RAPIDS [notebooks](https://github.com/rapidsai/notebooks) and [notebooks-contrib](https://github.com/rapidsai/notebooks-contrib) repos
+Try a more thorough example of using cuDF on Google Colab, "10 Minutes to RAPIDS cuDF's pandas accelerator mode (cudf.pandas)" ([Google Colab link](https://nvda.ws/rapids-cudf)).
