@@ -87,8 +87,8 @@ Next we need to allow network traffic to the VM so we can access Jupyter and Das
 
 1. After creating VM, select **Go to resource** to access VM.
 2. Select **Networking** -> **Networking Settings** in the left panel.
-2. Select **+Create port rule** -> **Add inbound port rule**.
-3. Set **Destination port ranges** to `8888,8787`. Keep rest unchanged. Select **Add**.
+3. Select **+Create port rule** -> **Add inbound port rule**.
+4. Set **Destination port ranges** to `8888,8787`. Keep rest unchanged. Select **Add**.
 
 ````
 
