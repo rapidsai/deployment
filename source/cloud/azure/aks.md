@@ -92,7 +92,7 @@ $ az extension add --name aks-preview
 `````
 
 ```console
-    az aks nodepool add \
+az aks nodepool add \
     --resource-group <resource group> \
     --cluster-name rapids \
     --name gpunp \
