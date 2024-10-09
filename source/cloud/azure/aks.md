@@ -22,7 +22,7 @@ $ az login
 
 Now we can launch a GPU enabled AKS cluster. First launch an AKS cluster.
 
-```console
+```bash
     az aks create -g <resource group> -n rapids \
         --enable-managed-identity \
         --node-count 1 \
