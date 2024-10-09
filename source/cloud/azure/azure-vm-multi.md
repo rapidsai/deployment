@@ -12,6 +12,8 @@ Dask Cloud Provider can be installed via `conda` or `pip`. The Azure-specific ca
 $ pip install dask-cloudprovider[azure]
 ```
 
+Try running `pip install "dask-cloudprovider[azure]"` instead if you encounter a `zsh: no matches found` error.
+
 ### 2. Configure your Azure Resources
 
 Set up your [Azure Resouce Group](https://cloudprovider.dask.org/en/latest/azure.html#resource-groups), [Virtual Network](https://cloudprovider.dask.org/en/latest/azure.html#virtual-networks), and [Security Group](https://cloudprovider.dask.org/en/latest/azure.html#security-groups) according to [Dask Cloud Provider instructions](https://cloudprovider.dask.org/en/latest/azure.html#authentication).
