@@ -9,7 +9,7 @@ The easiest way to setup a multi-node, multi-GPU cluster on Azure is to use [Das
 Dask Cloud Provider can be installed via `conda` or `pip`. The Azure-specific capabilities will need to be installed via the `[azure]` pip extra.
 
 ```shell
-$ pip install dask-cloudprovider[azure]
+$ pip install 'dask-cloudprovider[azure]'
 ```
 
 ### 2. Configure your Azure Resources
