@@ -55,7 +55,7 @@ nvidia-device-plugin-daemonset-rhmvx   1/1     Running   0          52m
 nvidia-device-plugin-daemonset-thjhc   1/1     Running   0          52m
 ```
 
-```{info}
+```{note}
 By default this plugin will install the latest version on the NVIDIA drivers on every Node. If you need more control over your driver installation we recommend that when creating your cluster you set `eksctl create cluster --install-nvidia-plugin=false ...` and then install drivers yourself using the [NVIDIA GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html).
 ```
 
