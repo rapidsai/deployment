@@ -91,7 +91,7 @@ $ az extension add --name aks-preview
 
 `````
 
-```console
+```bash
     az aks nodepool add \
     --resource-group <resource group> \
     --cluster-name rapids \
