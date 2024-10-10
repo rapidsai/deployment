@@ -13,8 +13,8 @@ for demonstration.
 - Select `East US` region.
 - Change `Availability options` to `Availability set` and create a set.
   - If building multiple instances put additional instances in the same set.
-- Use the 2nd Gen Ubuntu 20.04 image.
-  - Search all images for `Ubuntu Server 20.04` and choose the second one down on the list.
+- Use the 2nd Gen Ubuntu 24.04 image.
+  - Search all images for `Ubuntu Server 24.04` and choose the second one down on the list.
 - Change size to `ND40rs_v2`.
 - Set password login with credentials.
   - User `someuser`
@@ -39,8 +39,8 @@ The commands below should work for Ubuntu. See the [CUDA Toolkit documentation](
 ```shell
 sudo apt-get install -y linux-headers-$(uname -r)
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID | sed -e 's/\.//g')
-wget https://developer.download.nvidia.com/compute/cuda/repos/$distribution/x86_64/cuda-keyring_1.0-1_all.deb
-sudo dpkg -i cuda-keyring_1.0-1_all.deb
+wget https://developer.download.nvidia.com/compute/cuda/repos/$distribution/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
 sudo apt-get update
 sudo apt-get -y install cuda-drivers
 ```
@@ -118,7 +118,7 @@ Mon Nov 14 20:32:39 2022
 
 ### InfiniBand Driver
 
-On Ubuntu 20.04
+On Ubuntu 24.04
 
 ```shell
 sudo apt-get install -y automake dh-make git libcap2 libnuma-dev libtool make pkg-config udev curl librdmacm-dev rdma-core \
