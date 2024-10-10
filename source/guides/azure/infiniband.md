@@ -251,7 +251,6 @@ Accept the default and allow conda init to run.
 ```shell
 ~/mambaforge/bin/conda init
 
-````
 
 Then start a new shell.
 
