@@ -1,7 +1,7 @@
 Let's create a sample pod that uses some GPU compute to make sure that everything is working as expected.
 
-```console
-$ cat << EOF | kubectl create -f -
+```bash
+cat << EOF | kubectl create -f -
 apiVersion: v1
 kind: Pod
 metadata:
