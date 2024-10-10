@@ -260,7 +260,6 @@ Create a conda environment (see [UCX-Py](https://ucx-py.readthedocs.io/en/latest
 ```shell
 mamba create -n ucxpy {{ rapids_conda_channels }} {{ rapids_conda_packages }} ipython ucx-proc=*=gpu ucx ucx-py dask distributed numpy cupy pytest pynvml -y
 mamba activate ucxpy
-````
 
 Clone UCX-Py repo locally
 
