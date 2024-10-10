@@ -248,7 +248,7 @@ bash Mambaforge-Linux-x86_64.sh
 ```
 
 Accept the default and allow conda init to run.
-``shell
+```shell
 ~/mambaforge/bin/conda init
 
 ````
