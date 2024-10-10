@@ -1,7 +1,7 @@
 # Dask Operator
 
 Many libraries in RAPIDS can leverage Dask to scale out computation onto multiple GPUs and multiple nodes.
-[Dask has an operator for Kubernetes](https://kubernetes.dask.org/en/latest/operator.html) which allows you to launch Dask clusters as native Kubernetes resources.
+[Dask has an operator for Kubernetes](https://kubernetes.dask.org/en/latest/) which allows you to launch Dask clusters as native Kubernetes resources.
 
 With the operator and associated Custom Resource Definitions (CRDs)
 you can create `DaskCluster`, `DaskWorkerGroup` and `DaskJob` resources that describe your Dask components and the operator will
@@ -45,7 +45,7 @@ graph TD
 
 Your Kubernetes cluster must have GPU nodes and have [up to date NVIDIA drivers installed](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html).
 
-To install the Dask operator follow the [instructions in the Dask documentation](https://kubernetes.dask.org/en/latest/operator_installation.html).
+To install the Dask operator follow the [instructions in the Dask documentation](https://kubernetes.dask.org/en/latest/installing.html).
 
 ## Configuring a RAPIDS `DaskCluster`
 
@@ -226,7 +226,7 @@ spec:
 ```
 
 For the scheduler pod we are also setting the `rapidsai/base` container image, mainly to ensure our Dask versions match between
-the scheduler and workers. We also disable Jupyter and ensure that the `dask-scheduler` command is configured.
+the scheduler and workers. We ensure that the `dask-scheduler` command is configured.
 
 Then we configure both the Dask communication port on `8786` and the Dask dashboard on `8787` and add some probes so that Kubernetes can monitor
 the health of the scheduler.
