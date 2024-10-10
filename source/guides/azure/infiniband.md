@@ -122,7 +122,7 @@ On Ubuntu 24.04
 
 ```shell
 sudo apt-get install -y automake dh-make git libcap2 libnuma-dev libtool make pkg-config udev curl librdmacm-dev rdma-core \
-    libgfortran5 bison chrpath flex graphviz gfortran tk dpatch quilt swig tcl ibverbs-utils
+    libgfortran5 bison chrpath flex graphviz gfortran tk  quilt swig tcl ibverbs-utils
 ```
 
 Check install
