@@ -247,14 +247,20 @@ wget https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforg
 bash Mambaforge-Linux-x86_64.sh
 ```
 
-Accept the default and allow conda init to run. Then start a new shell.
+Accept the default and allow conda init to run.
+``shell
+~/mambaforge/bin/conda init
+
+````
+
+Then start a new shell.
 
 Create a conda environment (see [UCX-Py](https://ucx-py.readthedocs.io/en/latest/install.html) docs)
 
 ```shell
 mamba create -n ucxpy {{ rapids_conda_channels }} {{ rapids_conda_packages }} ipython ucx-proc=*=gpu ucx ucx-py dask distributed numpy cupy pytest pynvml -y
 mamba activate ucxpy
-```
+````
 
 Clone UCX-Py repo locally
 
