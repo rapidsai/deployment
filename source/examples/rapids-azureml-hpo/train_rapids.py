@@ -28,12 +28,8 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--data_dir", type=str, help="location of data")
-    parser.add_argument(
-        "--n_estimators", type=int, default=100, help="Number of trees in RF"
-    )
-    parser.add_argument(
-        "--max_depth", type=int, default=16, help="Max depth of each tree"
-    )
+    parser.add_argument("--n_estimators", type=int, default=100, help="Number of trees in RF")
+    parser.add_argument("--max_depth", type=int, default=16, help="Max depth of each tree")
     parser.add_argument(
         "--n_bins",
         type=int,
@@ -52,9 +48,7 @@ def main():
         default="single-GPU",
         help="set to multi-GPU for algorithms via dask",
     )
-    parser.add_argument(
-        "--cv_folds", type=int, default=5, help="Number of CV fold splits"
-    )
+    parser.add_argument("--cv_folds", type=int, default=5, help="Number of CV fold splits")
 
     args = parser.parse_args()
     data_dir = args.data_dir
@@ -134,20 +128,14 @@ def main():
         print(f"\n CV fold { i_train_fold } of { cv_folds }\n")
 
         # split data
-        X_train, X_test, y_train, y_test, _ = azure_ml.split_data(
-            X, y, random_state=i_train_fold
-        )
+        X_train, X_test, y_train, y_test, _ = azure_ml.split_data(X, y, random_state=i_train_fold)
         # train model
-        trained_model, training_time = azure_ml.train_model(
-            X_train, y_train, model_params
-        )
+        trained_model, training_time = azure_ml.train_model(X_train, y_train, model_params)
 
         train_time_per_fold.append(round(training_time, 4))
 
         # evaluate perf
-        test_accuracy, infer_time = azure_ml.evaluate_test_perf(
-            trained_model, X_test, y_test
-        )
+        test_accuracy, infer_time = azure_ml.evaluate_test_perf(trained_model, X_test, y_test)
         accuracy_per_fold.append(round(test_accuracy, 4))
         infer_time_per_fold.append(round(infer_time, 4))
 
@@ -155,9 +143,7 @@ def main():
         if test_accuracy > global_best_test_accuracy:
             global_best_test_accuracy = test_accuracy
 
-    mlflow.log_metric(
-        "Total training inference time", np.float(training_time + infer_time)
-    )
+    mlflow.log_metric("Total training inference time", np.float(training_time + infer_time))
     mlflow.log_metric("Accuracy", np.float(global_best_test_accuracy))
     print("\n Accuracy             :", global_best_test_accuracy)
     print("\n accuracy per fold    :", accuracy_per_fold)

@@ -51,10 +51,7 @@ def recommend_instance_type(code_choice, dataset_directory):
         detail_str = "4x GPUs [ V100 ], 64GB GPU memory,  244GB CPU memory"
         recommended_instance_type = "ml.p3.8xlarge"
 
-    print(
-        f"recommended instance type : {recommended_instance_type} \n"
-        f"instance details          : {detail_str}"
-    )
+    print(f"recommended instance type : {recommended_instance_type} \n" f"instance details          : {detail_str}")
 
     return recommended_instance_type
 
@@ -64,8 +61,7 @@ def validate_dockerfile(rapids_base_container, dockerfile_name="Dockerfile"):
     with open(dockerfile_name) as dockerfile_handle:
         if rapids_base_container not in dockerfile_handle.read():
             raise Exception(
-                "Dockerfile base layer [i.e. FROM statment] does"
-                " not match the variable rapids_base_container"
+                "Dockerfile base layer [i.e. FROM statment] does" " not match the variable rapids_base_container"
             )
 
 
@@ -106,17 +102,11 @@ def summarize_hpo_results(tuning_job_name):
     hpo_results = (
         boto3.Session()
         .client("sagemaker")
-        .describe_hyper_parameter_tuning_job(
-            HyperParameterTuningJobName=tuning_job_name
-        )
+        .describe_hyper_parameter_tuning_job(HyperParameterTuningJobName=tuning_job_name)
     )
 
     best_job = hpo_results["BestTrainingJob"]["TrainingJobName"]
-    best_score = hpo_results["BestTrainingJob"][
-        "FinalHyperParameterTuningJobObjectiveMetric"
-    ][
-        "Value"
-    ]  # noqa
+    best_score = hpo_results["BestTrainingJob"]["FinalHyperParameterTuningJobObjectiveMetric"]["Value"]  # noqa
     best_params = hpo_results["BestTrainingJob"]["TunedHyperParameters"]
     print(f"best score: {best_score}")
     print(f"best params: {best_params}")
@@ -192,11 +182,7 @@ def new_job_name_from_config(
 
         random_str = "".join(random.choices(uuid.uuid4().hex, k=trim_limit))
 
-        job_name = (
-            f"{data_choice_str}-{code_choice_str}"
-            f"-{algorithm_choice_str}-{cv_folds}cv"
-            f"-{random_str}"
-        )
+        job_name = f"{data_choice_str}-{code_choice_str}" f"-{algorithm_choice_str}-{cv_folds}cv" f"-{random_str}"
 
         job_name = job_name[:trim_limit]
 
@@ -217,7 +203,4 @@ def validate_region(region):
         region = region[0]
 
     if region not in ["us-east-1", "us-west-2"]:
-        raise Exception(
-            "Unsupported region based on demo data location,"
-            " please switch to us-east-1 or us-west-2"
-        )
+        raise Exception("Unsupported region based on demo data location," " please switch to us-east-1 or us-west-2")

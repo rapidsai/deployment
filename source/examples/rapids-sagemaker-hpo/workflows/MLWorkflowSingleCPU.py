@@ -166,9 +166,7 @@ class MLWorkflowSingleCPU(MLWorkflow):
     def score(self, y_test, predictions):
         """Score predictions vs ground truth labels on test data"""
         dataset_dtype = self.hpo_config.dataset_dtype
-        score = accuracy_score(
-            y_test.astype(dataset_dtype), predictions.astype(dataset_dtype)
-        )
+        score = accuracy_score(y_test.astype(dataset_dtype), predictions.astype(dataset_dtype))
 
         hpo_log.info(f"\t score = {score}")
         self.cv_fold_scores.append(score)
@@ -180,9 +178,7 @@ class MLWorkflowSingleCPU(MLWorkflow):
         if score > self.best_score:
             self.best_score = score
             hpo_log.info("> saving high-scoring model")
-            output_filename = os.path.join(
-                self.hpo_config.model_store_directory, filename
-            )
+            output_filename = os.path.join(self.hpo_config.model_store_directory, filename)
             if "XGBoost" in self.hpo_config.model_type:
                 trained_model.save_model(f"{output_filename}_scpu_xgb")
             elif "RandomForest" in self.hpo_config.model_type:

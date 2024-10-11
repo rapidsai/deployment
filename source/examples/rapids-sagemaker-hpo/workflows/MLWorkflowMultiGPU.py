@@ -70,9 +70,7 @@ class MLWorkflowMultiGPU(MLWorkflow):
         dask.config.set(
             {
                 "temporary_directory": self.hpo_config.output_artifacts_directory,
-                "logging": {
-                    "loggers": {"distributed.nanny": {"level": "CRITICAL"}}
-                },  # noqa
+                "logging": {"loggers": {"distributed.nanny": {"level": "CRITICAL"}}},  # noqa
             }
         )
 
@@ -88,9 +86,7 @@ class MLWorkflowMultiGPU(MLWorkflow):
         if "Parquet" in self.hpo_config.input_file_type:
             hpo_log.info("> parquet data ingestion")
 
-            dataset = dask_cudf.read_parquet(
-                self.hpo_config.target_files, columns=self.hpo_config.dataset_columns
-            )
+            dataset = dask_cudf.read_parquet(self.hpo_config.target_files, columns=self.hpo_config.dataset_columns)
 
         elif "CSV" in self.hpo_config.input_file_type:
             hpo_log.info("> csv data ingestion")
@@ -189,9 +185,7 @@ class MLWorkflowMultiGPU(MLWorkflow):
         hpo_log.info("> predict with trained model ")
         if "XGBoost" in self.hpo_config.model_type:
             dtest = xgboost.dask.DaskDMatrix(self.client, X_test)
-            predictions = xgboost.dask.predict(
-                self.client, trained_model, dtest
-            ).compute()
+            predictions = xgboost.dask.predict(self.client, trained_model, dtest).compute()
 
             predictions = (predictions > threshold) * 1.0
 
@@ -223,9 +217,7 @@ class MLWorkflowMultiGPU(MLWorkflow):
         if score > self.best_score:
             self.best_score = score
             hpo_log.info("> saving high-scoring model")
-            output_filename = os.path.join(
-                self.hpo_config.model_store_directory, filename
-            )
+            output_filename = os.path.join(self.hpo_config.model_store_directory, filename)
 
             if "XGBoost" in self.hpo_config.model_type:
                 trained_model.save_model(f"{output_filename}_mgpu_xgb")

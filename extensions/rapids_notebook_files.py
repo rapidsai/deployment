@@ -16,9 +16,7 @@ def walk_files(app, dir, outdir):
     related_notebook_files = {}
     for page in dir.glob("*"):
         if page.is_dir():
-            related_notebook_files[page.name] = walk_files(
-                app, page, outdir / page.name
-            )
+            related_notebook_files[page.name] = walk_files(app, page, outdir / page.name)
         else:
             with contextlib.suppress(OSError):
                 os.remove(str(outdir / page.name))
@@ -59,9 +57,7 @@ def find_notebook_related_files(app, pagename, templatename, context, doctree):
         path_to_output_parent = output_root / rel_page_parent
 
         # Copy all related files to output and apply templating
-        related_notebook_files = walk_files(
-            app, path_to_page_parent, path_to_output_parent
-        )
+        related_notebook_files = walk_files(app, path_to_page_parent, path_to_output_parent)
 
         # Make archive of related files
         if related_notebook_files and len(related_notebook_files) > 1:
