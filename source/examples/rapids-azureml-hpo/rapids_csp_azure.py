@@ -132,7 +132,9 @@ class RapidsCloudML:
             self.log_to_file(str(error))
             return
 
-    def load_data(self, filename="dataset.orc", col_labels=None, y_label="ArrDelayBinary"):
+    def load_data(
+        self, filename="dataset.orc", col_labels=None, y_label="ArrDelayBinary"
+    ):
         """
         Loading the data into the object from the filename and based on the columns that we are
         interested in. Also, generates y_label from 'ArrDelay' column to convert this into a binary
@@ -183,7 +185,9 @@ class RapidsCloudML:
 
                     elif "multi" in self.compute_type:
                         self.log_to_file("\n\tReading using dask dataframe")
-                        dataset = dask.dataframe.read_parquet(target_filename, columns=col_labels)
+                        dataset = dask.dataframe.read_parquet(
+                            target_filename, columns=col_labels
+                        )
 
             elif "GPU" in self.compute_type:
                 # GPU Reading Option
@@ -201,7 +205,9 @@ class RapidsCloudML:
 
                     elif "multi" in self.compute_type:
                         self.log_to_file("\n\tReading using dask_cudf")
-                        dataset = dask_cudf.read_parquet(target_filename, columns=col_labels)
+                        dataset = dask_cudf.read_parquet(
+                            target_filename, columns=col_labels
+                        )
 
         # cast all columns to float32
         for col in dataset.columns:
@@ -216,10 +222,14 @@ class RapidsCloudML:
         dataset = dataset.fillna(0.0)  # Filling the null values. Needed for dask-cudf
 
         self.log_to_file(f"\n\tIngestion completed in {ingestion_timer.duration}")
-        self.log_to_file(f"\n\tDataset descriptors: {dataset.shape}\n\t{dataset.dtypes}")
+        self.log_to_file(
+            f"\n\tDataset descriptors: {dataset.shape}\n\t{dataset.dtypes}"
+        )
         return dataset, col_labels, y_label, ingestion_timer.duration
 
-    def split_data(self, dataset, y_label, train_size=0.8, random_state=0, shuffle=True):
+    def split_data(
+        self, dataset, y_label, train_size=0.8, random_state=0, shuffle=True
+    ):
         """
         Splitting data into train and test split, has appropriate imports for different compute modes.
         CPU compute - Uses sklearn, we manually filter y_label column in the split call
@@ -311,9 +321,13 @@ class RapidsCloudML:
 
         try:
             if self.model_type == "XGBoost":
-                trained_model, training_time = self.fit_xgboost(X_train, y_train, model_params)
+                trained_model, training_time = self.fit_xgboost(
+                    X_train, y_train, model_params
+                )
             elif self.model_type == "RandomForest":
-                trained_model, training_time = self.fit_random_forest(X_train, y_train, model_params)
+                trained_model, training_time = self.fit_random_forest(
+                    X_train, y_train, model_params
+                )
         except Exception as error:
             self.log_to_file("\n\n!error during model training: " + str(error))
         self.log_to_file(f"\n\tFinished training in {training_time:.4f} s")
@@ -340,7 +354,9 @@ class RapidsCloudML:
                 )
             elif "multi" in self.compute_type:
                 self.log_to_file("\n\tTraining multi-GPU XGBoost")
-                train_DMatrix = xgboost.dask.DaskDMatrix(self.client, data=X_train, label=y_train)
+                train_DMatrix = xgboost.dask.DaskDMatrix(
+                    self.client, data=X_train, label=y_train
+                )
                 trained_model = xgboost.dask.train(
                     self.client,
                     dtrain=train_DMatrix,
@@ -425,8 +441,12 @@ class RapidsCloudML:
             try:
                 if self.model_type == "XGBoost":
                     if "multi" in self.compute_type:
-                        test_DMatrix = xgboost.dask.DaskDMatrix(self.client, data=X_test, label=y_test)
-                        xgb_pred = xgboost.dask.predict(self.client, trained_model, test_DMatrix).compute()
+                        test_DMatrix = xgboost.dask.DaskDMatrix(
+                            self.client, data=X_test, label=y_test
+                        )
+                        xgb_pred = xgboost.dask.predict(
+                            self.client, trained_model, test_DMatrix
+                        ).compute()
                         xgb_pred = (xgb_pred > threshold) * 1.0
                         test_accuracy = accuracy_score(y_test.compute(), xgb_pred)
                     elif "single" in self.compute_type:
@@ -439,9 +459,13 @@ class RapidsCloudML:
                     if "multi" in self.compute_type:
                         cuml_pred = trained_model.predict(X_test).compute()
                         self.log_to_file("\n\tPrediction complete")
-                        test_accuracy = accuracy_score(y_test.compute(), cuml_pred, convert_dtype=True)
+                        test_accuracy = accuracy_score(
+                            y_test.compute(), cuml_pred, convert_dtype=True
+                        )
                     elif "single" in self.compute_type:
-                        test_accuracy = trained_model.score(X_test, y_test.astype("int32"))
+                        test_accuracy = trained_model.score(
+                            X_test, y_test.astype("int32")
+                        )
 
             except Exception as error:
                 self.log_to_file("\n\n!error during inference: " + str(error))

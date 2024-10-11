@@ -61,7 +61,9 @@ class HPOConfig:
         ) = self.detect_data_inputs(directory_structure)
 
         self.model_store_directory = directory_structure["model_store"]
-        self.output_artifacts_directory = directory_structure["output_artifacts"]  # noqa
+        self.output_artifacts_directory = directory_structure[
+            "output_artifacts"
+        ]  # noqa
 
     def parse_configuration(self):
         """Parse the ENV variables [ set in the dockerfile ]
@@ -126,7 +128,9 @@ class HPOConfig:
 
     def parse_hyper_parameter_inputs(self, input_args):
         """Parse hyperparmeters provided by the HPO orchestrator"""
-        hpo_log.info("parsing model hyperparameters from command line arguments...log")  # noqa
+        hpo_log.info(
+            "parsing model hyperparameters from command line arguments...log"
+        )  # noqa
         parser = argparse.ArgumentParser()
 
         if "XGBoost" in self.model_type:
@@ -215,7 +219,9 @@ class HPOConfig:
                single-GPU cudf read_parquet needs a list of files
                multi-CPU/GPU can accept either a list or a directory
         """
-        parquet_files = glob.glob(os.path.join(directory_structure["train_data"], "*.parquet"))
+        parquet_files = glob.glob(
+            os.path.join(directory_structure["train_data"], "*.parquet")
+        )
         csv_files = glob.glob(os.path.join(directory_structure["train_data"], "*.csv"))
 
         if len(csv_files):

@@ -123,7 +123,8 @@ def serve(xgboost_threshold=0.5):
 
         except Exception:
             return Response(
-                response="Unable to parse input data" "[ should be json/string encoded list of arrays ]",
+                response="Unable to parse input data"
+                "[ should be json/string encoded list of arrays ]",
                 status=415,
                 mimetype="text/csv",
             )
@@ -134,7 +135,9 @@ def serve(xgboost_threshold=0.5):
         try:
             start_time = time.perf_counter()
             if model_type == "XGBoost":
-                app.logger.info("running inference using XGBoost model :" f"{model_filename}")
+                app.logger.info(
+                    "running inference using XGBoost model :" f"{model_filename}"
+                )
 
                 if GPU_INFERENCE_FLAG:
                     predictions = reloaded_model.predict(query_data)
@@ -145,18 +148,28 @@ def serve(xgboost_threshold=0.5):
                 predictions = (predictions > xgboost_threshold) * 1.0
 
             elif model_type == "RandomForest":
-                app.logger.info("running inference using RandomForest model :" f"{model_filename}")
+                app.logger.info(
+                    "running inference using RandomForest model :" f"{model_filename}"
+                )
 
                 if "gpu" in model_filename and not GPU_INFERENCE_FLAG:
-                    raise Exception("attempting to run CPU inference " "on a GPU trained RandomForest model")
+                    raise Exception(
+                        "attempting to run CPU inference "
+                        "on a GPU trained RandomForest model"
+                    )
 
                 predictions = reloaded_model.predict(query_data.astype("float32"))
 
             elif model_type == "KMeans":
-                app.logger.info("running inference using KMeans model :" f"{model_filename}")
+                app.logger.info(
+                    "running inference using KMeans model :" f"{model_filename}"
+                )
 
                 if "gpu" in model_filename and not GPU_INFERENCE_FLAG:
-                    raise Exception("attempting to run CPU inference " "on a GPU trained KMeans model")
+                    raise Exception(
+                        "attempting to run CPU inference "
+                        "on a GPU trained KMeans model"
+                    )
 
                 predictions = reloaded_model.predict(query_data.astype("float32"))
 

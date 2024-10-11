@@ -70,7 +70,9 @@ def train_xgboost(trial, *, target, reseed_rng, threads_per_worker=None):
     params = {
         "max_depth": trial.suggest_int("max_depth", 4, 8),
         "learning_rate": trial.suggest_float("learning_rate", 0.001, 0.1, log=True),
-        "min_child_weight": trial.suggest_float("min_child_weight", 0.1, 10.0, log=True),
+        "min_child_weight": trial.suggest_float(
+            "min_child_weight", 0.1, 10.0, log=True
+        ),
         "reg_alpha": trial.suggest_float("reg_alpha", 0.0001, 100, log=True),
         "reg_lambda": trial.suggest_float("reg_lambda", 0.0001, 100, log=True),
         "verbosity": 0,
@@ -133,12 +135,16 @@ def train_randomforest(trial, *, target, reseed_rng, threads_per_worker=None):
 
             params["n_streams"] = 4
             params["n_bins"] = 256
-            params["split_criterion"] = trial.suggest_categorical("split_criterion", ["gini", "entropy"])
+            params["split_criterion"] = trial.suggest_categorical(
+                "split_criterion", ["gini", "entropy"]
+            )
             trained_model = RF_gpu(**params)
             accuracy_score_func = accuracy_score_gpu
         else:
             params["n_jobs"] = threads_per_worker
-            params["criterion"] = trial.suggest_categorical("criterion", ["gini", "entropy"])
+            params["criterion"] = trial.suggest_categorical(
+                "criterion", ["gini", "entropy"]
+            )
             trained_model = RF_cpu(**params)
             accuracy_score_func = accuracy_score_cpu
 
@@ -222,12 +228,16 @@ def main(args):
                 )
                 for _ in range(*iter_range)
             ]
-            print(f"Testing hyperparameter combinations {iter_range[0]}..{iter_range[1]}")
+            print(
+                f"Testing hyperparameter combinations {iter_range[0]}..{iter_range[1]}"
+            )
             _ = wait(futures)
             for fut in futures:
                 _ = fut.result()  # Ensure that the training job was successful
             tnow = time.perf_counter()
-            print(f"Best cross-validation metric: {study.best_value}, Time elapsed = {tnow - tstart}")
+            print(
+                f"Best cross-validation metric: {study.best_value}, Time elapsed = {tnow - tstart}"
+            )
     tend = time.perf_counter()
     print(f"Time elapsed: {tend - tstart} sec")
     cluster.close()
@@ -235,7 +245,9 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model-type", type=str, required=True, choices=["XGBoost", "RandomForest"])
+    parser.add_argument(
+        "--model-type", type=str, required=True, choices=["XGBoost", "RandomForest"]
+    )
     parser.add_argument("--target", required=True, choices=["gpu", "cpu"])
     parser.add_argument(
         "--threads_per_worker",

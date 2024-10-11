@@ -89,7 +89,9 @@ def timer_decorator(target_function):
         start_time = time.perf_counter()
         result = target_function(*args, **kwargs)
         exec_time = time.perf_counter() - start_time
-        hpo_log.info(f" --- {target_function.__name__}" f" completed in {exec_time:.5f} s")
+        hpo_log.info(
+            f" --- {target_function.__name__}" f" completed in {exec_time:.5f} s"
+        )
         return result
 
     return timed_execution_wrapper

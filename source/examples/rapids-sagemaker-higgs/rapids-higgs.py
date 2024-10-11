@@ -13,7 +13,9 @@ def main(args):
     data_dir = args.data_dir
 
     col_names = ["label"] + [f"col-{i}" for i in range(2, 30)]  # Assign column names
-    dtypes_ls = ["int32"] + ["float32" for _ in range(2, 30)]  # Assign dtypes to each column
+    dtypes_ls = ["int32"] + [
+        "float32" for _ in range(2, 30)
+    ]  # Assign dtypes to each column
 
     data = cudf.read_csv(data_dir + "HIGGS.csv", names=col_names, dtype=dtypes_ls)
     X_train, X_test, y_train, y_test = train_test_split(data, "label", train_size=0.70)

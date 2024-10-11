@@ -49,7 +49,9 @@ class RapidsCustomNodeVisitor(nodes.SparseNodeVisitor):
         uri_str = re.sub(r"~~~(.*?)~~~", r"{{ \1 }}", uri_str)
 
         # fill in appropriate values based on app context
-        node.attributes["refuri"] = re.sub(r"(?<!\$)\{\{.*?\}\}", self.template_func, uri_str)
+        node.attributes["refuri"] = re.sub(
+            r"(?<!\$)\{\{.*?\}\}", self.template_func, uri_str
+        )
 
         # update the document
         node.parent.replace(node, node)
@@ -59,7 +61,9 @@ class RapidsCustomNodeVisitor(nodes.SparseNodeVisitor):
         Replace template strings in generic text.
         This roughly corresponds to HTML ``<p>``, ``<pre>``, and similar elements.
         """
-        new_node = nodes.Text(re.sub(r"(?<!\$)\{\{.*?\}\}", self.template_func, node.astext()))
+        new_node = nodes.Text(
+            re.sub(r"(?<!\$)\{\{.*?\}\}", self.template_func, node.astext())
+        )
         node.parent.replace(node, new_node)
 
     def template_func(self, match: re.Match) -> str:
@@ -67,7 +71,9 @@ class RapidsCustomNodeVisitor(nodes.SparseNodeVisitor):
         Replace template strings like ``{{ rapids_version }}`` with real
         values like ``24.10``.
         """
-        return self.app.builder.templates.render_string(source=match.group(), context=self.app.config.rapids_version)
+        return self.app.builder.templates.render_string(
+            source=match.group(), context=self.app.config.rapids_version
+        )
 
 
 def version_template(

@@ -64,7 +64,9 @@ class MLWorkflowMultiCPU(MLWorkflow):
         dask.config.set(
             {
                 "temporary_directory": self.hpo_config.output_artifacts_directory,
-                "logging": {"loggers": {"distributed.nanny": {"level": "CRITICAL"}}},  # noqa
+                "logging": {
+                    "loggers": {"distributed.nanny": {"level": "CRITICAL"}}
+                },  # noqa
             }
         )
 
@@ -80,7 +82,9 @@ class MLWorkflowMultiCPU(MLWorkflow):
         if "Parquet" in self.hpo_config.input_file_type:
             hpo_log.info("> parquet data ingestion")
 
-            dataset = dask.dataframe.read_parquet(self.hpo_config.target_files, columns=self.hpo_config.dataset_columns)
+            dataset = dask.dataframe.read_parquet(
+                self.hpo_config.target_files, columns=self.hpo_config.dataset_columns
+            )
 
         elif "CSV" in self.hpo_config.input_file_type:
             hpo_log.info("> csv data ingestion")
@@ -208,7 +212,9 @@ class MLWorkflowMultiCPU(MLWorkflow):
         if score > self.best_score:
             self.best_score = score
             hpo_log.info("> saving high-scoring model")
-            output_filename = os.path.join(self.hpo_config.model_store_directory, filename)
+            output_filename = os.path.join(
+                self.hpo_config.model_store_directory, filename
+            )
             if "XGBoost" in self.hpo_config.model_type:
                 trained_model.save_model(f"{output_filename}_mcpu_xgb")
             elif "RandomForest" in self.hpo_config.model_type:

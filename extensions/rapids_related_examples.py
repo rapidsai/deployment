@@ -22,7 +22,9 @@ def read_notebook_tags(path: str) -> list[str]:
         return []
 
 
-def generate_notebook_grid_myst(notebooks: list[str], env: BuildEnvironment) -> list[str]:
+def generate_notebook_grid_myst(
+    notebooks: list[str], env: BuildEnvironment
+) -> list[str]:
     """Generate sphinx-design grid of notebooks in MyST markdown.
 
     Take a list of notebook documents and render out some MyST markdown displaying those
@@ -73,7 +75,11 @@ def get_title_for_notebook(path: str) -> str:
                 if i == len(cell_source) - 1:  # no next_token
                     continue
                 next_token = cell_source[i + 1]
-                if token.type == "heading_open" and token.tag == "h1" and next_token.type == "inline":
+                if (
+                    token.type == "heading_open"
+                    and token.tag == "h1"
+                    and next_token.type == "inline"
+                ):
                     return next_token.content
     raise ValueError("No top-level heading found")
 
@@ -140,7 +146,9 @@ def add_notebook_tag_map_to_context(app, pagename, templatename, context, doctre
         except KeyError:
             tag_tree[root] = [suffix]
     context["notebook_tag_tree"] = tag_tree
-    context["notebook_tags"] = [tag for tag, pages in app.env.notebook_tag_map.items() if pagename in pages]
+    context["notebook_tags"] = [
+        tag for tag, pages in app.env.notebook_tag_map.items() if pagename in pages
+    ]
 
 
 class NotebookGalleryTocTree(TocTree):
@@ -154,7 +162,9 @@ class NotebookGalleryTocTree(TocTree):
         output += toctree
 
         # Generate the card grid for all items in the toctree
-        notebooks = [notebook for _, notebook in toctree[0].children[0].attributes["entries"]]
+        notebooks = [
+            notebook for _, notebook in toctree[0].children[0].attributes["entries"]
+        ]
         grid_markdown = generate_notebook_grid_myst(notebooks=notebooks, env=self.env)
         for node in parse_markdown(markdown=grid_markdown, state=self.state):
             gallery += node

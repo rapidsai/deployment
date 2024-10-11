@@ -43,12 +43,18 @@ versions = {
     },
 }
 rapids_version = (
-    versions["stable"] if os.environ.get("DEPLOYMENT_DOCS_BUILD_STABLE", "false") == "true" else versions["nightly"]
+    versions["stable"]
+    if os.environ.get("DEPLOYMENT_DOCS_BUILD_STABLE", "false") == "true"
+    else versions["nightly"]
 )
 rapids_version["rapids_conda_channels_list"] = [
-    channel for channel in rapids_version["rapids_conda_channels"].split(" ") if channel != "-c"
+    channel
+    for channel in rapids_version["rapids_conda_channels"].split(" ")
+    if channel != "-c"
 ]
-rapids_version["rapids_conda_packages_list"] = rapids_version["rapids_conda_packages"].split(" ")
+rapids_version["rapids_conda_packages_list"] = rapids_version[
+    "rapids_conda_packages"
+].split(" ")
 
 # -- General configuration ---------------------------------------------------
 
@@ -88,7 +94,9 @@ suppress_warnings = ["myst.header", "myst.nested_header"]
 # -- Options for notebooks -------------------------------------------------
 
 nb_execution_mode = "off"
-rapids_deployment_notebooks_base_url = "https://github.com/rapidsai/deployment/blob/main/source/"
+rapids_deployment_notebooks_base_url = (
+    "https://github.com/rapidsai/deployment/blob/main/source/"
+)
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -138,6 +146,8 @@ intersphinx_mapping = {
 def setup(app):
     app.add_css_file("https://docs.rapids.ai/assets/css/custom.css")
     app.add_css_file("css/custom.css")
-    app.add_js_file("https://docs.rapids.ai/assets/js/custom.js", loading_method="defer")
+    app.add_js_file(
+        "https://docs.rapids.ai/assets/js/custom.js", loading_method="defer"
+    )
     app.add_js_file("js/nav.js", loading_method="defer")
     app.add_js_file("js/notebook-gallery.js", loading_method="defer")

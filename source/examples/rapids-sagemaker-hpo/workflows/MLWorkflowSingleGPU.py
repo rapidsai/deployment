@@ -53,7 +53,9 @@ class MLWorkflowSingleGPU(MLWorkflow):
             return self.dataset_cache
 
         if "Parquet" in self.hpo_config.input_file_type:
-            dataset = cudf.read_parquet(self.hpo_config.target_files, columns=self.hpo_config.dataset_columns)  # noqa
+            dataset = cudf.read_parquet(
+                self.hpo_config.target_files, columns=self.hpo_config.dataset_columns
+            )  # noqa
 
         elif "CSV" in self.hpo_config.input_file_type:
             if isinstance(self.hpo_config.target_files, list):
@@ -62,9 +64,14 @@ class MLWorkflowSingleGPU(MLWorkflow):
                 filepath = self.hpo_config.target_files
 
             hpo_log.info(self.hpo_config.dataset_columns)
-            dataset = cudf.read_csv(filepath, names=self.hpo_config.dataset_columns, header=0)
+            dataset = cudf.read_csv(
+                filepath, names=self.hpo_config.dataset_columns, header=0
+            )
 
-        hpo_log.info(f"ingested {self.hpo_config.input_file_type} dataset;" f" shape = {dataset.shape}")
+        hpo_log.info(
+            f"ingested {self.hpo_config.input_file_type} dataset;"
+            f" shape = {dataset.shape}"
+        )
 
         self.dataset_cache = dataset
         return dataset
@@ -86,7 +93,9 @@ class MLWorkflowSingleGPU(MLWorkflow):
         hpo_log.info("> train-test split")
         label_column = self.hpo_config.label_column
 
-        X_train, X_test, y_train, y_test = train_test_split(dataset, label_column, random_state=random_state)
+        X_train, X_test, y_train, y_test = train_test_split(
+            dataset, label_column, random_state=random_state
+        )
 
         return (
             X_train.astype(self.hpo_config.dataset_dtype),
@@ -148,7 +157,9 @@ class MLWorkflowSingleGPU(MLWorkflow):
     def score(self, y_test, predictions):
         """Score predictions vs ground truth labels on test data"""
         dataset_dtype = self.hpo_config.dataset_dtype
-        score = accuracy_score(y_test.astype(dataset_dtype), predictions.astype(dataset_dtype))
+        score = accuracy_score(
+            y_test.astype(dataset_dtype), predictions.astype(dataset_dtype)
+        )
 
         hpo_log.info(f"score = {round(score,5)}")
         self.cv_fold_scores.append(score)
@@ -160,7 +171,9 @@ class MLWorkflowSingleGPU(MLWorkflow):
         if score > self.best_score:
             self.best_score = score
             hpo_log.info("saving high-scoring model")
-            output_filename = os.path.join(self.hpo_config.model_store_directory, filename)
+            output_filename = os.path.join(
+                self.hpo_config.model_store_directory, filename
+            )
             if "XGBoost" in self.hpo_config.model_type:
                 trained_model.save_model(f"{output_filename}_sgpu_xgb")
             elif "RandomForest" in self.hpo_config.model_type:
