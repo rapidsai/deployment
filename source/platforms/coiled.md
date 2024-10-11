@@ -14,7 +14,7 @@ To get started you need to install Coiled and login.
 
 ```console
 $ conda install -c conda-forge coiled
-$ coiled setup
+$ coiled login
 ```
 
 For more information see the [Coiled Getting Started documentation](https://docs.coiled.io/user_guide/getting_started.html).
@@ -82,7 +82,7 @@ We can also connect a Dask client to see that information for the workers too.
 ```python
 from dask.distributed import Client
 
-client = Client
+client = Client(cluster)
 client
 ```
 
