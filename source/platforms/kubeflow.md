@@ -83,7 +83,7 @@ To use Dask, we need to create a scheduler and some workers that will perform ou
 
 ### Installing the Dask Kubernetes operator
 
-To install the operator we need to create any custom resources and the operator itself, please [refer to the documentation](https://kubernetes.dask.org/en/latest/operator_installation.html) to find up-to-date installation instructions. From the terminal run the following command.
+To install the operator we need to create any custom resources and the operator itself, please [refer to the documentation](https://kubernetes.dask.org/en/latest/installing.html) to find up-to-date installation instructions. From the terminal run the following command.
 
 ```console
 $ helm install --repo https://helm.dask.org --create-namespace -n dask-operator --generate-name dask-kubernetes-operator
