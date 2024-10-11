@@ -21,25 +21,25 @@ copyright = f"{datetime.date.today().year}, NVIDIA"
 author = "NVIDIA"
 
 # Single modifiable version for all of the docs - easier for future updates
-stable_version = "24.08"
-nightly_version = "24.10"
+stable_version = "24.10"
+nightly_version = "24.12"
 
 versions = {
     "stable": {
         "rapids_version": stable_version,
         "rapids_api_docs_version": "stable",
-        "rapids_container": f"nvcr.io/nvidia/rapidsai/base:{stable_version}-cuda12.5-py3.11",
-        "rapids_notebooks_container": f"nvcr.io/nvidia/rapidsai/notebooks:{stable_version}-cuda12.5-py3.11",
+        "rapids_container": f"nvcr.io/nvidia/rapidsai/base:{stable_version}-cuda12.5-py3.12",
+        "rapids_notebooks_container": f"nvcr.io/nvidia/rapidsai/notebooks:{stable_version}-cuda12.5-py3.12",
         "rapids_conda_channels": "-c rapidsai -c conda-forge -c nvidia",
-        "rapids_conda_packages": f"rapids={stable_version} python=3.11 cuda-version=12.5",
+        "rapids_conda_packages": f"rapids={stable_version} python=3.12 cuda-version=12.5",
     },
     "nightly": {
         "rapids_version": f"{nightly_version}-nightly",
         "rapids_api_docs_version": "nightly",
-        "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-cuda12.5-py3.11",
-        "rapids_notebooks_container": f"rapidsai/notebooks:{nightly_version + 'a'}-cuda12.5-py3.11",
+        "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-cuda12.5-py3.12",
+        "rapids_notebooks_container": f"rapidsai/notebooks:{nightly_version + 'a'}-cuda12.5-py3.12",
         "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge -c nvidia",
-        "rapids_conda_packages": f"rapids={nightly_version} python=3.11 cuda-version=12.5",
+        "rapids_conda_packages": f"rapids={nightly_version} python=3.12 cuda-version=12.5",
     },
 }
 rapids_version = (

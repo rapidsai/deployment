@@ -10,7 +10,8 @@ dependencies:
   - pydata-sphinx-theme>=0.15.4
   - python=3.12
   - pre-commit>=3.8.0
-  - sphinx>=8.0.2
+  # Upper bound pin on sphinx can be removed once https://github.com/mgaitan/sphinxcontrib-mermaid/issues/160 is resolved
+  - sphinx>=8.0.2,<8.1
   - sphinx-autobuild>=2024.9.19
   - sphinx-copybutton>=0.5.2
   - sphinx-design>=0.6.1
