@@ -1,4 +1,4 @@
-name: deployment-docs-dev-foo
+name: deployment-docs-dev
 channels:
   - nodefaults
   - conda-forge
