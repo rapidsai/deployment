@@ -82,7 +82,7 @@ We can also connect a Dask client to see that information for the workers too.
 ```python
 from dask.distributed import Client
 
-client = Client(cluster)
+client = Client()
 client
 ```
 
