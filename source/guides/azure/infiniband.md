@@ -266,7 +266,7 @@ Clone UCX-Py repo locally
 ```shell
 git clone https://github.com/rapidsai/ucx-py.git
 cd ucx-py
-````
+```
 
 ### Run Tests
 
