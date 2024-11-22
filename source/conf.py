@@ -114,7 +114,7 @@ html_theme_options = {
         "page-toc",
         "notebooks-extra-files-nav",
         "notebooks-tags",
-        "feedback"
+        "feedback",
     ],
 }
 
