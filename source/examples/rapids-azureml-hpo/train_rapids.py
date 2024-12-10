@@ -20,7 +20,6 @@ import os
 import cudf
 import cuml
 import mlflow
-import numpy as np
 from rapids_csp_azure import PerfTimer, RapidsCloudML
 
 
@@ -62,13 +61,13 @@ def main():
     cv_folds = args.cv_folds
 
     n_estimators = args.n_estimators
-    mlflow.log_param("n_estimators", np.int(args.n_estimators))
+    mlflow.log_param("n_estimators", int(args.n_estimators))
     max_depth = args.max_depth
-    mlflow.log_param("max_depth", np.int(args.max_depth))
+    mlflow.log_param("max_depth", int(args.max_depth))
     n_bins = args.n_bins
-    mlflow.log_param("n_bins", np.int(args.n_bins))
+    mlflow.log_param("n_bins", int(args.n_bins))
     max_features = args.max_features
-    mlflow.log_param("max_features", np.str(args.max_features))
+    mlflow.log_param("max_features", str(args.max_features))
 
     print("\n---->>>> cuDF version <<<<----\n", cudf.__version__)
     print("\n---->>>> cuML version <<<<----\n", cuml.__version__)
@@ -156,9 +155,9 @@ def main():
             global_best_test_accuracy = test_accuracy
 
     mlflow.log_metric(
-        "Total training inference time", np.float(training_time + infer_time)
+        "Total training inference time", float(training_time + infer_time)
     )
-    mlflow.log_metric("Accuracy", np.float(global_best_test_accuracy))
+    mlflow.log_metric("Accuracy", float(global_best_test_accuracy))
     print("\n Accuracy             :", global_best_test_accuracy)
     print("\n accuracy per fold    :", accuracy_per_fold)
     print("\n train-time per fold  :", train_time_per_fold)
@@ -171,5 +170,5 @@ if __name__ == "__main__":
     with PerfTimer() as total_script_time:
         main()
     print(f"Total runtime: {total_script_time.duration:.2f}")
-    mlflow.log_metric("Total runtime", np.float(total_script_time.duration))
+    mlflow.log_metric("Total runtime", float(total_script_time.duration))
     print("\n Exiting script")

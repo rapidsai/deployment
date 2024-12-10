@@ -65,8 +65,6 @@ echo "kernel install completed"
 
 Select `local file`, then `Browse`, and upload that script.
 
-Optional to enable SSH access to your compute (if needed).
-
 ![Screenshot of the provision setup script screen](../../images/azureml-provision-setup-script.png)
 
 Refer to [Azure ML documentation](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-customize-compute-instance) for more details on how to create the setup script but it should resemble:
@@ -100,8 +98,7 @@ from azure.identity import DefaultAzureCredential
 # If it isn't found, open a shell and look in the
 # directory indicated by 'echo ${JUPYTER_SERVER_ROOT}'.
 ml_client = MLClient.from_config(
-    credential=DefaultAzureCredential(),
-    path="./config.json"
+    credential=DefaultAzureCredential(), path="./config.json"
 )
 ```
 
@@ -216,7 +213,7 @@ command_job = command(
         "max_depth": 10,
         "max_features": 1.0,
     },
-    compute="rapids-cluster",
+    compute=gpu_compute.name,
 )
 
 # submit training job
@@ -239,7 +236,7 @@ command_job_for_sweep = command_job(
 
 # apply hyperparameter sweep_job
 sweep_job = command_job_for_sweep.sweep(
-    compute="rapids-cluster",
+    compute=gpu_compute.name,
     sampling_algorithm="random",
     primary_metric="Accuracy",
     goal="Maximize",
