@@ -27,7 +27,6 @@ Navigate to the top-left **Workspace** tab and click on your **Home** directory 
 set -e
 
 # Install RAPIDS libraries
-
 pip install \
     --extra-index-url={{rapids_pip_index}} \
     "cudf-cu11>={{rapids_pip_version}}" "cuml-cu11>={{rapids_pip_version}}" \
