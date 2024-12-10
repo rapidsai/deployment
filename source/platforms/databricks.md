@@ -27,11 +27,10 @@ Navigate to the top-left **Workspace** tab and click on your **Home** directory 
 set -e
 
 # Install RAPIDS libraries
-pip install --extra-index-url=https://pypi.nvidia.com \
-    "cudf-cu11" \
-    "cuml-cu11" \
-    "dask-cudf-cu11" \
-    "dask-cuda=={{rapids_version}}"
+pip install \
+    --extra-index-url={{rapids_pip_index}} \
+    "cudf-cu11>={{rapids_pip_version}}" "cuml-cu11>={{rapids_pip_version}}" \
+    "dask-cuda>={{rapids_pip_version}}"
 
 ```
 
@@ -51,7 +50,7 @@ The "GPU accelerated" nodes should now be available in the **Node type** dropdow
 
 ![Screenshot of selecting a g4dn.xlarge node type](../images/databricks-choose-gpu-node.png)
 
-Then expand the **Advanced Options** section, open the **Init Scripts** tab and add the file path to the init-script in your Workspace directory starting with `/Users/<user-name>/<script-name>.sh`.
+Then expand the **Advanced Options** section, open the **Init Scripts** tab and enter the file path to the init-script in your Workspace directory starting with `/Users/<user-name>/<script-name>.sh` and click **"Add"**.
 
 ![Screenshot of init script path](../images/databricks-dask-init-script.png)
 
