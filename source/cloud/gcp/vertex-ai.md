@@ -24,9 +24,10 @@ If you want to select a different GPU or select other hardware options you can s
 Once the instance has started select **OPEN JUPYTER LAB** and at the top of a notebook install the RAPIDS libraries you wish to use.
 
 ```bash
-!pip install cudf-cu11 dask-cudf-cu11 --extra-index-url=https://pypi.nvidia.com
-!pip install cuml-cu11 --extra-index-url=https://pypi.nvidia.com
-!pip install cugraph-cu11 --extra-index-url=https://pypi.nvidia.com
+pip install \
+    --extra-index-url={{rapids_pip_index}} \
+    "cudf-cu12>={{rapids_pip_version}}" "cuml-cu12>={{rapids_pip_version}}" \
+    "dask-cuda>={{rapids_pip_version}}"
 ```
 
 ## Test RAPIDS
