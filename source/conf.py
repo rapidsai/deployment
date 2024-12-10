@@ -33,7 +33,7 @@ versions = {
         "rapids_conda_channels": "-c rapidsai -c conda-forge -c nvidia",
         "rapids_conda_packages": f"rapids={stable_version} python=3.12 cuda-version=12.5",
         "rapids_pip_index": "https://pypi.nvidia.com",
-        "rapids_pip_version": f"{stable_version}",
+        "rapids_pip_version": stable_version,
     },
     "nightly": {
         "rapids_version": f"{nightly_version}-nightly",
