@@ -98,7 +98,8 @@ from azure.identity import DefaultAzureCredential
 # If it isn't found, open a shell and look in the
 # directory indicated by 'echo ${JUPYTER_SERVER_ROOT}'.
 ml_client = MLClient.from_config(
-    credential=DefaultAzureCredential(), path="./config.json"
+    credential=DefaultAzureCredential(),
+    path="./config.json",
 )
 ```
 
@@ -191,6 +192,7 @@ In a notebook cell, copy the example code from this documentation into a new fol
 ```python
 from azure.ai.ml import command, Input
 
+# replace this with your own dataset
 datastore_name = "workspaceartifactstore"
 dataset = "airline_20000000.parquet"
 data_uri = f"azureml://subscriptions/{ml_client.subscription_id}/resourcegroups/{ml_client.resource_group_name}/workspaces/{ml_client.workspace_name}/datastores/{datastore_name}/paths/{dataset}"
