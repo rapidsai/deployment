@@ -163,8 +163,9 @@ Now create the Environment, making sure to label and provide a description:
 ```python
 from azure.ai.ml.entities import Environment, BuildContext
 
+# NOTE: 'path' should be a filepath pointing to a directory containing a file named 'Dockerfile'
 env_docker_image = Environment(
-    build=BuildContext(path="./training-code/),
+    build=BuildContext(path="./training-code/"),
     name="rapids-mlflow",
     description="RAPIDS environment with azureml-mlflow",
 )
