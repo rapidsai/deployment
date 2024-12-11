@@ -42,20 +42,12 @@ Put the following in a local file called `rapids-azure-startup.sh`:
 ```bash
 #!/bin/bash
 
-# conda create -y -n rapids \
-#     {{ rapids_conda_channels }} \
-#     -c microsoft \
-#     {{ rapids_conda_packages }} \
-#     'azure-ai-ml>=2024.12' \
-#     'azure-identity>=24.12' \
-#     ipykernel
-
 sudo -u azureuser -i <<'EOF'
 source /anaconda/etc/profile.d/conda.sh
 conda create -y -n rapids \
-    -c rapidsai-nightly -c conda-forge -c nvidia \
+    {{ rapids_conda_channels }} \
     -c microsoft \
-    rapids=24.12 python=3.12 cuda-version=12.5 \
+    {{ rapids_conda_packages }} \
     'azure-ai-ml>=2024.12' \
     'azure-identity>=24.12' \
     ipykernel
