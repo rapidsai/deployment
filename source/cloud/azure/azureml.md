@@ -34,7 +34,8 @@ Select **New** > **Compute instance** (Create compute instance) > choose a [RAPI
 
 ### Provision RAPIDS setup script
 
-Navigate to the **Applications** section and choose "Provision with a startup script" to install RAPIDS and dependencies.
+Navigate to the **Applications** section.
+Choose "Provision with a creation script" to install RAPIDS and dependencies.
 
 Put the following in a local file called `rapids-azure-startup.sh`:
 
@@ -49,6 +50,8 @@ Put the following in a local file called `rapids-azure-startup.sh`:
 #     'azure-identity>=24.12' \
 #     ipykernel
 
+sudo -u azureuser -i <<'EOF'
+source /anaconda/etc/profile.d/conda.sh
 conda create -y -n rapids \
     -c rapidsai-nightly -c conda-forge -c nvidia \
     -c microsoft \
@@ -61,13 +64,14 @@ conda activate rapids
 
 python -m ipykernel install --user --name rapids
 echo "kernel install completed"
+EOF
 ```
 
 Select `local file`, then `Browse`, and upload that script.
 
 ![Screenshot of the provision setup script screen](../../images/azureml-provision-setup-script.png)
 
-Refer to [Azure ML documentation](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-customize-compute-instance) for more details on how to create the setup script but it should resemble:
+Refer to [Azure ML documentation](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-customize-compute-instance) for more details on how to create the setup script.
 
 Launch the instance.
 
@@ -86,7 +90,6 @@ The Compute cluster scales up automatically when a job is submitted, and execute
 Use Azure's client libraries to set up some resources.
 
 ```python
-import os
 from azure.ai.ml import MLClient
 from azure.identity import DefaultAzureCredential
 
@@ -180,11 +183,23 @@ Now that we have our environment and custom logic, we can configure and run the 
 
 In a notebook cell, copy the example code from this documentation into a new folder.
 
-```shell
-!mkdir -p ./training-code
-!wget -O ./training-code/train_rapids.py https://raw.githubusercontent.com/rapidsai/deployment/refs/heads/main/source/examples/rapids-azureml-hpo/train_rapids.py
-!wget -O ./training-code/rapids_csp_azure.py https://raw.githubusercontent.com/rapidsai/deployment/refs/heads/main/source/examples/rapids-azureml-hpo/rapids_csp_azure.py
-!touch ./training-code/__init__.py
+```ipython
+%%bash
+mkdir -p ./training-code
+repo_url='https://raw.githubusercontent.com/rapidsai/deployment/refs/heads/main/source/examples'
+
+# download training scripts
+wget -O ./training-code/train_rapids.py "${repo_url}/rapids-azureml-hpo/train_rapids.py"
+wget -O ./training-code/rapids_csp_azure.py "${repo_url}/rapids-azureml-hpo/rapids_csp_azure.py"
+touch ./training-code/__init__.py
+
+# create a Dockerfile defining the image the code will run in
+cat > ./training-code/Dockerfile <<EOF
+FROM {{ rapids_container }}
+
+RUN conda install --yes -c conda-forge 'dask-ml>=2024.4.4' \
+ && pip install azureml-mlflow
+EOF
 ```
 
 `inputs` is a dictionary of command-line arguments to pass to the training script.
@@ -223,7 +238,7 @@ command_job = command(
 returned_job = ml_client.jobs.create_or_update(command_job)
 ```
 
-After creating the job, go to https://ml.azure.com/experiments to view logs, metrics, and outputs.
+After creating the job, go to [the "Experiments" page](https://ml.azure.com/experiments) to view logs, metrics, and outputs.
 
 Next, try performing a sweep over a set of hyperparameters.
 
@@ -245,13 +260,15 @@ sweep_job = command_job_for_sweep.sweep(
     goal="Maximize",
 )
 
-returned_sweep_job = ml_client.create_or_update(sweep_job)  # submit hpo job
+# submit job
+returned_sweep_job = ml_client.create_or_update(sweep_job)
 ```
 
-### CleanUp
+### Clean Up
+
+When you're done, remove the compute resources.
 
 ```python
-# Delete compute cluster
 ml_client.compute.begin_delete(gpu_compute.name).wait()
 ```
 
