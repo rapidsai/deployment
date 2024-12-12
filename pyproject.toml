@@ -10,6 +10,8 @@ select = [
     "F",
     # isort
     "I",
+    # numpy
+    "NPY",
     # pyupgrade
     "UP",
     # flake8-bugbear

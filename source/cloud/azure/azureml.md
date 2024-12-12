@@ -4,7 +4,7 @@ review_priority: "p0"
 
 # Azure Machine Learning
 
-RAPIDS can be deployed at scale using [Azure Machine Learning Service](https://learn.microsoft.com/en-us/azure/machine-learning/overview-what-is-azure-machine-learning) and easily scales up to any size needed.
+RAPIDS can be deployed at scale using [Azure Machine Learning Service](https://learn.microsoft.com/en-us/azure/machine-learning/overview-what-is-azure-machine-learning) and can be scaled up to any size needed.
 
 ## Pre-requisites
 
@@ -16,51 +16,54 @@ Follow these high-level steps to get started:
 
 **2. Workspace.** Within the Resource Group, create an Azure Machine Learning service Workspace.
 
-**3. Config.** Within the Workspace, download the `config.json` file, as you will load the details to initialize workspace for running ML training jobs from within your notebook.
-
-![Screenshot of download config file](../../images/azureml-download-config-file.png)
-
-**4. Quota.** Check your Usage + Quota to ensure you have enough quota within your region to launch your desired cluster size.
+**3. Quota.** Check your Usage + Quota to ensure you have enough quota within your region to launch your desired cluster size.
 
 ## Azure ML Compute instance
 
 Although it is possible to install Azure Machine Learning on your local computer, it is recommended to utilize [Azure's ML Compute instances](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-instance), fully managed and secure development environments that can also serve as a [compute target](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-target?view=azureml-api-2) for ML training.
 
-The compute instance provides an integrated Jupyter notebook service, JupyterLab, Azure ML Python SDK, CLI, and other essential [tools](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-target?view=azureml-api-2).
+The compute instance provides an integrated Jupyter notebook service, JupyterLab, Azure ML Python SDK, CLI, and other essential tools.
 
 ### Select your instance
 
 Sign in to [Azure Machine Learning Studio](https://ml.azure.com/) and navigate to your workspace on the left-side menu.
 
-Select **Compute** > **+ New** (Create compute instance) > choose a [RAPIDS compatible GPU](https://medium.com/dropout-analytics/which-gpus-work-with-rapids-ai-f562ef29c75f) VM size (e.g., `Standard_NC12s_v3`)
+Select **New** > **Compute instance** (Create compute instance) > choose a [RAPIDS compatible GPU](https://docs.rapids.ai/install/#system-req) VM size (e.g., `Standard_NC12s_v3`)
 
 ![Screenshot of create new notebook with a gpu-instance](../../images/azureml-create-notebook-instance.png)
 
 ### Provision RAPIDS setup script
 
-Navigate to the **Applications** section and choose "Provision with a startup script" to install RAPIDS and dependencies. You can upload the script from your Notebooks files or local computer.
+Navigate to the **Applications** section.
+Choose "Provision with a creation script" to install RAPIDS and dependencies.
 
-Optional to enable SSH access to your compute (if needed).
-
-![Screenshot of the provision setup script screen](../../images/azureml-provision-setup-script.png)
-
-Refer to [Azure ML documentation](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-customize-compute-instance) for more details on how to create the setup script but it should resemble:
+Put the following in a local file called `rapids-azure-startup.sh`:
 
 ```bash
 #!/bin/bash
 
 sudo -u azureuser -i <<'EOF'
+source /anaconda/etc/profile.d/conda.sh
+conda create -y -n rapids \
+    {{ rapids_conda_channels }} \
+    -c microsoft \
+    {{ rapids_conda_packages }} \
+    'azure-ai-ml>=2024.12' \
+    'azure-identity>=24.12' \
+    ipykernel
 
-conda create -y -n rapids {{ rapids_conda_channels }} {{ rapids_conda_packages }} ipykernel
 conda activate rapids
-
-# install Python SDK v2 in rapids env
-python -m pip install azure-ai-ml azure-identity
 
 python -m ipykernel install --user --name rapids
 echo "kernel install completed"
 EOF
 ```
+
+Select `local file`, then `Browse`, and upload that script.
+
+![Screenshot of the provision setup script screen](../../images/azureml-provision-setup-script.png)
+
+Refer to [Azure ML documentation](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-customize-compute-instance) for more details on how to create the setup script.
 
 Launch the instance.
 
@@ -76,30 +79,32 @@ The Compute cluster scales up automatically when a job is submitted, and execute
 
 ### Instantiate workspace
 
-If using the Python SDK, connect to your workspace either by explicitly providing the workspace details or load from the `config.json` file downloaded in the pre-requisites section.
+Use Azure's client libraries to set up some resources.
 
 ```python
 from azure.ai.ml import MLClient
 from azure.identity import DefaultAzureCredential
 
-# Get a handle to the workspace
-ml_client = MLClient(
-    credential=DefaultAzureCredential(),
-    subscription_id="<SUBSCRIPTION_ID>",
-    resource_group_name="<RESOURCE_GROUP>",
-    workspace_name="<AML_WORKSPACE_NAME>",
-)
-
-# or load details from config file
+# Get a handle to the workspace.
+#
+# Azure ML places the workspace config at the default working
+# directory for notebooks by default.
+#
+# If it isn't found, open a shell and look in the
+# directory indicated by 'echo ${JUPYTER_SERVER_ROOT}'.
 ml_client = MLClient.from_config(
     credential=DefaultAzureCredential(),
-    path="config.json",
+    path="./config.json",
 )
 ```
 
 ### Create AMLCompute
 
-You will need to create a [compute target](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-target?view=azureml-api-2#azure-machine-learning-compute-managed) using Azure ML managed compute ([AmlCompute](https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-ml/0.1.0b4/azure.ai.ml.entities.html)) for remote training. Note: Be sure to check limits within your available region. This [article](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-quotas?view=azureml-api-2#azure-machine-learning-compute) includes details on the default limits and how to request more quota.
+You will need to create a [compute target](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-target?view=azureml-api-2#azure-machine-learning-compute-managed) using Azure ML managed compute ([AmlCompute](https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-ml/0.1.0b4/azure.ai.ml.entities.html)) for remote training.
+
+Note: Be sure to check limits within your available region.
+
+This [article](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-quotas?view=azureml-api-2#azure-machine-learning-compute) includes details on the default limits and how to request more quota.
 
 [**size**]: The VM family of the nodes.
 Specify from one of **NC_v2**, **NC_v3**, **ND** or **ND_v2** GPU virtual machines (e.g `Standard_NC12s_v3`)
@@ -142,17 +147,11 @@ You can define an environment from a [pre-built](https://learn.microsoft.com/en-
 Create your custom RAPIDS docker image using the example below, making sure to install additional packages needed for your workflows.
 
 ```dockerfile
-
 # Use latest rapids image with the necessary dependencies
 FROM {{ rapids_container }}
 
-# Update and/or  install required packages
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends build-essential fuse && \
-    rm -rf /var/lib/apt/lists/*
-
-# Activate rapids conda environment
-RUN /bin/bash -c "source activate rapids && pip install azureml-mlflow"
+RUN conda install --yes -c conda-forge 'dask-ml>=2024.4.4' \
+ && pip install azureml-mlflow
 ```
 
 Now create the Environment, making sure to label and provide a description:
@@ -160,8 +159,9 @@ Now create the Environment, making sure to label and provide a description:
 ```python
 from azure.ai.ml.entities import Environment, BuildContext
 
+# NOTE: 'path' should be a filepath pointing to a directory containing a file named 'Dockerfile'
 env_docker_image = Environment(
-    build=BuildContext(path="Dockerfile"),
+    build=BuildContext(path="./training-code/"),
     name="rapids-mlflow",
     description="RAPIDS environment with azureml-mlflow",
 )
@@ -171,17 +171,45 @@ ml_client.environments.create_or_update(env_docker_image)
 
 ### Submit RAPIDS Training jobs
 
-Now that we have our environment and custom logic, we can configure and run the `command` [class](https://learn.microsoft.com/en-us/python/api/azure-ai-ml/azure.ai.ml?view=azure-python#azure-ai-ml-command) to submit training jobs. `inputs` is a dictionary of command-line arguments to pass to the training script.
+Now that we have our environment and custom logic, we can configure and run the `command` [class](https://learn.microsoft.com/en-us/python/api/azure-ai-ml/azure.ai.ml?view=azure-python#azure-ai-ml-command) to submit training jobs.
+
+In a notebook cell, copy the example code from this documentation into a new folder.
+
+```ipython
+%%bash
+mkdir -p ./training-code
+repo_url='https://raw.githubusercontent.com/rapidsai/deployment/refs/heads/main/source/examples'
+
+# download training scripts
+wget -O ./training-code/train_rapids.py "${repo_url}/rapids-azureml-hpo/train_rapids.py"
+wget -O ./training-code/rapids_csp_azure.py "${repo_url}/rapids-azureml-hpo/rapids_csp_azure.py"
+touch ./training-code/__init__.py
+
+# create a Dockerfile defining the image the code will run in
+cat > ./training-code/Dockerfile <<EOF
+FROM {{ rapids_container }}
+
+RUN conda install --yes -c conda-forge 'dask-ml>=2024.4.4' \
+ && pip install azureml-mlflow
+EOF
+```
+
+`inputs` is a dictionary of command-line arguments to pass to the training script.
 
 ```python
 from azure.ai.ml import command, Input
-from azure.ai.ml.sweep import Choice, Uniform
+
+# replace this with your own dataset
+datastore_name = "workspaceartifactstore"
+dataset = "airline_20000000.parquet"
+data_uri = f"azureml://subscriptions/{ml_client.subscription_id}/resourcegroups/{ml_client.resource_group_name}/workspaces/{ml_client.workspace_name}/datastores/{datastore_name}/paths/{dataset}"
 
 command_job = command(
-    environment="rapids-mlflow:1",  # specify version of environment to use
+    environment=f"{env_docker_image.name}:{env_docker_image.version}",
     experiment_name="test_rapids_mlflow",
-    code=project_folder,
-    command="python train_rapids.py --data_dir ${{inputs.data_dir}} \
+    code="./training-code",
+    command="python train_rapids.py \
+                    --data_dir ${{inputs.data_dir}} \
                     --n_bins ${{inputs.n_bins}} \
                     --cv_folds ${{inputs.cv_folds}} \
                     --n_estimators ${{inputs.n_estimators}} \
@@ -195,11 +223,19 @@ command_job = command(
         "max_depth": 10,
         "max_features": 1.0,
     },
-    compute="rapids-cluster",
+    compute=gpu_compute.name,
 )
 
-returned_job = ml_client.jobs.create_or_update(command_job)  # submit training job
+# submit training job
+returned_job = ml_client.jobs.create_or_update(command_job)
+```
 
+After creating the job, go to [the "Experiments" page](https://ml.azure.com/experiments) to view logs, metrics, and outputs.
+
+Next, try performing a sweep over a set of hyperparameters.
+
+```python
+from azure.ai.ml.sweep import Choice, Uniform
 
 # define hyperparameter space to sweep over
 command_job_for_sweep = command_job(
@@ -210,19 +246,21 @@ command_job_for_sweep = command_job(
 
 # apply hyperparameter sweep_job
 sweep_job = command_job_for_sweep.sweep(
-    compute="rapids-cluster",
+    compute=gpu_compute.name,
     sampling_algorithm="random",
     primary_metric="Accuracy",
     goal="Maximize",
 )
 
-returned_sweep_job = ml_client.create_or_update(sweep_job)  # submit hpo job
+# submit job
+returned_sweep_job = ml_client.create_or_update(sweep_job)
 ```
 
-### CleanUp
+### Clean Up
+
+When you're done, remove the compute resources.
 
 ```python
-# Delete compute cluster
 ml_client.compute.begin_delete(gpu_compute.name).wait()
 ```
 
