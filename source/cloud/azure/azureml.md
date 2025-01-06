@@ -134,7 +134,7 @@ ml_client.begin_create_or_update(gpu_compute).result()
 A [datastore URI](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-access-data-interactive?tabs=adls&view=azureml-api-2#access-data-from-a-datastore-uri-like-a-filesystem-preview) is a reference to a blob storage location (path) on your Azure account. You can copy-and-paste the datastore URI from the AzureML Studio UI:
 
 1. Select **Data** from the left-hand menu > **Datastores** > choose your datastore name > **Browse**
-2. Find the file/folder containing your dataset and click the elipsis (...) next to it.
+2. Find the file/folder containing your dataset and click the ellipsis (...) next to it.
 3. From the menu, choose **Copy URI** and select **Datastore URI** format to copy into your notebook.
 
 ![Screenshot of access datastore uri screen](../../images/azureml-access-datastore-uri.png)

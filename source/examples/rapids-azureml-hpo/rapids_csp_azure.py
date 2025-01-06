@@ -78,7 +78,7 @@ class RapidsCloudML:
 
     def load_hyperparams(self, model_name="XGBoost"):
         """
-        Selecting model paramters based on the model we select for execution.
+        Selecting model parameters based on the model we select for execution.
         Checks if there is a config file present in the path self.CSP_paths['hyperparams'] with
         the parameters for the experiment. If not present, it returns the default parameters.
 
@@ -304,7 +304,7 @@ class RapidsCloudML:
         Parameters
         ----------
         X_train : dataframe
-                  The data for traning
+                  The data for training
         y_train : dataframe
                   The label to be used for training.
         model_params : dict

@@ -181,6 +181,6 @@ model-directory/
       \__ checkpoint.tl
 ```
 
-### Configurating Triton-FIL
+### Configuring Triton-FIL
 
 Triton-FIL offers many configuration options, and we only showed you a few of them. Please visit [FIL Backend Model Configuration](https://github.com/triton-inference-server/fil_backend/blob/main/docs/model_config.md) to check out the rest.

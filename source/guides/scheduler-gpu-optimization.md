@@ -119,7 +119,7 @@ To configure the `DaskCluster` resource to run RAPIDS you need to set a few thin
 
 ## Creating a RAPIDS `DaskCluster` using `kubectl`
 
-Here is an example resource manifest for launching a RAPIDS Dask cluster with the scheduler optimzation
+Here is an example resource manifest for launching a RAPIDS Dask cluster with the scheduler optimization
 
 ```yaml
 # rapids-dask-cluster.yaml
@@ -271,7 +271,7 @@ client = Client("localhost:8786")
 
 ## Example using `KubeCluster`
 
-In additon to creating clusters via `kubectl` you can also do so from Python with {class}`dask_kubernetes.operator.KubeCluster`. This class implements the Dask Cluster Manager interface and under the hood creates and manages the `DaskCluster` resource for you. You can also generate a spec with `make_cluster_spec()` which KubeCluster uses internally and then modify it with your custom options. We will use this to add node affinity to the scheduler.
+In addition to creating clusters via `kubectl` you can also do so from Python with {class}`dask_kubernetes.operator.KubeCluster`. This class implements the Dask Cluster Manager interface and under the hood creates and manages the `DaskCluster` resource for you. You can also generate a spec with `make_cluster_spec()` which KubeCluster uses internally and then modify it with your custom options. We will use this to add node affinity to the scheduler.
 
 ```python
 from dask_kubernetes.operator import KubeCluster, make_cluster_spec

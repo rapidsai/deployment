@@ -109,7 +109,7 @@ def serve(xgboost_threshold=0.5):
     def predict():
         """
         Run CPU or GPU inference on input data,
-        called everytime an incoming request arrives
+        called every time an incoming request arrives
         """
         # parse user input
         try:

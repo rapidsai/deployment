@@ -16,7 +16,7 @@ RAPIDS can be deployed on [Vertex AI Workbench](https://cloud.google.com/vertex-
 6. After customizing any other aspects of the machine you wish, click **CREATE**.
 
 ```{tip}
-If you want to select a different GPU or select other hardware options you can select "Advanced Options" at the bottom and then make changes in the "Machine type" seciton.
+If you want to select a different GPU or select other hardware options you can select "Advanced Options" at the bottom and then make changes in the "Machine type" section.
 ```
 
 ## Install RAPIDS
