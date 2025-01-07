@@ -54,7 +54,7 @@ After your drivers are installed, you are ready to test your cluster.
 
 ### Installing Dask operator with Helm
 
-The operator has a Helm chart which can be used to manage the installation of the operator. Follow the instructions provided in the [Dask documention](https://kubernetes.dask.org/en/latest/installing.html#installing-with-helm), or alternatively can be installed via:
+The operator has a Helm chart which can be used to manage the installation of the operator. Follow the instructions provided in the [Dask documentation](https://kubernetes.dask.org/en/latest/installing.html#installing-with-helm), or alternatively can be installed via:
 
 ```console
 $ helm install --create-namespace -n dask-operator --generate-name --repo https://helm.dask.org dask-kubernetes-operator
@@ -233,7 +233,7 @@ client = Client("localhost:8786")
 
 ## Example using `KubeCluster`
 
-In additon to creating clusters via `kubectl` you can also do so from Python with {class}`dask_kubernetes.operator.KubeCluster`. This class implements the Dask Cluster Manager interface and under the hood creates and manages the `DaskCluster` resource for you. You can also generate a spec with make_cluster_spec() which KubeCluster uses internally and then modify it with your custom options. We will use this to add node affinity to the scheduler.
+In addition to creating clusters via `kubectl` you can also do so from Python with {class}`dask_kubernetes.operator.KubeCluster`. This class implements the Dask Cluster Manager interface and under the hood creates and manages the `DaskCluster` resource for you. You can also generate a spec with make_cluster_spec() which KubeCluster uses internally and then modify it with your custom options. We will use this to add node affinity to the scheduler.
 In the following example, the same cluster configuration as the `kubectl` example is used.
 
 ```python

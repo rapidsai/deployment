@@ -1,6 +1,6 @@
 # How to Setup InfiniBand on Azure
 
-[Azure GPU optmized virtual machines](https://learn.microsoft.com/en-us/azure/virtual-machines/sizes-gpu) provide
+[Azure GPU optimized virtual machines](https://learn.microsoft.com/en-us/azure/virtual-machines/sizes-gpu) provide
 a low latency and high bandwidth InfiniBand network. This guide walks through the steps to enable InfiniBand to
 optimize network performance.
 

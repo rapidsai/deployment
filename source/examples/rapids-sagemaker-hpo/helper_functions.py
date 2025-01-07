@@ -64,7 +64,7 @@ def validate_dockerfile(rapids_base_container, dockerfile_name="Dockerfile"):
     with open(dockerfile_name) as dockerfile_handle:
         if rapids_base_container not in dockerfile_handle.read():
             raise Exception(
-                "Dockerfile base layer [i.e. FROM statment] does"
+                "Dockerfile base layer [i.e. FROM statement] does"
                 " not match the variable rapids_base_container"
             )
 
@@ -166,7 +166,7 @@ def new_job_name_from_config(
 ):
     """
     Build a jobname string that captures the HPO configuration options.
-    This is helpful for intepreting logs and for general book-keeping
+    This is helpful for interpreting logs and for general book-keeping
     """
     job_name = None
     try:
