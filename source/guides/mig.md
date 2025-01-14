@@ -30,7 +30,7 @@ GPU 0: NVIDIA A100-PCIE-40GB (UUID: GPU-84fd49f2-48ad-50e8-9f2e-3bf0dfd47ccb)
 
 In the example case above the system has one NVIDIA A100 with 3 x 10GB MIG instances. In the next sections we will see how to use the instance names to startup a Dask cluster composed of MIG GPUs. Please note that once a GPU is partitioned, the physical GPU (named `GPU-84fd49f2-48ad-50e8-9f2e-3bf0dfd47ccb` above) is inaccessible for CUDA compute and cannot be used as part of a Dask cluster.
 
-Alternatively, MIG instance names can be obtained programmatically using [NVML](https://developer.nvidia.com/nvidia-management-library-nvml) or [PyNVML](https://github.com/gpuopenanalytics/pynvml). Please refer to the [NVML API](https://docs.nvidia.com/deploy/nvml-api/) to write appropriate utilities for that purpose.
+Alternatively, MIG instance names can be obtained programmatically using [NVML](https://developer.nvidia.com/nvidia-management-library-nvml) or [PyNVML](https://pypi.org/project/nvidia-ml-py/). Please refer to the [NVML API](https://docs.nvidia.com/deploy/nvml-api/) to write appropriate utilities for that purpose.
 
 ### LocalCUDACluster
 
