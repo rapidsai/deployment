@@ -133,14 +133,6 @@ snow connection add
 
 Follow the wizard.
 
-Note: if you don't recall `<ORG>-<ACCOUNT-NAME>` you can obtain them
-by running the following in the Snowflake SQL worksheet.
-
-```sql
-SELECT CURRENT_ORGANIZATION_NAME(); --org
-SELECT CURRENT_ACCOUNT_NAME();      --account name
-```
-
 ```bash
 connection name : CONTAINER_HOL
 account : <ORG>-<ACCOUNT-NAME> # e.g. MYORGANIZATION-MYACCOUNT
@@ -156,6 +148,14 @@ region:
 authenticator:
 private key file:
 token file path:
+```
+
+Note: if you don't recall `<ORG>-<ACCOUNT-NAME>` you can obtain them
+by running the following in the Snowflake SQL worksheet.
+
+```sql
+SELECT CURRENT_ORGANIZATION_NAME(); --org
+SELECT CURRENT_ACCOUNT_NAME();      --account name
 ```
 
 Test the connection:
@@ -204,7 +204,9 @@ with next step to configure and push the Spec YAML.
 
 When the `docker push` command completes, you can verify that the image exists in your Snowflake Image Repository by running the following in the Snowflake SQL worksheet
 
-```sql
+```{code-block} sql
+:force:
+
 USE ROLE CONTAINER_USER_ROLE;
 CALL SYSTEM$REGISTRY_LIST_IMAGES('/CONTAINER_HOL_DB/PUBLIC/IMAGE_REPO');
 ```
@@ -280,7 +282,9 @@ CREATE SERVICE CONTAINER_HOL_DB.PUBLIC.rapids_snowpark_service
 
 Run the following to verify that the service is successfully running.
 
-```sql
+```{code-block} sql
+:force:
+
 CALL SYSTEM$GET_SERVICE_STATUS('CONTAINER_HOL_DB.PUBLIC.rapids_snowpark_service');
 ```
 
