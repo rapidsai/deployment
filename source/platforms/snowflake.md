@@ -111,7 +111,7 @@ docker build --platform=linux/amd64 -t <local_repository>/rapids-nb-snowflake:la
 
 ### Create local environment with SnowCLI
 
-Create a conda/mamba environment with SnowCLI
+Create a conda/mamba environment with SnowCLI.
 
 ```yaml
 name: snow-cli
@@ -124,14 +124,14 @@ dependencies:
       - snowflake-cli
 ```
 
-activate the environment `mamba activate snow-cli` and configure your Snowflake
+Activate the environment `mamba activate snow-cli` and configure your Snowflake
 CLI connection
 
 ```bash
 snow connection add
 ```
 
-Follow the wizard,
+Follow the wizard.
 
 Note: if you don't recall `<ORG>-<ACCOUNT-NAME>` you can obtain them
 by running the following in the Snowflake SQL worksheet.
@@ -158,7 +158,7 @@ private key file:
 token file path:
 ```
 
-Test the connection
+Test the connection:
 
 ```bash
 snow connection test --connection "CONTAINER_HOL"
