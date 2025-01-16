@@ -2,10 +2,12 @@
 
 You can install RAPIDS on Snowflake via [Snowpark Container Services](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview).
 
-Note: The following instructions are and adaptation of the [Introduction to Snowpark
-container Services](https://quickstarts.snowflake.com/guide/intro_to_snowpark_container_services/#0) from the Snowflake documentation.
+```{note}
+The following instructions are an adaptation of the [Introduction to Snowpark
+container Services](https://quickstarts.snowflake.com/guide/intro_to_snowpark_container_services/#0) guide from the Snowflake documentation.
+```
 
-## Snowflake Requirements
+## Snowflake requirements
 
 - A non-trial Snowflake account in a supported [AWS region](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview#available-regions).
 - A Snowflake account login with a role that has the `ACCOUNTADMIN` role. If not,
@@ -97,10 +99,10 @@ FROM rapidsai/notebooks:25.02a-cuda11.8-py3.11-amd64
 RUN pip install "snowflake-snowpark-python[pandas]" snowflake-connector-python
 ```
 
-Notes:
-
-- The `python=3.11`, is the latest supported by the snowflake connector package.
-- The `amd64` platform is required for Snowflake.
+```{note}
+- The `python=3.11`, is the latest supported by the Snowflake connector package.
+- The use of `amd64` platform is required by Snowflake.
+```
 
 In the directory where your Dockerfile is located build the image. Notice that
 no GPU is needed to build this image.
@@ -150,8 +152,10 @@ private key file:
 token file path:
 ```
 
-Note: if you don't recall `<ORG>-<ACCOUNT-NAME>` you can obtain them
+```{note}
+If you don't recall `<ORG>-<ACCOUNT-NAME>` you can obtain them
 by running the following in the Snowflake SQL worksheet.
+```
 
 ```sql
 SELECT CURRENT_ORGANIZATION_NAME(); --org
@@ -199,8 +203,10 @@ Push the image to snowflake:
 docker push <repository_url>/rapids-nb-snowflake:dev
 ```
 
-Note: This step will take sometime, while this process completes we can continue
+```{note}
+This step will take some time, while this process completes we can continue
 with next step to configure and push the Spec YAML.
+```
 
 When the `docker push` command completes, you can verify that the image exists in your Snowflake Image Repository by running the following in the Snowflake SQL worksheet
 
@@ -216,7 +222,7 @@ CALL SYSTEM$REGISTRY_LIST_IMAGES('/CONTAINER_HOL_DB/PUBLIC/IMAGE_REPO');
 Snowpark Container Services are defined and configured using YAML files. There
 is support for multiple parameters configurations, refer to then [Snowpark container services specification reference](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/specification-reference) for more information.
 
-Locally, create the following file `rapids-snowpark.yaml`
+Locally, create the following file `rapids-snowpark.yaml`:
 
 ```yaml
 spec:
@@ -225,7 +231,7 @@ spec:
       image: <org-account>.registry.snowflakecomputing.com/container_hol_db/public/image_repo/rapids-nb-snowflake:dev
       volumeMounts:
         - name: rapids-notebooks
-          mountPath: home/rapids/workspace
+          mountPath: home/rapids
       resources:
         requests:
           nvidia.com/gpu: 1
@@ -296,12 +302,42 @@ run in the SQL snowflake worksheet:
 SHOW ENDPOINTS IN SERVICE RAPIDS_SNOWPARK_SERVICE;
 ```
 
-and copy the url in the browser. You will see a jupyter lab with a set of
+Copy the jupyter `ingress_url` in the browser. You will see a jupyter lab with a set of
 notebooks to get started with RAPIDS.
 
-## TODO
+```{figure} /images/snowflake_jupyter.png
+---
+alt: Screenshot of Jupyter Lab with rapids example notebooks directories.
+---
+```
 
-- use proper format for notes.
-- add screenshot of what you'll see.
-- Add note on volume mount and how to use.
-- How to close and cleanup.
+## Shutdown and Cleanup
+
+If you no longer need the service and the compute pool up and running, we can
+stop the service and suspend the compute pool to avoid incurring in any charges.
+
+In the Snowflake SQL worksheet run:
+
+```sql
+USE ROLE CONTAINER_USER_ROLE;
+ALTER COMPUTE POOL CONTAINER_HOL_POOL STOP ALL;
+ALTER COMPUTE POOL CONTAINER_HOL_POOL SUSPEND;
+```
+
+If you want to cleanup completely and remove all of the objects created, run the
+following:
+
+```sql
+USE ROLE CONTAINER_USER_ROLE;
+ALTER COMPUTE POOL CONTAINER_HOL_POOL STOP ALL;
+ALTER COMPUTE POOL CONTAINER_HOL_POOL SUSPEND;
+
+DROP SERVICE CONTAINER_HOL_DB.PUBLIC.RAPIDS_SNOWPARK_SERVICE;
+DROP COMPUTE POOL CONTAINER_HOL_POOL;
+
+DROP DATABASE CONTAINER_HOL_DB;
+DROP WAREHOUSE CONTAINER_HOL_WH;
+
+USE ROLE ACCOUNTADMIN;
+DROP ROLE CONTAINER_USER_ROLE;
+```
