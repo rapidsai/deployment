@@ -81,4 +81,14 @@ Deploy and run RAPIDS on Brev.dev
 {bdg}`single-node`
 ````
 
+````{grid-item-card}
+:link: snowflake
+:link-type: doc
+Snowflake
+^^^
+Run RAPIDS on Snowflake.
+
+{bdg}`single-node`
+````
+
 `````
