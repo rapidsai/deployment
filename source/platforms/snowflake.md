@@ -1,6 +1,6 @@
 # Snowflake
 
-You can install RAPIDS on Snowflake via [Snowpark Container Services](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview).
+You can install RAPIDS on [Snowflake](https://www.snowflake.com) via [Snowpark Container Services](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview).
 
 ```{note}
 The following instructions are an adaptation of the [Introduction to Snowpark
@@ -64,7 +64,7 @@ CREATE OR REPLACE NETWORK RULE ALLOW_ALL_RULE
   MODE = 'EGRESS'
   VALUE_LIST= ('0.0.0.0:443', '0.0.0.0:80');
 
-CREATE EXTERNAL ACCESS INTEGRATION ALLOW_ALL_EAI
+CREATE OR REPLACE EXTERNAL ACCESS INTEGRATION ALLOW_ALL_EAI
   ALLOWED_NETWORK_RULES = (ALLOW_ALL_RULE)
   ENABLED = true;
 
@@ -104,36 +104,33 @@ RUN pip install "snowflake-snowpark-python[pandas]" snowflake-connector-python
 - The use of `amd64` platform is required by Snowflake.
 ```
 
-In the directory where your Dockerfile is located build the image. Notice that
+Build the image in the directory where your Dockerfile is located. Notice that
 no GPU is needed to build this image.
 
 ```bash
 docker build --platform=linux/amd64 -t <local_repository>/rapids-nb-snowflake:latest .
 ```
 
-### Create local environment with SnowCLI
+### Install SnowCLI
 
-Create a conda/mamba environment with SnowCLI.
+Install the SnowCLI following your preferred method instructions in the
+[documentation](https://docs.snowflake.com/en/developer-guide/snowflake-cli/installation/installation)
 
-```yaml
-name: snow-cli
-channels:
-  - condaforge
-dependencies:
-  - python=3.11
-  - pip
-  - pip:
-      - snowflake-cli
+Once installed, configure your Snowflake CLI connection, and follow the wizard:
+
+```{note}
+When you follow the wizard you will need `<ORG>-<ACCOUNT-NAME>`, you can obtain
+them by running the following in the Snowflake SQL worksheet.
 ```
 
-Activate the environment `mamba activate snow-cli` and configure your Snowflake
-CLI connection
+```sql
+SELECT CURRENT_ORGANIZATION_NAME(); --org
+SELECT CURRENT_ACCOUNT_NAME();      --account name
+```
 
 ```bash
 snow connection add
 ```
-
-Follow the wizard.
 
 ```bash
 connection name : CONTAINER_HOL
@@ -150,16 +147,6 @@ region:
 authenticator:
 private key file:
 token file path:
-```
-
-```{note}
-If you don't recall `<ORG>-<ACCOUNT-NAME>` you can obtain them
-by running the following in the Snowflake SQL worksheet.
-```
-
-```sql
-SELECT CURRENT_ORGANIZATION_NAME(); --org
-SELECT CURRENT_ACCOUNT_NAME();      --account name
 ```
 
 Test the connection:
@@ -179,6 +166,16 @@ SHOW IMAGE REPOSITORIES IN SCHEMA CONTAINER_HOL_DB.PUBLIC;
 You will see that the repository url is `org-account.registry.snowflakecomputing.com/container_hol_db/public/image_repo` where `org-account` refers to your organization and account, the `SNOWFLAKE_REGISTRY_HOSTNAME` is the url up to the `.com`. i.e. `org-account.registry.snowflakecomputing.com`
 
 First we login into the snowflake repository with docker, via terminal:
+
+```{note}
+If you have **2FA** both `docker login` and `docker push` commands don't
+work as expected. Every API call results in a push notification to approve, but
+if not done promptly teh original API times out, complicating the completion of
+this step.
+
+We recommend enabling [token caching](https://docs.snowflake.com/en/user-guide/security-mfa#using-mfa-token-caching-to-minimize-the-number-of-prompts-during-authentication-optional)
+or disabling 2FA during this step.
+```
 
 ```bash
 docker login <snowflake_registry_hostname> -u <snowflake_user_name>
@@ -231,7 +228,7 @@ spec:
       image: <org-account>.registry.snowflakecomputing.com/container_hol_db/public/image_repo/rapids-nb-snowflake:dev
       volumeMounts:
         - name: rapids-notebooks
-          mountPath: home/rapids
+          mountPath: /home/rapids/notebooks/workspace
       resources:
         requests:
           nvidia.com/gpu: 1
@@ -251,7 +248,7 @@ spec:
   volumes:
     - name: rapids-notebooks
       source: "@volumes/rapids-notebooks"
-      uid: 1000
+      uid: 1001 # rapids user's UID
       gid: 1000
 ```
 
@@ -340,4 +337,5 @@ DROP WAREHOUSE CONTAINER_HOL_WH;
 
 USE ROLE ACCOUNTADMIN;
 DROP ROLE CONTAINER_USER_ROLE;
+DROP EXTERNAL ACCESS INTEGRATION ALLOW_ALL_EAI;
 ```
