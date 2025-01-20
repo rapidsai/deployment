@@ -148,7 +148,7 @@ intersphinx_mapping = {
 }
 
 redirects = {
-    "platforms/brev-dev": "cloud/nvidia/brev-dev",
+    "platforms/brev-dev": "cloud/nvidia/brev/",
 }
 
 
