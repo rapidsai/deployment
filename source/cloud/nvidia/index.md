@@ -13,5 +13,5 @@ html_theme.sidebar_secondary.remove: true
 ---
 hidden: true
 ---
-brev-dev
+brev
 ```
