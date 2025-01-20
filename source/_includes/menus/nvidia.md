@@ -2,14 +2,13 @@
 :gutter: 2 2 2 2
 
 ````{grid-item-card}
-:link: /cloud/nvidia/bcp
+:link: /cloud/nvidia/brev-dev
 :link-type: doc
-Base Command Platform
+Brev.dev
 ^^^
-Run RAPIDS workloads on NVIDIA DGX Cloud with Base Command Platform.
+Deploy and run RAPIDS on Brev.dev
 
 {bdg}`single-node`
-{bdg}`multi-node`
 ````
 
 `````
