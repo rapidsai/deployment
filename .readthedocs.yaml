@@ -9,4 +9,5 @@ conda:
   environment: conda/environments/deployment_docs.yml
 
 sphinx:
+  configuration: source/conf.py
   builder: dirhtml
