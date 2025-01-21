@@ -71,14 +71,4 @@ Run RAPIDS on Google Colab.
 {bdg}`single-node`
 ````
 
-````{grid-item-card}
-:link: brev-dev
-:link-type: doc
-Brev.dev
-^^^
-Deploy and run RAPIDS on Brev.dev
-
-{bdg}`single-node`
-````
-
 `````

@@ -147,6 +147,10 @@ intersphinx_mapping = {
     "dask_cuda": ("https://docs.rapids.ai/api/dask-cuda/stable/", None),
 }
 
+redirects = {
+    "platforms/brev-dev": "cloud/nvidia/brev/",
+}
+
 
 def setup(app):
     app.add_css_file("https://docs.rapids.ai/assets/css/custom.css")
