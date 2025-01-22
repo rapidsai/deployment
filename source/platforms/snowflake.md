@@ -170,7 +170,7 @@ First we login into the snowflake repository with docker, via terminal:
 ```{note}
 If you have **2FA** both `docker login` and `docker push` commands don't
 work as expected. Every API call results in a push notification to approve, but
-if not done promptly teh original API times out, complicating the completion of
+if not done promptly the original API times out, complicating the completion of
 this step.
 
 We recommend enabling [token caching](https://docs.snowflake.com/en/user-guide/security-mfa#using-mfa-token-caching-to-minimize-the-number-of-prompts-during-authentication-optional)
