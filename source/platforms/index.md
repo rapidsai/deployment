@@ -71,4 +71,14 @@ Run RAPIDS on Google Colab.
 {bdg}`single-node`
 ````
 
+````{grid-item-card}
+:link: snowflake
+:link-type: doc
+Snowflake
+^^^
+Run RAPIDS on Snowflake.
+
+{bdg}`single-node`
+````
+
 `````
