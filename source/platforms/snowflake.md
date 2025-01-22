@@ -94,7 +94,7 @@ adds some extra snowflake packages.
 Create a Dockerfile as follow:
 
 ```Dockerfile
-FROM rapidsai/notebooks:25.02a-cuda11.8-py3.11-amd64
+FROM {{ rapids_notebooks_container.replace("-py3.12", "-py3.11-amd64") }}
 
 RUN pip install "snowflake-snowpark-python[pandas]" snowflake-connector-python
 ```
