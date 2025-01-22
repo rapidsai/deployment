@@ -252,7 +252,9 @@ spec:
       gid: 1000
 ```
 
-Notice that in we mounted the `@volumes/rapids-notebooks` internal stage location to our `/home/rapids/workspace` directory inside of our running container. If you create the `workspace` directory when the container is up, what you save there will persist.
+Notice that in we mounted the `@volumes/rapids-notebooks` internal stage location
+to our `/home/rapids/notebooks/workspace` directory inside of our running container.
+Anything that is added to this directory will persist.
 
 We use `snow-cli` to push this `yaml` file:
 
