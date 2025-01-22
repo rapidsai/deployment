@@ -167,15 +167,19 @@ You will see that the repository url is `org-account.registry.snowflakecomputing
 
 First we login into the snowflake repository with docker, via terminal:
 
-```{note}
-If you have **2FA** both `docker login` and `docker push` commands don't
+````{note}
+If you have **MFA** both `docker login` and `docker push` commands don't
 work as expected. Every API call results in a push notification to approve, but
 if not done promptly the original API times out, complicating the completion of
 this step.
 
 We recommend enabling [token caching](https://docs.snowflake.com/en/user-guide/security-mfa#using-mfa-token-caching-to-minimize-the-number-of-prompts-during-authentication-optional)
-or disabling 2FA during this step.
+or disabling MFA during this step. You can disable MFA for 30 minutes by doing
+
+```sql
+ALTER USER <username> SET MINS_TO_BYPASS_MFA = 30
 ```
+````
 
 ```bash
 docker login <snowflake_registry_hostname> -u <snowflake_user_name>
@@ -331,9 +335,7 @@ USE ROLE CONTAINER_USER_ROLE;
 ALTER COMPUTE POOL CONTAINER_HOL_POOL STOP ALL;
 ALTER COMPUTE POOL CONTAINER_HOL_POOL SUSPEND;
 
-DROP SERVICE CONTAINER_HOL_DB.PUBLIC.RAPIDS_SNOWPARK_SERVICE;
 DROP COMPUTE POOL CONTAINER_HOL_POOL;
-
 DROP DATABASE CONTAINER_HOL_DB;
 DROP WAREHOUSE CONTAINER_HOL_WH;
 
