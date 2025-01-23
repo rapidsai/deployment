@@ -28,10 +28,9 @@ jobs:
       - name: Set up Python
         uses: conda-incubator/setup-miniconda@v3
         with:
-          miniforge-variant: Mambaforge
-          use-mamba: true
           activate-environment: deployment-docs-dev
           environment-file: conda/environments/deployment_docs.yml
+          miniforge-version: latest
 
       - name: Build
         env:

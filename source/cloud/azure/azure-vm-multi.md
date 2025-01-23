@@ -14,7 +14,7 @@ $ pip install dask-cloudprovider[azure]
 
 ### 2. Configure your Azure Resources
 
-Set up your [Azure Resouce Group](https://cloudprovider.dask.org/en/latest/azure.html#resource-groups), [Virtual Network](https://cloudprovider.dask.org/en/latest/azure.html#virtual-networks), and [Security Group](https://cloudprovider.dask.org/en/latest/azure.html#security-groups) according to [Dask Cloud Provider instructions](https://cloudprovider.dask.org/en/latest/azure.html#authentication).
+Set up your [Azure Resource Group](https://cloudprovider.dask.org/en/latest/azure.html#resource-groups), [Virtual Network](https://cloudprovider.dask.org/en/latest/azure.html#virtual-networks), and [Security Group](https://cloudprovider.dask.org/en/latest/azure.html#security-groups) according to [Dask Cloud Provider instructions](https://cloudprovider.dask.org/en/latest/azure.html#authentication).
 
 ### 3. Create a Cluster
 

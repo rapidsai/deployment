@@ -49,9 +49,6 @@ mamba create -y -n rapids {{ rapids_conda_channels }} {{ rapids_conda_packages }
 
 conda activate rapids
 
-# optionally install AutoGluon for AutoML GPU demo
-# python -m pip install --pre autogluon
-
 python -m ipykernel install --user --name rapids
 echo "kernel install completed"
 EOF
@@ -81,7 +78,7 @@ Once inside JupyterLab you should be able to upload the [Running RAPIDS hyperpar
 
 RAPIDS can also be used in [SageMaker Estimators](https://sagemaker.readthedocs.io/en/stable/api/training/estimators.html).
 Estimators allow you to launch training jobs on ephemeral VMs which SageMaker manages for you.
-With this option, your Notebook Isntance doesn't need to have a GPU... you are only charged for GPU instances for the time that your training job is running.
+With this option, your Notebook Instance doesn't need to have a GPU... you are only charged for GPU instances for the time that your training job is running.
 
 All you’ll need to do is bring in your RAPIDS training script and libraries as a Docker container image and ask Amazon SageMaker to run copies of it in parallel on a specified number of GPU instances.
 

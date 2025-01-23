@@ -82,11 +82,11 @@ Run RAPIDS on Google Colab.
 ````
 
 ````{grid-item-card}
-:link: brev-dev
+:link: snowflake
 :link-type: doc
-Brev.dev
+Snowflake
 ^^^
-Deploy and run RAPIDS on Brev.dev
+Run RAPIDS on Snowflake.
 
 {bdg}`single-node`
 ````

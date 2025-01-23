@@ -259,7 +259,7 @@ spec:
 $ kubectl apply -f rapids-notebook.yaml
 ```
 
-This makes Jupyter accessible on port `30002` of your Kubernetes nodes via `NodePort` service. Alternatvely you could use a `LoadBalancer` service type [if you have one configured](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) or a `ClusterIP` and use `kubectl` to port forward the port locally and access it that way.
+This makes Jupyter accessible on port `30002` of your Kubernetes nodes via `NodePort` service. Alternatively you could use a `LoadBalancer` service type [if you have one configured](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) or a `ClusterIP` and use `kubectl` to port forward the port locally and access it that way.
 
 ```console
 $ kubectl port-forward service/rapids-notebook 8888
@@ -289,7 +289,7 @@ Find out more on the [Dask Helm Chart page](/tools/kubernetes/dask-helm-chart).
 
 ## Dask Gateway
 
-Some organisations may want to provide Dask cluster provisioning as a central service where users are abstracted from the underlying platform like Kubernetes. This can be useful for reducing user permissions, limiting resources that users can consume and exposing things in a centralised way. For this you can deploy Dask Gateway which provides a server that users interact with programatically and in turn launches Dask clusters on Kubernetes and proxies the connection back to the user.
+Some organisations may want to provide Dask cluster provisioning as a central service where users are abstracted from the underlying platform like Kubernetes. This can be useful for reducing user permissions, limiting resources that users can consume and exposing things in a centralised way. For this you can deploy Dask Gateway which provides a server that users interact with programmatically and in turn launches Dask clusters on Kubernetes and proxies the connection back to the user.
 
 Users can configure what they want their Dask cluster to look like so it is possible to utilize GPUs and RAPIDS for an accelerated cluster.
 

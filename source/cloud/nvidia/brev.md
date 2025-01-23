@@ -1,6 +1,6 @@
-# Brev.dev
+# NVIDIA Brev
 
-The [Brev](https://brev.dev/) platform provides you with GPU instances on cloud providers including [Amazon Web Services](https://aws.amazon.com/) and [Google Cloud](https://cloud.google.com) with CUDA, Python, Jupyter Lab, all set up.
+The [NVIDIA Brev](https://brev.dev/) platform provides you with GPU instances on cloud providers including [Amazon Web Services](https://aws.amazon.com/) and [Google Cloud](https://cloud.google.com) with CUDA, Python, Jupyter Lab, all set up.
 
 You can get up and running with RAPIDS in a few quicks thanks to the Brev RAPIDS quickstart.
 

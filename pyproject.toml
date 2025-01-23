@@ -1,3 +1,10 @@
+[tool.codespell]
+# note: pre-commit passes explicit lists of files here, which this skip file list doesn't override -
+skip = "./.git,./pyproject.toml,./.ruff_cache"
+ignore-regex = "\\b(.{1,4}|[A-Z]\\w*T)\\b"
+builtin = "clear"
+quiet-level = 3
+
 [tool.ruff]
 fix = true
 line-length = 120
@@ -10,6 +17,8 @@ select = [
     "F",
     # isort
     "I",
+    # numpy
+    "NPY",
     # pyupgrade
     "UP",
     # flake8-bugbear
@@ -27,6 +36,10 @@ select = [
     # "undefined name cluster", because in this notebook we recommend, in a markdown
     # cell, creating a Dask cluster separately and then running the rest of the notebook's code
     "F821",
+]
+"source/examples/rapids-sagemaker-higgs/notebook.ipynb" = [
+    # "Line too long", because of a 1-liner shell command starting with '!'
+    "E501",
 ]
 "source/examples/xgboost-dask-databricks/notebook.ipynb" = [
     # "undefined name spark" because Databricks magically makes a SparkSession

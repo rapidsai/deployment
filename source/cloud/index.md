@@ -5,7 +5,7 @@ html_theme.sidebar_secondary.remove: true
 
 # Cloud
 
-## NVIDIA DGX Cloud
+## NVIDIA Cloud Platforms
 
 ```{include} ../_includes/menus/nvidia.md
 
