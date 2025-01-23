@@ -102,7 +102,7 @@ $ coiled run --gpu --name rapids-demo --keepalive 5m --container {{ rapids_conta
 ...
 ```
 
-This works very nicely when paired with the cudf.pandas CLI tool. For example we can run `python -m  cudf.pandas my_script` to GPU accelerate our Pandas code without having to rewrite anything. For example [this script](https://gist.github.com/jacobtomlinson/2481ecf2e1d2787ae2864a6712eef97b#file-cudf_pandas_coiled_demo-py) processes some open NYC parking data. With `pandas` it takes around a minute, but with `cudf.pandas` it only takes a few seconds.
+This works very nicely when paired with the cudf.pandas CLI tool. For example we can run `python -m cudf.pandas my_script` to GPU accelerate our Pandas code without having to rewrite anything. For example [this script](https://gist.github.com/jacobtomlinson/2481ecf2e1d2787ae2864a6712eef97b#file-cudf_pandas_coiled_demo-py) processes some open NYC parking data. With `pandas` it takes around a minute, but with `cudf.pandas` it only takes a few seconds.
 
 ```console
 $ coiled run --gpu --name rapids-demo --keepalive 5m --container {{ rapids_container }} -- python -m cudf.pandas cudf_pandas_coiled_demo.py
