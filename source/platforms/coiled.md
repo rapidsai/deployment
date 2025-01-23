@@ -1,6 +1,9 @@
 # Coiled
 
-You can deploy RAPIDS on cloud VMs with GPUs using [Coiled](https://www.coiled.io/). Coiled is a software platform that manages Cloud VMs on your behalf. It manages software environments and can launch Python scripts, Jupyter Notebook servers, Dask clusters or even just individual Python functions. Remote machines are booted just in time and shut down when not in use or idle.
+You can deploy RAPIDS on cloud VMs with GPUs using [Coiled](https://www.coiled.io/).
+Coiled is a software platform that manages Cloud VMs on your behalf.
+It manages software environments and can launch Python scripts, Jupyter Notebook servers, Dask clusters or even just individual Python functions.
+Remote machines are booted just in time and shut down when not in use or idle.
 
 By using the [`coiled`](https://anaconda.org/conda-forge/coiled) Python library, you can setup and manage Dask clusters with GPUs and RAPIDs on cloud computing environments such as GCP or AWS.
 
