@@ -1,6 +1,6 @@
 # NVIDIA AI Workbench
 
-[NVIDIA AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) is a developer toolkit for data science, machine learning, and AI projects. It lets you develop on your laptop/workstation and then easily transition workloads to scalable GPU resources in a data center or the cloud. AI Workbench is free, you can install it in minutes on both local or remote computers, and offers a desktop application  as well as a command-line interface (CLI).
+[NVIDIA AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) is a developer toolkit for data science, machine learning, and AI projects. It lets you develop on your laptop/workstation and then easily transition workloads to scalable GPU resources in a data center or the cloud. AI Workbench is free, you can install it in minutes on both local or remote computers, and offers a desktop application as well as a command-line interface (CLI).
 
 ## Installation
 
@@ -8,20 +8,20 @@ You can install AI Workbench locally, or on a remote computer that you have SSH 
 
 Follow the [AI Workbench installation](https://docs.nvidia.com/ai-workbench/user-guide/latest/installation/overview.html) documentation for instructions on installing on different operating systems.
 
-```{admonition} Thick client
+```{admonition} Local GPU System
 :class: note
 
-If you are working on a system that has an NVIDIA GPU you can use the AI Workbench 
+If you are working on a system that has an NVIDIA GPU you can use the AI Workbench
 by installing the desktop application and configure Docker if you don't have it installed already. Then you can run notebooks in Python environments with access to your GPU.
 
 ```
 
-```{admonition} Thin client
+```{admonition} Remote GPU System
 :class: note
 
-If you don't have an NVIDIA GPU in your system, but have remote SSH access to a system that does, then you can use AI Workbench to connect to that system. Your code will be executed on the remote system, but files will be synced between your local and remote environments automatically. This allows you to burst from a thin client like a lightweight laptop to a powerful remote AI system.
+If you don't have an NVIDIA GPU in your system, but have remote SSH access to a system that does, then you can use AI Workbench to connect to that system. Your code will be executed on the remote system, but files will be synced between your local and remote environments automatically. This allows you to burst from a system without NVIDIA GPUs like a lightweight laptop to a powerful remote AI system.
 
-To use AI Workbench in this way you need to install the desktop application on your thin client (local workstation) and the CLI application on the remote system.
+To use AI Workbench in this way you need to install the desktop application on your local system and the CLI application on the remote system.
 ```
 
 ## Configure your system
