@@ -125,7 +125,7 @@ az network nsg rule create \
 
 Next, we can SSH into our VM to install RAPIDS. SSH instructions can be found by selecting **Connect** in the left panel.
 
-````{note}
+````{tip}
 When connecting via SSH by doing
 
 ```bash
