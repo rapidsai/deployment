@@ -19,7 +19,7 @@ NVIDIA maintains a [Virtual Machine Image (VMI) that pre-installs NVIDIA drivers
 2. Select the latest **NVIDIA GPU-Optimized VMI** version from the drop down list, then select **Get It Now** (if there are multiple `Gen` versions, select the latest).
 3. If already logged in on Azure, select continue clicking **Create**.
 4. In **Create a virtual machine** interface, fill in required information for the vm.
-   - Select a GPU enabled VM size (see [recommended VM types](https://docs.rapids.ai/deployment/stable/cloud/azure/).
+   - Select a GPU enabled VM size (see [recommended VM types](https://docs.rapids.ai/deployment/stable/cloud/azure/)).
    - In "Configure security features" select Standard.
    - Make sure you create ssh keys and download them.
 
