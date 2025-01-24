@@ -3,11 +3,14 @@
 *.csv
 *.csv.gz
 *.csv.zip
+data/
 *.env
+*.parquet
 *.pem
 *.pub
 .ruff_cache
 *.tar.gz
+xgboost_hpo_logs.txt
 *.zip
 *.7z
 
