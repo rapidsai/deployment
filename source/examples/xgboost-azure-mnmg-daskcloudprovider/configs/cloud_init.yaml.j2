@@ -49,4 +49,4 @@ runcmd:
   - systemctl restart docker
   
   # Attempt to run a RAPIDS container to download the container layers and decompress them
-  - 'docker run --net=host --gpus=all --shm-size=256m rapidsai/rapidsai:cuda11.2-runtime-ubuntu18.04-py3.8 dask-scheduler --version'
+  - 'docker run --net=host --gpus=all --shm-size=256m rapidsai/base:latest --version'

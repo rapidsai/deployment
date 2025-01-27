@@ -9,6 +9,16 @@ html_theme.sidebar_secondary.remove: true
 :gutter: 2 2 2 2
 
 ````{grid-item-card}
+:link: nvidia-ai-workbench
+:link-type: doc
+NVIDIA AI Workbench
+^^^
+Run RAPIDS in NVIDIA AI Workbench, GPU workstation setup tool that enables developers to work, manage, and collaborate across heterogeneous platforms.
+
+{bdg}`single-node`
+````
+
+````{grid-item-card}
 :link: kubernetes
 :link-type: doc
 Kubernetes
