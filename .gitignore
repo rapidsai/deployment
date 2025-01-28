@@ -31,3 +31,6 @@ source/examples/rapids-azureml-hpo/Dockerfile
 
 # exclusions
 !source/examples/rapids-1brc-single-node/lookup.csv
+
+package.json
+package-lock.json
