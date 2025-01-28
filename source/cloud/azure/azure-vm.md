@@ -15,11 +15,13 @@ NVIDIA maintains a [Virtual Machine Image (VMI) that pre-installs NVIDIA drivers
 ````{tab-item} via Azure Portal
 :sync: portal
 
-
-1. Select the latest **NVIDIA GPU-Optimized VMI** version from the drop down list, then select **Get It Now**.
-2. If already logged in on Azure, select continue clicking **Create**.
-3. In **Create a virtual machine** interface, fill in required information for the vm.
-   Select a GPU enabled VM size.
+1. Select a resource group or create one if needed.
+2. Select the latest **NVIDIA GPU-Optimized VMI** version from the drop down list, then select **Get It Now** (if there are multiple `Gen` versions, select the latest).
+3. If already logged in on Azure, select continue clicking **Create**.
+4. In **Create a virtual machine** interface, fill in required information for the vm.
+   - Select a GPU enabled VM size (see [recommended VM types](https://docs.rapids.ai/deployment/stable/cloud/azure/)).
+   - In "Configure security features" select Standard.
+   - Make sure you create ssh keys and download them.
 
 ```{dropdown} Note that not all regions support availability zones with GPU VMs.
 :color: info
@@ -88,8 +90,15 @@ Next we need to allow network traffic to the VM so we can access Jupyter and Das
 1. After creating VM, select **Go to resource** to access VM.
 2. Select **Networking** -> **Networking Settings** in the left panel.
 3. Select **+Create port rule** -> **Add inbound port rule**.
-4. Set **Destination port ranges** to `8888,8787`. Keep rest unchanged. Select **Add**.
+4. Set **Destination port ranges** to `8888,8787`.
+5. Modify the "Name" to avoid the `,` or any other symbols.
 
+```{dropdown} See example of port setting.
+:color: info
+:icon: info
+![set-ports-inbound-sec](../../_static/azure-set-ports-inbound-sec.png)
+```
+5. Keep rest unchanged. Select **Add**.
 ````
 
 ````{tab-item} via Azure CLI
@@ -115,6 +124,20 @@ az network nsg rule create \
 ## Install RAPIDS
 
 Next, we can SSH into our VM to install RAPIDS. SSH instructions can be found by selecting **Connect** in the left panel.
+
+````{tip}
+When connecting via SSH by doing
+
+```bash
+ssh -i <path-to-your-ssh-key-dir>/your-key-file.pem <username>@<vm-ip-address>
+```
+
+you might get prompted with a `WARNING: UNPROTECTED PRIVATE KEY FILE!`, and get a
+**"Permission denied"** as a result of this.
+
+Change the permissions of your key file to be less permissive by
+doing `chmod 600 your_key_file.pem`, and you should be good to go.
+````
 
 ```{include} ../../_includes/install-rapids-with-docker.md
 
