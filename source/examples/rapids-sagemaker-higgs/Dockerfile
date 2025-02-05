@@ -7,7 +7,7 @@ RUN conda install --yes -n base \
         cupy \
         flask \
         protobuf \
-        sagemaker
+        'sagemaker-python-sdk>=2.239.0'
 
 # Copies the training code inside the container
 COPY rapids-higgs.py /opt/ml/code/rapids-higgs.py

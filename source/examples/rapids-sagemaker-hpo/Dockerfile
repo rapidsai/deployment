@@ -15,7 +15,7 @@ RUN conda install --yes -n base \
         cupy \
         flask \
         protobuf \
-        sagemaker
+        'sagemaker-python-sdk>=2.239.0'
 
 # path where SageMaker looks for code when container runs in the cloud
 ENV CLOUD_PATH="/opt/ml/code"

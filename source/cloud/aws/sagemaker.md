@@ -45,7 +45,7 @@ sudo -u ec2-user -i <<'EOF'
 mamba create -y -n rapids {{ rapids_conda_channels }} {{ rapids_conda_packages }} \
     boto3 \
     ipykernel \
-    sagemaker
+    'sagemaker-python-sdk>=2.239.0'
 
 conda activate rapids
 
