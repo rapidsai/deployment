@@ -42,7 +42,7 @@ To get started, navigate to the **All Purpose Compute** tab of the **Compute** s
 
 ![Screenshot of the Databricks compute page](../images/databricks-create-compute.png)
 
-In order to launch a GPU node uncheck **Use Photon Acceleration** and select `14.2 ML (GPU, Scala 2.12, Spark 3.5.0)` runtime version.
+In order to launch a GPU node uncheck **Use Photon Acceleration** and select `14.3 LTS ML (includes Apache Spark 3.5.0, GPU, Scala 2.12)` runtime version.
 
 ![Screenshot of Use Photon Acceleration unchecked](../images/databricks-deselect-photon.png)
 
