@@ -29,7 +29,7 @@ set -e
 # Install RAPIDS libraries
 pip install \
     --extra-index-url={{rapids_pip_index}} \
-    "cudf-cu11>={{rapids_pip_version}}" "cuml-cu11>={{rapids_pip_version}}" \
+    "cudf-cu12>={{rapids_pip_version}}" "cuml-cu12>={{rapids_pip_version}}" \
     "dask-cuda>={{rapids_pip_version}}"
 
 ```
@@ -42,9 +42,7 @@ To get started, navigate to the **All Purpose Compute** tab of the **Compute** s
 
 ![Screenshot of the Databricks compute page](../images/databricks-create-compute.png)
 
-In order to launch a GPU node uncheck **Use Photon Acceleration** and select `14.3 LTS ML (includes Apache Spark 3.5.0, GPU, Scala 2.12)` runtime version.
-
-![Screenshot of Use Photon Acceleration unchecked](../images/databricks-deselect-photon.png)
+In order to launch a GPU node uncheck **Use Photon Acceleration** and select `15.4 LTS ML (includes Apache Spark 3.5.0, GPU, Scala 2.12)` runtime version.
 
 The "GPU accelerated" nodes should now be available in the **Node type** dropdown.
 
