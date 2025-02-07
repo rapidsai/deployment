@@ -6,14 +6,13 @@ review_priority: "p0"
 
 RAPIDS can be deployed on [Vertex AI Workbench](https://cloud.google.com/vertex-ai-workbench).
 
-## Create a new user-managed Notebook
+## Create a new Notebook Instance
 
 1. From the Google Cloud UI, navigate to [**Vertex AI**](https://console.cloud.google.com/vertex-ai/workbench/user-managed) -> Notebook -> **Workbench**
-2. Make sure you select **User-Managed Notebooks** (**Managed Notebooks** are currently not supported) and select **+ CREATE NEW**.
+2. Select **Instances** and select **+ CREATE NEW**.
 3. In the **Details** section give the instance a name.
-4. Under the **Environment** section choose "Python 3 with CUDA 11.8".
-5. Check the "Attach 1 NVIDIA T4 GPU" option.
-6. After customizing any other aspects of the machine you wish, click **CREATE**.
+4. Check the "Attach 1 NVIDIA T4 GPU" option.
+5. After customizing any other aspects of the machine you wish, click **CREATE**.
 
 ```{tip}
 If you want to select a different GPU or select other hardware options you can select "Advanced Options" at the bottom and then make changes in the "Machine type" section.
@@ -23,10 +22,12 @@ If you want to select a different GPU or select other hardware options you can s
 
 Once the instance has started select **OPEN JUPYTER LAB** and at the top of a notebook install the RAPIDS libraries you wish to use.
 
+You can then either install RAPIDS libraries via `pip` in the default environment.
+
 ```bash
 pip install \
     --extra-index-url={{rapids_pip_index}} \
-    "cudf-cu12>={{rapids_pip_version}}" "cuml-cu12>={{rapids_pip_version}}" \
+    "cudf-cu11>={{rapids_pip_version}}" "cuml-cu11>={{rapids_pip_version}}" \
     "dask-cuda>={{rapids_pip_version}}"
 ```
 
