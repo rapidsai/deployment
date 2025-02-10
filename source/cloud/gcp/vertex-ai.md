@@ -22,13 +22,37 @@ If you want to select a different GPU or select other hardware options you can s
 
 Once the instance has started select **OPEN JUPYTER LAB** and at the top of a notebook install the RAPIDS libraries you wish to use.
 
-You can then either install RAPIDS libraries via `pip` in the default environment.
+```{warning}
+Installing RAPIDS via `pip` in the default environment is [not currently possible](https://github.com/rapidsai/deployment/issues/517), for now you must create a new `conda` environment.
+
+Vertex AI currently ships with CUDA Toolkit 11 system packages as of the [Jan 2025 Vertex AI release](https://cloud.google.com/vertex-ai/docs/release-notes#January_31_2025).
+The default Python environment also contains the `cupy-cuda12x` package. This means it's not possible to install RAPIDS package like `cudf` via `pip` as `cudf-cu12` will conflict with the CUDA Toolkit version by `cudf-cu11` will conflict with the `cupy` version.
+
+You can find out your current system CUDA Toolkit version by running `ls -ld /usr/local/cuda*`.
+```
+
+You can create a new RAPIDS conda environment and register it with `ipykernel` for use in Jupyter Lab. Open a new terminal in Jupyter and run the following commands.
 
 ```bash
-pip install \
-    --extra-index-url={{rapids_pip_index}} \
-    "cudf-cu11>={{rapids_pip_version}}" "cuml-cu11>={{rapids_pip_version}}" \
-    "dask-cuda>={{rapids_pip_version}}"
+# Create a new environment
+conda create -y -n rapids \
+    {{ rapids_conda_channels }} \
+    {{ rapids_conda_packages }} \
+    ipykernel
+
+# Activate the environment
+conda activate rapids
+
+# Register the environment with Jupyter
+python -m ipykernel install --prefix "${DL_ANACONDA_HOME}/envs/rapids" --name rapids --display-name rapids
+```
+
+Then refresh the Jupyter Lab page and open the launcher. You will see a new "rapids" kernel available.
+
+![Screenshot of the Jupyter Lab launcher showing the RAPIDS kernel](../../images/vertex-ai-launcher.png)
+
+```{tip}
+If you don't see the new kernel wait a minute and refresh the page again, it can take a little while to show up.
 ```
 
 ## Test RAPIDS
@@ -38,10 +62,10 @@ You should now be able to open a notebook and use RAPIDS.
 For example we could import and use RAPIDS libraries like `cudf`.
 
 ```ipython
-In [1]: import cudf
-In [2]: df = cudf.datasets.timeseries()
-In [3]: df.head()
-Out[3]:
+import cudf
+
+df = cudf.datasets.timeseries()
+df.head()
                        id     name         x         y
 timestamp
 2000-01-01 00:00:00  1020    Kevin  0.091536  0.664482
