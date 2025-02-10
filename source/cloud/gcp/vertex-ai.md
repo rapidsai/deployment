@@ -62,10 +62,10 @@ You should now be able to open a notebook and use RAPIDS.
 For example we could import and use RAPIDS libraries like `cudf`.
 
 ```ipython
-import cudf
-
-df = cudf.datasets.timeseries()
-df.head()
+In [1]: import cudf
+In [2]: df = cudf.datasets.timeseries()
+In [3]: df.head()
+Out[3]:
                        id     name         x         y
 timestamp
 2000-01-01 00:00:00  1020    Kevin  0.091536  0.664482
