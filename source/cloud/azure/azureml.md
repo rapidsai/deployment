@@ -45,7 +45,7 @@ source /anaconda/etc/profile.d/conda.sh
 conda create -y -n rapids \
     {{ rapids_conda_channels }}
     -c microsoft \
-    rapids=25.02 python=3.12 cuda-version=12.5 \
+   {{ rapids_conda_packages }} \
     'azure-identity>=1.19' \
     ipykernel
 
