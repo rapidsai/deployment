@@ -28,7 +28,7 @@ The compute instance provides an integrated Jupyter notebook service, JupyterLab
 
 Sign in to [Azure Machine Learning Studio](https://ml.azure.com/) and navigate to your workspace on the left-side menu.
 
-Select **New** > **Compute instance** (Create compute instance) > choose a [RAPIDS compatible GPU](https://docs.rapids.ai/install/#system-req) VM size (e.g., `Standard_NC12s_v3`)
+Select **New** > **Compute instance** (Create compute instance) > choose an [Azure RAPIDS compatible GPU](https://docs.rapids.ai/deployment/stable/cloud/azure/) VM size (e.g., `Standard_NC12s_v3`)
 
 ![Screenshot of create new notebook with a gpu-instance](../../images/azureml-create-notebook-instance.png)
 
@@ -40,19 +40,18 @@ Choose "Provision with a creation script" to install RAPIDS and dependencies.
 Put the following in a local file called `rapids-azure-startup.sh`:
 
 ```bash
-#!/bin/bash
-
 sudo -u azureuser -i <<'EOF'
 source /anaconda/etc/profile.d/conda.sh
 conda create -y -n rapids \
-    {{ rapids_conda_channels }} \
+    -c rapidsai-nightly -c conda-forge -c nvidia \
     -c microsoft \
-    {{ rapids_conda_packages }} \
-    'azure-ai-ml>=2024.12' \
-    'azure-identity>=24.12' \
+    rapids=25.02 python=3.12 cuda-version=12.5 \
+    'azure-identity>=1.19' \
     ipykernel
 
 conda activate rapids
+
+pip install 'azure-ai-ml>=1.24'
 
 python -m ipykernel install --user --name rapids
 echo "kernel install completed"
@@ -73,7 +72,7 @@ Once your Notebook Instance is `Running`, open "JupyterLab" and select the `rapi
 
 ## Azure ML Compute cluster
 
-Launch Azure's [ML Compute cluster](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-create-attach-compute-cluster?tabs=python) to distribute your RAPIDS training jobs across a cluster of single or multi-GPU compute nodes.
+In the next section we will launch Azure's [ML Compute cluster](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-create-attach-compute-cluster?tabs=python) to distribute your RAPIDS training jobs across a cluster of single or multi-GPU compute nodes.
 
 The Compute cluster scales up automatically when a job is submitted, and executes in a containerized environment, packaging your model dependencies in a Docker container.
 
@@ -102,7 +101,9 @@ ml_client = MLClient.from_config(
 
 You will need to create a [compute target](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-target?view=azureml-api-2#azure-machine-learning-compute-managed) using Azure ML managed compute ([AmlCompute](https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-ml/0.1.0b4/azure.ai.ml.entities.html)) for remote training.
 
-Note: Be sure to check limits within your available region.
+```{note}
+Be sure to check limits within your available region.
+```
 
 This [article](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-quotas?view=azureml-api-2#azure-machine-learning-compute) includes details on the default limits and how to request more quota.
 
@@ -146,7 +147,7 @@ You can define an environment from a [pre-built](https://learn.microsoft.com/en-
 
 Create your custom RAPIDS docker image using the example below, making sure to install additional packages needed for your workflows.
 
-```dockerfile
+```Dockerfile
 # Use latest rapids image with the necessary dependencies
 FROM {{ rapids_container }}
 
@@ -173,7 +174,7 @@ ml_client.environments.create_or_update(env_docker_image)
 
 Now that we have our environment and custom logic, we can configure and run the `command` [class](https://learn.microsoft.com/en-us/python/api/azure-ai-ml/azure.ai.ml?view=azure-python#azure-ai-ml-command) to submit training jobs.
 
-In a notebook cell, copy the example code from this documentation into a new folder.
+In a notebook cell, copy the example code from this documentation into a new folder, by running:
 
 ```ipython
 %%bash
@@ -232,7 +233,7 @@ returned_job = ml_client.jobs.create_or_update(command_job)
 
 After creating the job, go to [the "Experiments" page](https://ml.azure.com/experiments) to view logs, metrics, and outputs.
 
-Next, try performing a sweep over a set of hyperparameters.
+Next, perform a sweep over a set of hyperparameters. This will take (insert time?)
 
 ```python
 from azure.ai.ml.sweep import Choice, Uniform
