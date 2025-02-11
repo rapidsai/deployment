@@ -21,8 +21,8 @@ copyright = f"{datetime.date.today().year}, NVIDIA"
 author = "NVIDIA"
 
 # Single modifiable version for all of the docs - easier for future updates
-stable_version = "24.10"
-nightly_version = "24.12"
+stable_version = "24.12"
+nightly_version = "25.02"
 
 versions = {
     "stable": {
