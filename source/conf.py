@@ -34,7 +34,7 @@ versions = {
         "rapids_conda_packages": f"rapids={stable_version} python=3.12 cuda-version=12.5",
         "rapids_pip_index": "https://pypi.nvidia.com",
         "rapids_pip_version": stable_version,
-        # SageMaker examples need to stay pinned to an older RAPIDS until this is resolved:
+        # SageMaker Notebook Instance examples need to stay pinned to an older RAPIDS until this is resolved:
         # https://github.com/rapidsai/deployment/issues/520
         "rapids_sagemaker_conda_packages": "rapids=24.12 python=3.12 cuda-version=12.5",
     },
@@ -47,7 +47,7 @@ versions = {
         "rapids_conda_packages": f"rapids={nightly_version} python=3.12 cuda-version=12.5",
         "rapids_pip_index": "https://pypi.anaconda.org/rapidsai-wheels-nightly/simple",
         "rapids_pip_version": f"{nightly_version}.*,>=0.0.0a0",
-        # SageMaker examples need to stay pinned to an older RAPIDS until this is resolved:
+        # SageMaker Notebook Instance examples need to stay pinned to an older RAPIDS until this is resolved:
         # https://github.com/rapidsai/deployment/issues/520
         "rapids_sagemaker_conda_packages": "rapids=24.12 python=3.12 cuda-version=12.5",
     },
