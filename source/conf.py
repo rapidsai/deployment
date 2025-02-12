@@ -39,7 +39,7 @@ versions = {
         "rapids_sagemaker_conda_packages": f"rapids={stable_version} python=3.12 cuda-version=12.5",
     },
     "nightly": {
-        "rapids_version": f"{nightly_version}-nightly",
+        "rapids_version": f"{nightly_version}",
         "rapids_api_docs_version": "nightly",
         "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-cuda12.5-py3.12",
         "rapids_notebooks_container": f"rapidsai/notebooks:{nightly_version + 'a'}-cuda12.5-py3.12",
