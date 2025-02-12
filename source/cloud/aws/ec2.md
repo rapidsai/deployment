@@ -26,7 +26,9 @@ Next we need to connect to the instance.
 2. Locate your VM and note the **Public IP Address**.
 3. In your terminal run `ssh ubuntu@<ip address>`.
 
-**Note:** if you use the AWS Console, please use the default `ubuntu` user to ensure the NVIDIA driver installs on the first boot.
+```{note}
+If you use the AWS Console, please use the default `ubuntu` user to ensure the NVIDIA driver installs on the first boot.
+```
 
 ## Install RAPIDS
 
