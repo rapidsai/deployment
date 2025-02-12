@@ -28,6 +28,7 @@ jupyter_execute/
 
 # files manually written by example code
 source/examples/rapids-azureml-hpo/Dockerfile
+source/examples/rapids-sagemaker-hpo/Dockerfile
 
 # exclusions
 !source/examples/rapids-1brc-single-node/lookup.csv
