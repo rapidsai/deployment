@@ -53,7 +53,7 @@ echo "kernel install completed"
 EOF
 ```
 
-```{note}
+```{warning}
 RAPIDS `>24.12` will not be installable on SageMaker Notebook Instances until those instances support
 Amazon Linux 2023 or other Linux distributions with GLIBC of at least 2.28.
 For more details, see https://github.com/rapidsai/deployment/issues/520.
