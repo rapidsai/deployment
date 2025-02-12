@@ -56,7 +56,7 @@ EOF
 ```{warning}
 RAPIDS `>24.12` will not be installable on SageMaker Notebook Instances until those instances support
 Amazon Linux 2023 or other Linux distributions with GLIBC of at least 2.28.
-For more details, see https://github.com/rapidsai/deployment/issues/520.
+For more details, see [rapidsai/deployment#520](https://github.com/rapidsai/deployment/issues/520).
 ```
 
 Set the volume size to at least `15GB`, to accommodate the conda environment.
