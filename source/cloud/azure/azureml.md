@@ -231,7 +231,7 @@ After creating the job, click on the details page provided in the output of `ret
 to [the "Experiments" page](https://ml.azure.com/experiments) to view logs, metrics, and outputs.
 
 ```{note}
-For reference this job took ~7min while using `size="Standard_NC6s_v3"` in the `gpu_compute` creation
+For reference this job took ~7 min while using `size="Standard_NC6s_v3"` in the `gpu_compute` creation
 ```
 
 ![Screenshot of job under the test_rapids_mlflow experiment](../../images/azureml_returned_job_completed.png)
@@ -256,13 +256,19 @@ sweep_job = command_job_for_sweep.sweep(
     goal="Maximize",
 )
 
+# setting a very small limit of trials for demo purposes
+sweep_job.set_limits(
+    max_total_trials=3, max_concurrent_trials=3, timeout=18000, trial_timeout=3600
+)
+
 # submit job
 returned_sweep_job = ml_client.create_or_update(sweep_job)
 returned_sweep_job
 ```
 
 Once the job is created, click on the details page provided in the output of `returned_sweep_job`, or go
-to [the "Experiments" page](https://ml.azure.com/experiments) to view logs, metrics, and outputs.
+to [the "Experiments" page](https://ml.azure.com/experiments) to view logs, metrics, and outputs. The three trials
+set in the `sweep_job.set_limits(...)` take between 20-40 min to complete when using `size="Standard_NC6s_v3"`.
 
 ### Clean Up
 
