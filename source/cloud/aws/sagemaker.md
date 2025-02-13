@@ -10,16 +10,15 @@ RAPIDS can be used in a few ways with [AWS SageMaker](https://aws.amazon.com/sag
 
 To get started head to [the SageMaker console](https://console.aws.amazon.com/sagemaker/) and create a [new SageMaker Notebook Instance](https://console.aws.amazon.com/sagemaker/home#/notebook-instances/create).
 
-Choose `Notebook > Notebook Instances > Create notebook instance`.
+Choose `Applications and IDEs > Notebooks > Create notebook instance`.
 
 ### Select your instance
 
 If a field is not mentioned below, leave the default values:
 
-- **NOTEBOOK_INSTANCE_NAME** = Name of the notebook instance
-- **NOTEBOOK_INSTANCE_TYPE** = Type of notebook instance. Select a RAPIDS-compatible GPU ([see the RAPIDS docs](https://docs.rapids.ai/install#system-req)) as the SageMaker Notebook instance type (e.g., `ml.p3.2xlarge`).
-- **PLATFORM_IDENTIFIER** = 'Amazon Linux 2, Jupyter Lab 3'
-- **IAM_ROLE** = Create a new role > Create role
+- **Notebook instance name** = Name of the notebook instance
+- **Notebook instance type** = Type of notebook instance. Select a RAPIDS-compatible GPU ([see the RAPIDS docs](https://docs.rapids.ai/install#system-req)) as the SageMaker Notebook instance type (e.g., `ml.p3.2xlarge`).
+- **Platform identifier** = 'Amazon Linux 2, Jupyter Lab 4'
 
 ![Screenshot of the create new notebook screen with a ml.p3.2xlarge selected](../../images/sagemaker-create-notebook-instance.png)
 
@@ -29,7 +28,7 @@ If a field is not mentioned below, leave the default values:
 
 We can add a RAPIDS conda environment to the set of Jupyter ipython kernels available in our SageMaker notebook instance by installing in a [lifecycle configuration script](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
 
-Create a new lifecycle configuration (via the 'Additional Options' dropdown).
+Create a new lifecycle configuration (via the 'Additional Configuration' dropdown).
 
 ![Screenshot of the create lifecycle configuration screen](../../images/sagemaker-create-lifecycle-configuration.png)
 
@@ -42,16 +41,22 @@ set -e
 
 sudo -u ec2-user -i <<'EOF'
 
-mamba create -y -n rapids {{ rapids_conda_channels }} {{ rapids_conda_packages }} \
+mamba create -y -n rapids {{ rapids_conda_channels }} {{ rapids_sagemaker_conda_packages }} \
     boto3 \
     ipykernel \
-    sagemaker
+    'sagemaker-python-sdk>=2.239.0'
 
 conda activate rapids
 
 python -m ipykernel install --user --name rapids
 echo "kernel install completed"
 EOF
+```
+
+```{warning}
+RAPIDS `>24.12` will not be installable on SageMaker Notebook Instances until those instances support
+Amazon Linux 2023 or other Linux distributions with GLIBC of at least 2.28.
+For more details, see [rapidsai/deployment#520](https://github.com/rapidsai/deployment/issues/520).
 ```
 
 Set the volume size to at least `15GB`, to accommodate the conda environment.
