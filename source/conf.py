@@ -28,10 +28,10 @@ versions = {
     "stable": {
         "rapids_version": stable_version,
         "rapids_api_docs_version": "stable",
-        "rapids_container": f"nvcr.io/nvidia/rapidsai/base:{stable_version}-cuda12.5-py3.12",
-        "rapids_notebooks_container": f"nvcr.io/nvidia/rapidsai/notebooks:{stable_version}-cuda12.5-py3.12",
+        "rapids_container": f"nvcr.io/nvidia/rapidsai/base:{stable_version}-cuda12.8-py3.12",
+        "rapids_notebooks_container": f"nvcr.io/nvidia/rapidsai/notebooks:{stable_version}-cuda12.8-py3.12",
         "rapids_conda_channels": "-c rapidsai -c conda-forge -c nvidia",
-        "rapids_conda_packages": f"rapids={stable_version} python=3.12 cuda-version=12.5",
+        "rapids_conda_packages": f"rapids={stable_version} python=3.12 cuda-version=12.8",
         "rapids_pip_index": "https://pypi.nvidia.com",
         "rapids_pip_version": stable_version,
         # SageMaker Notebook Instance examples need to stay pinned to an older RAPIDS until this is resolved:
@@ -41,10 +41,10 @@ versions = {
     "nightly": {
         "rapids_version": f"{nightly_version}",
         "rapids_api_docs_version": "nightly",
-        "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-cuda12.5-py3.12",
-        "rapids_notebooks_container": f"rapidsai/notebooks:{nightly_version + 'a'}-cuda12.5-py3.12",
+        "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-cuda12.8-py3.12",
+        "rapids_notebooks_container": f"rapidsai/notebooks:{nightly_version + 'a'}-cuda12.8-py3.12",
         "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge -c nvidia",
-        "rapids_conda_packages": f"rapids={nightly_version} python=3.12 cuda-version=12.5",
+        "rapids_conda_packages": f"rapids={nightly_version} python=3.12 cuda-version=12.8",
         "rapids_pip_index": "https://pypi.anaconda.org/rapidsai-wheels-nightly/simple",
         "rapids_pip_version": f"{nightly_version}.*,>=0.0.0a0",
         # SageMaker Notebook Instance examples need to stay pinned to an older RAPIDS until this is resolved:
