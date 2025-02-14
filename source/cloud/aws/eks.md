@@ -10,7 +10,7 @@ To run RAPIDS you'll need a Kubernetes cluster with GPUs available.
 
 ## Prerequisites
 
-First you'll need to have the [`aws` CLI tool](https://aws.amazon.com/cli/) and [`eksctl` CLI tool](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html) installed along with [`kubectl`](https://kubernetes.io/docs/tasks/tools/), [`helm`](https://helm.sh/docs/intro/install/), etc for managing Kubernetes.
+First you'll need to have the [`aws` CLI tool](https://aws.amazon.com/cli/) and [`eksctl` CLI tool](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html) installed along with [`kubectl`](https://kubernetes.io/docs/tasks/tools/), [`helm`](https://helm.sh/docs/intro/install/), for managing Kubernetes.
 
 Ensure you are logged into the `aws` CLI.
 
@@ -20,16 +20,24 @@ $ aws configure
 
 ## Create the Kubernetes cluster
 
-Now we can launch a GPU enabled EKS cluster. First launch an EKS cluster with `eksctl`.
+Now we can launch a GPU enabled EKS cluster with `eksctl`.
+
+```{notes}
+1. You will need to create or import public ssh-key to be able to execute the following command.
+In your aws console under `EC2` in the side panel under Network & Security > Key Pairs, you can create a
+key pair or import (see "Actions" dropdown) one you've created locally.
+
+2. If you are not using your default AWS profile, add `--profile <your-profile>` to the following command.
+```
 
 ```console
 $ eksctl create cluster rapids \
-                      --version 1.29 \
+                      --version 1.30 \
                       --nodes 3 \
-                      --node-type=p3.8xlarge \
+                      --node-type=g4dn.xlarge \
                       --timeout=40m \
                       --ssh-access \
-                      --ssh-public-key <public key ID> \  # Be sure to set your public key ID here
+                      --ssh-public-key <public key ID> \  # Named assigned during creation of your key in aws console
                       --region us-east-1 \
                       --zones=us-east-1c,us-east-1b,us-east-1d \
                       --auto-kubeconfig
@@ -37,7 +45,7 @@ $ eksctl create cluster rapids \
 
 With this command, you’ve launched an EKS cluster called `rapids`. You’ve specified that it should use nodes of type `p3.8xlarge`. We also specified that we don't want to install the NVIDIA drivers as we will do that with the NVIDIA operator.
 
-To access the cluster we need to pull down the credentials.
+To access the cluster we need to pull down the credentials. Add `--profile <your-profile>` if you are not using the default profile.
 
 ```console
 $ aws eks --region us-east-1 update-kubeconfig --name rapids
