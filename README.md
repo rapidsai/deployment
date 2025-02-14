@@ -128,10 +128,10 @@ The RAPIDS versions for things like container images and install instructions ar
 ```python
 versions = {
     "stable": {
-        "rapids_container": "nvcr.io/nvidia/rapidsai/base:24.12-cuda12.5-py3.12",
+        "rapids_container": "nvcr.io/nvidia/rapidsai/base:25.02-cuda12.8-py3.12",
     },
     "nightly": {
-        "rapids_container": "rapidsai/base:25.02a-cuda12.5-py3.12",
+        "rapids_container": "rapidsai/base:25.04a-cuda12.8-py3.12",
     },
 }
 ```
