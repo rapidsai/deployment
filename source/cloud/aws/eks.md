@@ -22,7 +22,7 @@ $ aws configure
 
 Now we can launch a GPU enabled EKS cluster with `eksctl`.
 
-```{notes}
+```{note}
 1. You will need to create or import public ssh-key to be able to execute the following command.
 In your aws console under `EC2` in the side panel under Network & Security > Key Pairs, you can create a
 key pair or import (see "Actions" dropdown) one you've created locally.
