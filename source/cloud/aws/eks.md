@@ -37,7 +37,7 @@ $ eksctl create cluster rapids \
                       --node-type=g4dn.xlarge \
                       --timeout=40m \
                       --ssh-access \
-                      --ssh-public-key <public key ID> \  # Named assigned during creation of your key in aws console
+                      --ssh-public-key <public key ID> \  # Name assigned during creation of your key in aws console
                       --region us-east-1 \
                       --zones=us-east-1c,us-east-1b,us-east-1d \
                       --auto-kubeconfig
