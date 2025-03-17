@@ -83,7 +83,7 @@ SHOW IMAGE REPOSITORIES IN SCHEMA CONTAINER_HOL_DB.PUBLIC;
 
 ## Docker image push via SnowCLI
 
-The nest step in the process is to push to the image registry the docker image
+The next step in the process is to push to the image registry the docker image
 you will want to run via the service.
 
 ### Build Docker image locally
@@ -114,7 +114,7 @@ docker build --platform=linux/amd64 -t <local_repository>/rapids-nb-snowflake:la
 ### Install SnowCLI
 
 Install the SnowCLI following your preferred method instructions in the
-[documentation](https://docs.snowflake.com/en/developer-guide/snowflake-cli/installation/installation)
+[documentation](https://docs.snowflake.com/en/developer-guide/snowflake-cli/installation/installation).
 
 Once installed, configure your Snowflake CLI connection, and follow the wizard:
 
@@ -144,7 +144,7 @@ schema : public
 host:
 port:
 region:
-authenticator:
+authenticator: username_password_mfa # only needed if MFA and MFA caching are enabled
 private key file:
 token file path:
 ```
@@ -165,25 +165,27 @@ SHOW IMAGE REPOSITORIES IN SCHEMA CONTAINER_HOL_DB.PUBLIC;
 
 You will see that the repository url is `org-account.registry.snowflakecomputing.com/container_hol_db/public/image_repo` where `org-account` refers to your organization and account, the `SNOWFLAKE_REGISTRY_HOSTNAME` is the url up to the `.com`. i.e. `org-account.registry.snowflakecomputing.com`
 
-First we login into the snowflake repository with docker, via terminal:
+First we login into the snowflake image-registry via terminal:
 
 ````{note}
-If you have **MFA** both `docker login` and `docker push` commands don't
-work as expected. Every API call results in a push notification to approve, but
-if not done promptly the original API times out, complicating the completion of
-this step.
+If you have **MFA** activated you will want to allow [client MFA caching] (https://docs.snowflake.com/en/user-guide/security-mfa#using-mfa-token-caching-to-minimize-the-number-of-prompts-during-authentication-optional)
+to reduce the number of prompts that must be acknowledged while connecting and authenticating to Snowflake.
 
-We recommend enabling [token caching](https://docs.snowflake.com/en/user-guide/security-mfa#using-mfa-token-caching-to-minimize-the-number-of-prompts-during-authentication-optional)
-or disabling MFA during this step. You can disable MFA for 30 minutes by doing
+To enable this, you need `ACCOUNTADMIN` system role and in a sql sheet run:
 
 ```sql
-ALTER USER <username> SET MINS_TO_BYPASS_MFA = 30
+ALTER ACCOUNT SET ALLOW_CLIENT_MFA_CACHING = TRUE;
+```
+
+and if you are using the Snowflake Connector for Python you need:
+
+```bash
+pip install "snowflake-connector-python[secure-local-storage]"
 ```
 ````
 
 ```bash
-docker login <snowflake_registry_hostname> -u <snowflake_user_name>
-> prompt for password
+snow spcs image-registry login --connection CONTAINER_HOL
 ```
 
 We tag and push the image, make sure you replace the repository url for `org-account.registry.snowflakecomputing.com/container_hol_db/public/image_repo`:
@@ -245,7 +247,6 @@ spec:
     - name: dask-client
       port: 8786
       protocol: TCP
-      public: true
     - name: dask-dashboard
       port: 8787
       public: true
