@@ -48,9 +48,9 @@ There are two ways that you can get up and running with RAPIDS in a few quicks t
 ## Accessing your instance
 There are a few ways to access your instance:
 1. Directly access Jupyter Lab from the Brev GUI
-1. Using the Brev Shell to connect to your instance....
+1. Using the Brev CLI to connect to your instance....
   1. Using Visual Studio Code
-  1. Using your terminal
+  1. Using SSH via your terminal
 1. Access using the Brev tunnel
 1. Sharing a service with others
 
@@ -60,9 +60,10 @@ To create and use a Jupyter Notebook, click "Open Notebook" at the top right aft
 
 ![Screenshot of the instance UI with the "Open Notebook" button highlighted](/_static/images/platforms/brev/brev8.png)
 
-### 2. Brev Shell Install
+### 2. Brev CLI Install
+If you want to access your launched Brev instance(s) via Visual Studio Code or SSH using terminal, you need to install the [Brev CLI according to these instructions](https://docs.nvidia.com/brev/latest/brev-cli.html).
 
-#### 2.1 Brev Shell using Visual Studio Code
+#### 2.1 Brev CLI using Visual Studio Code
 
 To connect to your Brev instance from VS Code open a new VS Code window and run:
 
@@ -72,7 +73,7 @@ brev open
 
 It will automatically open a new VS Code window for you to use with RAPIDS.
 
-#### 2.2 Brev Shell using Terminal
+#### 2.2 Brev CLI using SSH via your Terminal
 
 To access your Brev instance from the terminal run:
 
