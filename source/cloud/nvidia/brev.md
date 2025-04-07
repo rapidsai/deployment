@@ -7,7 +7,7 @@ review_priority: "p0"
 The [NVIDIA Brev](https://brev.dev/) platform provides you a one stop menu of available GPU instances across many cloud providers, including [Amazon Web Services](https://aws.amazon.com/) and [Google Cloud](https://cloud.google.com), with CUDA, Python, Jupyter Lab, all set up.
 
 ## Brev Instance Setup 
-There are two ways that you can get up and running with RAPIDS in a few quicks thanks to the Brev RAPIDS quickstart:
+There are two ways that you can get up and running with RAPIDS in a few steps, thanks to the Brev RAPIDS quickstart:
 1. Brev GPU Instances - quickly get the GPU, across most clouds, to get your work done.
 2. Brev Launchables - quickly create one-click starting, reusable instances that you customized to your MLOps needs.
 
