@@ -40,6 +40,8 @@ for file in (script_dir.parent / "source").rglob("*"):
     if file.is_file() and file.suffix in [".ipynb", ".md"]:
         if "_includes" in file.parts:
             continue
+        if ".ipynb_checkpoints" in file.parts:
+            continue
         if "index.md" in file.parts:
             rel_path = file.parent
         else:
