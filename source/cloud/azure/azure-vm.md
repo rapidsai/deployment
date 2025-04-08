@@ -129,7 +129,7 @@ Next, we can SSH into our VM to install RAPIDS. SSH instructions can be found by
 When connecting via SSH by doing
 
 ```bash
-ssh -i <path-to-your-ssh-key-dir>/your-key-file.pem <username>@<vm-ip-address>
+ssh -i <path-to-your-ssh-key-dir>/your-key-file.pem azureuser@<vm-ip-address>
 ```
 
 you might get prompted with a `WARNING: UNPROTECTED PRIVATE KEY FILE!`, and get a
