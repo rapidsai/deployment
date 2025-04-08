@@ -111,8 +111,6 @@ Then we can install the NVIDIA drivers.
 helm install --wait --generate-name --repo https://helm.ngc.nvidia.com/nvidia \
     -n gpu-operator --create-namespace \
     gpu-operator \
-    --set driver.enabled=false \
-    --set toolkit.enabled=false \
     --set operator.runtimeClass=nvidia-container-runtime
 ```
 
