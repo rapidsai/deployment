@@ -98,13 +98,23 @@ az aks nodepool add \
     --name gpunp \
     --node-count 1 \
     --node-vm-size Standard_NC48ads_A100_v4 \
-    --aks-custom-headers UseGPUDedicatedVHD=true \
     --enable-cluster-autoscaler \
     --min-count 1 \
     --max-count 3
 ```
 
-Here we have added a new pool made up of `Standard_NC48ads_A100_v4` instances which each have two A100 GPUs. We've also enabled autoscaling between one and three nodes on the pool. Once our new pool has been created, we can test the cluster.
+Here we have added a new pool made up of `Standard_NC48ads_A100_v4` instances which each have two A100 GPUs. We've also enabled autoscaling between one and three nodes on the pool.
+
+Then we can install the NVIDIA drivers.
+
+```bash
+helm install --wait --generate-name --repo https://helm.ngc.nvidia.com/nvidia \
+    -n gpu-operator --create-namespace \
+    gpu-operator \
+    --set operator.runtimeClass=nvidia-container-runtime
+```
+
+Once our new pool has been created and configured, we can test the cluster.
 
 ```{include} ../../_includes/check-gpu-pod-works.md
 
