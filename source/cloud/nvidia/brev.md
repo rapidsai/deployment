@@ -4,16 +4,16 @@ review_priority: "p0"
 
 # NVIDIA Brev
 
-The [NVIDIA Brev](https://brev.dev/) platform provides you a one stop menu of available GPU instances across many cloud providers, including [Amazon Web Services](https://aws.amazon.com/) and [Google Cloud](https://cloud.google.com), with CUDA, Python, Jupyter Lab, all set up.
+The [NVIDIA Brev](https://brev.nvidia.com/) platform provides you a one stop menu of available GPU instances across many cloud providers, including [Amazon Web Services](https://aws.amazon.com/) and [Google Cloud](https://cloud.google.com), with CUDA, Python, Jupyter Lab, all set up.
 
 ## Brev Instance Setup 
-There are two ways that you can get up and running with RAPIDS in a few steps, thanks to the Brev RAPIDS quickstart:
+THere are two options to get you up and running with RAPIDS in a few steps, thanks to the Brev RAPIDS quickstart:
 1. Brev GPU Instances - quickly get the GPU, across most clouds, to get your work done.
 2. Brev Launchables - quickly create one-click starting, reusable instances that you customized to your MLOps needs.
 
-### 1. Setting up your Brev GPU Instance
+### Option 1. Setting up your Brev GPU Instance
 
-1. Navigate to the [Brev console](https://console.brev.dev/) and click on "Create your first instance".
+1. Navigate to the [Brev console](https://brev.nvidia.com/org) and click on "Create your first instance".
 
 ![Screenshot of the "Create your first instance" UI](/_static/images/platforms/brev/brev1.png)
 
@@ -33,17 +33,17 @@ There are two ways that you can get up and running with RAPIDS in a few steps, t
 
 ![Screenshot of the instance creation summary screen with the deploy button highlighted](/_static/images/platforms/brev/brev5.png)
 
-### 2. Setting up your Brev Launchable
-1. Click Create Launchable
-1. Click **Compute** and select your GPU based on GPU type, number of GPUs, the cloud provider, and/or budget you have.  It is good to understand your GPU requirements before picking an instance, or use it to figure out which instance.  Once selected, click **Save** 
-1. Click ** Container**.  When adding the **Container**, you can use the NVIDIA RAPIDS Container, use Docker Compose and edit our example yaml so that it preinstalls any additional conda or pip packages into your container before entry.  
+### Option 2. Setting up your Brev Launchable
+1. Go to **[Brev's Launchable Creator](https://brev.nvidia.com/launchables/create)** (requires account)
+2. Click **Compute** and select your GPU based on GPU type, number of GPUs, the cloud provider, and/or budget you have.  It is good to understand your GPU requirements before picking an instance, or use it to figure out which instance.  Once selected, click **Save** 
+3. Click **Container**.  When adding the **Container**, you can use the NVIDIA RAPIDS Container, use Docker Compose and edit our example yaml so that it preinstalls any additional conda or pip packages into your container before entry.  
   1. If you just need standard NVIDIA RAPIDS install, Select **Container Mode > NVIDIA RAPIDS Container**. If using the Base Container, you may need to preinstall Jupyter.  If using the Notebooks Container, **Do not** Preinstall Jupyter, as that will break your instance.
-  1. If you need a customized environment, with additional packages on top of NVIDIA RAPIDSm use **Docker Compose** When using Docker Compose, you can upload a docker-compse yaml file.  Here is an example docker-compose file, **[docker/brev/docker-compose-nb-2412.yaml](https://github.com/clara-parabricks-workflows/single-cell-analysis-blueprint/raw/main/docker/brev/docker-compose-nb-2412.yaml)** that you can use as your base.  **Do not** Preinstall Jupyter when using that file, as it already will be installed.
-  1. Click **Save**
-1. Click **Files** and add in any publicly avaialble single file or  github repository.  Click **Save**
-1. In **Ports**, please open ports **8888, 8787, and 8786**.  Name port 8888 `jupyter` so Brev can treat it as a Jupyter-Lab based instance and provide an **Open Notebook** button.  Click **Save**
-1. Name your Launchable, then Save your Launchable!
-1. Whenever you're ready to use your Launchable, Select your Launchable and hit **Deploy Launchable** 
+  2. If you need a customized environment, with additional packages on top of NVIDIA RAPIDSm use **Docker Compose** When using Docker Compose, you can upload a docker-compse yaml file.  Here is an example docker-compose file, **[docker/brev/docker-compose-nb-2412.yaml](https://github.com/clara-parabricks-workflows/single-cell-analysis-blueprint/raw/main/docker/brev/docker-compose-nb-2412.yaml)** that you can use as your base.  **Do not** Preinstall Jupyter when using that file, as it already will be installed.
+  3. Click **Save**
+4. Click **Files** and add in any publicly avaialble single file or  github repository.  Click **Save**
+5. In **Ports**, please open ports **8888, 8787, and 8786**.  Name port 8888 `jupyter` so Brev can treat it as a Jupyter-Lab based instance and provide an **Open Notebook** button.  Click **Save**
+6. Name your Launchable, then Save your Launchable!
+7. Whenever you're ready to use your Launchable, Select your Launchable and hit **Deploy Launchable** 
 
 ## Accessing your instance
 There are a few ways to access your instance:
@@ -61,14 +61,17 @@ To create and use a Jupyter Notebook, click "Open Notebook" at the top right aft
 ![Screenshot of the instance UI with the "Open Notebook" button highlighted](/_static/images/platforms/brev/brev8.png)
 
 ### 2. Brev CLI Install
-If you want to access your launched Brev instance(s) via Visual Studio Code or SSH using terminal, you need to install the [Brev CLI according to these instructions](https://docs.nvidia.com/brev/latest/brev-cli.html).
+If you want to access your launched Brev instance(s) via Visual Studio Code or SSH using terminal, you need to install the [Brev CLI according to these instructions](https://docs.nvidia.com/brev/latest/brev-cli.html) or this code below:
+```
+sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/brevdev/brev-cli/main/bin/install-latest.sh)" && brev login
+```
 
 #### 2.1 Brev CLI using Visual Studio Code
 
 To connect to your Brev instance from VS Code open a new VS Code window and run:
 
 ```bash
-brev open
+brev open <instance-id>
 ```
 
 It will automatically open a new VS Code window for you to use with RAPIDS.
@@ -78,7 +81,7 @@ It will automatically open a new VS Code window for you to use with RAPIDS.
 To access your Brev instance from the terminal run:
 
 ```bash
-brev shell
+brev shell <instance-id>
 ```
 
 ##### Forwarding a Port Locally
@@ -121,15 +124,20 @@ You can verify that you have your requested GPU by running the `nvidia-smi` comm
 
 ![Screenshot of a notebook terminal running the command nvidia-smi and showing the NVIDIA T4 GPU in the output](/_static/images/platforms/brev/brev6.png)
 
-### Test RAPIDS
+## Testing your RAPIDS Instance
 
 You can verify your RAPIDS installation is working by importing `cudf` and creating a GPU dataframe.
 
-![Screenshot of a notebook cell importing and using cudf](/_static/images/platforms/brev/brev7.png)
+```
+import cudf
+
+gdf = cudf.DataFrame({"a":[1,2,3], "b":[4,5,6]})
+print(gdf)
+```
 
 
 
-### Resources and tips
+## Resources and tips
 
 - [Brev Docs](https://brev.dev/)
 - Please note: Git is not preinstalled in the RAPIDS container, but can be installed into the container when it is running using
