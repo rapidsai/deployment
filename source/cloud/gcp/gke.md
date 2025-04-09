@@ -37,7 +37,7 @@ gcloud container clusters get-credentials rapids-gpu-kubeflow \
     --region=us-central1-c
 ```
 
-With this command, your `kubeconfig` is updated with credentials and endpoint information for the `rapids-gpu-kubeflow` cluster. 
+With this command, your `kubeconfig` is updated with credentials and endpoint information for the `rapids-gpu-kubeflow` cluster.
 
 ## Install drivers
 
