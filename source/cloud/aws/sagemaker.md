@@ -41,7 +41,7 @@ set -e
 
 sudo -u ec2-user -i <<'EOF'
 
-mamba create -y -n rapids {{ rapids_conda_channels }} {{ rapids_sagemaker_conda_packages }} \
+mamba create -y -n rapids -c rapidsai -c conda-forge -c nvidia rapids=24.12 python=3.12 cuda-version=12.4 \
     boto3 \
     ipykernel \
     'sagemaker-python-sdk>=2.239.0'

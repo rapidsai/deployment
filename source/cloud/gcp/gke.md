@@ -30,6 +30,15 @@ gcloud container clusters create rapids-gpu-kubeflow \
 
 With this command, you’ve launched a GKE cluster called `rapids-gpu-kubeflow`. You’ve specified that it should use nodes of type a2-highgpu-2g, each with two A100 GPUs.
 
+## Get the cluster credentials
+
+```console
+gcloud container clusters get-credentials rapids-gpu-kubeflow \
+    --region=us-central1-c
+```
+
+With this command, your `kubeconfig` is updated with credentials and endpoint information for the `rapids-gpu-kubeflow` cluster.
+
 ## Install drivers
 
 Next, [install the NVIDIA drivers](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#installing_drivers) onto each node.
