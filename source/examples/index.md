@@ -21,4 +21,5 @@ xgboost-dask-databricks/notebook
 xgboost-azure-mnmg-daskcloudprovider/notebook
 rapids-1brc-single-node/notebook
 rapids-snowflake-cudf/notebook
+rapids-coiled-cudf/notebook
 ```
