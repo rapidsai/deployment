@@ -4,19 +4,17 @@ we will deploy Kafka in AWS EKS using Strimzi with KRaft mode.
 
 Step 1:
 
-to deploy Strimzi operator
-
-- Download latest strimzi operator to deploy (in k8t folder we have one)
+- Deploy strimzi operator
 
 ```bash
-kubectl create -f 'https://strimzi.io/install/latest'
+kubectl create -f 'https://strimzi.io/install/latest?namespace=default'
 ```
 
-Step : Deploy Apache Kafka in KRaft Mode
+Step 2: Deploy Apache Kafka in KRaft Mode
 
-get kafka-single-node.yaml from github
+get kafka-single-node.yaml from [https://strimzi.io/examples/latest/kafka/kafka-single-node.yaml](https://strimzi.io/examples/latest/kafka/kafka-single-node.yaml)
 
-or this one [https://strimzi.io/examples/latest/kafka/kafka-single-node.yaml](https://strimzi.io/examples/latest/kafka/kafka-single-node.yaml)
+or
 
 ```bash
 curl -o kafka-single-node.yaml https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/refs/tags/0.46.0/examples/kafka/kafka-single-node.yaml
@@ -56,10 +54,6 @@ eksctl create cluster morpheus-rapids \
  --auto-kubeconfig
 
 aws eks --region us-east-1 update-kubeconfig --name morpheus-rapids --profile eks
-
-```bash
-kubectl create -f 'https://strimzi.io/install/latest?namespace=default'
-```
 
 make gp2 default EDIT: we are running on ephemeral storage now due to permissions
 
