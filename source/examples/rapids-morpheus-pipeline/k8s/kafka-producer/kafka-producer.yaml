@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-producer
+  template:
+    metadata:
+      labels:
+        app: kafka-producer
+    spec:
+      containers:
+        - name: kafka-producer
+          image: ncclementi/kafka-producer-image:latest
+          # args: ["--message-limit", "50000"]  # uncomment for message limit otherwise unlimited
+          env:
+            - name: KAFKA_CLUSTER_BOOTSTRAP_SERVER
+              value: "kafka-cluster-kafka-bootstrap:9092"
