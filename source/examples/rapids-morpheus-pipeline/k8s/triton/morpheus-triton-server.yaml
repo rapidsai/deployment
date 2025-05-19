@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tritonserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tritonserver
+  template:
+    metadata:
+      labels:
+        app: tritonserver
+    spec:
+      containers:
+        - name: tritonserver
+          image: nvcr.io/nvidia/morpheus/morpheus-tritonserver-models:25.02
+          command: ["tritonserver"]
+          args:
+            - "--model-repository=/models/triton-model-repo"
+            - "--exit-on-error=false"
+            - "--model-control-mode=explicit"
+            - "--load-model"
+            - "sid-minibert-onnx"
+          ports:
+            - containerPort: 8000
+              name: http
+            - containerPort: 8001
+              name: grpc
+            - containerPort: 8002
+              name: metrics
+          resources:
+            limits:
+              nvidia.com/gpu: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tritonserver
+spec:
+  selector:
+    app: tritonserver
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+    - name: grpc
+      port: 8001
+      targetPort: 8001
+    - name: metrics
+      port: 8002
+      targetPort: 8002

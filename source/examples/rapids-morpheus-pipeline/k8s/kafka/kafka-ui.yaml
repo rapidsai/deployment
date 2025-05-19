@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-ui
+  labels:
+    app: kafka-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-ui
+  template:
+    metadata:
+      labels:
+        app: kafka-ui
+    spec:
+      containers:
+        - name: kafka-ui
+          image: provectuslabs/kafka-ui:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KAFKA_CLUSTERS_0_NAME
+              value: "kafka-cluster"
+            - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
+              value: "kafka-cluster-kafka-bootstrap:9092" # if not on default namespace: kafka-cluster-kafka-bootstrap.<namespace>.svc:9092
+            - name: DYNAMIC_CONFIG_ENABLED
+              value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-ui
+spec:
+  selector:
+    app: kafka-ui
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
