@@ -50,13 +50,15 @@ def main():
     config.pipeline_batch_size = 1024
     config.model_max_batch_size = 32
     config.feature_length = 256
-    config.num_threads = 16
+    config.num_threads = min(
+        len(os.sched_getaffinity(0)), 16
+    )  # choose threads = num cores unless more than 16
     config.class_labels = load_labels_file(get_data_file_path("data/labels_nlp.txt"))
 
     # Print the config dictionary
     pprint(vars(config))
 
-    # Debug print the bootstrap server
+    # Confirm we are using right kafka bootstrap server
     print(f"Using Kafka bootstrap server: {bootstrap_server}")
 
     # Create the pipeline
