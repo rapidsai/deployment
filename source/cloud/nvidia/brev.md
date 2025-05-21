@@ -37,16 +37,25 @@ THere are two options to get you up and running with RAPIDS in a few steps, than
 
 ### Option 2. Setting up your Brev Launchable
 
-1. Go to **[Brev's Launchable Creator](https://brev.nvidia.com/launchables/create)** (requires account)
-2. Click **Compute** and select your GPU based on GPU type, number of GPUs, the cloud provider, and/or budget you have. It is good to understand your GPU requirements before picking an instance, or use it to figure out which instance. Once selected, click **Save**
-3. Click **Container**. When adding the **Container**, you can use the NVIDIA RAPIDS Container, use Docker Compose and edit our example yaml so that it preinstalls any additional conda or pip packages into your container before entry.
-4. If you just need standard NVIDIA RAPIDS install, Select **Container Mode > NVIDIA RAPIDS Container**. If using the Base Container, you may need to preinstall Jupyter. If using the Notebooks Container, **Do not** Preinstall Jupyter, as that will break your instance.
-5. If you need a customized environment, with additional packages on top of NVIDIA RAPIDSm use **Docker Compose** When using Docker Compose, you can upload a docker-compse yaml file. Here is an example docker-compose file, **[docker/brev/docker-compose-nb-2412.yaml](https://github.com/clara-parabricks-workflows/single-cell-analysis-blueprint/raw/main/docker/brev/docker-compose-nb-2412.yaml)** that you can use as your base. **Do not** Preinstall Jupyter when using that file, as it already will be installed.
-6. Click **Save**
-7. Click **Files** and add in any publicly available single file or github repository. Click **Save**
-8. In **Ports**, please open ports **8888, 8787, and 8786**. Name port 8888 `jupyter` so Brev can treat it as a Jupyter-Lab based instance and provide an **Open Notebook** button. Click **Save**
-9. Name your Launchable, then Save your Launchable!
-10. Whenever you're ready to use your Launchable, Select your Launchable and hit **Deploy Launchable**
+> [!WARNING]  
+> Our Docker Compose YAML files have a known issue when using GCP resources on Brev. We recommend using another cloud provider until this is resolved.
+
+1. Go to [Brev’s Launchable Creator](https://brev.nvidia.com/launchables/create) (requires account)  
+2. When asked **How would you like to provide your code files?** select "I have code files in a GitHub repository". Enter the URL of this repository. 
+3. When asked **What type of runtime environment do you need?** select "With container(s)"
+4. Under **Choose a Container Configuration** select "Docker Compose" and click on the toggle to select "I have an existing docker-compose.yaml file".
+5. Under **Upload Docker Compose** select "Provide GitHub/Gitlab URL" and provide a link to one of the Docker Compose YAML files in the [docker/brev](../docker/brev) directory. There is a README.md in that directory with instructions on which YAML to select. Note, you need to pass a link to the file in GitHub, not to the `raw.github.com` file (e.g. [docker-compose-nb-2412.yaml](https://github.com/clara-parabricks-workflows/single-cell-analysis-blueprint/blob/main/docker/brev/docker-compose-nb-2412.yaml)). Click "Validate".
+6. On the next page, when asked **Do you want a Jupyter Notebook experience?** select "No, I don't want Jupyter (Not Recommended)". We will provide Jupyter in the Docker compose already.
+7. In the section title **Do you need to expose services?** make sure that ports `8888`, `8787`, and `8786` are open. Name port 8888 `jupyter` so Brev can treat it as a jupyterlab based instance and provide an Open Notebook button.
+8. Select your desired compute environment. Make sure you select sufficient disk size to download the datasets you want to work with. We recommend at least 128GB, unless you want to run the 11M cell notebook, which you will need atleast 200GB. Note, you will not be able to resize the instance once created.
+9. Create a name for your launchable, and deploy.
+
+> [!NOTE]
+> Git is not installed by default in this container, but it can be installed using
+> ```
+> apt update
+> apt install git -y
+> ```
 
 ## Accessing your instance
 
