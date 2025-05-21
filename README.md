@@ -9,7 +9,7 @@ We also recommend building with [sphinx-autobuild](https://github.com/executable
 This tool will build your docs and host them on a local web server.
 It will watch for file changes, rebuild automatically and tell the browser page to reload. Magic!
 
-```bash
+```console
 $ uv run sphinx-autobuild source build/html
 [sphinx-autobuild] > sphinx-build ./source ./build/html
 Running Sphinx v4.5.0
@@ -23,7 +23,13 @@ The HTML pages are in build.
 Alternatively you can build the static site into `build/html` with `sphinx`.
 
 ```bash
-$ uv run make dirhtml
+uv run make dirhtml
+```
+
+The `uv.lock` file will ensure reproducible builds, but if you want to intentionally upgrade to newer versions of dependencies you can run
+
+```bash
+uv lock --upgrade
 ```
 
 ## Writing
