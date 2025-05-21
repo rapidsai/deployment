@@ -22,6 +22,7 @@ nav.bd-links fieldset .sd-badge {
   font-size: 0.9em;
 }
 
+/* Admonitions */
 div.admonition.admonition-docref {
   border-color: var(--sd-color-primary);
 }
