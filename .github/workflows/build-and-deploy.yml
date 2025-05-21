@@ -25,17 +25,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-          activate-environment: deployment-docs-dev
-          environment-file: conda/environments/deployment_docs.yml
-          miniforge-version: latest
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
 
       - name: Build
         env:
           DEPLOYMENT_DOCS_BUILD_STABLE: ${{ startsWith(github.event.ref, 'refs/tags/') && 'true' || 'false' }}
-        run: make dirhtml SPHINXOPTS="-W --keep-going -n"
+        run: uv run make dirhtml SPHINXOPTS="-W --keep-going -n"
 
       - uses: aws-actions/configure-aws-credentials@v4
         if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}

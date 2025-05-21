@@ -2,18 +2,15 @@
 
 ## Building
 
-In order to build the documentation install the dependencies to build the deployment docs from source.
+For fast and consistent builds of the documentation we recommend running all build commands with [uv](https://docs.astral.sh/uv/getting-started/installation/) and `uv run`.
+Build dependencies are stored in `pyproject.toml` and locked with `uv.lock` to ensure reproducible builds.
 
-```bash
-conda env create -f conda/environments/deployment_docs.yml
-```
-
-We recommend building with [sphinx-autobuild](https://github.com/executablebooks/sphinx-autobuild).
+We also recommend building with [sphinx-autobuild](https://github.com/executablebooks/sphinx-autobuild).
 This tool will build your docs and host them on a local web server.
 It will watch for file changes, rebuild automatically and tell the browser page to reload. Magic!
 
-```bash
-$ sphinx-autobuild source build/html
+```console
+$ uv run sphinx-autobuild source build/html
 [sphinx-autobuild] > sphinx-build ./source ./build/html
 Running Sphinx v4.5.0
 ...
@@ -26,7 +23,13 @@ The HTML pages are in build.
 Alternatively you can build the static site into `build/html` with `sphinx`.
 
 ```bash
-$ make dirhtml
+uv run make dirhtml
+```
+
+The `uv.lock` file will ensure reproducible builds, but if you want to intentionally upgrade to newer versions of dependencies you can run
+
+```bash
+uv lock --upgrade
 ```
 
 ## Writing
