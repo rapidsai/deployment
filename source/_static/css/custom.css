@@ -22,18 +22,16 @@ nav.bd-links fieldset .sd-badge {
   font-size: 0.9em;
 }
 
-/* Admonitions */
-.docref {
-  border-color: var(--sd-color-primary) !important;
+div.admonition.admonition-docref {
+  border-color: var(--sd-color-primary);
 }
 
-.docref .admonition-title {
+div.admonition.admonition-docref > .admonition-title {
   color: var(--sd-color-primary-text);
   background: var(--sd-color-primary);
 }
 
-.docref > .admonition-title::after,
-div.docref > .admonition-title::after {
+div.admonition.admonition-docref > .admonition-title::after {
   color: var(--sd-color-primary-text);
   content: "\f02d";
 }
