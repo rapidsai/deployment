@@ -12,7 +12,7 @@ class Docref(BaseAdmonition, SphinxDirective):
     def run(self):
         doc = self.arguments[0]
         self.arguments = ["See Documentation"]
-        self.options["classes"] = ["docref"]
+        self.options["classes"] = ["admonition-docref"]
         nodes = super().run()
         custom_xref = pending_xref(
             reftype="myst",
