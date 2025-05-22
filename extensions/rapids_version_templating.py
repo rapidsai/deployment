@@ -54,7 +54,8 @@ class RapidsCustomNodeVisitor(nodes.SparseNodeVisitor):
         )
 
         # update the document
-        node.parent.replace(node, node)
+        if node.parent:
+            node.parent.replace(node, node)
 
     def visit_Text(self, node: nodes.Text) -> None:
         """
@@ -64,7 +65,8 @@ class RapidsCustomNodeVisitor(nodes.SparseNodeVisitor):
         new_node = nodes.Text(
             re.sub(r"(?<!\$)\{\{.*?\}\}", self.template_func, node.astext())
         )
-        node.parent.replace(node, new_node)
+        if node.parent:
+            node.parent.replace(node, new_node)
 
     def template_func(self, match: re.Match) -> str:
         """
