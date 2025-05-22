@@ -9,7 +9,7 @@ We build upon the existing Morpheus
 and enhance it to showcase a production-style end-to-end deployment integrated with Apache Kafka
 for data streaming.
 
-This extended pipeline can be found in [here](https://github.com/rapidsai/deployment/source/examples/rapids-morpheus-pipeline/scripts/pipeline-dockerfile/run_pipeline_kafka.py) includes the following components:
+This extended pipeline can be found in [in this github repository](https://github.com/rapidsai/deployment/source/examples/rapids-morpheus-pipeline/scripts/pipeline-dockerfile/run_pipeline_kafka.py) includes the following components:
 
 - **Kafka Data Streaming Source Stage**: We introduce Apache Kafka for streaming data. A custom
   Kafka producer was created to continuously publish network data to a Kafka topic.
