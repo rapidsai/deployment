@@ -13,7 +13,7 @@ spec:
     type: jbod
     volumes:
       - id: 0
-        type: ephemeral #persistent-claim
+        type: ephemeral
         sizeLimit: 5Gi
         kraftMetadata: shared
 ---
