@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: morpheus-pipeline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: morpheus-pipeline
+  template:
+    metadata:
+      labels:
+        app: morpheus-pipeline
+    spec:
+      containers:
+        - name: morpheus-pipeline
+          image: ncclementi/morpheus-pipeline-image:latest
+          env:
+            - name: TRITON_SERVER
+              value: "tritonserver:8000"
+            - name: KAFKA_CLUSTER_BOOTSTRAP_SERVER
+              value: "kafka-cluster-kafka-bootstrap:9092"
+          resources:
+            limits:
+              nvidia.com/gpu: 1
