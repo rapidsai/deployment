@@ -40,7 +40,7 @@ The pipeline is deployed on Amazon EKS using several Kubernetes manifests:
 ### Kafka Deployment (`k8s/kafka`)
 
 The Kafka cluster is deployed using the [Strimzi Operator](https://strimzi.io/), which simplifies Kafka deployment and
-management on Kubernetes. See instructions on section [Deploying on EKS](#deploying-on-eks)
+management on Kubernetes. See instructions on section [Deploying on EKS](deploying-on-eks)
 
 The deployment configuration includes:
 
@@ -76,6 +76,8 @@ the `pipeline-dockerfile` directory.
 - Runs the Morpheus nightly 25.06 conda build
 - Contains all pipeline and stage scripts `scripts/pipeline-dockerfile/*.py`
 - Processes the streaming data through the various stages
+
+(deploying-on-eks)=
 
 ## Deploying on EKS
 
