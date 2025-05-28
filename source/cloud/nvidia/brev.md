@@ -43,7 +43,7 @@ You can read more about Brev Launchables in the [Getting Started Guide](https://
 
 1. Go to [Brev’s Launchable Creator](https://brev.nvidia.com/launchables/create) (requires account)
 2. When asked **How would you like to provide your code files?** select the option that corresponds to your use case. If you are using a blueprint, you will select "I have code files in a git repository" paste a link to the blueprint GitHub repository here. Otherwise, select "I don't have any code files".
-3. When asked **What type of runtime environment do you need?** select "With container(s)"
+3. When asked **What type of runtime environment do you need?** select "With container(s)".
 4. When prompted to **Choose a Container Configuration**, you have two options.  
    4.a. **If you need a custom container**, Select "Docker Compose" and click on the toggle to select "I have an existing docker-compose.yaml file". Under **Upload Docker Compose** select "Provide GitHub/Gitlab URL" and provide a link to a Docker Compose YAML file (e.g. [docker-compose-nb-2412.yaml](https://github.com/clara-parabricks-workflows/single-cell-analysis-blueprint/blob/main/docker/brev/docker-compose-nb-2412.yaml)). Click "Validate". Note, you need to pass a link to the file in GitHub, not to the `raw.github.com` file.  
    4.b. **If you need a standard container**, Select "Featured Container" and then select the "NVIDIA RAPIDS" container.
