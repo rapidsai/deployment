@@ -1,4 +1,3 @@
-import cudf
 import mrc
 from morpheus.messages import ControlMessage, MessageMeta
 from morpheus.pipeline.single_port_stage import SinglePortStage
@@ -41,10 +40,7 @@ class MessageFilterStage(SinglePortStage):
         if message is None:
             return None
 
-        with message.payload().mutable_dataframe() as df:
-            # Convert to cuDF DataFrame for GPU-accelerated operations
-            cudf_df = cudf.DataFrame(df)
-
+        with message.payload().mutable_dataframe() as cudf_df:
             # Filter based on column length
             mask = cudf_df[self._column].str.len() >= self._min_length
 
