@@ -37,7 +37,7 @@ THere are two options to get you up and running with RAPIDS in a few steps, than
 
 ### Option 2. Setting up your Brev Launchable
 
-Brev Launchables are shareable environment configurations that combine code, containers, and compute into a single portable recipe. This option is most applicable if you want to set up a custom environment for a blueprint, like our [Single-cell Analysis Blueprint](https://github.com/clara-parabricks-workflows/single-cell-analysis-blueprint). However you can use this to create quick-start templates for many different kinds of projects when you want users to drop into an environment where they can quickly prototype.
+Brev Launchables are shareable environment configurations that combine code, containers, and compute into a single portable recipe. This option is most applicable if you want to set up a custom environment for a blueprint, like our [Single-cell Analysis Blueprint](https://github.com/clara-parabricks-workflows/single-cell-analysis-blueprint). However, you can use this to create quick-start templates for many different kinds of projects when you want users to drop into an environment where they can quickly prototype.
 
 You can read more about Brev Launchables in the [Getting Started Guide](https://docs.nvidia.com/brev/latest/launchables-getting-started.html).
 
