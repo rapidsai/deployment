@@ -71,7 +71,7 @@ def main():
             bootstrap_servers=bootstrap_server,
             input_topic=["network-traffic-input"],
             group_id="network-traffic-group",
-            auto_offset_reset="earliest",
+            auto_offset_reset="latest",
         )
     )
     pipeline.add_stage(DeserializeStage(config))

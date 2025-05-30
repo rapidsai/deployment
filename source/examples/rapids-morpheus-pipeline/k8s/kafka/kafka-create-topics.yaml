@@ -9,8 +9,8 @@ spec:
   partitions: 3
   replicas: 1
   config:
-    retention.ms: 300000 # 5 minutes
-    retention.bytes: 157286400 # 150MB per partition
+    retention.ms: 1800000 # 30 minutes
+    segment.bytes: 157286400 # 150 MB
 ---
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
@@ -23,5 +23,5 @@ spec:
   partitions: 3
   replicas: 1
   config:
-    retention.ms: 300000 # 5 minutes
-    retention.bytes: 157286400 # 150MB per partition
+    retention.ms: 1200000 # 20 minutes
+    segment.bytes: 157286400 # 150 MB
