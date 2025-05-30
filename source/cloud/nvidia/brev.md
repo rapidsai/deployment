@@ -8,7 +8,7 @@ The [NVIDIA Brev](https://brev.nvidia.com/) platform provides you a one stop men
 
 ## Brev Instance Setup
 
-THere are two options to get you up and running with RAPIDS in a few steps, thanks to the Brev RAPIDS quickstart:
+There are two options to get you up and running with RAPIDS in a few steps, thanks to the Brev RAPIDS quickstart:
 
 1. Brev GPU Instances - quickly get the GPU, across most clouds, to get your work done.
 2. Brev Launchables - quickly create one-click starting, reusable instances that you customized to your MLOps needs.
