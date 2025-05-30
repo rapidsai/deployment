@@ -8,7 +8,7 @@ The [NVIDIA Brev](https://brev.nvidia.com/) platform provides you a one stop men
 
 ## Brev Instance Setup
 
-THere are two options to get you up and running with RAPIDS in a few steps, thanks to the Brev RAPIDS quickstart:
+There are two options to get you up and running with RAPIDS in a few steps, thanks to the Brev RAPIDS quickstart:
 
 1. Brev GPU Instances - quickly get the GPU, across most clouds, to get your work done.
 2. Brev Launchables - quickly create one-click starting, reusable instances that you customized to your MLOps needs.
@@ -37,16 +37,34 @@ THere are two options to get you up and running with RAPIDS in a few steps, than
 
 ### Option 2. Setting up your Brev Launchable
 
-1. Go to **[Brev's Launchable Creator](https://brev.nvidia.com/launchables/create)** (requires account)
-2. Click **Compute** and select your GPU based on GPU type, number of GPUs, the cloud provider, and/or budget you have. It is good to understand your GPU requirements before picking an instance, or use it to figure out which instance. Once selected, click **Save**
-3. Click **Container**. When adding the **Container**, you can use the NVIDIA RAPIDS Container, use Docker Compose and edit our example yaml so that it preinstalls any additional conda or pip packages into your container before entry.
-4. If you just need standard NVIDIA RAPIDS install, Select **Container Mode > NVIDIA RAPIDS Container**. If using the Base Container, you may need to preinstall Jupyter. If using the Notebooks Container, **Do not** Preinstall Jupyter, as that will break your instance.
-5. If you need a customized environment, with additional packages on top of NVIDIA RAPIDSm use **Docker Compose** When using Docker Compose, you can upload a docker-compse yaml file. Here is an example docker-compose file, **[docker/brev/docker-compose-nb-2412.yaml](https://github.com/clara-parabricks-workflows/single-cell-analysis-blueprint/raw/main/docker/brev/docker-compose-nb-2412.yaml)** that you can use as your base. **Do not** Preinstall Jupyter when using that file, as it already will be installed.
-6. Click **Save**
-7. Click **Files** and add in any publicly available single file or github repository. Click **Save**
-8. In **Ports**, please open ports **8888, 8787, and 8786**. Name port 8888 `jupyter` so Brev can treat it as a Jupyter-Lab based instance and provide an **Open Notebook** button. Click **Save**
-9. Name your Launchable, then Save your Launchable!
-10. Whenever you're ready to use your Launchable, Select your Launchable and hit **Deploy Launchable**
+Brev Launchables are shareable environment configurations that combine code, containers, and compute into a single
+portable recipe. This option is most applicable if you want to set up a custom environment for a blueprint, like
+our [Single-cell Analysis Blueprint](https://github.com/clara-parabricks-workflows/single-cell-analysis-blueprint).
+However, you can use this to create quick-start templates for many different kinds of projects when you want users to
+drop into an environment where they can quickly prototype.
+
+You can read more about Brev Launchables in the [Getting Started Guide](https://docs.nvidia.com/brev/latest/launchables-getting-started.html).
+
+1. Go to [Brev’s Launchable Creator](https://brev.nvidia.com/launchables/create) (requires account)
+2. When asked **How would you like to provide your code files?** select the option that corresponds to your use case. If
+   you are using a blueprint, you will select "I have code files in a git repository" paste a link to the blueprint GitHub
+   repository here. Otherwise, select "I don't have any code files".
+3. When asked **What type of runtime environment do you need?** select "With container(s)".
+4. When prompted to **Choose a Container Configuration**, you have two options:
+   1. **If you need a custom container**: Select "Docker Compose" and click on the toggle to select "I have an existing
+      `docker-compose.yaml` file". Under **Upload Docker Compose** select "Provide GitHub/Gitlab URL" and provide a link to
+      a Docker Compose YAML file (e.g. [docker-compose-nb-2412.yaml](https://github.com/clara-parabricks-workflows/single-cell-analysis-blueprint/blob/main/docker/brev/docker-compose-nb-2412.yaml)).
+      Click "Validate". Note, you needto pass a link to the file in GitHub, not to the `raw.github.com` file.
+   2. **If you need a standard container**: Select "Featured Container" and then select the "NVIDIA RAPIDS" container.
+5. On the next page, when asked **Do you want a Jupyter Notebook experience?**, if you are using a standard container,
+   you will be told there is a preconfigured Jupyter experience. Click "Next". If you are using a custom container with
+   Docker Compose, follow the instructions associated with the Blueprint you are using. Some will include Jupyter pre-installed.
+6. In the section titled **Do you need to expose services?**, if you are using a standard container, you will not need
+   to edit anything. If you are using a custom configuration, make sure to follow the instructions associated with your
+   blueprint.
+7. Select your desired compute environment. Make sure you select sufficient disk size to download the datasets you want
+   to work with. Note, you will not be able to resize the instance once created.
+8. Create a name for your launchable, and deploy 🚀!
 
 ## Accessing your instance
 
