@@ -100,7 +100,7 @@ key pair or import (see "Actions" dropdown) one you've created locally.
 ```console
 $ eksctl create cluster morpheus-rapids \
     --version 1.32 \
-    --nodes 3 \
+    --nodes 2 \
     --node-type=g4dn.xlarge \
     --timeout=40m \
     --ssh-access \
