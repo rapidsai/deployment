@@ -1,0 +1,7 @@
+channels:
+  - conda-forge
+  - nvidia/label/dev
+  - rapidsai
+dependencies:
+  - python>=3.12
+  - morpheus-core=25.06
