@@ -298,8 +298,8 @@ python -m ucp.benchmarks.send_recv --server-dev 0 --client-dev 1 -o rmm --reuse-
 UCX_TLS=tcp,cuda_copy python -m ucp.benchmarks.send_recv --server-dev 0 --client-dev 1 -o rmm --reuse-alloc -n 128MiB
 ```
 
-We expect the first case above to have much higher bandwidth than the second. If you happen to have both
-NVLink and InfiniBand connectivity, then you may limit to the specific transport by specifying `UCX_TLS`, e.g.:
+We expect the first case above to have much higher bandwidth than the second. If you happen to have both NVLink and
+InfiniBand connectivity, then you may limit to the specific transport by specifying `UCX_TLS`, e.g.:
 
 ```shell
 # NVLink (if available) or TCP
