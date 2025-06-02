@@ -8,30 +8,38 @@ RAPIDS can be deployed on [Vertex AI Workbench](https://cloud.google.com/vertex-
 
 ## Create a new Notebook Instance
 
-1. From the Google Cloud UI, navigate to [**Vertex AI**](https://console.cloud.google.com/vertex-ai/workbench/user-managed) -> Notebook -> **Workbench**
+1. From the Google Cloud UI, navigate to [**Vertex
+   AI**](https://console.cloud.google.com/vertex-ai/workbench/user-managed) -> Notebook -> **Workbench**
 2. Select **Instances** and select **+ CREATE NEW**.
 3. In the **Details** section give the instance a name.
 4. Check the "Attach 1 NVIDIA T4 GPU" option.
 5. After customizing any other aspects of the machine you wish, click **CREATE**.
 
 ```{tip}
-If you want to select a different GPU or select other hardware options you can select "Advanced Options" at the bottom and then make changes in the "Machine type" section.
+If you want to select a different GPU or select other hardware options you can select "Advanced Options" at the bottom
+and then make changes in the "Machine type" section.
 ```
 
 ## Install RAPIDS
 
-Once the instance has started select **OPEN JUPYTER LAB** and at the top of a notebook install the RAPIDS libraries you wish to use.
+Once the instance has started select **OPEN JUPYTER LAB** and at the top of a notebook install the RAPIDS libraries you
+wish to use.
 
 ```{warning}
-Installing RAPIDS via `pip` in the default environment is [not currently possible](https://github.com/rapidsai/deployment/issues/517), for now you must create a new `conda` environment.
+Installing RAPIDS via `pip` in the default environment is [not currently
+possible](https://github.com/rapidsai/deployment/issues/517), for now you must create a new `conda` environment.
 
-Vertex AI currently ships with CUDA Toolkit 11 system packages as of the [Jan 2025 Vertex AI release](https://cloud.google.com/vertex-ai/docs/release-notes#January_31_2025).
-The default Python environment also contains the `cupy-cuda12x` package. This means it's not possible to install RAPIDS package like `cudf` via `pip` as `cudf-cu12` will conflict with the CUDA Toolkit version but `cudf-cu11` will conflict with the `cupy` version.
+Vertex AI currently ships with CUDA Toolkit 11 system packages as of the [Jan 2025 Vertex AI
+release](https://cloud.google.com/vertex-ai/docs/release-notes#January_31_2025).
+The default Python environment also contains the `cupy-cuda12x` package. This means it's not possible to install RAPIDS
+package like `cudf` via `pip` as `cudf-cu12` will conflict with the CUDA Toolkit version but `cudf-cu11` will conflict
+with the `cupy` version.
 
 You can find out your current system CUDA Toolkit version by running `ls -ld /usr/local/cuda*`.
 ```
 
-You can create a new RAPIDS conda environment and register it with `ipykernel` for use in Jupyter Lab. Open a new terminal in Jupyter and run the following commands.
+You can create a new RAPIDS conda environment and register it with `ipykernel` for use in Jupyter Lab. Open a new
+terminal in Jupyter and run the following commands.
 
 ```bash
 # Create a new environment
