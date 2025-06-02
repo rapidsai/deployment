@@ -1,15 +1,18 @@
 # Snowflake
 
-You can install RAPIDS on [Snowflake](https://www.snowflake.com) via [Snowpark Container Services](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview).
+You can install RAPIDS on [Snowflake](https://www.snowflake.com) via [Snowpark Container
+Services](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview).
 
 ```{note}
 The following instructions are an adaptation of the [Introduction to Snowpark
-container Services](https://quickstarts.snowflake.com/guide/intro_to_snowpark_container_services/#0) guide from the Snowflake documentation.
+container Services](https://quickstarts.snowflake.com/guide/intro_to_snowpark_container_services/#0) guide from the
+Snowflake documentation.
 ```
 
 ## Snowflake requirements
 
-- A non-trial Snowflake account in a supported [AWS region](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview#available-regions).
+- A non-trial Snowflake account in a supported [AWS
+  region](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview#available-regions).
 - A Snowflake account login with a role that has the `ACCOUNTADMIN` role. If not,
   you will need to work with your `ACCOUNTADMIN` to perform the initial account setup.
 - Access to `INSTANCE_FAMILY` with NVIDIA GPUs. For this guide we will use `GPU_NV_S`
@@ -53,8 +56,8 @@ ENCRYPTION = (TYPE='SNOWFLAKE_SSE')
 DIRECTORY = (ENABLE = TRUE);
 ```
 
-Then we proceed to create the external access integration, the compute pool (with
-GPU resources), and the image repository:
+Then we proceed to create the external access integration, the compute pool (with GPU resources), and the image
+repository:
 
 ```sql
 USE ROLE ACCOUNTADMIN;
@@ -163,12 +166,15 @@ USE ROLE CONTAINER_USER_ROLE;
 SHOW IMAGE REPOSITORIES IN SCHEMA CONTAINER_HOL_DB.PUBLIC;
 ```
 
-You will see that the repository url is `org-account.registry.snowflakecomputing.com/container_hol_db/public/image_repo` where `org-account` refers to your organization and account, the `SNOWFLAKE_REGISTRY_HOSTNAME` is the url up to the `.com`. i.e. `org-account.registry.snowflakecomputing.com`
+You will see that the repository url is `org-account.registry.snowflakecomputing.com/container_hol_db/public/image_repo`
+where `org-account` refers to your organization and account, the `SNOWFLAKE_REGISTRY_HOSTNAME` is the url up to the
+`.com`. i.e. `org-account.registry.snowflakecomputing.com`
 
 First we login into the snowflake image-registry via terminal:
 
 ````{note}
-If you have **MFA** activated you will want to allow [client MFA caching] (https://docs.snowflake.com/en/user-guide/security-mfa#using-mfa-token-caching-to-minimize-the-number-of-prompts-during-authentication-optional)
+If you have **MFA** activated you will want to allow [client MFA
+caching] (https://docs.snowflake.com/en/user-guide/security-mfa#using-mfa-token-caching-to-minimize-the-number-of-prompts-during-authentication-optional)
 to reduce the number of prompts that must be acknowledged while connecting and authenticating to Snowflake.
 
 To enable this, you need `ACCOUNTADMIN` system role and in a sql sheet run:
@@ -188,7 +194,8 @@ pip install "snowflake-connector-python[secure-local-storage]"
 snow spcs image-registry login --connection CONTAINER_HOL
 ```
 
-We tag and push the image, make sure you replace the repository url for `org-account.registry.snowflakecomputing.com/container_hol_db/public/image_repo`:
+We tag and push the image, make sure you replace the repository url for
+`org-account.registry.snowflakecomputing.com/container_hol_db/public/image_repo`:
 
 ```bash
 docker tag <local_repository>/rapids-nb-snowflake:latest <repository_url>/rapids-nb-snowflake:dev
@@ -211,7 +218,8 @@ This step will take some time, while this process completes we can continue
 with next step to configure and push the Spec YAML.
 ```
 
-When the `docker push` command completes, you can verify that the image exists in your Snowflake Image Repository by running the following in the Snowflake SQL worksheet
+When the `docker push` command completes, you can verify that the image exists in your Snowflake Image Repository by
+running the following in the Snowflake SQL worksheet
 
 ```{code-block} sql
 :force:
@@ -222,8 +230,10 @@ CALL SYSTEM$REGISTRY_LIST_IMAGES('/CONTAINER_HOL_DB/PUBLIC/IMAGE_REPO');
 
 ## Configure and Push Spec YAML
 
-Snowpark Container Services are defined and configured using YAML files. There
-is support for multiple parameters configurations, refer to then [Snowpark container services specification reference](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/specification-reference) for more information.
+Snowpark Container Services are defined and configured using YAML files. There is support for multiple parameters
+configurations, refer to then [Snowpark container services specification
+reference](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/specification-reference) for more
+information.
 
 Locally, create the following file `rapids-snowpark.yaml`:
 
