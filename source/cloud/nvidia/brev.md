@@ -4,7 +4,9 @@ review_priority: "p0"
 
 # NVIDIA Brev
 
-The [NVIDIA Brev](https://brev.nvidia.com/) platform provides you a one stop menu of available GPU instances across many cloud providers, including [Amazon Web Services](https://aws.amazon.com/) and [Google Cloud](https://cloud.google.com), with CUDA, Python, Jupyter Lab, all set up.
+The [NVIDIA Brev](https://brev.nvidia.com/) platform provides you a one stop menu of available GPU instances across many
+cloud providers, including [Amazon Web Services](https://aws.amazon.com/) and [Google Cloud](https://cloud.google.com),
+with CUDA, Python, Jupyter Lab, all set up.
 
 ## Brev Instance Setup
 
@@ -43,22 +45,25 @@ our [Single-cell Analysis Blueprint](https://github.com/clara-parabricks-workflo
 However, you can use this to create quick-start templates for many different kinds of projects when you want users to
 drop into an environment where they can quickly prototype.
 
-You can read more about Brev Launchables in the [Getting Started Guide](https://docs.nvidia.com/brev/latest/launchables-getting-started.html).
+You can read more about Brev Launchables in the [Getting Started
+Guide](https://docs.nvidia.com/brev/latest/launchables-getting-started.html).
 
 1. Go to [Brev’s Launchable Creator](https://brev.nvidia.com/launchables/create) (requires account)
 2. When asked **How would you like to provide your code files?** select the option that corresponds to your use case. If
-   you are using a blueprint, you will select "I have code files in a git repository" paste a link to the blueprint GitHub
-   repository here. Otherwise, select "I don't have any code files".
+   you are using a blueprint, you will select "I have code files in a git repository" paste a link to the blueprint
+   GitHub repository here. Otherwise, select "I don't have any code files".
 3. When asked **What type of runtime environment do you need?** select "With container(s)".
 4. When prompted to **Choose a Container Configuration**, you have two options:
    1. **If you need a custom container**: Select "Docker Compose" and click on the toggle to select "I have an existing
-      `docker-compose.yaml` file". Under **Upload Docker Compose** select "Provide GitHub/Gitlab URL" and provide a link to
-      a Docker Compose YAML file (e.g. [docker-compose-nb-2412.yaml](https://github.com/clara-parabricks-workflows/single-cell-analysis-blueprint/blob/main/docker/brev/docker-compose-nb-2412.yaml)).
+      `docker-compose.yaml` file". Under **Upload Docker Compose** select "Provide GitHub/Gitlab URL" and provide a link
+      to a Docker Compose YAML file (e.g.
+      [docker-compose-nb-2412.yaml](https://github.com/clara-parabricks-workflows/single-cell-analysis-blueprint/blob/main/docker/brev/docker-compose-nb-2412.yaml)).
       Click "Validate". Note, you needto pass a link to the file in GitHub, not to the `raw.github.com` file.
    2. **If you need a standard container**: Select "Featured Container" and then select the "NVIDIA RAPIDS" container.
 5. On the next page, when asked **Do you want a Jupyter Notebook experience?**, if you are using a standard container,
    you will be told there is a preconfigured Jupyter experience. Click "Next". If you are using a custom container with
-   Docker Compose, follow the instructions associated with the Blueprint you are using. Some will include Jupyter pre-installed.
+   Docker Compose, follow the instructions associated with the Blueprint you are using. Some will include Jupyter
+   pre-installed.
 6. In the section titled **Do you need to expose services?**, if you are using a standard container, you will not need
    to edit anything. If you are using a custom configuration, make sure to follow the instructions associated with your
    blueprint.
@@ -85,7 +90,8 @@ To create and use a Jupyter Notebook, click "Open Notebook" at the top right aft
 
 ### 2. Brev CLI Install
 
-If you want to access your launched Brev instance(s) via Visual Studio Code or SSH using terminal, you need to install the [Brev CLI according to these instructions](https://docs.nvidia.com/brev/latest/brev-cli.html) or this code below:
+If you want to access your launched Brev instance(s) via Visual Studio Code or SSH using terminal, you need to install
+the [Brev CLI according to these instructions](https://docs.nvidia.com/brev/latest/brev-cli.html) or this code below:
 
 ```bash
 sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/brevdev/brev-cli/main/bin/install-latest.sh)" && brev login
@@ -111,7 +117,8 @@ brev shell <instance-id>
 
 ##### Forwarding a Port Locally
 
-Assuming your Jupyter Notebook is running on port `8888` in your Brev environment, you can forward this port to your local machine using the following SSH command:
+Assuming your Jupyter Notebook is running on port `8888` in your Brev environment, you can forward this port to your
+local machine using the following SSH command:
 
 ```bash
 ssh -L 8888:localhost:8888 <username>@<ip> -p 22
@@ -129,13 +136,16 @@ Replace `username` with your username and `ip` with the ip listed if it's differ
 
 ##### Accessing the Service
 
-After running the command, open your web browser and navigate to your local host. You will be able to access the Jupyter Notebook running in your Brev environment as if it were running locally.
+After running the command, open your web browser and navigate to your local host. You will be able to access the Jupyter
+Notebook running in your Brev environment as if it were running locally.
 
 #### 3. Access the Jupyter Notebook via the Tunnel
 
-The "Deployments" section will show that your Jupyter Notebook is running on port `8888`, and it is accessible via a shareable URL Ex: `jupyter0-i55ymhsr8.brevlab.com`.
+The "Deployments" section will show that your Jupyter Notebook is running on port `8888`, and it is accessible via a
+shareable URL Ex: `jupyter0-i55ymhsr8.brevlab.com`.
 
-Click on the link or copy and paste the URL into your web browser's address bar to access the Jupyter Notebook interface directly.
+Click on the link or copy and paste the URL into your web browser's address bar to access the Jupyter Notebook interface
+directly.
 
 ##### 4. Share the Service
 
@@ -163,7 +173,8 @@ print(gdf)
 ## Resources and tips
 
 - [Brev Docs](https://brev.dev/)
-- Please note: Git is not preinstalled in the RAPIDS container, but can be installed into the container when it is running using
+- Please note: Git is not preinstalled in the RAPIDS container, but can be installed into the container when it is
+  running using
 
 ```bash
 apt update
