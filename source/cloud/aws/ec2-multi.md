@@ -1,20 +1,27 @@
 # EC2 Cluster (via Dask)
 
-To launch a multi-node cluster on AWS EC2 we recommend you use [Dask Cloud Provider](https://cloudprovider.dask.org/en/latest/), a native cloud integration for Dask. It helps manage Dask clusters on different cloud platforms.
+To launch a multi-node cluster on AWS EC2 we recommend you use [Dask Cloud
+Provider](https://cloudprovider.dask.org/en/latest/), a native cloud integration for Dask. It helps manage Dask clusters
+on different cloud platforms.
 
 ## Local Environment Setup
 
 Before running these instructions, ensure you have installed RAPIDS.
 
 ```{note}
-This method of deploying RAPIDS effectively allows you to burst beyond the node you are on into a cluster of EC2 VMs. This does come with the caveat that you are on a RAPIDS capable environment with GPUs.
+
+This method of deploying RAPIDS effectively allows you to burst beyond the node you are on into a cluster of EC2 VMs.
+This does come with the caveat that you are on a RAPIDS capable environment with GPUs.
 ```
 
-If you are using a machine with an NVIDIA GPU then follow the [local install instructions](https://docs.rapids.ai/install). Alternatively if you do not have a GPU locally consider using a remote environment like a [SageMaker Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html).
+If you are using a machine with an NVIDIA GPU then follow the [local install
+instructions](https://docs.rapids.ai/install). Alternatively if you do not have a GPU locally consider using a remote
+environment like a [SageMaker Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html).
 
 ### Install the AWS CLI
 
-Install the AWS CLI tools following the [official instructions](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
+Install the AWS CLI tools following the [official
+instructions](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
 
 ### Install Dask Cloud Provider
 
@@ -26,9 +33,13 @@ $ pip install "dask-cloudprovider[aws]"
 
 ## Cluster setup
 
-We'll now setup the [EC2Cluster](https://cloudprovider.dask.org/en/latest/aws.html#elastic-compute-cloud-ec2) from Dask Cloud Provider.
+We'll now setup the [EC2Cluster](https://cloudprovider.dask.org/en/latest/aws.html#elastic-compute-cloud-ec2) from Dask
+Cloud Provider.
 
-To do this, you'll first need to run `aws configure` and ensure the credentials are updated. [Learn more about the setup](https://cloudprovider.dask.org/en/latest/aws.html#authentication). The API also expects a security group that allows access to ports 8786-8787 and all traffic between instances in the security group. If you do not pass a group here, `dask-cloudprovider` will create one for you.
+To do this, you'll first need to run `aws configure` and ensure the credentials are updated. [Learn more about the
+setup](https://cloudprovider.dask.org/en/latest/aws.html#authentication). The API also expects a security group that
+allows access to ports 8786-8787 and all traffic between instances in the security group. If you do not pass a group
+here, `dask-cloudprovider` will create one for you.
 
 ```python
 from dask_cloudprovider.aws import EC2Cluster
@@ -48,7 +59,8 @@ cluster = EC2Cluster(
 ```
 
 ```{warning}
-Instantiating this class can take upwards of 30 minutes. See the [Dask docs](https://cloudprovider.dask.org/en/latest/packer.html) on prebuilding AMIs to speed this up.
+Instantiating this class can take upwards of 30 minutes. See the [Dask
+docs](https://cloudprovider.dask.org/en/latest/packer.html) on prebuilding AMIs to speed this up.
 ```
 
 ````{dropdown} If you have non-default credentials you may need to pass your credentials manually.
@@ -103,7 +115,8 @@ df.x.mean().compute()
 
 ## Clean up
 
-When you create your cluster Dask Cloud Provider will register a finalizer to shutdown the cluster. So when your Python process exits the cluster will be cleaned up.
+When you create your cluster Dask Cloud Provider will register a finalizer to shutdown the cluster. So when your Python
+process exits the cluster will be cleaned up.
 
 You can also explicitly shutdown the cluster with:
 
