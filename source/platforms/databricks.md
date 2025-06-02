@@ -7,7 +7,8 @@ review_priority: "p0"
 You can install RAPIDS on Databricks in a few different ways:
 
 1. Accelerate machine learning workflows in a single-node GPU notebook environment
-2. Spark users can install [RAPIDS Accelerator for Apache Spark 3.x on Databricks](https://docs.nvidia.com/spark-rapids/user-guide/latest/getting-started/databricks.html)
+2. Spark users can install [RAPIDS Accelerator for Apache Spark 3.x on
+   Databricks](https://docs.nvidia.com/spark-rapids/user-guide/latest/getting-started/databricks.html)
 3. Install Dask alongside Spark and then use libraries like `dask-cudf` for multi-node workloads
 
 ## Single-node GPU Notebook environment
@@ -16,11 +17,15 @@ You can install RAPIDS on Databricks in a few different ways:
 
 ### Create init-script
 
-To get started, you must first configure an [initialization script](https://docs.databricks.com/en/init-scripts/index.html) to install RAPIDS libraries and all other dependencies for your project.
+To get started, you must first configure an [initialization
+script](https://docs.databricks.com/en/init-scripts/index.html) to install RAPIDS libraries and all other dependencies
+for your project.
 
-Databricks recommends using [cluster-scoped](https://docs.databricks.com/en/init-scripts/cluster-scoped.html) init scripts stored in the workspace files.
+Databricks recommends using [cluster-scoped](https://docs.databricks.com/en/init-scripts/cluster-scoped.html) init
+scripts stored in the workspace files.
 
-Navigate to the top-left **Workspace** tab and click on your **Home** directory then select **Add** > **File** from the menu. Create an `init.sh` script with contents:
+Navigate to the top-left **Workspace** tab and click on your **Home** directory then select **Add** > **File** from the
+menu. Create an `init.sh` script with contents:
 
 ```bash
 #!/bin/bash
@@ -38,18 +43,21 @@ pip install \
 
 ### Launch cluster
 
-To get started, navigate to the **All Purpose Compute** tab of the **Compute** section in Databricks and select **Create Compute**. Name your cluster and choose **"Single node"**.
+To get started, navigate to the **All Purpose Compute** tab of the **Compute** section in Databricks and select **Create
+Compute**. Name your cluster and choose **"Single node"**.
 
 ![Screenshot of the Databricks compute page](../images/databricks-create-compute.png)
 
-In order to launch a GPU node uncheck **Use Photon Acceleration** and select any `15.x` or `16.x` ML runtime with GPU support.
-For example for long-term support releases you could select the `15.4 LTS ML (includes Apache Spark 3.5.0, GPU, Scala 2.12)` runtime version.
+In order to launch a GPU node uncheck **Use Photon Acceleration** and select any `15.x` or `16.x` ML runtime with GPU
+support. For example for long-term support releases you could select the `15.4 LTS ML (includes Apache Spark 3.5.0, GPU,
+Scala 2.12)` runtime version.
 
 The "GPU accelerated" nodes should now be available in the **Node type** dropdown.
 
 ![Screenshot of selecting a g4dn.xlarge node type](../images/databricks-choose-gpu-node.png)
 
-Then expand the **Advanced Options** section, open the **Init Scripts** tab and enter the file path to the init-script in your Workspace directory starting with `/Users/<user-name>/<script-name>.sh` and click **"Add"**.
+Then expand the **Advanced Options** section, open the **Init Scripts** tab and enter the file path to the init-script
+in your Workspace directory starting with `/Users/<user-name>/<script-name>.sh` and click **"Add"**.
 
 ![Screenshot of init script path](../images/databricks-dask-init-script.png)
 
@@ -57,7 +65,8 @@ Select **Create Compute**
 
 ### Test RAPIDS
 
-Once your cluster has started, you can create a new notebook or open an existing one from the `/Workspace` directory then attach it to your running cluster.
+Once your cluster has started, you can create a new notebook or open an existing one from the `/Workspace` directory
+then attach it to your running cluster.
 
 ```python
 import cudf
@@ -72,9 +81,12 @@ gdf
 
 #### Quickstart with cuDF Pandas
 
-RAPIDS recently introduced cuDF’s [pandas accelerator mode](https://rapids.ai/cudf-pandas/) to accelerate existing pandas workflows with zero changes to code.
+RAPIDS recently introduced cuDF’s [pandas accelerator mode](https://rapids.ai/cudf-pandas/) to accelerate existing
+pandas workflows with zero changes to code.
 
-Using `cudf.pandas` in Databricks on a single-node can offer significant performance improvements over traditional pandas when dealing with large datasets; operations are optimized to run on the GPU (cuDF) whenever possible, seamlessly falling back to the CPU (pandas) when necessary, with synchronization happening in the background.
+Using `cudf.pandas` in Databricks on a single-node can offer significant performance improvements over traditional
+pandas when dealing with large datasets; operations are optimized to run on the GPU (cuDF) whenever possible, seamlessly
+falling back to the CPU (pandas) when necessary, with synchronization happening in the background.
 
 Below is a quick example how to load the `cudf.pandas` extension in a Jupyter notebook:
 
@@ -100,17 +112,25 @@ df = pd.read_parquet(
 )
 ```
 
-Upload the [10 Minutes to RAPIDS cuDF Pandas notebook](https://colab.research.google.com/drive/12tCzP94zFG2BRduACucn5Q_OcX1TUKY3) in your single-node Databricks cluster and run through the cells.
+Upload the [10 Minutes to RAPIDS cuDF Pandas
+notebook](https://colab.research.google.com/drive/12tCzP94zFG2BRduACucn5Q_OcX1TUKY3) in your single-node Databricks
+cluster and run through the cells.
 
-**NOTE**: cuDF pandas is open beta and under active development. You can [learn more through the documentation](https://docs.rapids.ai/api/cudf/~~~rapids_api_docs_version~~~/?_gl=1*1oyfbsi*_ga*MTc5NDYzNzYyNC4xNjgzMDc2ODc2*_ga_RKXFW6CM42*MTcwNTU4NDUyNS4yMC4wLjE3MDU1ODQ1MjUuNjAuMC4w) and the [release blog](https://developer.nvidia.com/blog/rapids-cudf-accelerates-pandas-nearly-150x-with-zero-code-changes/).
+**NOTE**: cuDF pandas is open beta and under active development. You can [learn more through the
+documentation](https://docs.rapids.ai/api/cudf/~~~rapids_api_docs_version~~~/?_gl=1*1oyfbsi*_ga*MTc5NDYzNzYyNC4xNjgzMDc2ODc2*_ga_RKXFW6CM42*MTcwNTU4NDUyNS4yMC4wLjE3MDU1ODQ1MjUuNjAuMC4w)
+and the [release
+blog](https://developer.nvidia.com/blog/rapids-cudf-accelerates-pandas-nearly-150x-with-zero-code-changes/).
 
 ## Multi-node Dask cluster
 
-Dask now has a [dask-databricks](https://github.com/jacobtomlinson/dask-databricks) CLI tool (via [`conda`](https://github.com/conda-forge/dask-databricks-feedstock) and [`pip`](https://pypi.org/project/dask-databricks/)) to simplify the Dask cluster startup process within Databricks.
+Dask now has a [dask-databricks](https://github.com/jacobtomlinson/dask-databricks) CLI tool (via
+[`conda`](https://github.com/conda-forge/dask-databricks-feedstock) and
+[`pip`](https://pypi.org/project/dask-databricks/)) to simplify the Dask cluster startup process within Databricks.
 
 ### Install RAPIDS and Dask
 
-[Create the init script](create-init-script) below to install `dask`, `dask-databricks` RAPIDS libraries and all other dependencies for your project.
+[Create the init script](create-init-script) below to install `dask`, `dask-databricks` RAPIDS libraries and all other
+dependencies for your project.
 
 ```bash
 #!/bin/bash
@@ -133,7 +153,8 @@ dask databricks run --cuda
 
 ```
 
-**Note**: By default, the `dask databricks run` command will launch a dask scheduler in the driver node and standard workers on remaining nodes.
+**Note**: By default, the `dask databricks run` command will launch a dask scheduler in the driver node and standard
+workers on remaining nodes.
 
 To launch a dask cluster with GPU workers, you must parse in `--cuda` flag option.
 
@@ -145,15 +166,20 @@ Be sure to select `14.2 (Scala 2.12, Spark 3.5.0)` Standard Runtime as shown bel
 
 ![Screenshot of standard runtime](../images/databricks-standard-runtime.png)
 
-Then expand the **Advanced Options** section and open the **Docker** tab. Select **Use your own Docker container** and enter the image `databricksruntime/gpu-tensorflow:cuda11.8` or `databricksruntime/gpu-pytorch:cuda11.8`.
+Then expand the **Advanced Options** section and open the **Docker** tab. Select **Use your own Docker container** and
+enter the image `databricksruntime/gpu-tensorflow:cuda11.8` or `databricksruntime/gpu-pytorch:cuda11.8`.
 
 ![Screenshot of custom docker container](../images/databricks-custom-container.png)
 
-Configure the path to your init script in the **Init Scripts** tab. Optionally, you can also configure cluster log delivery in the **Logging** tab, which will write the [init script logs](https://docs.databricks.com/en/init-scripts/logs.html) to DBFS in a subdirectory called `dbfs:/cluster-logs/<cluster-id>/init_scripts/`.
+Configure the path to your init script in the **Init Scripts** tab. Optionally, you can also configure cluster log
+delivery in the **Logging** tab, which will write the [init script
+logs](https://docs.databricks.com/en/init-scripts/logs.html) to DBFS in a subdirectory called
+`dbfs:/cluster-logs/<cluster-id>/init_scripts/`.
 
 ![Screenshot of log delivery](../images/databricks-dask-logging.png)
 
-Once you have completed, you should be able to select a "GPU-Accelerated" instance for both **Worker** and **Driver** nodes.
+Once you have completed, you should be able to select a "GPU-Accelerated" instance for both **Worker** and **Driver**
+nodes.
 
 ![Screenshot of driver worker node](../images/databricks-worker-driver-node.png)
 
@@ -171,9 +197,11 @@ client
 
 #### Dashboard
 
-The **[Dask dashboard](https://docs.dask.org/en/latest/dashboard.html)** provides a web-based UI with visualizations and real-time information about the Dask cluster status i.e task progress, resource utilization, etc.
+The **[Dask dashboard](https://docs.dask.org/en/latest/dashboard.html)** provides a web-based UI with visualizations and
+real-time information about the Dask cluster status i.e task progress, resource utilization, etc.
 
-The dashboard server will start up automatically when the scheduler is created, and is hosted on port `8087` by default. To access follow the URL to the dashboard status endpoint within Databricks.
+The dashboard server will start up automatically when the scheduler is created, and is hosted on port `8087` by default.
+To access follow the URL to the dashboard status endpoint within Databricks.
 
 ![Screenshot of dask-client.png](../images/databricks-mnmg-dask-client.png)
 
@@ -192,7 +220,9 @@ df.x.mean().compute()
 
 #### Dask-Databricks example
 
-In your multi-node cluster, upload the [Training XGBoost with Dask RAPIDS in Databricks](https://github.com/rapidsai/deployment/blob/main/source/examples/xgboost-dask-databricks/notebook.ipynb) example in Jupyter notebook and run through the cells.
+In your multi-node cluster, upload the [Training XGBoost with Dask RAPIDS in
+Databricks](https://github.com/rapidsai/deployment/blob/main/source/examples/xgboost-dask-databricks/notebook.ipynb)
+example in Jupyter notebook and run through the cells.
 
 ### Clean up
 
