@@ -13,7 +13,8 @@ html_theme.sidebar_secondary.remove: true
 :link-type: doc
 NVIDIA AI Workbench
 ^^^
-Run RAPIDS in NVIDIA AI Workbench, GPU workstation setup tool that enables developers to work, manage, and collaborate across heterogeneous platforms.
+Run RAPIDS in NVIDIA AI Workbench, GPU workstation setup tool that enables developers to work, manage, and collaborate
+across heterogeneous platforms.
 
 {bdg}`single-node`
 ````
