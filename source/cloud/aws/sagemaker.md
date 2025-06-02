@@ -8,7 +8,8 @@ RAPIDS can be used in a few ways with [AWS SageMaker](https://aws.amazon.com/sag
 
 ## SageMaker Notebooks
 
-To get started head to [the SageMaker console](https://console.aws.amazon.com/sagemaker/) and create a [new SageMaker Notebook Instance](https://console.aws.amazon.com/sagemaker/home#/notebook-instances/create).
+To get started head to [the SageMaker console](https://console.aws.amazon.com/sagemaker/) and create a [new SageMaker
+Notebook Instance](https://console.aws.amazon.com/sagemaker/home#/notebook-instances/create).
 
 Choose `Applications and IDEs > Notebooks > Create notebook instance`.
 
@@ -17,16 +18,21 @@ Choose `Applications and IDEs > Notebooks > Create notebook instance`.
 If a field is not mentioned below, leave the default values:
 
 - **Notebook instance name** = Name of the notebook instance
-- **Notebook instance type** = Type of notebook instance. Select a RAPIDS-compatible GPU ([see the RAPIDS docs](https://docs.rapids.ai/install#system-req)) as the SageMaker Notebook instance type (e.g., `ml.p3.2xlarge`).
+- **Notebook instance type** = Type of notebook instance. Select a RAPIDS-compatible GPU ([see the RAPIDS
+  docs](https://docs.rapids.ai/install#system-req)) as the SageMaker Notebook instance type (e.g., `ml.p3.2xlarge`).
 - **Platform identifier** = 'Amazon Linux 2, Jupyter Lab 4'
 
-![Screenshot of the create new notebook screen with a ml.p3.2xlarge selected](../../images/sagemaker-create-notebook-instance.png)
+![Screenshot of the create new notebook screen with a ml.p3.2xlarge
+selected](../../images/sagemaker-create-notebook-instance.png)
 
 ### Create a RAPIDS lifecycle configuration
 
-[SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html) can be augmented with a RAPIDS conda environment.
+[SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html) can be augmented with a RAPIDS
+conda environment.
 
-We can add a RAPIDS conda environment to the set of Jupyter ipython kernels available in our SageMaker notebook instance by installing in a [lifecycle configuration script](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
+We can add a RAPIDS conda environment to the set of Jupyter ipython kernels available in our SageMaker notebook instance
+by installing in a [lifecycle configuration
+script](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
 
 Create a new lifecycle configuration (via the 'Additional Configuration' dropdown).
 
@@ -68,7 +74,8 @@ Then launch the instance.
 Once your Notebook Instance is `InService` select "Open JupyterLab"
 
 ```{note}
-If you see Pending to the right of the notebook instance in the Status column, your notebook is still being created. The status will change to InService when the notebook is ready for use.
+If you see Pending to the right of the notebook instance in the Status column, your notebook is still being created. The
+status will change to InService when the notebook is ready for use.
 ```
 
 Then in Jupyter select the `rapids` kernel when working with a new notebook.
@@ -77,25 +84,33 @@ Then in Jupyter select the `rapids` kernel when working with a new notebook.
 
 ### Run the Example Notebook
 
-Once inside JupyterLab you should be able to upload the [Running RAPIDS hyperparameter experiments at scale](/examples/rapids-sagemaker-higgs/notebook) example notebook and continue following those instructions.
+Once inside JupyterLab you should be able to upload the [Running RAPIDS hyperparameter experiments at
+scale](/examples/rapids-sagemaker-higgs/notebook) example notebook and continue following those instructions.
 
 ## SageMaker Estimators
 
-RAPIDS can also be used in [SageMaker Estimators](https://sagemaker.readthedocs.io/en/stable/api/training/estimators.html).
-Estimators allow you to launch training jobs on ephemeral VMs which SageMaker manages for you.
-With this option, your Notebook Instance doesn't need to have a GPU... you are only charged for GPU instances for the time that your training job is running.
+RAPIDS can also be used in [SageMaker
+Estimators](https://sagemaker.readthedocs.io/en/stable/api/training/estimators.html). Estimators allow you to launch
+training jobs on ephemeral VMs which SageMaker manages for you. With this option, your Notebook Instance doesn't need to
+have a GPU... you are only charged for GPU instances for the time that your training job is running.
 
-All you’ll need to do is bring in your RAPIDS training script and libraries as a Docker container image and ask Amazon SageMaker to run copies of it in parallel on a specified number of GPU instances.
+All you’ll need to do is bring in your RAPIDS training script and libraries as a Docker container image and ask Amazon
+SageMaker to run copies of it in parallel on a specified number of GPU instances.
 
 Let’s take a closer look at how this works through a step-by-step approach:
 
-- Training script should accept hyperparameters as command line arguments. Starting with the base RAPIDS container (pulled from [Docker Hub](https://hub.docker.com/u/rapidsai)), use a `Dockerfile` to augment it by copying your training code and set `WORKDIR` path to the code.
+- Training script should accept hyperparameters as command line arguments. Starting with the base RAPIDS container
+  (pulled from [Docker Hub](https://hub.docker.com/u/rapidsai)), use a `Dockerfile` to augment it by copying your
+  training code and set `WORKDIR` path to the code.
 
-- Install [sagemaker-training toolkit](https://github.com/aws/sagemaker-training-toolkit) to make the container compatible with Sagemaker. Add other packages as needed for your workflow needs e.g. python, flask (model serving), dask-ml etc.
+- Install [sagemaker-training toolkit](https://github.com/aws/sagemaker-training-toolkit) to make the container
+  compatible with Sagemaker. Add other packages as needed for your workflow needs e.g. python, flask (model serving),
+  dask-ml etc.
 
 - Push the image to a container registry (ECR).
 
-- Having built our container and custom logic, we can now assemble all components into an Estimator. We can now test the Estimator and run parallel hyperparameter optimization tuning jobs.
+- Having built our container and custom logic, we can now assemble all components into an Estimator. We can now test the
+  Estimator and run parallel hyperparameter optimization tuning jobs.
 
 Estimators follow an API roughly like this:
 
@@ -132,11 +147,14 @@ hpo = sagemaker.tuner.HyperparameterTuner(
 hpo.fit(inputs=s3_data_input, job_name=tuning_job_name, wait=True, logs="All")
 ```
 
-For a hands-on demo of this, try ["Deep Dive into running Hyper Parameter Optimization on AWS SageMaker"]/examples/rapids-sagemaker-higgs/notebook).
+For a hands-on demo of this, try ["Deep Dive into running Hyper Parameter Optimization on AWS
+SageMaker"]/examples/rapids-sagemaker-higgs/notebook).
 
 ## Further reading
 
-We’ve also written a **[detailed blog post](https://medium.com/rapids-ai/running-rapids-experiments-at-scale-using-amazon-sagemaker-d516420f165b)** on how to use SageMaker with RAPIDS.
+We’ve also written a **[detailed blog
+post](https://medium.com/rapids-ai/running-rapids-experiments-at-scale-using-amazon-sagemaker-d516420f165b)** on how to
+use SageMaker with RAPIDS.
 
 ```{relatedexamples}
 
