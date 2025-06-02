@@ -6,9 +6,13 @@ review_priority: "p1"
 
 ## Create Virtual Machine
 
-Create a new [Azure Virtual Machine](https://azure.microsoft.com/en-gb/products/virtual-machines/) with GPUs, the [NVIDIA Driver](https://www.nvidia.co.uk/Download/index.aspx) and the [NVIDIA Container Runtime](https://developer.nvidia.com/nvidia-container-runtime).
+Create a new [Azure Virtual Machine](https://azure.microsoft.com/en-gb/products/virtual-machines/) with GPUs, the
+[NVIDIA Driver](https://www.nvidia.co.uk/Download/index.aspx) and the [NVIDIA Container
+Runtime](https://developer.nvidia.com/nvidia-container-runtime).
 
-NVIDIA maintains a [Virtual Machine Image (VMI) that pre-installs NVIDIA drivers and container runtimes](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/nvidia.ngc_azure_17_11?tab=Overview), we recommend using this image as the starting point.
+NVIDIA maintains a [Virtual Machine Image (VMI) that pre-installs NVIDIA drivers and container
+runtimes](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/nvidia.ngc_azure_17_11?tab=Overview), we
+recommend using this image as the starting point.
 
 `````{tab-set}
 
@@ -16,7 +20,8 @@ NVIDIA maintains a [Virtual Machine Image (VMI) that pre-installs NVIDIA drivers
 :sync: portal
 
 1. Select a resource group or create one if needed.
-2. Select the latest **NVIDIA GPU-Optimized VMI** version from the drop down list, then select **Get It Now** (if there are multiple `Gen` versions, select the latest).
+2. Select the latest **NVIDIA GPU-Optimized VMI** version from the drop down list, then select **Get It Now** (if there
+are multiple `Gen` versions, select the latest).
 3. If already logged in on Azure, select continue clicking **Create**.
 4. In **Create a virtual machine** interface, fill in required information for the vm.
    - Select a GPU enabled VM size (see [recommended VM types](https://docs.rapids.ai/deployment/stable/cloud/azure/)).
@@ -123,7 +128,8 @@ az network nsg rule create \
 
 ## Install RAPIDS
 
-Next, we can SSH into our VM to install RAPIDS. SSH instructions can be found by selecting **Connect** in the left panel.
+Next, we can SSH into our VM to install RAPIDS. SSH instructions can be found by selecting **Connect** in the left
+panel.
 
 ````{tip}
 When connecting via SSH by doing
