@@ -4,21 +4,26 @@ review_priority: "index"
 
 # HPC
 
-RAPIDS works extremely well in traditional HPC (High Performance Computing) environments where GPUs are often co-located with accelerated networking hardware such as InfiniBand. Deploying on HPC often means using queue management systems such as SLURM, LSF, PBS, etc.
+RAPIDS works extremely well in traditional HPC (High Performance Computing) environments where GPUs are often co-located
+with accelerated networking hardware such as InfiniBand. Deploying on HPC often means using queue management systems
+such as SLURM, LSF, PBS, etc.
 
 ## SLURM
 
 ```{warning}
-This is a legacy page and may contain outdated information. We are working hard to update our documentation with the latest and greatest information, thank you for bearing with us.
+This is a legacy page and may contain outdated information. We are working hard to update our documentation with the
+latest and greatest information, thank you for bearing with us.
 ```
 
-If you are unfamiliar with SLURM or need a refresher, we recommend the [quickstart guide](https://slurm.schedmd.com/quickstart.html).
-Depending on how your nodes are configured, additional settings may be required such as defining the number of GPUs `(--gpus)` desired or the number of gpus per node `(--gpus-per-node)`.
+If you are unfamiliar with SLURM or need a refresher, we recommend the [quickstart
+guide](https://slurm.schedmd.com/quickstart.html). Depending on how your nodes are configured, additional settings may
+be required such as defining the number of GPUs `(--gpus)` desired or the number of gpus per node `(--gpus-per-node)`.
 In the following example, we assume each allocation runs on a DGX1 with access to all eight GPUs.
 
 ### Start Scheduler
 
-First, start the scheduler with the following SLURM script. This and the following scripts can deployed with `salloc` for interactive usage or `sbatch` for batched run.
+First, start the scheduler with the following SLURM script. This and the following scripts can deployed with `salloc`
+for interactive usage or `sbatch` for batched run.
 
 ```bash
 #!/usr/bin/env bash
@@ -43,16 +48,20 @@ dask-cuda-worker \
     --scheduler-file "$LOCAL_DIRECTORY/dask-scheduler.json"
 ```
 
-Notice that we configure the scheduler to write a `scheduler-file` to a NFS accessible location. This file contains metadata about the scheduler and will
-include the IP address and port for the scheduler. The file will serve as input to the workers informing them what address and port to connect.
+Notice that we configure the scheduler to write a `scheduler-file` to a NFS accessible location. This file contains
+metadata about the scheduler and will include the IP address and port for the scheduler. The file will serve as input to
+the workers informing them what address and port to connect.
 
-The scheduler doesn't need the whole node to itself so we can also start a worker on this node to fill out the unused resources.
+The scheduler doesn't need the whole node to itself so we can also start a worker on this node to fill out the unused
+resources.
 
 ### Start Dask CUDA Workers
 
-Next start the other [dask-cuda workers](https://docs.rapids.ai/api/dask-cuda/~~~rapids_api_docs_version~~~/). Dask-CUDA extends the traditional Dask `Worker` class with specific options and enhancements for GPU environments. Unlike the scheduler and client, the workers script should be scalable and allow the users to tune how many workers are created.
-For example, we can scale the number of nodes to 3: `sbatch/salloc -N3 dask-cuda-worker.script` . In this case, because we have 8 GPUs per node and we have 3 nodes,
-our job will have 24 workers.
+Next start the other [dask-cuda workers](https://docs.rapids.ai/api/dask-cuda/~~~rapids_api_docs_version~~~/). Dask-CUDA
+extends the traditional Dask `Worker` class with specific options and enhancements for GPU environments. Unlike the
+scheduler and client, the workers script should be scalable and allow the users to tune how many workers are created.
+For example, we can scale the number of nodes to 3: `sbatch/salloc -N3 dask-cuda-worker.script` . In this case, because
+we have 8 GPUs per node and we have 3 nodes, our job will have 24 workers.
 
 ```bash
 #!/usr/bin/env bash
@@ -128,5 +137,3 @@ id   name
 
 [6449 rows x 6 columns]
 ```
-
-<br/><br/>
