@@ -4,13 +4,16 @@ review_priority: "p1"
 
 # Azure Kubernetes Service
 
-RAPIDS can be deployed on Azure via the [Azure Kubernetes Service](https://azure.microsoft.com/en-us/products/kubernetes-service/) (AKS).
+RAPIDS can be deployed on Azure via the [Azure Kubernetes
+Service](https://azure.microsoft.com/en-us/products/kubernetes-service/) (AKS).
 
 To run RAPIDS you'll need a Kubernetes cluster with GPUs available.
 
 ## Prerequisites
 
-First you'll need to have the [`az` CLI tool](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) installed along with [`kubectl`](https://kubernetes.io/docs/tasks/tools/), [`helm`](https://helm.sh/docs/intro/install/), etc for managing Kubernetes.
+First you'll need to have the [`az` CLI tool](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) installed
+along with [`kubectl`](https://kubernetes.io/docs/tasks/tools/), [`helm`](https://helm.sh/docs/intro/install/), etc for
+managing Kubernetes.
 
 Ensure you are logged into the `az` CLI.
 
@@ -38,7 +41,8 @@ $ az aks get-credentials -g <resource group> --name rapids
 Merged "rapids" as current context in ~/.kube/config
 ```
 
-Next we need to add an additional node group with GPUs which you can [learn more about in the Azure docs](https://learn.microsoft.com/en-us/azure/aks/gpu-cluster).
+Next we need to add an additional node group with GPUs which you can [learn more about in the Azure
+docs](https://learn.microsoft.com/en-us/azure/aks/gpu-cluster).
 
 `````{note}
 You will need the `GPUDedicatedVHDPreview` feature enabled so that NVIDIA drivers are installed automatically.
@@ -60,7 +64,8 @@ If it is not registered for you you'll need to register it which can take a few 
 
 ```console
 $ az feature register --name GPUDedicatedVHDPreview --namespace Microsoft.ContainerService
-Once the feature 'GPUDedicatedVHDPreview' is registered, invoking 'az provider register -n Microsoft.ContainerService' is required to get the change propagated
+Once the feature 'GPUDedicatedVHDPreview' is registered, invoking 'az provider register -n Microsoft.ContainerService'
+is required to get the change propagated
 Name
 -------------------------------------------------
 Microsoft.ContainerService/GPUDedicatedVHDPreview
@@ -75,7 +80,8 @@ Name                                               State
 Microsoft.ContainerService/GPUDedicatedVHDPreview  Registered
 ```
 
-When the status shows as registered, refresh the registration of the `Microsoft.ContainerService` resource provider by using the `az provider register` command:
+When the status shows as registered, refresh the registration of the `Microsoft.ContainerService` resource provider by
+using the `az provider register` command:
 
 ```console
 $ az provider register --namespace Microsoft.ContainerService
@@ -103,7 +109,8 @@ az aks nodepool add \
     --max-count 3
 ```
 
-Here we have added a new pool made up of `Standard_NC48ads_A100_v4` instances which each have two A100 GPUs. We've also enabled autoscaling between one and three nodes on the pool.
+Here we have added a new pool made up of `Standard_NC48ads_A100_v4` instances which each have two A100 GPUs. We've also
+enabled autoscaling between one and three nodes on the pool.
 
 Then we can install the NVIDIA drivers.
 
@@ -124,7 +131,8 @@ we should be able to test that we can schedule GPU pods.
 
 ## Install RAPIDS
 
-Now that you have a GPU enables Kubernetes cluster on AKS you can install RAPIDS with [any of the supported methods](../../platforms/kubernetes).
+Now that you have a GPU enables Kubernetes cluster on AKS you can install RAPIDS with [any of the supported
+methods](../../platforms/kubernetes).
 
 ## Clean up
 
