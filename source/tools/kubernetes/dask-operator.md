@@ -1,11 +1,12 @@
 # Dask Operator
 
-Many libraries in RAPIDS can leverage Dask to scale out computation onto multiple GPUs and multiple nodes.
-[Dask has an operator for Kubernetes](https://kubernetes.dask.org/en/latest/) which allows you to launch Dask clusters as native Kubernetes resources.
+Many libraries in RAPIDS can leverage Dask to scale out computation onto multiple GPUs and multiple nodes. [Dask has an
+operator for Kubernetes](https://kubernetes.dask.org/en/latest/) which allows you to launch Dask clusters as native
+Kubernetes resources.
 
-With the operator and associated Custom Resource Definitions (CRDs)
-you can create `DaskCluster`, `DaskWorkerGroup` and `DaskJob` resources that describe your Dask components and the operator will
-create the appropriate Kubernetes resources like `Pods` and `Services` to launch the cluster.
+With the operator and associated Custom Resource Definitions (CRDs) you can create `DaskCluster`, `DaskWorkerGroup` and
+`DaskJob` resources that describe your Dask components and the operator will create the appropriate Kubernetes resources
+like `Pods` and `Services` to launch the cluster.
 
 ```{mermaid}
 graph TD
@@ -43,15 +44,18 @@ graph TD
 
 ## Installation
 
-Your Kubernetes cluster must have GPU nodes and have [up to date NVIDIA drivers installed](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html).
+Your Kubernetes cluster must have GPU nodes and have [up to date NVIDIA drivers
+installed](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html).
 
-To install the Dask operator follow the [instructions in the Dask documentation](https://kubernetes.dask.org/en/latest/installing.html).
+To install the Dask operator follow the [instructions in the Dask
+documentation](https://kubernetes.dask.org/en/latest/installing.html).
 
 ## Configuring a RAPIDS `DaskCluster`
 
 To configure the `DaskCluster` resource to run RAPIDS you need to set a few things:
 
-- The container image must contain RAPIDS, the [official RAPIDS container images](/tools/rapids-docker) are a good choice for this.
+- The container image must contain RAPIDS, the [official RAPIDS container images](/tools/rapids-docker) are a good
+  choice for this.
 - The Dask workers must be configured with one or more NVIDIA GPU resources.
 - The worker command must be set to `dask-cuda-worker`.
 
@@ -158,8 +162,9 @@ Then inside the `spec` we have `worker` and `scheduler` sections.
 
 #### Worker
 
-The worker contains a `replicas` option to set how many workers you need and a `spec` that describes what each worker pod should look like.
-The spec is a nested [`Pod` spec](https://kubernetes.io/docs/concepts/workloads/pods/) that the operator will use when creating new `Pod` resources.
+The worker contains a `replicas` option to set how many workers you need and a `spec` that describes what each worker
+pod should look like. The spec is a nested [`Pod` spec](https://kubernetes.io/docs/concepts/workloads/pods/) that the
+operator will use when creating new `Pod` resources.
 
 ```yaml
 # ...
@@ -182,12 +187,13 @@ spec:
     # ...
 ```
 
-Inside our pod spec we are configuring one container that uses the `rapidsai/base` container image.
-It also sets the `args` to start the `dask-cuda-worker` and configures one NVIDIA GPU.
+Inside our pod spec we are configuring one container that uses the `rapidsai/base` container image. It also sets the
+`args` to start the `dask-cuda-worker` and configures one NVIDIA GPU.
 
 #### Scheduler
 
-Next we have a `scheduler` section that also contains a `spec` for the scheduler pod and a `service` which will be used by the operator to create a `Service` resource to expose the scheduler.
+Next we have a `scheduler` section that also contains a `spec` for the scheduler pod and a `service` which will be used
+by the operator to create a `Service` resource to expose the scheduler.
 
 ```yaml
 # ...
@@ -225,14 +231,15 @@ spec:
       # ...
 ```
 
-For the scheduler pod we are also setting the `rapidsai/base` container image, mainly to ensure our Dask versions match between
-the scheduler and workers. We ensure that the `dask-scheduler` command is configured.
+For the scheduler pod we are also setting the `rapidsai/base` container image, mainly to ensure our Dask versions match
+between the scheduler and workers. We ensure that the `dask-scheduler` command is configured.
 
-Then we configure both the Dask communication port on `8786` and the Dask dashboard on `8787` and add some probes so that Kubernetes can monitor
-the health of the scheduler.
+Then we configure both the Dask communication port on `8786` and the Dask dashboard on `8787` and add some probes so
+that Kubernetes can monitor the health of the scheduler.
 
 ```{note}
-The ports must have the `tcp-` and `http-` prefixes if your Kubernetes cluster uses [Istio](https://istio.io/) to ensure the [Envoy proxy](https://www.envoyproxy.io/) doesn't mangle the traffic.
+The ports must have the `tcp-` and `http-` prefixes if your Kubernetes cluster uses [Istio](https://istio.io/) to ensure
+the [Envoy proxy](https://www.envoyproxy.io/) doesn't mangle the traffic.
 ```
 
 Then we configure the `Service`.
@@ -261,14 +268,18 @@ spec:
           targetPort: "http-dashboard"
 ```
 
-This example shows using a `ClusterIP` service which will not expose the Dask cluster outside of Kubernetes. If you prefer you could set this to
-[`LoadBalancer`](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) or [`NodePort`](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport) to make this externally accessible.
+This example shows using a `ClusterIP` service which will not expose the Dask cluster outside of Kubernetes. If you
+prefer you could set this to
+[`LoadBalancer`](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) or
+[`NodePort`](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport) to make this externally
+accessible.
 
 It has a `selector` that matches the scheduler pod and the same ports configured.
 
 ### Accessing your Dask cluster
 
-Once you have created your `DaskCluster` resource we can use `kubectl` to check the status of all the other resources it created for us.
+Once you have created your `DaskCluster` resource we can use `kubectl` to check the status of all the other resources it
+created for us.
 
 ```console
 $ kubectl get all -l dask.org/cluster-name=rapids-dask-cluster
@@ -283,8 +294,8 @@ service/rapids-dask-cluster-service   ClusterIP   10.96.223.217   <none>        
 
 Here you can see our scheduler pod and two worker pods along with the scheduler service.
 
-If you have a Python session running within the Kubernetes cluster (like the [example one on the Kubernetes page](/platforms/kubernetes)) you should be able
-to connect a Dask distributed client directly.
+If you have a Python session running within the Kubernetes cluster (like the [example one on the Kubernetes
+page](/platforms/kubernetes)) you should be able to connect a Dask distributed client directly.
 
 ```python
 from dask.distributed import Client
@@ -292,7 +303,10 @@ from dask.distributed import Client
 client = Client("rapids-dask-cluster-scheduler:8786")
 ```
 
-Alternatively if you are outside of the Kubernetes cluster you can change the `Service` to use [`LoadBalancer`](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) or [`NodePort`](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport) or use `kubectl` to port forward the connection locally.
+Alternatively if you are outside of the Kubernetes cluster you can change the `Service` to use
+[`LoadBalancer`](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) or
+[`NodePort`](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport) or use `kubectl` to port
+forward the connection locally.
 
 ```console
 $ kubectl port-forward svc/rapids-dask-cluster-service 8786:8786
@@ -307,7 +321,9 @@ client = Client("localhost:8786")
 
 ## Example using `KubeCluster`
 
-In addition to creating clusters via `kubectl` you can also do so from Python with {class}`dask_kubernetes.operator.KubeCluster`. This class implements the Dask Cluster Manager interface and under the hood creates and manages the `DaskCluster` resource for you.
+In addition to creating clusters via `kubectl` you can also do so from Python with
+{class}`dask_kubernetes.operator.KubeCluster`. This class implements the Dask Cluster Manager interface and under the
+hood creates and manages the `DaskCluster` resource for you.
 
 ```python
 from dask_kubernetes.operator import KubeCluster
@@ -321,7 +337,8 @@ cluster = KubeCluster(
 )
 ```
 
-If we check with `kubectl` we can see the above Python generated the same `DaskCluster` resource as the `kubectl` example above.
+If we check with `kubectl` we can see the above Python generated the same `DaskCluster` resource as the `kubectl`
+example above.
 
 ```console
 $ kubectl get daskclusters
@@ -339,7 +356,9 @@ NAME                                  TYPE        CLUSTER-IP      EXTERNAL-IP   
 service/rapids-dask-cluster-service   ClusterIP   10.96.200.202   <none>        8786/TCP,8787/TCP   3m30s
 ```
 
-With this cluster object in Python we can also connect a client to it directly without needing to know the address as Dask will discover that for us. It also automatically sets up port forwarding if you are outside of the Kubernetes cluster.
+With this cluster object in Python we can also connect a client to it directly without needing to know the address as
+Dask will discover that for us. It also automatically sets up port forwarding if you are outside of the Kubernetes
+cluster.
 
 ```python
 from dask.distributed import Client
@@ -360,11 +379,15 @@ cluster.close()
 ```
 
 ```{note}
-By default the `KubeCluster` command registers an exit hook so when the Python process exits the cluster is deleted automatically. You can disable this by setting `KubeCluster(..., shutdown_on_close=False)` when launching the cluster.
+By default the `KubeCluster` command registers an exit hook so when the Python process exits the cluster is deleted
+automatically. You can disable this by setting `KubeCluster(..., shutdown_on_close=False)` when launching the cluster.
 
-This is useful if you have a multi-stage pipeline made up of multiple Python processes and you want your Dask cluster to persist between them.
+This is useful if you have a multi-stage pipeline made up of multiple Python processes and you want your Dask cluster to
+persist between them.
 
-You can also connect a `KubeCluster` object to your existing cluster with `cluster = KubeCluster.from_name(name="rapids-dask")` if you wish to use the cluster or manually call `cluster.close()` in the future.
+You can also connect a `KubeCluster` object to your existing cluster with
+`cluster = KubeCluster.from_name(name="rapids-dask")` if you wish to use the cluster or manually call `cluster.close()`
+in the future.
 ```
 
 ```{relatedexamples}
