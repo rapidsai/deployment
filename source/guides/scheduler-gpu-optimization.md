@@ -1,16 +1,24 @@
 # GPU optimization for the Dask scheduler on Kubernetes
 
-An optimization users can make while deploying Dask clusters is to ensure that the scheduler is placed on a node with a less powerful GPU to reduce overall cost. [This previous guide](https://docs.rapids.ai/deployment/stable/guides/scheduler-gpu-requirements/) explains why the scheduler needs access to the same environment as the workers, as there are a few edge cases where the scheduler does serialize data and unpickles high-level graphs.
+An optimization users can make while deploying Dask clusters is to ensure that the scheduler is placed on a node with a
+less powerful GPU to reduce overall cost. [This previous
+guide](https://docs.rapids.ai/deployment/stable/guides/scheduler-gpu-requirements/) explains why the scheduler needs
+access to the same environment as the workers, as there are a few edge cases where the scheduler does serialize data and
+unpickles high-level graphs.
 
 ```{warning}
 This guide outlines our current advice on scheduler hardware requirements, but this may be subject to change.
 ```
 
-However, when working with nodes with multiple GPUs, placing the scheduler on one of these nodes would be a waste of resources. This guide walks through the steps to create a Kubernetes cluster on GKE along with a nodepool of less powerful Nvidia Tesla T4 GPUs and placing the scheduler on this node using Kubernetes node affinity.
+However, when working with nodes with multiple GPUs, placing the scheduler on one of these nodes would be a waste of
+resources. This guide walks through the steps to create a Kubernetes cluster on GKE along with a nodepool of less
+powerful Nvidia Tesla T4 GPUs and placing the scheduler on this node using Kubernetes node affinity.
 
 ## Prerequisites
 
-First you'll need to have the [`gcloud` CLI tool](https://cloud.google.com/sdk/gcloud) installed along with [`kubectl`](https://kubernetes.io/docs/tasks/tools/), [`helm`](https://helm.sh/docs/intro/install/), etc for managing Kubernetes.
+First you'll need to have the [`gcloud` CLI tool](https://cloud.google.com/sdk/gcloud) installed along with
+[`kubectl`](https://kubernetes.io/docs/tasks/tools/), [`helm`](https://helm.sh/docs/intro/install/), etc for managing
+Kubernetes.
 
 Ensure you are logged into the `gcloud` CLI.
 
@@ -41,12 +49,14 @@ $ gcloud container node-pools create scheduler-pool --cluster rapids-gpu \
   --num-nodes 1 --node-labels dedicated=scheduler --zone us-central1-c
 ```
 
-With this command, you've created an additional nodepool called `scheduler-pool` with 1 node. You've also specified that it should use a node of type n1-standard-2, with one T4 GPU.
-We also add a Kubernetes label `dedicated=scheduled` to the node in this nodepool which will be used to place the scheduler onto this node.
+With this command, you've created an additional nodepool called `scheduler-pool` with 1 node. You've also specified that
+it should use a node of type n1-standard-2, with one T4 GPU. We also add a Kubernetes label `dedicated=scheduled` to the
+node in this nodepool which will be used to place the scheduler onto this node.
 
 ## Install drivers
 
-Next, [install the NVIDIA drivers](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#installing_drivers) onto each node.
+Next, [install the NVIDIA drivers](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#installing_drivers) onto
+each node.
 
 ```console
 $ kubectl apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/master/nvidia-driver-installer/cos/daemonset-preloaded-latest.yaml
@@ -73,7 +83,8 @@ After your drivers are installed, you are ready to test your cluster.
 
 ### Installing Dask operator with Helm
 
-The operator has a Helm chart which can be used to manage the installation of the operator. The chart is published in the [Dask Helm Repo](https://helm.dask.org) repository, and can be installed via:
+The operator has a Helm chart which can be used to manage the installation of the operator. The chart is published in
+the [Dask Helm Repo](https://helm.dask.org) repository, and can be installed via:
 
 ```console
 $ helm repo add dask https://helm.dask.org
@@ -113,7 +124,8 @@ dask-operator   dask-kubernetes-operator-775b8bbbd5-zdrf7   1/1     Running   0 
 
 To configure the `DaskCluster` resource to run RAPIDS you need to set a few things:
 
-- The container image must contain RAPIDS, the [official RAPIDS container images](/tools/rapids-docker) are a good choice for this.
+- The container image must contain RAPIDS, the [official RAPIDS container images](/tools/rapids-docker) are a good
+  choice for this.
 - The Dask workers must be configured with one or more NVIDIA GPU resources.
 - The worker command must be set to `dask-cuda-worker`.
 
@@ -209,9 +221,12 @@ $ kubectl apply -f rapids-dask-cluster.yaml
 
 ### Manifest breakdown
 
-Most of this manifest is explained in the [Dask Operator](https://docs.rapids.ai/deployment/stable/tools/kubernetes/dask-operator/#example-using-kubecluster) documentation in the tools section of the RAPIDS documentation.
+Most of this manifest is explained in the [Dask
+Operator](https://docs.rapids.ai/deployment/stable/tools/kubernetes/dask-operator/#example-using-kubecluster)
+documentation in the tools section of the RAPIDS documentation.
 
-The only addition made to the example from the above documentation page is the following section in the scheduler configuration
+The only addition made to the example from the above documentation page is the following section in the scheduler
+configuration
 
 ```yaml
 # ...
@@ -228,11 +243,17 @@ affinity:
 # ...
 ```
 
-For the Dask scheduler pod we are setting a node affinity using the label previously specified on the dedicated node. Node affinity in Kubernetes allows you to constrain which nodes your Pod can be scheduled based on node labels. This is also intended to be a soft requirement as we are using the `preferredDuringSchedulingIgnoredDuringExecution` type of node affinity. The Kubernetes scheduler tries to find a node which meets the rule. If a matching node is not available, the Kubernetes scheduler still schedules the pod on any available node. This ensures that you will not face any issues with the Dask cluster even if the T4 node is unavailable.
+For the Dask scheduler pod we are setting a node affinity using the label previously specified on the dedicated node.
+Node affinity in Kubernetes allows you to constrain which nodes your Pod can be scheduled based on node labels. This is
+also intended to be a soft requirement as we are using the `preferredDuringSchedulingIgnoredDuringExecution` type of
+node affinity. The Kubernetes scheduler tries to find a node which meets the rule. If a matching node is not available,
+the Kubernetes scheduler still schedules the pod on any available node. This ensures that you will not face any issues
+with the Dask cluster even if the T4 node is unavailable.
 
 ### Accessing your Dask cluster
 
-Once you have created your `DaskCluster` resource we can use `kubectl` to check the status of all the other resources it created for us.
+Once you have created your `DaskCluster` resource we can use `kubectl` to check the status of all the other resources it
+created for us.
 
 ```console
 $ kubectl get all -l dask.org/cluster-name=rapids-dask-cluster
@@ -247,8 +268,8 @@ service/rapids-dask-cluster-service   ClusterIP   10.96.223.217   <none>        
 
 Here you can see our scheduler pod and two worker pods along with the scheduler service.
 
-If you have a Python session running within the Kubernetes cluster (like the [example one on the Kubernetes page](/platforms/kubernetes)) you should be able
-to connect a Dask distributed client directly.
+If you have a Python session running within the Kubernetes cluster (like the [example one on the Kubernetes
+page](/platforms/kubernetes)) you should be able to connect a Dask distributed client directly.
 
 ```python
 from dask.distributed import Client
@@ -256,7 +277,10 @@ from dask.distributed import Client
 client = Client("rapids-dask-cluster-scheduler:8786")
 ```
 
-Alternatively if you are outside of the Kubernetes cluster you can change the `Service` to use [`LoadBalancer`](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) or [`NodePort`](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport) or use `kubectl` to port forward the connection locally.
+Alternatively if you are outside of the Kubernetes cluster you can change the `Service` to use
+[`LoadBalancer`](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) or
+[`NodePort`](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport) or use `kubectl` to port
+forward the connection locally.
 
 ```console
 $ kubectl port-forward svc/rapids-dask-cluster-service 8786:8786
@@ -271,7 +295,11 @@ client = Client("localhost:8786")
 
 ## Example using `KubeCluster`
 
-In addition to creating clusters via `kubectl` you can also do so from Python with {class}`dask_kubernetes.operator.KubeCluster`. This class implements the Dask Cluster Manager interface and under the hood creates and manages the `DaskCluster` resource for you. You can also generate a spec with `make_cluster_spec()` which KubeCluster uses internally and then modify it with your custom options. We will use this to add node affinity to the scheduler.
+In addition to creating clusters via `kubectl` you can also do so from Python with
+{class}`dask_kubernetes.operator.KubeCluster`. This class implements the Dask Cluster Manager interface and under the
+hood creates and manages the `DaskCluster` resource for you. You can also generate a spec with `make_cluster_spec()`
+which KubeCluster uses internally and then modify it with your custom options. We will use this to add node affinity to
+the scheduler.
 
 ```python
 from dask_kubernetes.operator import KubeCluster, make_cluster_spec
@@ -285,7 +313,8 @@ spec = make_cluster_spec(
 )
 ```
 
-To add the node affinity to the scheduler, you can create a custom dictionary specifying the type of node affinity and the label of the node.
+To add the node affinity to the scheduler, you can create a custom dictionary specifying the type of node affinity and
+the label of the node.
 
 ```python
 affinity_config = {
@@ -304,14 +333,16 @@ affinity_config = {
 }
 ```
 
-Now you can add this configuration to the spec created in the previous step, and create the Dask cluster using this custom spec.
+Now you can add this configuration to the spec created in the previous step, and create the Dask cluster using this
+custom spec.
 
 ```python
 spec["spec"]["scheduler"]["spec"]["affinity"] = affinity_config
 cluster = KubeCluster(custom_cluster_spec=spec)
 ```
 
-If we check with `kubectl` we can see the above Python generated the same `DaskCluster` resource as the `kubectl` example above.
+If we check with `kubectl` we can see the above Python generated the same `DaskCluster` resource as the `kubectl`
+example above.
 
 ```console
 $ kubectl get daskclusters
@@ -328,7 +359,9 @@ NAME                                  TYPE        CLUSTER-IP      EXTERNAL-IP   
 service/rapids-dask-cluster-service   ClusterIP   10.96.200.202   <none>        8786/TCP,8787/TCP   3m30s
 ```
 
-With this cluster object in Python we can also connect a client to it directly without needing to know the address as Dask will discover that for us. It also automatically sets up port forwarding if you are outside of the Kubernetes cluster.
+With this cluster object in Python we can also connect a client to it directly without needing to know the address as
+Dask will discover that for us. It also automatically sets up port forwarding if you are outside of the Kubernetes
+cluster.
 
 ```python
 from dask.distributed import Client
@@ -349,9 +382,13 @@ cluster.close()
 ```
 
 ```{note}
-By default the `KubeCluster` command registers an exit hook so when the Python process exits the cluster is deleted automatically. You can disable this by setting `KubeCluster(..., shutdown_on_close=False)` when launching the cluster.
+By default the `KubeCluster` command registers an exit hook so when the Python process exits the cluster is deleted
+automatically. You can disable this by setting `KubeCluster(..., shutdown_on_close=False)` when launching the cluster.
 
-This is useful if you have a multi-stage pipeline made up of multiple Python processes and you want your Dask cluster to persist between them.
+This is useful if you have a multi-stage pipeline made up of multiple Python processes and you want your Dask cluster to
+persist between them.
 
-You can also connect a `KubeCluster` object to your existing cluster with `cluster = KubeCluster.from_name(name="rapids-dask")` if you wish to use the cluster or manually call `cluster.close()` in the future.
+You can also connect a `KubeCluster` object to your existing cluster with
+`cluster = KubeCluster.from_name(name="rapids-dask")` if you wish to use the cluster or manually call `cluster.close()`
+in the future.
 ```
