@@ -1,10 +1,15 @@
 # Dataproc
 
-RAPIDS can be deployed on Google Cloud Dataproc using Dask. For more details, see our **[detailed instructions and helper scripts.](https://github.com/GoogleCloudDataproc/initialization-actions/tree/master/rapids)**
+RAPIDS can be deployed on Google Cloud Dataproc using Dask. For more details, see our **[detailed instructions and
+helper scripts.](https://github.com/GoogleCloudDataproc/initialization-actions/tree/master/rapids)**
 
-**0. Copy initialization actions to your own Cloud Storage bucket.** Don't create clusters that reference initialization actions located in `gs://goog-dataproc-initialization-actions-REGION` public buckets. These scripts are provided as reference implementations and are synchronized with ongoing [GitHub repository](https://github.com/GoogleCloudDataproc/initialization-actions) changes.
+**0. Copy initialization actions to your own Cloud Storage bucket.** Don't create clusters that reference initialization
+actions located in `gs://goog-dataproc-initialization-actions-REGION` public buckets. These scripts are provided as
+reference implementations and are synchronized with ongoing [GitHub
+repository](https://github.com/GoogleCloudDataproc/initialization-actions) changes.
 
-It is strongly recommended that you copy the initialization scripts into your own Storage bucket to prevent unintended upgrades from upstream in the cluster:
+It is strongly recommended that you copy the initialization scripts into your own Storage bucket to prevent unintended
+upgrades from upstream in the cluster:
 
 ```console
 $ REGION=<region>
@@ -16,12 +21,15 @@ $ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/rapids/rapids.sh
 
 ```
 
-**1. Create Dataproc cluster with Dask RAPIDS.** Use the gcloud command to create a new cluster. Because of an Anaconda version conflict, script deployment on older images is slow, we recommend using Dask with Dataproc 2.0+.
+**1. Create Dataproc cluster with Dask RAPIDS.** Use the gcloud command to create a new cluster. Because of an Anaconda
+version conflict, script deployment on older images is slow, we recommend using Dask with Dataproc 2.0+.
 
 ```{warning}
-At the time of writing [Dataproc only supports RAPIDS version 23.12 and earlier with CUDA<=11.8 and Ubuntu 18.04](https://github.com/GoogleCloudDataproc/initialization-actions/issues/1137).
+At the time of writing [Dataproc only supports RAPIDS version 23.12 and earlier with CUDA<=11.8 and Ubuntu
+18.04](https://github.com/GoogleCloudDataproc/initialization-actions/issues/1137).
 
-Please ensure that your setup complies with this compatibility requirement. Using newer RAPIDS versions may result in unexpected behavior or errors.
+Please ensure that your setup complies with this compatibility requirement. Using newer RAPIDS versions may result in
+unexpected behavior or errors.
 ```
 
 ```console
@@ -50,9 +58,12 @@ $ gcloud dataproc clusters create $CLUSTER_NAME\
 [REGION] = name of region where cluster is to be created.\
 [DASK_RUNTIME] = Dask runtime could be set to either yarn or standalone.
 
-**2. Run Dask RAPIDS Workload.** Once the cluster has been created, the Dask scheduler listens for workers on `port 8786`, and its status dashboard is on `port 8787` on the Dataproc master node.
+**2. Run Dask RAPIDS Workload.** Once the cluster has been created, the Dask scheduler listens for workers on `port
+8786`, and its status dashboard is on `port 8787` on the Dataproc master node.
 
-To connect to the Dask web interface, you will need to create an SSH tunnel as described in the [Dataproc web interfaces documentation.](https://cloud.google.com/dataproc/docs/concepts/accessing/cluster-web-interfaces) You can also connect using the Dask Client Python API from a Jupyter notebook, or from a Python script or interpreter session.
+To connect to the Dask web interface, you will need to create an SSH tunnel as described in the [Dataproc web interfaces
+documentation.](https://cloud.google.com/dataproc/docs/concepts/accessing/cluster-web-interfaces) You can also connect
+using the Dask Client Python API from a Jupyter notebook, or from a Python script or interpreter session.
 
 ```{relatedexamples}
 
