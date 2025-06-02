@@ -1,27 +1,40 @@
 # KServe
 
-[KServe](https://kserve.github.io/website) is a standard model inference platform built for Kubernetes. It provides consistent interface for multiple machine learning frameworks.
-In this page, we will show you how to deploy RAPIDS models using KServe.
+[KServe](https://kserve.github.io/website) is a standard model inference platform built for Kubernetes. It provides
+consistent interface for multiple machine learning frameworks. In this page, we will show you how to deploy RAPIDS
+models using KServe.
 
 ```{note}
-These instructions were tested against KServe v0.10 running on [Kubernetes v1.21](https://kubernetes.io/blog/2021/04/08/kubernetes-1-21-release-announcement/).
+These instructions were tested against KServe v0.10 running on [Kubernetes
+v1.21](https://kubernetes.io/blog/2021/04/08/kubernetes-1-21-release-announcement/).
 ```
 
 ## Setting up Kubernetes cluster with GPU access
 
-First, you should set up a Kubernetes cluster with access to NVIDIA GPUs. Visit [the Cloud Section](/cloud/index) for guidance.
+First, you should set up a Kubernetes cluster with access to NVIDIA GPUs. Visit [the Cloud Section](/cloud/index) for
+guidance.
 
 ## Installing KServe
 
-Visit [Getting Started with KServe](https://kserve.github.io/website/latest/get_started/) to install KServe in your Kubernetes cluster. If you are starting out, we recommend the use of the "Quickstart" script (`quick_install.sh`) provided in the page. On the other hand, if you are setting up a production-grade system, follow direction in [Administration Guide](https://kserve.github.io/website/latest/admin/serverless/serverless) instead.
+Visit [Getting Started with KServe](https://kserve.github.io/website/latest/get_started/) to install KServe in your
+Kubernetes cluster. If you are starting out, we recommend the use of the "Quickstart" script (`quick_install.sh`)
+provided in the page. On the other hand, if you are setting up a production-grade system, follow direction in
+[Administration Guide](https://kserve.github.io/website/latest/admin/serverless/serverless) instead.
 
 ## Setting up First InferenceService
 
-Once KServe is installed, visit [First InferenceService](https://kserve.github.io/website/latest/get_started/first_isvc/) to quickly set up a first inference endpoint. (The example uses the [Support Vector Machine from scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html) to classify [the Iris dataset](https://scikit-learn.org/stable/auto_examples/datasets/plot_iris_dataset.html).) Follow through all the steps carefully and make sure everything works. In particular, you should be able to submit inference requests using cURL.
+Once KServe is installed, visit [First
+InferenceService](https://kserve.github.io/website/latest/get_started/first_isvc/) to quickly set up a first inference
+endpoint. (The example uses the [Support Vector Machine from
+scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html) to classify [the Iris
+dataset](https://scikit-learn.org/stable/auto_examples/datasets/plot_iris_dataset.html).) Follow through all the steps
+carefully and make sure everything works. In particular, you should be able to submit inference requests using cURL.
 
 ## Setting up InferenceService with Triton-FIL
 
-[The FIL backend for Triton Inference Server](https://github.com/triton-inference-server/fil_backend) (Triton-FIL in short) is an optimized inference runtime for many kinds of tree-based models including: XGBoost, LightGBM, scikit-learn, and cuML RandomForest. We can use Triton-FIL together with KServe and serve any tree-based models.
+[The FIL backend for Triton Inference Server](https://github.com/triton-inference-server/fil_backend) (Triton-FIL in
+short) is an optimized inference runtime for many kinds of tree-based models including: XGBoost, LightGBM, scikit-learn,
+and cuML RandomForest. We can use Triton-FIL together with KServe and serve any tree-based models.
 
 The following manifest sets up an inference endpoint using Triton-FIL:
 
@@ -170,8 +183,8 @@ clf.fit(X, y)
 clf.convert_to_treelite_model().to_treelite_checkpoint("./checkpoint.tl")
 ```
 
-Rename the checkpoint file to `checkpoint.tl`, as this is convention used by Triton-FIL.
-After moving the model file into the model directory, the directory should look like this:
+Rename the checkpoint file to `checkpoint.tl`, as this is convention used by Triton-FIL. After moving the model file
+into the model directory, the directory should look like this:
 
 ```text
 model-directory/
@@ -183,4 +196,6 @@ model-directory/
 
 ### Configuring Triton-FIL
 
-Triton-FIL offers many configuration options, and we only showed you a few of them. Please visit [FIL Backend Model Configuration](https://github.com/triton-inference-server/fil_backend/blob/main/docs/model_config.md) to check out the rest.
+Triton-FIL offers many configuration options, and we only showed you a few of them. Please visit [FIL Backend Model
+Configuration](https://github.com/triton-inference-server/fil_backend/blob/main/docs/model_config.md) to check out the
+rest.
