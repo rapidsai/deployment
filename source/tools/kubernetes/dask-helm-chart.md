@@ -6,11 +6,13 @@ Dask has a [Helm Chart](https://github.com/dask/helm-chart) that creates the fol
 - 1 x Dask scheduler
 - 3 x Dask workers that connect to the scheduler (scalable)
 
-This helm chart can be configured to run RAPIDS by providing GPUs to the Jupyter server and Dask workers and by using container images with the RAPIDS libraries available.
+This helm chart can be configured to run RAPIDS by providing GPUs to the Jupyter server and Dask workers and by using
+container images with the RAPIDS libraries available.
 
 ## Configuring RAPIDS
 
-Built on top of the Dask Helm Chart, `rapids-config.yaml` file contains additional configurations required to setup RAPIDS environment.
+Built on top of the Dask Helm Chart, `rapids-config.yaml` file contains additional configurations required to setup
+RAPIDS environment.
 
 ```yaml
 # rapids-config.yaml
@@ -47,13 +49,16 @@ which includes environment necessary to launch run accelerated libraries in RAPI
 Note that all scheduler, worker and jupyter pods are required to use the same image.
 This ensures that dask scheduler and worker versions match.
 
-`[jupyter|worker].resources` explicitly requests a GPU for each worker pod and the Jupyter pod, required by many accelerated libraries in RAPIDS.
+`[jupyter|worker].resources` explicitly requests a GPU for each worker pod and the Jupyter pod, required by many
+accelerated libraries in RAPIDS.
 
-`worker.dask_worker` is the launch command for dask worker inside worker pod.
-To leverage the GPUs assigned to each Pod the [`dask_cuda_worker`](https://docs.rapids.ai/api/dask-cuda/~~~rapids_api_docs_version~~~/index.html) command is launched in place of the regular `dask_worker`.
+`worker.dask_worker` is the launch command for dask worker inside worker pod. To leverage the GPUs assigned to each Pod
+the [`dask_cuda_worker`](https://docs.rapids.ai/api/dask-cuda/~~~rapids_api_docs_version~~~/index.html) command is
+launched in place of the regular `dask_worker`.
 
-If desired to have a different jupyter notebook password than default, compute the hash for `<your-password>` and update `jupyter.password`.
-You can compute password hash by following the [jupyter notebook guide](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html?highlight=passwd#preparing-a-hashed-password).
+If desired to have a different jupyter notebook password than default, compute the hash for `<your-password>` and update
+`jupyter.password`. You can compute password hash by following the [jupyter notebook
+guide](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html?highlight=passwd#preparing-a-hashed-password).
 
 ### Installing the Helm Chart
 
@@ -93,8 +98,8 @@ Now we can verify that everything is working correctly by running some of the ex
 
 Open the `10 Minutes to cuDF and Dask-cuDF` notebook under `cudf/10-min.ipynb`.
 
-Add a new cell at the top to connect to the Dask cluster. Conveniently, the helm chart preconfigures the scheduler address in client's environment.
-So you do not need to pass any config to the `Client` object.
+Add a new cell at the top to connect to the Dask cluster. Conveniently, the helm chart preconfigures the scheduler
+address in client's environment. So you do not need to pass any config to the `Client` object.
 
 ```python
 from dask.distributed import Client
@@ -107,8 +112,8 @@ By default, we can see 3 workers are created and each has 1 GPU assigned.
 
 ![dask worker](../../_static/daskworker.PNG)
 
-Walk through the examples to validate that the dask cluster is setup correctly, and that GPUs are accessible for the workers.
-Worker metrics can be examined in dask dashboard.
+Walk through the examples to validate that the dask cluster is setup correctly, and that GPUs are accessible for the
+workers. Worker metrics can be examined in dask dashboard.
 
 ![dask worker](../../_static/workingdask.PNG)
 
