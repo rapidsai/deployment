@@ -34,7 +34,9 @@ sudo apt-get upgrade -y
 
 ### NVIDIA Drivers
 
-The commands below should work for Ubuntu. See the [CUDA Toolkit documentation](https://docs.nvidia.com/cuda/index.html#installation-guides) for details on installing on other operating systems.
+The commands below should work for Ubuntu. See the [CUDA Toolkit
+documentation](https://docs.nvidia.com/cuda/index.html#installation-guides) for details on installing on other operating
+systems.
 
 ```shell
 sudo apt-get install -y linux-headers-$(uname -r)
@@ -121,8 +123,8 @@ Mon Nov 14 20:32:39 2022
 On Ubuntu 24.04
 
 ```shell
-sudo apt-get install -y automake dh-make git libcap2 libnuma-dev libtool make pkg-config udev curl librdmacm-dev rdma-core \
-    libgfortran5 bison chrpath flex graphviz gfortran tk  quilt swig tcl ibverbs-utils
+sudo apt-get install -y automake dh-make git libcap2 libnuma-dev libtool make pkg-config udev curl librdmacm-dev \
+  rdma-core libgfortran5 bison chrpath flex graphviz gfortran tk  quilt swig tcl ibverbs-utils
 ```
 
 Check install
@@ -257,10 +259,14 @@ Then start a new shell.
 
 Create a conda environment (see [UCX-Py](https://ucx-py.readthedocs.io/en/latest/install.html) docs)
 
+<!-- markdownlint-disable -->
+
 ```shell
 mamba create -n ucxpy {{ rapids_conda_channels }} {{ rapids_conda_packages }} ipython ucx-proc=*=gpu ucx ucx-py dask distributed numpy cupy pytest pynvml -y
 mamba activate ucxpy
 ```
+
+<!-- markdownlint-enable -->
 
 Clone UCX-Py repo locally
 
@@ -278,7 +284,8 @@ pytest -vs tests/
 pytest -vs ucp/_libs/tests/
 ```
 
-Now check to see if InfiniBand works, for that you can run some of the benchmarks that we include in UCX-Py, for example:
+Now check to see if InfiniBand works, for that you can run some of the benchmarks that we include in UCX-Py, for
+example:
 
 ```shell
 # cd out of the ucx-py directory
@@ -305,20 +312,21 @@ UCX_TLS=tcp,cuda_copy,rc
 
 ## Run Benchmarks
 
-Finally, let's run the [merge benchmark](https://github.com/rapidsai/dask-cuda/blob/HEAD/dask_cuda/benchmarks/local_cudf_merge.py) from `dask-cuda`.
+Finally, let's run the [merge
+benchmark](https://github.com/rapidsai/dask-cuda/blob/HEAD/dask_cuda/benchmarks/local_cudf_merge.py) from `dask-cuda`.
 
 This benchmark uses Dask to perform a merge of two dataframes that are distributed across all the available GPUs on your
 VM. Merges are a challenging benchmark in a distributed setting since they require communication-intensive shuffle
-operations of the participating dataframes
-(see the [Dask documentation](https://docs.dask.org/en/stable/dataframe-best-practices.html#avoid-full-data-shuffling)
-for more on this type of operation). To perform the merge, each dataframe is shuffled such that rows with the same join
-key appear on the same GPU. This results in an [all-to-all](<https://en.wikipedia.org/wiki/All-to-all_(parallel_pattern)>)
-communication pattern which requires a lot of communication between the GPUs. As a result, network
-performance will be very important for the throughput of the benchmark.
+operations of the participating dataframes (see the [Dask
+documentation](https://docs.dask.org/en/stable/dataframe-best-practices.html#avoid-full-data-shuffling) for more on this
+type of operation). To perform the merge, each dataframe is shuffled such that rows with the same join key appear on the
+same GPU. This results in an [all-to-all](<https://en.wikipedia.org/wiki/All-to-all_(parallel_pattern)>) communication
+pattern which requires a lot of communication between the GPUs. As a result, network performance will be very important
+for the throughput of the benchmark.
 
-Below we are running for devices 0 through 7 (inclusive), you will want to adjust that for the number of devices available on your VM, the default
-is to run on GPU 0 only. Additionally, `--chunk-size 100_000_000` is a safe value for 32GB GPUs, you may
-adjust that proportional to the size of the GPU you have (it scales linearly, so `50_000_000` should
+Below we are running for devices 0 through 7 (inclusive), you will want to adjust that for the number of devices
+available on your VM, the default is to run on GPU 0 only. Additionally, `--chunk-size 100_000_000` is a safe value for
+32GB GPUs, you may adjust that proportional to the size of the GPU you have (it scales linearly, so `50_000_000` should
 be good for 16GB or `150_000_000` for 48GB).
 
 ```shell
