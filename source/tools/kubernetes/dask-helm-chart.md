@@ -46,8 +46,8 @@ jupyter:
 
 `[jupyter|scheduler|worker].image.*` is updated with the RAPIDS "runtime" image from the stable release,
 which includes environment necessary to launch run accelerated libraries in RAPIDS, and scaling up and down via dask.
-Note that all scheduler, worker and jupyter pods are required to use the same image.
-This ensures that dask scheduler and worker versions match.
+Note that all scheduler, worker and jupyter pods are required to use the same image. This ensures that dask scheduler
+and worker versions match.
 
 `[jupyter|worker].resources` explicitly requests a GPU for each worker pod and the Jupyter pod, required by many
 accelerated libraries in RAPIDS.
