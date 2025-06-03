@@ -7,31 +7,31 @@ Driver](https://www.nvidia.co.uk/Download/index.aspx) and the [NVIDIA Container
 Runtime](https://developer.nvidia.com/nvidia-container-runtime).
 
 1. Open the [**Virtual Server Dashboard**](https://cloud.ibm.com/vpc-ext/compute/vs).
-2. Select **Create**.
-3. Give the server a **name** and select your **resource group**.
-4. Under **Operating System** choose **Ubuntu Linux**.
-5. Under **Profile** select **View all profiles** and select a profile with NVIDIA GPUs.
-6. Under **SSH Keys** choose your SSH key.
-7. Under network settings create a security group (or choose an existing) that allows SSH access on port `22` and also
+1. Select **Create**.
+1. Give the server a **name** and select your **resource group**.
+1. Under **Operating System** choose **Ubuntu Linux**.
+1. Under **Profile** select **View all profiles** and select a profile with NVIDIA GPUs.
+1. Under **SSH Keys** choose your SSH key.
+1. Under network settings create a security group (or choose an existing) that allows SSH access on port `22` and also
    allow ports `8888,8786,8787` to access Jupyter and Dask.
-8. Select **Create Virtual Server**.
+1. Select **Create Virtual Server**.
 
 ## Create floating IP
 
 To access the virtual server we need to attach a public IP address.
 
 1. Open [**Floating IPs**](https://cloud.ibm.com/vpc-ext/network/floatingIPs)
-2. Select **Reserve**.
-3. Give the Floating IP a **name**.
-4. Under **Resource to bind** select the virtual server you just created.
+1. Select **Reserve**.
+1. Give the Floating IP a **name**.
+1. Under **Resource to bind** select the virtual server you just created.
 
 ## Connect to the instance
 
 Next we need to connect to the instance.
 
 1. Open [**Floating IPs**](https://cloud.ibm.com/vpc-ext/network/floatingIPs)
-2. Locate the IP you just created and note the address.
-3. In your terminal run `ssh root@<ip address>`
+1. Locate the IP you just created and note the address.
+1. In your terminal run `ssh root@<ip address>`
 
 ```{note}
 For a short guide on launching your instance and accessing it, read the
@@ -43,8 +43,8 @@ For a short guide on launching your instance and accessing it, read the
 Next we need to install the NVIDIA drivers and container runtime.
 
 1. Ensure build essentials are installed `apt-get update && apt-get install build-essential -y`.
-2. Install the [NVIDIA drivers](https://www.nvidia.com/Download/index.aspx?lang=en-us).
-3. Install [Docker and the NVIDIA Docker runtime](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
+1. Install the [NVIDIA drivers](https://www.nvidia.com/Download/index.aspx?lang=en-us).
+1. Install [Docker and the NVIDIA Docker runtime](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
 
 ````{dropdown} How do I check everything installed successfully?
 :color: info
