@@ -9,7 +9,7 @@ spec:
   partitions: 3
   replicas: 1
   config:
-    retention.ms: 1800000 # 30 minutes
+    retention.ms: 3600000 # 60 minutes
     segment.bytes: 157286400 # 150 MB
 ---
 apiVersion: kafka.strimzi.io/v1beta2
