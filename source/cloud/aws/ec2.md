@@ -15,7 +15,8 @@ NVIDIA maintains an [Amazon Machine Image (AMI) that pre-installs NVIDIA drivers
 1. In the AMI selection box search for "nvidia", then switch to the **AWS Marketplace AMIs** tab.
 1. Select **NVIDIA GPU-Optimized AMI** and click "Select". Then, in the new popup, select **Subscribe on Instance Launch**.
 1. In **Key pair** select your SSH keys (create these first if you haven't already).
-1. Under network settings create a security group (or choose an existing) that allows SSH access on port `22` and also allow ports `8888,8786,8787` to access Jupyter and Dask.
+1. Under network settings create a security group (or choose an existing) with inbound rules that allows SSH access on
+   port `22` and also allow ports `8888,8786,8787` to access Jupyter and Dask. For outbound rules, allow all traffic.
 1. Select **Launch**.
 
 ## Connect to the instance
@@ -29,6 +30,20 @@ Next we need to connect to the instance.
 ```{note}
 If you use the AWS Console, please use the default `ubuntu` user to ensure the NVIDIA driver installs on the first boot.
 ```
+
+````{tip}
+Depending on where your ssh key is, when connecting via SSH you might need to do
+
+```bash
+ssh -i <path-to-your-ssh-key-dir>/your-key-file.pem ubuntu@<ip address>
+```
+
+If you get prompted with a `WARNING: UNPROTECTED PRIVATE KEY FILE!`, and get a
+**"Permission denied"** as a result of this.
+
+Change the permissions of your key file to be less permissive by doing
+`chmod 400 your_key_file.pem`, and you should be good to go.
+````
 
 ## Install RAPIDS
 
