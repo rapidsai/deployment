@@ -36,8 +36,7 @@ uv lock --upgrade
 
 ## Writing
 
-Content in these docs are written in markdown using the [MyST Sphinx
-extension](https://myst-parser.readthedocs.io/en/v0.15.1/syntax/syntax.html).
+Content in these docs are written in markdown using the [MyST Sphinx extension](https://myst-parser.readthedocs.io/en/v0.15.1/syntax/syntax.html).
 
 ### Custom admonitions
 
@@ -57,8 +56,9 @@ Renders as:
 
 ![Screenshot of the rendered docref admonition](source/images/docref-admonition.png)
 
-> **Note** The `Visit the documentation >>` link is added automatically in the bottom right based on the page that is
-> referenced in the directive argument.
+> **Note**
+> The `Visit the documentation >>` link is added automatically in the bottom right based on the page that is referenced
+> in the directive argument.
 
 ### Notebooks
 
@@ -73,8 +73,7 @@ docs. This does mean there are a few assumptions about how notebooks should be w
 1. Create a new directory inside `source/examples`.
 2. Create a new notebook file in that directory and give it a name like `notebook.ipynb`.
    - The first cell of your notebook should be a markdown cell and contain at least a top level header.
-   - You can add tags to your notebook by adding [cell metadata tags to the first
-     cell](https://jupyterbook.org/en/stable/content/metadata.html).
+   - You can add tags to your notebook by adding [cell metadata tags to the first cell](https://jupyterbook.org/en/stable/content/metadata.html).
 3. Place any supporting files such as scripts, Dockerfiles, etc in the same directory. These files will be discovered
    and listed on the rendered notebook page.
 4. Update the `notebookgallerytoctree` section in `source/examples/index.md` with the relative path to your new notebook.
@@ -108,9 +107,9 @@ use as an accent that is also purple by default which can be styled for a two-to
 the background and border-left sets the accent" src="source/images/theme-tag-style.png" style="max-width: 450px;" />
 </div>
 
-This can be overridden for each tag by adding a new class with the format `.tag-{name}` to
-`source/_static/css/custom.css`. For example the Scikit-Learn logo is orange and blue with grey text, so the custom CSS
-sets an orange background with a blue accent and grey text.
+This can be overridden for each tag by adding a new class with the format `.tag-{name}` to `source/_static/css/custom.css`.
+For example the Scikit-Learn logo is orange and blue with grey text, so the custom CSS sets an orange background with a
+blue accent and grey text.
 
 ```css
 .tag-scikit-learn {
