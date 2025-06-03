@@ -273,6 +273,10 @@ alt: Screenshot of the RAPIDS container running Jupyter showing the nvidia-smi c
 ---
 ```
 
+```{note}
+Once you are done, make sure to delete your cluster to stop billing.
+```
+
 (dask-operator)=
 
 ## Dask Operator
