@@ -111,6 +111,9 @@ rapids_deployment_notebooks_base_url = (
 # -- Options for HTML output -------------------------------------------------
 
 html_theme_options = {
+    "analytics": {
+        "google_analytics_id": "G-02WR7CRJ3Z",
+    },
     "header_links_before_dropdown": 7,
     # https://github.com/pydata/pydata-sphinx-theme/issues/1220
     "icon_links": [],
