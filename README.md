@@ -102,10 +102,14 @@ user experience and there may already be a suitable root namespace for the tag y
 By default tags are styled with RAPIDS purple backgrounds and white text. They also have a `0.5em` left hand border to
 use as an accent that is also purple by default which can be styled for a two-tone effect.
 
+<!-- markdownlint-disable -->
+
 <div style="width: 100%; text-align: center;">
-<img alt="Diagram showing the tag and css side-by-side with arrows to show color sets the text, background-color sets
-the background and border-left sets the accent" src="source/images/theme-tag-style.png" style="max-width: 450px;" />
+<img alt="Diagram showing the tag and css side-by-side with arrows to show color sets the text, background-color sets the background and border-left sets the accent"
+src="source/images/theme-tag-style.png" style="max-width: 450px;" />
 </div>
+
+<!-- markdownlint-enable -->
 
 This can be overridden for each tag by adding a new class with the format `.tag-{name}` to `source/_static/css/custom.css`.
 For example the Scikit-Learn logo is orange and blue with grey text, so the custom CSS sets an orange background with a
