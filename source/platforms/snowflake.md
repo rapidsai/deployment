@@ -267,9 +267,9 @@ spec:
       gid: 1000
 ```
 
-Notice that in we mounted the `@volumes/rapids-notebooks` internal stage location
-to our `/home/rapids/notebooks/workspace` directory inside of our running container.
-Anything that is added to this directory will persist.
+Notice that in we mounted the `@volumes/rapids-notebooks` internal stage location to our
+`/home/rapids/notebooks/workspace` directory inside of our running container. Anything that is added to this directory
+will persist.
 
 We use `snow-cli` to push this `yaml` file:
 
@@ -287,9 +287,8 @@ LS @CONTAINER_HOL_DB.PUBLIC.SPECS;
 
 ## Create and Test the Service
 
-Now that we have successfully pushed the image and the spec YAML, we have all
-the components in Snowflake to create our service. We only need a service name,
-a compute pool and the spec file. Run this SQL in the Snowflake worksheet:
+Now that we have successfully pushed the image and the spec YAML, we have all the components in Snowflake to create our
+service. We only need a service name, a compute pool and the spec file. Run this SQL in the Snowflake worksheet:
 
 ```sql
 USE ROLE CONTAINER_USER_ROLE;
@@ -308,16 +307,15 @@ Run the following to verify that the service is successfully running.
 CALL SYSTEM$GET_SERVICE_STATUS('CONTAINER_HOL_DB.PUBLIC.rapids_snowpark_service');
 ```
 
-Since we specified the `jupyter` endpoint to be public, Snowflake will generate
-a url that can be used to access the service via the browser. To get the url,
-run in the SQL snowflake worksheet:
+Since we specified the `jupyter` endpoint to be public, Snowflake will generate a url that can be used to access the
+service via the browser. To get the url, run in the SQL snowflake worksheet:
 
 ```sql
 SHOW ENDPOINTS IN SERVICE RAPIDS_SNOWPARK_SERVICE;
 ```
 
-Copy the jupyter `ingress_url` in the browser. You will see a jupyter lab with a set of
-notebooks to get started with RAPIDS.
+Copy the jupyter `ingress_url` in the browser. You will see a jupyter lab with a set of notebooks to get started with
+RAPIDS.
 
 ```{figure} /images/snowflake_jupyter.png
 ---
@@ -327,8 +325,8 @@ alt: Screenshot of Jupyter Lab with rapids example notebooks directories.
 
 ## Shutdown and Cleanup
 
-If you no longer need the service and the compute pool up and running, we can
-stop the service and suspend the compute pool to avoid incurring in any charges.
+If you no longer need the service and the compute pool up and running, we can stop the service and suspend the compute
+pool to avoid incurring in any charges.
 
 In the Snowflake SQL worksheet run:
 
@@ -338,8 +336,7 @@ ALTER COMPUTE POOL CONTAINER_HOL_POOL STOP ALL;
 ALTER COMPUTE POOL CONTAINER_HOL_POOL SUSPEND;
 ```
 
-If you want to cleanup completely and remove all of the objects created, run the
-following:
+If you want to cleanup completely and remove all of the objects created, run the following:
 
 ```sql
 USE ROLE CONTAINER_USER_ROLE;
