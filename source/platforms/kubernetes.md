@@ -259,7 +259,13 @@ spec:
 $ kubectl apply -f rapids-notebook.yaml
 ```
 
-This makes Jupyter accessible on port `30002` of your Kubernetes nodes via `NodePort` service. Alternatively you could use a `LoadBalancer` service type [if you have one configured](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) or a `ClusterIP` and use `kubectl` to port forward the port locally and access it that way.
+The container creation takes approximately 7 min, you can check the status of the pod by doing:
+
+```console
+$ kubectl get pods
+```
+
+Once it's ready, Jupyter will be accessible on port `30002` of your Kubernetes nodes via `NodePort` service. Alternatively you could use a `LoadBalancer` service type [if you have one configured](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) or a `ClusterIP` and use `kubectl` to port forward the port locally and access it that way.
 
 ```console
 $ kubectl port-forward service/rapids-notebook 8888
@@ -271,6 +277,10 @@ Then you can open port `8888` in your browser to access Jupyter and use RAPIDS.
 ---
 alt: Screenshot of the RAPIDS container running Jupyter showing the nvidia-smi command with a GPU listed
 ---
+```
+
+```{note}
+Once you are done, make sure to delete your cluster to stop billing.
 ```
 
 (dask-operator)=

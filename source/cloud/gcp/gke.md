@@ -30,6 +30,20 @@ gcloud container clusters create rapids-gpu-kubeflow \
 
 With this command, you’ve launched a GKE cluster called `rapids-gpu-kubeflow`. You’ve specified that it should use nodes of type a2-highgpu-2g, each with two A100 GPUs.
 
+````{note}
+After creating your cluster, if you get a message saying
+
+```text
+CRITICAL: ACTION REQUIRED: gke-gcloud-auth-plugin, which is needed for continued use of kubectl, was not found or is not
+executable. Install gke-gcloud-auth-plugin for use with kubectl by following https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl#install_plugin
+```
+you will need to install the `gke-gcloud-auth-plugin` to be able to get the credentials. To do so,
+
+```bash
+gcloud components install gke-gcloud-auth-plugin
+```
+````
+
 ## Get the cluster credentials
 
 ```console
@@ -52,12 +66,9 @@ Verify that the NVIDIA drivers are successfully installed.
 
 ```console
 $ kubectl get po -A --watch | grep nvidia
-kube-system   nvidia-driver-installer-6zwcn                                 1/1     Running   0         8m47s
-kube-system   nvidia-driver-installer-8zmmn                                 1/1     Running   0         8m47s
-kube-system   nvidia-driver-installer-mjkb8                                 1/1     Running   0         8m47s
-kube-system   nvidia-gpu-device-plugin-5ffkm                                1/1     Running   0         13m
-kube-system   nvidia-gpu-device-plugin-d599s                                1/1     Running   0         13m
-kube-system   nvidia-gpu-device-plugin-jrgjh                                1/1     Running   0         13m
+kube-system          nvidia-gpu-device-plugin-medium-cos-h5kkz                       2/2     Running   0          3m42s
+kube-system          nvidia-gpu-device-plugin-medium-cos-pw89w                       2/2     Running   0          3m42s
+kube-system          nvidia-gpu-device-plugin-medium-cos-wdnm9                       2/2     Running   0          3m42s
 ```
 
 After your drivers are installed, you are ready to test your cluster.
