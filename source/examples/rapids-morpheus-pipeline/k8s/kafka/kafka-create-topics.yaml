@@ -1,0 +1,27 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: network-traffic-input
+  labels:
+    strimzi.io/cluster: kafka-cluster
+spec:
+  topicName: network-traffic-input
+  partitions: 3
+  replicas: 1
+  config:
+    retention.ms: 3600000 # 60 minutes
+    segment.bytes: 157286400 # 150 MB
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: network-traffic-results
+  labels:
+    strimzi.io/cluster: kafka-cluster
+spec:
+  topicName: network-traffic-results
+  partitions: 3
+  replicas: 1
+  config:
+    retention.ms: 1200000 # 20 minutes
+    segment.bytes: 157286400 # 150 MB
