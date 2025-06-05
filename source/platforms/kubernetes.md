@@ -125,7 +125,7 @@ data:
     c.ServerProxy.host_allowlist = lambda app, host: True
 ```
 
-Then we further modify out `Pod` spec to mount in this config map to the right location.
+Then we further modify out `Pod` spec to mount in this `ConfigMap` to the right location.
 
 ```yaml
 apiVersion: v1
