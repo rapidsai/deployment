@@ -1,6 +1,6 @@
 # Colocate Dask workers on Kubernetes while using nodes with multiple GPUs
 
-To optimize performance when working with nodes that have multiple GPUs, a best practice is to schedule Dask workers in a tightly grouped manner, thereby minimizing communication overhead between worker pods. This guide provides a step-by-step process for adding pod affinities to worker pods ensuring they are scheduled together as much as possible on Google Kubernetes Engine (GKE), but the principles can be adapted for use with other Kubernetes distributions.
+To optimize performance when working with nodes that have multiple GPUs, a best practice is to schedule Dask workers in a tightly grouped manner, thereby minimizing communication overhead between worker pods. This guide provides a step-by-step process for adding Pod affinities to worker pods ensuring they are scheduled together as much as possible on Google Kubernetes Engine (GKE), but the principles can be adapted for use with other Kubernetes distributions.
 
 ## Prerequisites
 
@@ -77,7 +77,7 @@ To configure the `DaskCluster` resource to run RAPIDS you need to set a few thin
 
 ## Creating a RAPIDS `DaskCluster` using `kubectl`
 
-Here is an example resource manifest for launching a RAPIDS Dask cluster with worker pod affinity
+Here is an example resource manifest for launching a RAPIDS Dask cluster with worker Pod affinity
 
 ```yaml
 # rapids-dask-cluster.yaml
@@ -190,7 +190,7 @@ podAffinity:
 # ...
 ```
 
-For the Dask Worker pod configuration, we are setting a pod affinity using the name of the node as the topology key. [Pod affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity) in Kubernetes allows you to constrain which nodes the Pod can be scheduled on and allows you to configure a set of workloads that should be co-located in the same defined topology, in this case, preferring to place two worker pods on the same node. This is also intended to be a soft requirement as we are using the `preferredDuringSchedulingIgnoredDuringExecution` type of pod affinity. The Kubernetes scheduler tries to find a node which meets the rule. If a matching node is not available, the Kubernetes scheduler still schedules the pod on any available node. This ensures that you will not face any issues with the Dask cluster even if placing worker pods on nodes already in use is not possible.
+For the Dask Worker Pod configuration, we are setting a Pod affinity using the name of the node as the topology key. [Pod affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity) in Kubernetes allows you to constrain which nodes the Pod can be scheduled on and allows you to configure a set of workloads that should be co-located in the same defined topology, in this case, preferring to place two worker pods on the same node. This is also intended to be a soft requirement as we are using the `preferredDuringSchedulingIgnoredDuringExecution` type of Pod affinity. The Kubernetes scheduler tries to find a node which meets the rule. If a matching node is not available, the Kubernetes scheduler still schedules the Pod on any available node. This ensures that you will not face any issues with the Dask cluster even if placing worker pods on nodes already in use is not possible.
 
 ### Accessing your Dask cluster
 
@@ -207,7 +207,7 @@ NAME                                    TYPE        CLUSTER-IP      EXTERNAL-IP 
 service/rapids-dask-cluster-scheduler   ClusterIP   10.96.231.110   <none>        8786/TCP,8787/TCP   3s    dask.org/cluster-name=rapids-dask-cluster,dask.org/component=scheduler
 ```
 
-Here you can see our scheduler pod and two worker pods along with the scheduler service. The two worker pods are placed in the same node as desired, while the scheduler pod is placed on a different node.
+Here you can see our scheduler Pod and two worker pods along with the scheduler service. The two worker pods are placed in the same node as desired, while the scheduler Pod is placed on a different node.
 
 If you have a Python session running within the Kubernetes cluster (like the [example one on the Kubernetes page](/platforms/kubernetes)) you should be able
 to connect a Dask distributed client directly.
@@ -248,7 +248,7 @@ spec = make_cluster_spec(
 )
 ```
 
-To add the node affinity to the worker, you can create a custom dictionary specifying the type of pod affinity and the topology key.
+To add the node affinity to the worker, you can create a custom dictionary specifying the type of Pod affinity and the topology key.
 
 ```python
 affinity_config = {

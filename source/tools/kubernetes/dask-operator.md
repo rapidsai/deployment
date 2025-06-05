@@ -158,7 +158,7 @@ Then inside the `spec` we have `worker` and `scheduler` sections.
 
 #### Worker
 
-The worker contains a `replicas` option to set how many workers you need and a `spec` that describes what each worker pod should look like.
+The worker contains a `replicas` option to set how many workers you need and a `spec` that describes what each worker Pod should look like.
 The spec is a nested [`Pod` spec](https://kubernetes.io/docs/concepts/workloads/pods/) that the operator will use when creating new `Pod` resources.
 
 ```yaml
@@ -182,12 +182,12 @@ spec:
     # ...
 ```
 
-Inside our pod spec we are configuring one container that uses the `rapidsai/base` container image.
+Inside our Pod spec we are configuring one container that uses the `rapidsai/base` container image.
 It also sets the `args` to start the `dask-cuda-worker` and configures one NVIDIA GPU.
 
 #### Scheduler
 
-Next we have a `scheduler` section that also contains a `spec` for the scheduler pod and a `service` which will be used by the operator to create a `Service` resource to expose the scheduler.
+Next we have a `scheduler` section that also contains a `spec` for the scheduler Pod and a `service` which will be used by the operator to create a `Service` resource to expose the scheduler.
 
 ```yaml
 # ...
@@ -225,7 +225,7 @@ spec:
       # ...
 ```
 
-For the scheduler pod we are also setting the `rapidsai/base` container image, mainly to ensure our Dask versions match between
+For the scheduler Pod we are also setting the `rapidsai/base` container image, mainly to ensure our Dask versions match between
 the scheduler and workers. We ensure that the `dask-scheduler` command is configured.
 
 Then we configure both the Dask communication port on `8786` and the Dask dashboard on `8787` and add some probes so that Kubernetes can monitor
@@ -264,7 +264,7 @@ spec:
 This example shows using a `ClusterIP` service which will not expose the Dask cluster outside of Kubernetes. If you prefer you could set this to
 [`LoadBalancer`](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) or [`NodePort`](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport) to make this externally accessible.
 
-It has a `selector` that matches the scheduler pod and the same ports configured.
+It has a `selector` that matches the scheduler Pod and the same ports configured.
 
 ### Accessing your Dask cluster
 
@@ -281,7 +281,7 @@ NAME                                  TYPE        CLUSTER-IP      EXTERNAL-IP   
 service/rapids-dask-cluster-service   ClusterIP   10.96.223.217   <none>        8786/TCP,8787/TCP   4m13s
 ```
 
-Here you can see our scheduler pod and two worker pods along with the scheduler service.
+Here you can see our scheduler Pod and two worker Pods along with the scheduler service.
 
 If you have a Python session running within the Kubernetes cluster (like the [example one on the Kubernetes page](/platforms/kubernetes)) you should be able
 to connect a Dask distributed client directly.

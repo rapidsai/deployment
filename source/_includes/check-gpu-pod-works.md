@@ -1,4 +1,4 @@
-Let's create a sample pod that uses some GPU compute to make sure that everything is working as expected.
+Let's create a sample Pod that uses some GPU compute to make sure that everything is working as expected.
 
 ```bash
 cat << EOF | kubectl create -f -
@@ -29,7 +29,7 @@ Done
 
 If you see `Test PASSED` in the output, you can be confident that your Kubernetes cluster has GPU compute set up correctly.
 
-Next, clean up that pod.
+Next, clean up that Pod.
 
 ```console
 $ kubectl delete pod cuda-vectoradd

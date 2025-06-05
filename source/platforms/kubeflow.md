@@ -1,6 +1,6 @@
 # Kubeflow
 
-You can use RAPIDS with Kubeflow in a single pod with [Kubeflow Notebooks](https://www.kubeflow.org/docs/components/notebooks/) or you can scale out to many pods on many nodes of the Kubernetes cluster with the [dask-operator](/tools/kubernetes/dask-operator).
+You can use RAPIDS with Kubeflow in a single Pod with [Kubeflow Notebooks](https://www.kubeflow.org/docs/components/notebooks/) or you can scale out to many Pods on many nodes of the Kubernetes cluster with the [dask-operator](/tools/kubernetes/dask-operator).
 
 ```{note}
 These instructions were tested against [Kubeflow v1.5.1](https://github.com/kubeflow/manifests/releases/tag/v1.5.1) running on [Kubernetes v1.21](https://kubernetes.io/blog/2021/04/08/kubernetes-1-21-release-announcement/). Visit [Installing Kubeflow](https://www.kubeflow.org/docs/started/installing-kubeflow/) for instructions on installing Kubeflow on your Kubernetes cluster.
@@ -13,7 +13,7 @@ The [RAPIDS docker images](/tools/rapids-docker) can be used directly in Kubeflo
 Be sure to match the CUDA version in the container image with that installed on your Kubernetes nodes. The default CUDA version installed on GKE Stable is 11.4 for example, so we would want to choose that. From 11.5 onwards it doesn’t matter as they will be backward compatible. Copy the container image name from the install command (i.e. `{{ rapids_container }}`).
 
 ````{note}
-You can [check your CUDA version](https://jacobtomlinson.dev/posts/2022/how-to-check-your-nvidia-driver-and-cuda-version-in-kubernetes/) by creating a pod and running `nvidia-smi`. For example:
+You can [check your CUDA version](https://jacobtomlinson.dev/posts/2022/how-to-check-your-nvidia-driver-and-cuda-version-in-kubernetes/) by creating a Pod and running `nvidia-smi`. For example:
 
 ```console
 
@@ -103,7 +103,7 @@ $ kubectl get daskclusters
 No resources found in default namespace.
 ```
 
-You can also check the operator pod is running and ready to launch new Dask clusters.
+You can also check the operator Pod is running and ready to launch new Dask clusters.
 
 ```console
 $ kubectl get pods -A -l app.kubernetes.io/name=dask-kubernetes-operator
@@ -111,7 +111,7 @@ NAMESPACE       NAME                                        READY   STATUS    RE
 dask-operator   dask-kubernetes-operator-775b8bbbd5-zdrf7   1/1     Running   0          74s
 ```
 
-Lastly, ensure that your notebook session can create and manage Dask custom resources. To do this you need to edit the `kubeflow-kubernetes-edit` cluster role that gets applied to notebook pods. Add a new rule to the rules section for this role to allow everything in the `kubernetes.dask.org` API group.
+Lastly, ensure that your notebook session can create and manage Dask custom resources. To do this you need to edit the `kubeflow-kubernetes-edit` cluster role that gets applied to notebook Pods. Add a new rule to the rules section for this role to allow everything in the `kubernetes.dask.org` API group.
 
 ```console
 $ kubectl edit clusterrole kubeflow-kubernetes-edit
@@ -129,7 +129,7 @@ rules:
 
 ### Creating a Dask cluster
 
-Now you can create `DaskCluster` resources in Kubernetes that will launch all the necessary pods and services for our cluster to work. This can be done in YAML via the Kubernetes API or using the Python API from a notebook session as shown in this section.
+Now you can create `DaskCluster` resources in Kubernetes that will launch all the necessary Pods and services for our cluster to work. This can be done in YAML via the Kubernetes API or using the Python API from a notebook session as shown in this section.
 
 In a Jupyter session, create a new notebook and install the `dask-kubernetes` package which you will need to launch Dask clusters.
 

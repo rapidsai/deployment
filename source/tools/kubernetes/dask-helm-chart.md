@@ -44,12 +44,12 @@ jupyter:
 
 `[jupyter|scheduler|worker].image.*` is updated with the RAPIDS "runtime" image from the stable release,
 which includes environment necessary to launch run accelerated libraries in RAPIDS, and scaling up and down via dask.
-Note that all scheduler, worker and jupyter pods are required to use the same image.
+Note that all scheduler, worker and jupyter Pods are required to use the same image.
 This ensures that dask scheduler and worker versions match.
 
-`[jupyter|worker].resources` explicitly requests a GPU for each worker pod and the Jupyter pod, required by many accelerated libraries in RAPIDS.
+`[jupyter|worker].resources` explicitly requests a GPU for each worker Pod and the Jupyter Pod, required by many accelerated libraries in RAPIDS.
 
-`worker.dask_worker` is the launch command for dask worker inside worker pod.
+`worker.dask_worker` is the launch command for dask worker inside worker Pod.
 To leverage the GPUs assigned to each Pod the [`dask_cuda_worker`](https://docs.rapids.ai/api/dask-cuda/~~~rapids_api_docs_version~~~/index.html) command is launched in place of the regular `dask_worker`.
 
 If desired to have a different jupyter notebook password than default, compute the hash for `<your-password>` and update `jupyter.password`.

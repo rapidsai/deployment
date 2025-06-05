@@ -56,7 +56,7 @@ Use a T4 for the scheduler to optimize resource costs on Kubernetes
 :link-type: doc
 Colocate worker pods on Kubernetes
 ^^^
-Use pod affinity for the workers to optimize communication overhead on Kubernetes
+Use Pod affinity for the workers to optimize communication overhead on Kubernetes
 
 {bdg-primary}`Dask`
 {bdg-primary}`Kubernetes`
