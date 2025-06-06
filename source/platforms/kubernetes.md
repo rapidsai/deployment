@@ -125,7 +125,7 @@ data:
     c.ServerProxy.host_allowlist = lambda app, host: True
 ```
 
-Then we further modify out `Pod` spec to mount in this config map to the right location.
+Then we further modify out `Pod` spec to mount in this `ConfigMap` to the right location.
 
 ```yaml
 apiVersion: v1
@@ -259,7 +259,7 @@ spec:
 $ kubectl apply -f rapids-notebook.yaml
 ```
 
-The container creation takes approximately 7 min, you can check the status of the pod by doing:
+The container creation takes approximately 7 min, you can check the status of the Pod by doing:
 
 ```console
 $ kubectl get pods
@@ -293,7 +293,7 @@ Find out more on the [Dask Operator page](/tools/kubernetes/dask-operator).
 
 ## Helm Chart
 
-Individual users can also install the [Dask Helm Chart](https://helm.dask.org) which provides a `Pod` running Jupyter alongside a Dask cluster consisting of pods running the Dask scheduler and worker components. You can customize this helm chart to run the RAPIDS container images as both the notebook server and Dask cluster components so that everything can benefit from GPU acceleration.
+Individual users can also install the [Dask Helm Chart](https://helm.dask.org) which provides a `Pod` running Jupyter alongside a Dask cluster consisting of Pods running the Dask scheduler and worker components. You can customize this helm chart to run the RAPIDS container images as both the notebook server and Dask cluster components so that everything can benefit from GPU acceleration.
 
 Find out more on the [Dask Helm Chart page](/tools/kubernetes/dask-helm-chart).
 

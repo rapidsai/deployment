@@ -101,7 +101,7 @@ $ kubectl get daskclusters
 No resources found in default namespace.
 ```
 
-We can also check the operator pod is running:
+We can also check the operator Pod is running:
 
 ```console
 $ kubectl get pods -A -l app.kubernetes.io/name=dask-kubernetes-operator
@@ -228,7 +228,7 @@ affinity:
 # ...
 ```
 
-For the Dask scheduler pod we are setting a node affinity using the label previously specified on the dedicated node. Node affinity in Kubernetes allows you to constrain which nodes your Pod can be scheduled based on node labels. This is also intended to be a soft requirement as we are using the `preferredDuringSchedulingIgnoredDuringExecution` type of node affinity. The Kubernetes scheduler tries to find a node which meets the rule. If a matching node is not available, the Kubernetes scheduler still schedules the pod on any available node. This ensures that you will not face any issues with the Dask cluster even if the T4 node is unavailable.
+For the Dask scheduler Pod we are setting a node affinity using the label previously specified on the dedicated node. Node affinity in Kubernetes allows you to constrain which nodes your Pod can be scheduled based on node labels. This is also intended to be a soft requirement as we are using the `preferredDuringSchedulingIgnoredDuringExecution` type of node affinity. The Kubernetes scheduler tries to find a node which meets the rule. If a matching node is not available, the Kubernetes scheduler still schedules the Pod on any available node. This ensures that you will not face any issues with the Dask cluster even if the T4 node is unavailable.
 
 ### Accessing your Dask cluster
 
@@ -245,7 +245,7 @@ NAME                                  TYPE        CLUSTER-IP      EXTERNAL-IP   
 service/rapids-dask-cluster-service   ClusterIP   10.96.223.217   <none>        8786/TCP,8787/TCP   4m13s
 ```
 
-Here you can see our scheduler pod and two worker pods along with the scheduler service.
+Here you can see our scheduler Pod and two worker Pods along with the scheduler service.
 
 If you have a Python session running within the Kubernetes cluster (like the [example one on the Kubernetes page](/platforms/kubernetes)) you should be able
 to connect a Dask distributed client directly.
