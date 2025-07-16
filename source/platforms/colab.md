@@ -11,7 +11,7 @@ RAPIDS cuDF is preinstalled on Google Colab and instantly accelerates Pandas wit
 1. [RAPIDS Quick Install](colab-quick) - applicable for most users and quickly installs all the RAPIDS Stable packages.
 2. [RAPIDS Custom Setup Instructions](colab-custom) - step by step set up instructions covering the **must haves** for when a user needs to adapt instance to their workflows.
 
-In both sections, we will be installing RAPIDS on colab using pip. The pip installation allows users to install cuDF, cuML, cuGraph, cuXfilter, and cuSpatial stable versions in a few minutes.
+In both sections, we will be installing RAPIDS on colab using pip. The pip installation allows users to install libraries like cuDF, cuML, cuGraph, and cuXfilter stable versions in a few minutes.
 
 RAPIDS install on Colab strives to be an "always working" solution, and sometimes will **pin** RAPIDS versions to ensure compatibility.
 
