@@ -75,14 +75,4 @@ Prepull Docker Images while using the Dask Autoscaler on Kubernetes
 {bdg-primary}`dask-operator`
 ````
 
-````{grid-item-card}
-:link: l4-gcp
-:link-type: doc
-L4 on Google Cloud Platform
-^^^
-How to setup a VM instance on GCP with an L4 GPU.
-
-{bdg-primary}`Google Cloud Platform`
-````
-
 `````
