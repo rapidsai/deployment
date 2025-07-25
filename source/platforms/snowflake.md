@@ -95,7 +95,7 @@ alt: Screenshot of Notebook creation setup
 ---
 ```
 
-3. For this example we suggest you upload the following notebook INSERT LINK
+3. For this example we suggest you upload the following [notebook cuml example](https://github.com/rapidsai/deployment/tree/main/source/examples/cuml-snowflake-nb/notebook.ipynb).
 
 4. Once the notebook is uploaded, we need to make sure we have access to the internet before we can get started. Go to
    the three dots at the top right of your Snowflake app and select **Network settings**, then go to **External access**
