@@ -84,6 +84,7 @@ extensions = [
     "rapids_grid_toctree",
     "rapids_version_templating",
     "rapids_admonitions",
+    "sphinx_reredirects",
 ]
 
 myst_enable_extensions = ["colon_fence", "dollarmath"]
