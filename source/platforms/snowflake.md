@@ -1,24 +1,25 @@
 # Snowflake
 
-You can install RAPIDS on [Snowflake](https://www.snowflake.com) via [Snowpark Container Services](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview). Or access `cuDF` and `cuML` in the [Snowflake Notebooks on Container Runtime for ML](https://docs.snowflake.com/en/developer-guide/snowflake-ml/notebooks-on-spcs).
+You can access `cuDF` and `cuML` in the [Snowflake Notebooks on Container Runtime for ML](https://docs.snowflake.com/en/developer-guide/snowflake-ml/notebooks-on-spcs).
+Or you can install RAPIDS on [Snowflake](https://www.snowflake.com) via [Snowpark Container Services](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview).
 
 ## Snowflake requirements
 
-- A non-trial Snowflake account in a supported [AWS region](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview#available-regions).
-- A Snowflake account login with a role that has the `ACCOUNTADMIN` role. If not,
-  you will need to work with your `ACCOUNTADMIN` to perform the initial account setup.
-- Access to `INSTANCE_FAMILY` with NVIDIA GPUs. For this guide we will use `GPU_NV_S`
-  (1 NVIDIA A10G - smallest NVIDIA GPU size available for Snowpark Containers to
-  get started.)
+- A non-trial Snowflake account in AWS or Azure for Notebooks, and for container services an account in a
+  supported [AWS region](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview#available-regions)
+- A Snowflake account login with a role that has the `ACCOUNTADMIN` role. If not, you will need to work with your `ACCOUNTADMIN`
+  to perform the initial account setup.
+- Access to `INSTANCE_FAMILY` with NVIDIA GPUs. For this guides we will use `GPU_NV_S` (1 NVIDIA A10G - smallest NVIDIA GPU size
+  available for Snowpark Containers to get started, and smallest instance type available for Notebooks)
 
 ## `cuDF` and `cuML` in Snowflake Notebooks ML Runtime
 
 The [Snowflake Notebooks on Container Runtime for ML](https://docs.snowflake.com/en/developer-guide/snowflake-ml/notebooks-on-spcs)
-has `cuDF` and `cuML` built in in the environment.
+has `cuDF` and `cuML` built in in the environment. If you want more control over your environment, or a closer experience to a Jupyter
+Notebook setup, follow the instructions for [RAPIDS on Snowflake via Snowpark Container Services](rapids-snowpark)
 
 ```{note}
-The following instructions are an adaptation of the [
-Getting Started with Snowflake Notebook Container Runtime](https://quickstarts.snowflake.com/guide/notebook-container-runtime/#1)
+The following instructions are an adaptation of the [Getting Started with Snowflake Notebook Container Runtime](https://quickstarts.snowflake.com/guide/notebook-container-runtime/#1)
 and the [Train an XGBoost Model with GPUs using Snowflake Notebooks](https://quickstarts.snowflake.com/guide/train-an-xgboost-model-with-gpus-using-snowflake-notebooks/#1) guides from the Snowflake documentation.
 ```
 
@@ -117,6 +118,8 @@ alt: Screenshot of Notebook setting external access
    run the notebook to see `cuml.accel` in action.
 
 6. When you are done, end your session and suspend the compute pool.
+
+(rapids-snowpark)=
 
 ## RAPIDS on Snowflake via Snowpark Container Services
 
