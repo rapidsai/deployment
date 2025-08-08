@@ -22,3 +22,10 @@ RAPIDS packages can be installed with pip. See [RAPIDS pip Installation Docs Pag
 ## WSL2
 
 RAPIDS can be installed on Windows using Windows Subsystem for Linux version 2 (WSL2). See [RAPIDS WSL2 Installation Docs Page](https://docs.rapids.ai/install#wsl2) for installation instructions and requirements.
+
+:::{toctree}
+:hidden:
+:maxdepth: 1
+
+custom-docker.md
+:::
