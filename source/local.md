@@ -13,7 +13,7 @@ Installation instructions for conda are hosted at the [RAPIDS Conda Installation
 
 Installation instructions for Docker are hosted at the [RAPIDS Docker Installation Docs Page](https://docs.rapids.ai/install#docker).
 
-For custom RAPIDS Docker installations with only selected RAPIDS libraries, see the [Custom RAPIDS Docker Guide](custom-rapids.md).
+For custom RAPIDS Docker installations with only selected RAPIDS libraries, see the [Custom RAPIDS Docker Guide](custom-docker.md).
 
 ## pip
 
