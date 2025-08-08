@@ -156,7 +156,7 @@ To add packages to the Pip environment, add them to your `requirements.txt` file
 
 **Example: Adding `scikit-learn` and `lightgbm` to a pip image containing `cudf`**
 
-```txt
+```text
 cudf-cu12==25.08.*
 scikit-learn
 lightgbm
@@ -251,9 +251,9 @@ After building your image, you can quickly test that RAPIDS is installed and run
 
 3. **Expected Output**
 
-   If your installation is successful, you will see output similar to this, confirming the cuDF version and displaying a GPU-accelerated DataFrame:
+   If your installation is successful, you will see output similar to this, confirming the cuDF version and displaying a cuDF DataFrame:
 
-   ```python
+   ```ipython
    In [1]: import cudf
       ...: print(f"cuDF version: {cudf.__version__}")
       ...: gdf = cudf.DataFrame({"a": [1, 2, 3]})
