@@ -5,6 +5,19 @@
 For fast and consistent builds of the documentation we recommend running all build commands with [uv](https://docs.astral.sh/uv/getting-started/installation/) and `uv run`.
 Build dependencies are stored in `pyproject.toml` and locked with `uv.lock` to ensure reproducible builds.
 
+To create a dedicated environment follow the instructions in the [uv docs](https://docs.astral.sh/uv/pip/environments/)
+once it's created you can install all the packages from the `uv.lock` doing:
+
+```bash
+uv sync --locked
+```
+
+The `uv.lock` file will ensure reproducible builds, but if you want to intentionally upgrade to newer versions of dependencies you can run
+
+```bash
+uv lock --upgrade
+```
+
 We also recommend building with [sphinx-autobuild](https://github.com/executablebooks/sphinx-autobuild).
 This tool will build your docs and host them on a local web server.
 It will watch for file changes, rebuild automatically and tell the browser page to reload. Magic!
@@ -24,12 +37,6 @@ Alternatively you can build the static site into `build/html` with `sphinx`.
 
 ```bash
 uv run make dirhtml
-```
-
-The `uv.lock` file will ensure reproducible builds, but if you want to intentionally upgrade to newer versions of dependencies you can run
-
-```bash
-uv lock --upgrade
 ```
 
 ## Writing
