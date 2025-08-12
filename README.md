@@ -9,7 +9,7 @@ To create a dedicated environment follow the instructions in the [uv docs](https
 once it's created you can install all the packages from the `uv.lock` doing:
 
 ```bash
-uv sync --locked
+uv venv && uv sync --locked
 ```
 
 The `uv.lock` file will ensure reproducible builds, but if you want to intentionally upgrade to newer versions of dependencies you can run
