@@ -5,6 +5,19 @@
 For fast and consistent builds of the documentation we recommend running all build commands with [uv](https://docs.astral.sh/uv/getting-started/installation/) and `uv run`.
 Build dependencies are stored in `pyproject.toml` and locked with `uv.lock` to ensure reproducible builds.
 
+To create a dedicated environment follow the instructions in the [uv docs](https://docs.astral.sh/uv/pip/environments/)
+once it's created you can install all the packages from the `uv.lock` doing:
+
+```bash
+uv venv && uv sync --locked
+```
+
+The `uv.lock` file will ensure reproducible builds, but if you want to intentionally upgrade to newer versions of dependencies you can run
+
+```bash
+uv lock --upgrade
+```
+
 We also recommend building with [sphinx-autobuild](https://github.com/executablebooks/sphinx-autobuild).
 This tool will build your docs and host them on a local web server.
 It will watch for file changes, rebuild automatically and tell the browser page to reload. Magic!
@@ -24,12 +37,6 @@ Alternatively you can build the static site into `build/html` with `sphinx`.
 
 ```bash
 uv run make dirhtml
-```
-
-The `uv.lock` file will ensure reproducible builds, but if you want to intentionally upgrade to newer versions of dependencies you can run
-
-```bash
-uv lock --upgrade
 ```
 
 ## Writing
@@ -131,10 +138,10 @@ The RAPIDS versions for things like container images and install instructions ar
 ```python
 versions = {
     "stable": {
-        "rapids_container": "nvcr.io/nvidia/rapidsai/base:25.06-cuda12.8-py3.12",
+        "rapids_container": "nvcr.io/nvidia/rapidsai/base:25.08-cuda12.9-py3.12",
     },
     "nightly": {
-        "rapids_container": "rapidsai/base:25.08a-cuda12.8-py3.12",
+        "rapids_container": "rapidsai/base:25.10a-cuda12.9-py3.12",
     },
 }
 ```
