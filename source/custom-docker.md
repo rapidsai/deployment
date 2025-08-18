@@ -42,14 +42,16 @@ To begin, you will need to create a few local files for your custom build: a `Do
 
 The choice of base image depends on how your package manager handles CuPy (a dependency for most RAPIDS libraries) and CUDA library dependencies:
 
-#### Conda Approach → Uses `cuda-base` 
+### Conda Approach → Uses `cuda-base`
+
 ```dockerfile
 FROM nvidia/cuda:12.9.1-base-ubuntu24.04  # Minimal image
 ```
 
 This approach works because conda can install both Python and non-Python dependencies, including system-level CUDA libraries like `libcudart` and `libnvrtc`. When installing RAPIDS libraries via conda, the package manager automatically pulls the required CUDA runtime libraries alongside CuPy and other dependencies, providing complete dependency management in a single installation step.
 
-#### Pip Approach → Uses `cuda-runtime`  
+### Pip Approach → Uses `cuda-runtime`
+
 ```dockerfile
 FROM nvidia/cuda:12.9.1-runtime-ubuntu24.04  # Includes CUDA libraries
 ```
@@ -150,10 +152,10 @@ When using `pip`, you must specify the CUDA version in the package name (e.g., `
 
 One of the key benefits of building custom RAPIDS containers is the significant reduction in image size compared to the pre-built RAPIDS images. Here are actual measurements from containers containing only cuDF:
 
-| Image Type | Contents | Size |
-|------------|----------|------|
-| **Custom conda** | cuDF only | **6.83 GB** |
-| **Custom pip** | cuDF only | **6.53 GB** |
+| Image Type           | Contents          | Size        |
+| -------------------- | ----------------- | ----------- |
+| **Custom conda**     | cuDF only         | **6.83 GB** |
+| **Custom pip**       | cuDF only         | **6.53 GB** |
 | **Pre-built RAPIDS** | Full RAPIDS suite | **12.9 GB** |
 
 Custom builds save approximately 6 GB when you only need specific libraries like cuDF. These size reductions result in faster container pulls and deployments, reduced storage costs in container registries, lower bandwidth usage in distributed environments, and quicker startup times for containerized applications.
