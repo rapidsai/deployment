@@ -42,7 +42,7 @@ To begin, you will need to create a few local files for your custom build: a `Do
 
 The choice of base image depends on how your package manager handles CuPy (a dependency for most RAPIDS libraries) and CUDA library dependencies:
 
-### Conda Approach → Uses `cuda-base`
+### Conda → Uses `cuda-base`
 
 ```dockerfile
 FROM nvidia/cuda:12.9.1-base-ubuntu24.04  # Minimal image
@@ -50,7 +50,7 @@ FROM nvidia/cuda:12.9.1-base-ubuntu24.04  # Minimal image
 
 This approach works because conda can install both Python and non-Python dependencies, including system-level CUDA libraries like `libcudart` and `libnvrtc`. When installing RAPIDS libraries via conda, the package manager automatically pulls the required CUDA runtime libraries alongside CuPy and other dependencies, providing complete dependency management in a single installation step.
 
-### Pip Approach → Uses `cuda-runtime`
+### Pip → Uses `cuda-runtime`
 
 ```dockerfile
 FROM nvidia/cuda:12.9.1-runtime-ubuntu24.04  # Includes CUDA libraries
@@ -232,6 +232,11 @@ docker build -f rapids-pip.Dockerfile \
   --build-arg LINUX_DISTRO_VER=22.04 \
   -t rapids-custom:custom-build
 ```
+
+```{note}
+For conda installations, you can choose the required python version in the `env.yaml` file
+```
+
 
 ## Verifying Your Installation
 
