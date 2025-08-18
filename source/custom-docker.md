@@ -202,12 +202,12 @@ You can customize the build by passing arguments to the `docker build` command. 
 
 ### Available Build Arguments
 
-| Argument           | Default Value | Description                                            | Example Values       |
-| ------------------ | ------------- | ------------------------------------------------------ | -------------------- |
-| `CUDA_VER`         | `12.9.1`      | Sets the CUDA version for the base image and packages. | `12.0`               |
-| `PYTHON_VER` (pip only)     | `3.12`        | Defines the Python version to install and use.         | `3.11`, `3.10`       |
-| `LINUX_DISTRO`     | `ubuntu`      | The base Linux distribution.                           | `rockylinux9`, `cm2` |
-| `LINUX_DISTRO_VER` | `24.04`       | The version of the Linux distribution.                 | `20.04`, `24.04`     |
+| Argument                | Default Value | Description                                            | Example Values       |
+| ----------------------- | ------------- | ------------------------------------------------------ | -------------------- |
+| `CUDA_VER`              | `12.9.1`      | Sets the CUDA version for the base image and packages. | `12.0`               |
+| `PYTHON_VER` (pip only) | `3.12`        | Defines the Python version to install and use.         | `3.11`, `3.10`       |
+| `LINUX_DISTRO`          | `ubuntu`      | The base Linux distribution.                           | `rockylinux9`, `cm2` |
+| `LINUX_DISTRO_VER`      | `24.04`       | The version of the Linux distribution.                 | `20.04`, `24.04`     |
 
 ### Build Examples
 
@@ -236,7 +236,6 @@ docker build -f rapids-pip.Dockerfile \
 ```{note}
 For conda installations, you can choose the required python version in the `env.yaml` file
 ```
-
 
 ## Verifying Your Installation
 
