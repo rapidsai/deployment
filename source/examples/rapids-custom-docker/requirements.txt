@@ -1,2 +1,3 @@
 # RAPIDS libraries (pip versions)
-cudf-cu12==25.06.*
+ipython
+cudf-cu12=={{rapids_pip_version}}

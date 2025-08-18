@@ -7,9 +7,9 @@ html_theme.sidebar_secondary.remove: true
 
 This guide provides instructions for building custom RAPIDS Docker containers. This approach allows you to select only the RAPIDS libraries you need, which is ideal for creating minimal, customizable images that can be tuned to your requirements.
 
-:::{note}
-For standard installations using pre-built containers that include the full RAPIDS suite, please see the [Official RAPIDS Docker Installation Guide](https://docs.rapids.ai/install#docker).
-:::
+```{note}
+ For quick setup with pre-built containers that include the full RAPIDS suite,  please see the [Official RAPIDS Docker Installation Guide](https://docs.rapids.ai/install#docker).
+```
 
 ## Overview
 
@@ -17,7 +17,6 @@ Building a custom RAPIDS container offers several advantages over using the offi
 
 - **Minimal Image Sizes**: By including only the libraries you need, you can reduce the final image size.
 - **Flexible Configuration**: You have full control over library versions and dependencies.
-- **Development-Friendly**: You can start from a base image that matches your host environment or production requirements and the modular nature makes it easy to add additional components as required.
 
 ## Getting Started
 
@@ -39,14 +38,34 @@ To begin, you will need to create a few local files for your custom build: a `Do
 
 ---
 
-## Source Files
+## Package Manager Differences
 
-The complete source code for the Dockerfiles and their configurations are included here. Expand the sections below to view and copy the contents for your own local files.
+The choice of base image depends on how your package manager handles CuPy (a dependency for most RAPIDS libraries) and CUDA library dependencies:
 
-::::{dropdown} 📁 **conda**: Source Files
-:open:
+#### Conda Approach → Uses `cuda-base` 
+```dockerfile
+FROM nvidia/cuda:12.9.1-base-ubuntu24.04  # Minimal image
+```
 
-This approach uses conda environments and is ideal for workflows that are based on `conda`
+This approach works because conda can install both Python and non-Python dependencies, including system-level CUDA libraries like `libcudart` and `libnvrtc`. When installing RAPIDS libraries via conda, the package manager automatically pulls the required CUDA runtime libraries alongside CuPy and other dependencies, providing complete dependency management in a single installation step.
+
+#### Pip Approach → Uses `cuda-runtime`  
+```dockerfile
+FROM nvidia/cuda:12.9.1-runtime-ubuntu24.04  # Includes CUDA libraries
+```
+
+This approach is necessary because CuPy wheels distributed via PyPI do not currently bundle CUDA runtime libraries (`libcudart`, `libnvrtc`) within the wheel packages themselves. Since pip cannot install system-level CUDA libraries, CuPy expects these libraries to already be present in the system environment. The `cuda-runtime` image provides the necessary CUDA runtime libraries that CuPy requires, eliminating the need for manual library installation.
+
+## Source Code
+
+The complete source code for the Dockerfiles and their configurations are included here. Choose your preferred package manager.
+
+`````{tab-set}
+
+````{tab-item} conda
+:sync: conda
+
+This method uses conda and is ideal for workflows that are based on `conda`.
 
 **`rapids-conda.Dockerfile`**
 
@@ -60,11 +79,12 @@ This approach uses conda environments and is ideal for workflows that are based 
 :language: yaml
 ```
 
-::::
+````
 
-::::{dropdown} 📁 **pip**: Source Files
+````{tab-item} pip
+:sync: pip
 
-This approach uses standard Python virtual environments and is ideal for workflows that are already based on `pip`
+This approach uses standard Python virtual environments and is ideal for workflows that are already based on `pip`.
 
 **`rapids-pip.Dockerfile`**
 
@@ -78,7 +98,9 @@ This approach uses standard Python virtual environments and is ideal for workflo
 :language: text
 ```
 
-::::
+````
+
+`````
 
 ---
 
@@ -94,14 +116,10 @@ After copying the source files into your local directory:
 
 ```bash
 # Build the minimal base image
-docker build -f rapids-conda.Dockerfile --target base -t rapids-conda-base .
+docker build -f rapids-conda.Dockerfile -t rapids-conda-base .
 
 # Run an interactive session
 docker run --gpus all -it rapids-conda-base
-
-# Build the Jupyter notebooks image
-docker build -f rapids-conda.Dockerfile --target notebooks -t rapids-conda-notebooks .
-docker run --gpus all -p 8888:8888 rapids-conda-notebooks
 ```
 
 ### Pip
@@ -114,19 +132,31 @@ After copying the source files into your local directory:
 
 ```bash
 # Build the minimal base image
-docker build -f rapids-pip.Dockerfile --target base -t rapids-pip-base .
+docker build -f rapids-pip.Dockerfile -t rapids-pip-base .
 
 # Run an interactive session
 docker run --gpus all -it rapids-pip-base
-
-# Build the Jupyter notebooks image
-docker build -f rapids-pip.Dockerfile --target notebooks -t rapids-pip-notebooks .
-docker run --gpus all -p 8888:8888 rapids-pip-notebooks
 ```
 
 :::{important}
 When using `pip`, you must specify the CUDA version in the package name (e.g., `cudf-cu12`, `cuml-cu12`). This ensures you install the version of the library that is compatible with the CUDA toolkit.
 :::
+
+```{note}
+**GPU Access with `--gpus all`**: The `--gpus` flag uses the NVIDIA Container Toolkit to dynamically mount GPU device files (`/dev/nvidia*`), NVIDIA driver libraries (`libcuda.so`, `libnvidia-ml.so`), and utilities like `nvidia-smi` from the host system into your container at runtime. This is why `nvidia-smi` becomes available even though it's not installed in your Docker image. Your container only needs to provide the CUDA runtime libraries (like `libcudart`) that RAPIDS requires—the host system's NVIDIA driver handles the rest.
+```
+
+### Image Size Comparison
+
+One of the key benefits of building custom RAPIDS containers is the significant reduction in image size compared to the pre-built RAPIDS images. Here are actual measurements from containers containing only cuDF:
+
+| Image Type | Contents | Size |
+|------------|----------|------|
+| **Custom conda** | cuDF only | **6.83 GB** |
+| **Custom pip** | cuDF only | **6.53 GB** |
+| **Pre-built RAPIDS** | Full RAPIDS suite | **12.9 GB** |
+
+Custom builds save approximately 6 GB when you only need specific libraries like cuDF. These size reductions result in faster container pulls and deployments, reduced storage costs in container registries, lower bandwidth usage in distributed environments, and quicker startup times for containerized applications.
 
 ## Extending the Environment
 
@@ -134,18 +164,18 @@ One of the benefits of this custom build process is the ability to easily add yo
 
 ### Using conda
 
-To add packages to the Conda environment, simply add them to the `dependencies` list in your `env.yaml` file.
+To add packages to the Conda environment, add them to the `dependencies` list in your `env.yaml` file.
 
 **Example: Adding `scikit-learn` and `xgboost` to a conda image containing `cudf`**
 
 ```yaml
-name: rapids-env
+name: base
 channels:
-  - rapidsai-nightly
+  - {{ rapids_conda_channels_list[0] }}
   - conda-forge
   - nvidia
 dependencies:
-  - cudf=25.08
+  - cudf={{rapids_version}}
   - scikit-learn
   - xgboost
 ```
@@ -157,12 +187,12 @@ To add packages to the Pip environment, add them to your `requirements.txt` file
 **Example: Adding `scikit-learn` and `lightgbm` to a pip image containing `cudf`**
 
 ```text
-cudf-cu12==25.08.*
+cudf-cu12=={{rapids_pip_version}}
 scikit-learn
 lightgbm
 ```
 
-After modifying your configuration file, simply rebuild the Docker image. The new packages will be automatically included in your custom RAPIDS environment.
+After modifying your configuration file, rebuild the Docker image. The new packages will be automatically included in your custom RAPIDS environment.
 
 ## Build Customization
 
@@ -185,7 +215,7 @@ The following examples demonstrate how to use the build arguments. These command
 
 ```bash
 # Build with Python 3.11
-docker build -f rapids-conda.Dockerfile --target base \
+docker build -f rapids-conda.Dockerfile \
   --build-arg PYTHON_VER=3.11 \
   -t rapids-custom:py311
 ```
@@ -194,7 +224,7 @@ docker build -f rapids-conda.Dockerfile --target base \
 
 ```bash
 # Build on Ubuntu 22.04
-docker build -f rapids-conda.Dockerfile --target base \
+docker build -f rapids-conda.Dockerfile \
   --build-arg LINUX_DISTRO_VER=22.04 \
   -t rapids-custom:ubuntu2404
 ```
@@ -203,19 +233,12 @@ docker build -f rapids-conda.Dockerfile --target base \
 
 ```bash
 # Build for CUDA 12.9.1, Python 3.11, and Ubuntu 22.04
-docker build -f rapids-conda.Dockerfile --target base \
+docker build -f rapids-pip.Dockerfile \
   --build-arg CUDA_VER=12.9.1 \
   --build-arg PYTHON_VER=3.11 \
   --build-arg LINUX_DISTRO_VER=22.04 \
   -t rapids-custom:custom-build
 ```
-
-## Available Image Targets
-
-Both the Conda and Pip Dockerfiles are multi-stage and can produce two different images:
-
-- **Base Image** (`--target base`): A minimal environment with Python, IPython, and your selected RAPIDS libraries. Ideal for scripting and headless operation.
-- **Notebooks Image** (`--target notebooks`): Extends the base image with JupyterLab and GPU-monitoring extensions. Perfect for interactive data science and exploration.
 
 ## Verifying Your Installation
 

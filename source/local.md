@@ -5,23 +5,44 @@ html_theme.sidebar_secondary.remove: true
 
 # Local
 
-## Conda
+Choose your preferred installation method for running RAPIDS
 
-Installation instructions for conda are hosted at the [RAPIDS Conda Installation Docs Page](https://docs.rapids.ai/install#conda).
+`````{gridtoctree} 1 2 2 2
+:gutter: 2 2 2 2
 
-## Docker
+````{grid-item-card}
+:link: https://docs.rapids.ai/install#conda
+:link-type: url
+{fas}`box;sd-text-primary` Conda
+^^^
+Install RAPIDS using conda
+````
 
-Installation instructions for Docker are hosted at the [RAPIDS Docker Installation Docs Page](https://docs.rapids.ai/install#docker).
+````{grid-item-card}
+:link: custom-docker
+:link-type: doc
+{fas}`container;sd-text-primary` Docker
+^^^
+Install RAPIDS using Docker
+````
 
-For custom RAPIDS Docker installations with only selected RAPIDS libraries, see the [Custom RAPIDS Docker Guide](custom-docker.md).
+````{grid-item-card}
+:link: https://docs.rapids.ai/install#pip
+:link-type: url
+{fas}`python;sd-text-primary` pip
+^^^
+Install RAPIDS using pip
+````
 
-## pip
+````{grid-item-card}
+:link: https://docs.rapids.ai/install#wsl2
+:link-type: url
+{fas}`windows;sd-text-primary` WSL2
+^^^
+Install RAPIDS on Windows using Windows Subsystem for Linux version 2 (WSL2)
+````
 
-RAPIDS packages can be installed with pip. See [RAPIDS pip Installation Docs Page](https://docs.rapids.ai/install#pip) for installation instructions and requirements.
-
-## WSL2
-
-RAPIDS can be installed on Windows using Windows Subsystem for Linux version 2 (WSL2). See [RAPIDS WSL2 Installation Docs Page](https://docs.rapids.ai/install#wsl2) for installation instructions and requirements.
+`````
 
 :::{toctree}
 :hidden:
