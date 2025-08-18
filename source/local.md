@@ -21,7 +21,7 @@ Install RAPIDS using conda
 ````{grid-item-card}
 :link: custom-docker
 :link-type: doc
-{fas}`container;sd-text-primary` Docker
+{fas}`box;sd-text-primary` Docker
 ^^^
 Install RAPIDS using Docker
 ````
@@ -29,7 +29,7 @@ Install RAPIDS using Docker
 ````{grid-item-card}
 :link: https://docs.rapids.ai/install#pip
 :link-type: url
-{fas}`python;sd-text-primary` pip
+{fas}`box;sd-text-primary` pip
 ^^^
 Install RAPIDS using pip
 ````
@@ -37,7 +37,7 @@ Install RAPIDS using pip
 ````{grid-item-card}
 :link: https://docs.rapids.ai/install#wsl2
 :link-type: url
-{fas}`windows;sd-text-primary` WSL2
+{fas}`box;sd-text-primary` WSL2
 ^^^
 Install RAPIDS on Windows using Windows Subsystem for Linux version 2 (WSL2)
 ````
