@@ -205,22 +205,13 @@ You can customize the build by passing arguments to the `docker build` command. 
 | Argument           | Default Value | Description                                            | Example Values       |
 | ------------------ | ------------- | ------------------------------------------------------ | -------------------- |
 | `CUDA_VER`         | `12.9.1`      | Sets the CUDA version for the base image and packages. | `12.0`               |
-| `PYTHON_VER`       | `3.12`        | Defines the Python version to install and use.         | `3.11`, `3.10`       |
+| `PYTHON_VER` (pip only)     | `3.12`        | Defines the Python version to install and use.         | `3.11`, `3.10`       |
 | `LINUX_DISTRO`     | `ubuntu`      | The base Linux distribution.                           | `rockylinux9`, `cm2` |
 | `LINUX_DISTRO_VER` | `24.04`       | The version of the Linux distribution.                 | `20.04`, `24.04`     |
 
 ### Build Examples
 
 The following examples demonstrate how to use the build arguments. These commands can be adapted for both the Conda and Pip Dockerfiles.
-
-#### Customize Python Version
-
-```bash
-# Build with Python 3.11
-docker build -f rapids-conda.Dockerfile \
-  --build-arg PYTHON_VER=3.11 \
-  -t rapids-custom:py311
-```
 
 #### Customize Linux Distribution Version
 
