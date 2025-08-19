@@ -49,4 +49,4 @@ COPY requirements.txt /home/rapids/requirements.txt
 # Install all packages
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["ipython"]
+CMD ["bash"]

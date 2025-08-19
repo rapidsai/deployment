@@ -42,4 +42,4 @@ COPY env.yaml /home/rapids/env.yaml
 RUN conda env update -n base -f env.yaml && \
     conda clean --all --yes
 
-CMD ["ipython"]
+CMD ["bash"]
