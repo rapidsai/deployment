@@ -53,8 +53,8 @@ Prepare the following environment variables.
 | `AZ_USERNAME`      | User name of VM      | `rapidsai`                                                     |
 | `AZ_SSH_KEY`       | public ssh key       | `~/.ssh/id_rsa.pub`                                            |
 
-```bash
-az vm create \
+```console
+$ az vm create \
         --name ${AZ_VMNAME} \
         --resource-group ${AZ_RESOURCEGROUP} \
         --image ${AZ_IMAGE} \
@@ -109,8 +109,8 @@ Next we need to allow network traffic to the VM so we can access Jupyter and Das
 | `AZ_NSGNAME`     | NSG name for the VM | `${AZ_VMNAME}NSG`          |
 | `AZ_NSGRULENAME` | Name for NSG rule   | `Allow-Dask-Jupyter-ports` |
 
-```bash
-az network nsg rule create \
+```console
+$ az network nsg rule create \
     -g ${AZ_RESOURCEGROUP} \
     --nsg-name ${AZ_NSGNAME} \
     -n ${AZ_NSGRULENAME} \
@@ -128,8 +128,8 @@ Next, we can SSH into our VM to install RAPIDS. SSH instructions can be found by
 ````{tip}
 When connecting via SSH by doing
 
-```bash
-ssh -i <path-to-your-ssh-key-dir>/your-key-file.pem azureuser@<vm-ip-address>
+```console
+$ ssh -i <path-to-your-ssh-key-dir>/your-key-file.pem azureuser@<vm-ip-address>
 ```
 
 you might get prompted with a `WARNING: UNPROTECTED PRIVATE KEY FILE!`, and get a

@@ -33,18 +33,22 @@ You can find out your current system CUDA Toolkit version by running `ls -ld /us
 
 You can create a new RAPIDS conda environment and register it with `ipykernel` for use in Jupyter Lab. Open a new terminal in Jupyter and run the following commands.
 
-```bash
+```console
 # Create a new environment
-conda create -y -n rapids \
+$ conda create -y -n rapids \
     {{ rapids_conda_channels }} \
     {{ rapids_conda_packages }} \
     ipykernel
+```
 
+```console
 # Activate the environment
-conda activate rapids
+$ conda activate rapids
+```
 
+```console
 # Register the environment with Jupyter
-python -m ipykernel install --prefix "${DL_ANACONDA_HOME}/envs/rapids" --name rapids --display-name rapids
+$ python -m ipykernel install --prefix "${DL_ANACONDA_HOME}/envs/rapids" --name rapids --display-name rapids
 ```
 
 Then refresh the Jupyter Lab page and open the launcher. You will see a new "rapids" kernel available.

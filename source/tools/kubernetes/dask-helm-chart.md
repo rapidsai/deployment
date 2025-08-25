@@ -78,7 +78,9 @@ First, setup port forwarding from the cluster to external port:
 ```console
 # For the Jupyter server
 $ kubectl port-forward --address 127.0.0.1 service/rapids-release-dask-jupyter 8888:8888
+```
 
+```console
 # For the Dask dashboard
 $ kubectl port-forward --address 127.0.0.1 service/rapids-release-dask-scheduler 8787:8787
 ```
@@ -114,11 +116,13 @@ Worker metrics can be examined in dask dashboard.
 
 In case you want to scale up the cluster with more GPU workers, you may do so via `kubectl` or via `helm upgrade`.
 
-```bash
+```console
 $ kubectl scale deployment rapids-release-dask-worker --replicas=8
+```
 
-# or
+or
 
+```console
 $ helm upgrade --set worker.replicas=8 rapids-release dask/dask
 ```
 

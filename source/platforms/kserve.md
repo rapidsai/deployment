@@ -123,11 +123,19 @@ We will show you concrete examples below. But first some general notes:
 ```console
 $ INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway \
   -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+```
+
+```console
 $ INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway \
   -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+```
+
+```console
 $ SERVICE_HOSTNAME=$(kubectl get inferenceservice <endpoint name> -n kserve-test \
   -o jsonpath='{.status.url}' | cut -d "/" -f 3)
+```
 
+```console
 $ curl -v -H "Host: ${SERVICE_HOSTNAME}" -H "Content-Type: application/json" \
   "http://${INGRESS_HOST}:${INGRESS_PORT}/v2/models/<endpoint name>/infer" \
   -d @./payload.json

@@ -219,8 +219,8 @@ RUN pip install "snowflake-snowpark-python[pandas]" snowflake-connector-python
 Build the image in the directory where your Dockerfile is located. Notice that
 no GPU is needed to build this image.
 
-```bash
-docker build --platform=linux/amd64 -t <local_repository>/rapids-nb-snowflake:latest .
+```console
+$ docker build --platform=linux/amd64 -t <local_repository>/rapids-nb-snowflake:latest .
 ```
 
 #### Install SnowCLI
@@ -240,8 +240,8 @@ SELECT CURRENT_ORGANIZATION_NAME(); --org
 SELECT CURRENT_ACCOUNT_NAME();      --account name
 ```
 
-```bash
-snow connection add
+```console
+$ snow connection add
 ```
 
 ```bash
@@ -263,8 +263,8 @@ token file path:
 
 Test the connection:
 
-```bash
-snow connection test --connection "CONTAINER_HOL"
+```console
+$ snow connection test --connection "CONTAINER_HOL"
 ```
 
 To be able to push the docker image we need to get the snowflake registry hostname
@@ -291,31 +291,31 @@ ALTER ACCOUNT SET ALLOW_CLIENT_MFA_CACHING = TRUE;
 
 and if you are using the Snowflake Connector for Python you need:
 
-```bash
-pip install "snowflake-connector-python[secure-local-storage]"
+```console
+$ pip install "snowflake-connector-python[secure-local-storage]"
 ```
 ````
 
-```bash
-snow spcs image-registry login --connection CONTAINER_HOL
+```console
+$ snow spcs image-registry login --connection CONTAINER_HOL
 ```
 
 We tag and push the image, make sure you replace the repository url for `org-account.registry.snowflakecomputing.com/container_hol_db/public/image_repo`:
 
-```bash
-docker tag <local_repository>/rapids-nb-snowflake:latest <repository_url>/rapids-nb-snowflake:dev
+```console
+$ docker tag <local_repository>/rapids-nb-snowflake:latest <repository_url>/rapids-nb-snowflake:dev
 ```
 
 Verify that the new tagged image exists by running:
 
-```bash
-docker image list
+```console
+$ docker image list
 ```
 
 Push the image to snowflake:
 
-```bash
-docker push <repository_url>/rapids-nb-snowflake:dev
+```console
+$ docker push <repository_url>/rapids-nb-snowflake:dev
 ```
 
 ```{note}
@@ -375,8 +375,8 @@ Anything that is added to this directory will persist.
 
 We use `snow-cli` to push this `yaml` file:
 
-```bash
-snow stage copy rapids-snowpark.yaml @specs --overwrite --connection CONTAINER_HOL
+```console
+$ snow stage copy rapids-snowpark.yaml @specs --overwrite --connection CONTAINER_HOL
 ```
 
 Verify that your `yaml` was pushed properly by running the following SQL in the

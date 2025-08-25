@@ -87,16 +87,16 @@ To create and use a Jupyter Notebook, click "Open Notebook" at the top right aft
 
 If you want to access your launched Brev instance(s) via Visual Studio Code or SSH using terminal, you need to install the [Brev CLI according to these instructions](https://docs.nvidia.com/brev/latest/brev-cli.html) or this code below:
 
-```bash
-sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/brevdev/brev-cli/main/bin/install-latest.sh)" && brev login
+```console
+$ sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/brevdev/brev-cli/main/bin/install-latest.sh)" && brev login
 ```
 
 #### 2.1 Brev CLI using Visual Studio Code
 
 To connect to your Brev instance from VS Code open a new VS Code window and run:
 
-```bash
-brev open <instance-id>
+```console
+$ brev open <instance-id>
 ```
 
 It will automatically open a new VS Code window for you to use with RAPIDS.
@@ -105,24 +105,24 @@ It will automatically open a new VS Code window for you to use with RAPIDS.
 
 To access your Brev instance from the terminal run:
 
-```bash
-brev shell <instance-id>
+```console
+$ brev shell <instance-id>
 ```
 
 ##### Forwarding a Port Locally
 
 Assuming your Jupyter Notebook is running on port `8888` in your Brev environment, you can forward this port to your local machine using the following SSH command:
 
-```bash
-ssh -L 8888:localhost:8888 <username>@<ip> -p 22
+```console
+$ ssh -L 8888:localhost:8888 <username>@<ip> -p 22
 ```
 
 This command forwards port `8888` on your local machine to port `8888` on the remote Brev environment.
 
 Or for port `2222` (default port).
 
-```bash
-ssh <username>@<ip> -p 2222
+```console
+$ ssh <username>@<ip> -p 2222
 ```
 
 Replace `username` with your username and `ip` with the ip listed if it's different.
@@ -165,7 +165,10 @@ print(gdf)
 - [Brev Docs](https://brev.dev/)
 - Please note: Git is not preinstalled in the RAPIDS container, but can be installed into the container when it is running using
 
-```bash
-apt update
-apt install git -y
+```console
+$ apt update
+```
+
+```console
+$ apt install git -y
 ```

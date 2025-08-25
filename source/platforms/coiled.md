@@ -13,14 +13,14 @@ Head over to [Coiled](https://docs.coiled.io/user_guide/setup/index) and registe
 
 Once your account is set up, install the coiled Python library/CLI tool.
 
-```bash
-pip install coiled
+```console
+$ pip install coiled
 ```
 
 Then you can authenticate with your Coiled account.
 
-```bash
-coiled login
+```console
+$ coiled login
 ```
 
 For more information see the [Coiled Getting Started documentation](https://docs.coiled.io/user_guide/setup/index).
@@ -29,8 +29,8 @@ For more information see the [Coiled Getting Started documentation](https://docs
 
 The simplest way to get up and running with RAPIDS on Coiled is to launch a Jupyter notebook server using the RAPIDS notebook container.
 
-```bash
-coiled notebook start --gpu --container {{ rapids_notebooks_container }}
+```console
+$ coiled notebook start --gpu --container {{ rapids_notebooks_container }}
 ```
 
 ![Screenshot of Jupyterlab running on Coiled executing some cudf GPU code](../_static/images/platforms/coiled/coiled-jupyter.png)
@@ -43,8 +43,8 @@ By default when running remote operations Coiled will [attempt to create a copy 
 
 All Coiled commands can be passed a container image to use. This container will be pulled onto the remote VM at launch time.
 
-```bash
-coiled notebook start --gpu --container {{ rapids_notebooks_container }}
+```console
+$ coiled notebook start --gpu --container {{ rapids_notebooks_container }}
 ```
 
 This is often the most convenient way to try out existing software environments, but is often not the most performant due to the way container images are unpacked.
@@ -77,27 +77,27 @@ dependencies:
   - dask-labextension
 ```
 
-```bash
-coiled env create --name rapids --gpu-enabled --conda rapids-environment.yaml
+```console
+$ coiled env create --name rapids --gpu-enabled --conda rapids-environment.yaml
 ```
 
 Then you can specify this software environment when starting new Coiled resources.
 
-```bash
-coiled notebook start --gpu --software rapidsai-notebooks
+```console
+$ coiled notebook start --gpu --software rapidsai-notebooks
 ```
 
 ## CLI Jobs
 
 You can execute a script in a container on an ephemeral VM with [Coiled CLI Jobs](https://docs.coiled.io/user_guide/cli-jobs.html).
 
-```bash
-coiled run python my_code.py  # Boots a VM on the cloud, runs the scripts, then shuts down again
+```console
+$ coiled run python my_code.py  # Boots a VM on the cloud, runs the scripts, then shuts down again
 ```
 
 We can use this to run GPU code on a remote environment using the RAPIDS container. You can set the coiled CLI to keep the VM around for a few minutes after execution is complete just in case you want to run it again and reuse the same hardware.
 
-```concole
+```console
 $ coiled run --gpu --name rapids-demo --keepalive 5m --container {{ rapids_container }} -- python my_code.py
 ...
 ```
@@ -123,14 +123,14 @@ Calculate violations by day of week took: 1.238 seconds
 
 To start an interactive Jupyter notebook session with [Coiled Notebooks](https://docs.coiled.io/user_guide/notebooks.html) run the RAPIDS notebook container via the notebook service.
 
-```bash
-coiled notebook start --gpu --container {{ rapids_notebooks_container }}
+```console
+$ coiled notebook start --gpu --container {{ rapids_notebooks_container }}
 ```
 
 Note that the `--gpu` flag will automatically select a `g4dn.xlarge` instance with a T4 GPU on AWS. You could additionally add the `--vm-type` flag to explicitly choose another machine type with different GPU configuration. For example to choose a machine with 4 L4 GPUs you would run the following.
 
-```bash
-coiled notebook start --gpu --vm-type g6.24xlarge --container nvcr.io/nvidia/rapidsai/notebooks:24.12-cuda12.5-py3.12
+```console
+$ coiled notebook start --gpu --vm-type g6.24xlarge --container nvcr.io/nvidia/rapidsai/notebooks:24.12-cuda12.5-py3.12
 ```
 
 ## Dask Clusters

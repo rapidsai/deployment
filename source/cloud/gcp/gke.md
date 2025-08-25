@@ -23,7 +23,7 @@ $ gcloud init
 Now we can launch a GPU enabled GKE cluster.
 
 ```console
-gcloud container clusters create rapids-gpu-kubeflow \
+$ gcloud container clusters create rapids-gpu-kubeflow \
   --accelerator type=nvidia-tesla-a100,count=2 --machine-type a2-highgpu-2g \
   --zone us-central1-c --release-channel stable
 ```
@@ -39,15 +39,15 @@ executable. Install gke-gcloud-auth-plugin for use with kubectl by following htt
 ```
 you will need to install the `gke-gcloud-auth-plugin` to be able to get the credentials. To do so,
 
-```bash
-gcloud components install gke-gcloud-auth-plugin
+```console
+$ gcloud components install gke-gcloud-auth-plugin
 ```
 ````
 
 ## Get the cluster credentials
 
 ```console
-gcloud container clusters get-credentials rapids-gpu-kubeflow \
+$ gcloud container clusters get-credentials rapids-gpu-kubeflow \
     --region=us-central1-c
 ```
 

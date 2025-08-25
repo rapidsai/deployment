@@ -34,8 +34,8 @@ If you use the AWS Console, please use the default `ubuntu` user to ensure the N
 ````{tip}
 Depending on where your ssh key is, when connecting via SSH you might need to do
 
-```bash
-ssh -i <path-to-your-ssh-key-dir>/your-key-file.pem ubuntu@<ip address>
+```console
+$ ssh -i <path-to-your-ssh-key-dir>/your-key-file.pem ubuntu@<ip address>
 ```
 
 If you get prompted with a `WARNING: UNPROTECTED PRIVATE KEY FILE!`, and get a

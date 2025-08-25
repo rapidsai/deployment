@@ -8,12 +8,26 @@ It is strongly recommended that you copy the initialization scripts into your ow
 
 ```console
 $ REGION=<region>
-$ GCS_BUCKET=<bucket_name>
-$ gcloud storage buckets create gs://$GCS_BUCKET
-$ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/gpu/install_gpu_driver.sh gs://$GCS_BUCKET
-$ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/dask/dask.sh gs://$GCS_BUCKET
-$ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/rapids/rapids.sh gs://$GCS_BUCKET
+```
 
+```console
+$ GCS_BUCKET=<bucket_name>
+```
+
+```console
+$ gcloud storage buckets create gs://$GCS_BUCKET
+```
+
+```console
+$ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/gpu/install_gpu_driver.sh gs://$GCS_BUCKET
+```
+
+```console
+$ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/dask/dask.sh gs://$GCS_BUCKET
+```
+
+```console
+$ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/rapids/rapids.sh gs://$GCS_BUCKET
 ```
 
 **1. Create Dataproc cluster with Dask RAPIDS.** Use the gcloud command to create a new cluster. Because of an Anaconda version conflict, script deployment on older images is slow, we recommend using Dask with Dataproc 2.0+.
@@ -26,10 +40,21 @@ Please ensure that your setup complies with this compatibility requirement. Usin
 
 ```console
 $ CLUSTER_NAME=<CLUSTER_NAME>
-$ DASK_RUNTIME=yarn
-$ RAPIDS_VERSION=23.12
-$ CUDA_VERSION=11.8
+```
 
+```console
+$ DASK_RUNTIME=yarn
+```
+
+```console
+$ RAPIDS_VERSION=23.12
+```
+
+```console
+$ CUDA_VERSION=11.8
+```
+
+```console
 $ gcloud dataproc clusters create $CLUSTER_NAME\
     --region $REGION\
     --image-version 2.0-ubuntu18\
@@ -42,7 +67,6 @@ $ gcloud dataproc clusters create $CLUSTER_NAME\
     --optional-components=JUPYTER\
     --metadata gpu-driver-provider=NVIDIA,dask-runtime=$DASK_RUNTIME,rapids-runtime=DASK,rapids-version=$RAPIDS_VERSION,cuda-version=$CUDA_VERSION\
     --enable-component-gateway
-
 ```
 
 [GCS_BUCKET] = name of the bucket to use.\

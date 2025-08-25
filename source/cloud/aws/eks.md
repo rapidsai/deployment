@@ -28,6 +28,8 @@ In your aws console under `EC2` in the side panel under Network & Security > Key
 key pair or import (see "Actions" dropdown) one you've created locally.
 
 2. If you are not using your default AWS profile, add `--profile <your-profile>` to the following command.
+
+3. The `--ssh-public-key` argument is the name assigned during creation of your key in AWS console.
 ```
 
 ```console
@@ -37,7 +39,7 @@ $ eksctl create cluster rapids \
                       --node-type=g4dn.xlarge \
                       --timeout=40m \
                       --ssh-access \
-                      --ssh-public-key <public key ID> \  # Name assigned during creation of your key in aws console
+                      --ssh-public-key <public key ID> \
                       --region us-east-1 \
                       --zones=us-east-1c,us-east-1b,us-east-1d \
                       --auto-kubeconfig
