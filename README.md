@@ -64,6 +64,14 @@ Renders as:
 > **Note**
 > The `Visit the documentation >>` link is added automatically in the bottom right based on the page that is referenced in the directive argument.
 
+### Documentation style guide
+
+#### Kubernetes
+
+The [Kubernetes documentation style-guide](https://kubernetes.io/docs/contribute/style/style-guide/#use-upper-camel-case-for-api-objects)  
+encourages the use of `UpperCamelCase` (also known as `PascalCase`) when referring to Kubernetes resources.
+Please make sure to follow this guide when writing documentation that involves Kubernetes.
+
 ### Notebooks
 
 The `examples` section of these docs are written in Jupyter Notebooks and built with [MyST-NB](https://myst-nb.readthedocs.io/en/latest/).
