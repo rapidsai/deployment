@@ -37,10 +37,8 @@ priority_lists = {
 
 # Walk all files recursively in the source directory
 for file in (script_dir.parent / "source").rglob("*"):
-    if file.is_file() and file.suffix in [".ipynb", ".md"]:
+    if file.is_file() and file.suffix in [".md"]:
         if "_includes" in file.parts:
-            continue
-        if ".ipynb_checkpoints" in file.parts:
             continue
         if "index.md" in file.parts:
             rel_path = file.parent
@@ -53,9 +51,6 @@ for file in (script_dir.parent / "source").rglob("*"):
                 priority = str(frontmatter.load(file).metadata["review_priority"])
             except KeyError:
                 pass
-        elif file.suffix == ".ipynb":
-            # TODO - add support for ipynb review_priority
-            pass
 
         if rel_path.name:
             rel_path = str(rel_path.with_suffix(""))
