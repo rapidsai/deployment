@@ -10,14 +10,6 @@ review_priority: "index"
 :gutter: 2 2 2 2
 
 ````{grid-item-card}
-:link: rapids-docker
-:link-type: doc
-Container Images
-^^^
-Container images containing the RAPIDS software environment.
-````
-
-````{grid-item-card}
 :link: dask-cuda
 :link-type: doc
 Dask CUDA
