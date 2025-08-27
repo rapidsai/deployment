@@ -113,7 +113,7 @@ dask-operator   dask-kubernetes-operator-775b8bbbd5-zdrf7   1/1     Running   0 
 
 To configure the `DaskCluster` resource to run RAPIDS you need to set a few things:
 
-- The container image must contain RAPIDS, the [official RAPIDS container images](/tools/rapids-docker) are a good choice for this.
+- The container image must contain RAPIDS, the [official RAPIDS container images](https://docs.rapids.ai/install/#docker) are a good choice for this.
 - The Dask workers must be configured with one or more NVIDIA GPU resources.
 - The worker command must be set to `dask-cuda-worker`.
 
