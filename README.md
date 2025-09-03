@@ -72,6 +72,14 @@ The [Kubernetes documentation style-guide](https://kubernetes.io/docs/contribute
 encourages the use of `UpperCamelCase` (also known as `PascalCase`) when referring to Kubernetes resources.
 Please make sure to follow this guide when writing documentation that involves Kubernetes.
 
+#### Usage of console and bash blocks
+
+- Use `console` for any set of commands that are entered in a command line.
+  - Start the line with `$`, they'll be omitted upon copying in sphinx rendered docs.
+  - Use `\` to break lines.
+  - Do not add comments like `# comment` in-line when using break lines because this will break the copying.
+- Use `bash` for any bash script `.sh`.
+
 ### Notebooks
 
 The `examples` section of these docs are written in Jupyter Notebooks and built with [MyST-NB](https://myst-nb.readthedocs.io/en/latest/).
