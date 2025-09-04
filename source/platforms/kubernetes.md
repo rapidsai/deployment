@@ -6,7 +6,7 @@ RAPIDS integrates with Kubernetes in many ways depending on your use case.
 
 ## Interactive Notebook
 
-For single-user interactive sessions you can run the [RAPIDS docker image](/tools/rapids-docker) which contains a conda environment with the RAPIDS libraries and Jupyter for interactive use.
+For single-user interactive sessions you can run the [RAPIDS docker image](https://docs.rapids.ai/install/#docker) which contains a conda environment with the RAPIDS libraries and Jupyter for interactive use.
 
 You can run this directly on Kubernetes as a `Pod` and expose Jupyter via a `Service`. For example:
 
