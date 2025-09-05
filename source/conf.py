@@ -158,8 +158,8 @@ intersphinx_mapping = {
 }
 
 redirects = {
-    "platforms/brev-dev.html": "/cloud/nvidia/brev.html",
-    "guides/l4-gcp.html": "/cloud/gcp/",
+    "platforms/brev-dev": "../../cloud/nvidia/brev/",
+    "guides/l4-gcp": "../../cloud/gcp/",
 }
 
 
