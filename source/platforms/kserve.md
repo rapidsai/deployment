@@ -120,22 +120,22 @@ We will show you concrete examples below. But first some general notes:
 
 - Triton-FIL uses v2 version of KServe protocol, so make sure to use `v2` URL when sending inference request:
 
-```console
+```bash
 $ INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway \
   -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 ```
 
-```console
+```bash
 $ INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway \
   -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
 ```
 
-```console
+```bash
 $ SERVICE_HOSTNAME=$(kubectl get inferenceservice <endpoint name> -n kserve-test \
   -o jsonpath='{.status.url}' | cut -d "/" -f 3)
 ```
 
-```console
+```bash
 $ curl -v -H "Host: ${SERVICE_HOSTNAME}" -H "Content-Type: application/json" \
   "http://${INGRESS_HOST}:${INGRESS_PORT}/v2/models/<endpoint name>/infer" \
   -d @./payload.json

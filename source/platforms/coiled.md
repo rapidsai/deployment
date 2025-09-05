@@ -13,13 +13,13 @@ Head over to [Coiled](https://docs.coiled.io/user_guide/setup/index) and registe
 
 Once your account is set up, install the coiled Python library/CLI tool.
 
-```console
+```bash
 $ pip install coiled
 ```
 
 Then you can authenticate with your Coiled account.
 
-```console
+```bash
 $ coiled login
 ```
 
@@ -29,7 +29,7 @@ For more information see the [Coiled Getting Started documentation](https://docs
 
 The simplest way to get up and running with RAPIDS on Coiled is to launch a Jupyter notebook server using the RAPIDS notebook container.
 
-```console
+```bash
 $ coiled notebook start --gpu --container {{ rapids_notebooks_container }}
 ```
 
@@ -43,7 +43,7 @@ By default when running remote operations Coiled will [attempt to create a copy 
 
 All Coiled commands can be passed a container image to use. This container will be pulled onto the remote VM at launch time.
 
-```console
+```bash
 $ coiled notebook start --gpu --container {{ rapids_notebooks_container }}
 ```
 
@@ -77,13 +77,13 @@ dependencies:
   - dask-labextension
 ```
 
-```console
+```bash
 $ coiled env create --name rapids --gpu-enabled --conda rapids-environment.yaml
 ```
 
 Then you can specify this software environment when starting new Coiled resources.
 
-```console
+```bash
 $ coiled notebook start --gpu --software rapidsai-notebooks
 ```
 
@@ -91,20 +91,20 @@ $ coiled notebook start --gpu --software rapidsai-notebooks
 
 You can execute a script in a container on an ephemeral VM with [Coiled CLI Jobs](https://docs.coiled.io/user_guide/cli-jobs.html).
 
-```console
+```bash
 $ coiled run python my_code.py  # Boots a VM on the cloud, runs the scripts, then shuts down again
 ```
 
 We can use this to run GPU code on a remote environment using the RAPIDS container. You can set the coiled CLI to keep the VM around for a few minutes after execution is complete just in case you want to run it again and reuse the same hardware.
 
-```console
+```bash
 $ coiled run --gpu --name rapids-demo --keepalive 5m --container {{ rapids_container }} -- python my_code.py
 ...
 ```
 
 This works very nicely when paired with the cudf.pandas CLI tool. For example we can run `python -m cudf.pandas my_script` to GPU accelerate our Pandas code without having to rewrite anything. For example [this script](https://gist.github.com/jacobtomlinson/2481ecf2e1d2787ae2864a6712eef97b#file-cudf_pandas_coiled_demo-py) processes some open NYC parking data. With `pandas` it takes around a minute, but with `cudf.pandas` it only takes a few seconds.
 
-```console
+```bash
 $ coiled run --gpu --name rapids-demo --keepalive 5m --container {{ rapids_container }} -- python -m cudf.pandas cudf_pandas_coiled_demo.py
 
 Output
@@ -123,13 +123,13 @@ Calculate violations by day of week took: 1.238 seconds
 
 To start an interactive Jupyter notebook session with [Coiled Notebooks](https://docs.coiled.io/user_guide/notebooks.html) run the RAPIDS notebook container via the notebook service.
 
-```console
+```bash
 $ coiled notebook start --gpu --container {{ rapids_notebooks_container }}
 ```
 
 Note that the `--gpu` flag will automatically select a `g4dn.xlarge` instance with a T4 GPU on AWS. You could additionally add the `--vm-type` flag to explicitly choose another machine type with different GPU configuration. For example to choose a machine with 4 L4 GPUs you would run the following.
 
-```console
+```bash
 $ coiled notebook start --gpu --vm-type g6.24xlarge --container nvcr.io/nvidia/rapidsai/notebooks:24.12-cuda12.5-py3.12
 ```
 

@@ -6,27 +6,27 @@ RAPIDS can be deployed on Google Cloud Dataproc using Dask. For more details, se
 
 It is strongly recommended that you copy the initialization scripts into your own Storage bucket to prevent unintended upgrades from upstream in the cluster:
 
-```console
+```bash
 $ REGION=<region>
 ```
 
-```console
+```bash
 $ GCS_BUCKET=<bucket_name>
 ```
 
-```console
+```bash
 $ gcloud storage buckets create gs://$GCS_BUCKET
 ```
 
-```console
+```bash
 $ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/gpu/install_gpu_driver.sh gs://$GCS_BUCKET
 ```
 
-```console
+```bash
 $ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/dask/dask.sh gs://$GCS_BUCKET
 ```
 
-```console
+```bash
 $ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/rapids/rapids.sh gs://$GCS_BUCKET
 ```
 
@@ -38,23 +38,23 @@ At the time of writing [Dataproc only supports RAPIDS version 23.12 and earlier 
 Please ensure that your setup complies with this compatibility requirement. Using newer RAPIDS versions may result in unexpected behavior or errors.
 ```
 
-```console
+```bash
 $ CLUSTER_NAME=<CLUSTER_NAME>
 ```
 
-```console
+```bash
 $ DASK_RUNTIME=yarn
 ```
 
-```console
+```bash
 $ RAPIDS_VERSION=23.12
 ```
 
-```console
+```bash
 $ CUDA_VERSION=11.8
 ```
 
-```console
+```bash
 $ gcloud dataproc clusters create $CLUSTER_NAME\
     --region $REGION\
     --image-version 2.0-ubuntu18\

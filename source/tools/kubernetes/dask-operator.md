@@ -128,7 +128,7 @@ spec:
 
 You can create this cluster with `kubectl`.
 
-```console
+```bash
 $ kubectl apply -f rapids-dask-cluster.yaml
 ```
 

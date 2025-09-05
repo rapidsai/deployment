@@ -74,11 +74,11 @@ Please make sure to follow this guide when writing documentation that involves K
 
 #### Usage of console and bash blocks
 
-- Use `console` for any set of commands that are entered in a command line.
+- Use `console` for any set of commands that are entered in a command line that contain output from the command.
   - Start the line with `$`, they'll be omitted upon copying in sphinx rendered docs.
   - Use `\` to break lines.
   - Do not add comments like `# comment` in-line when using break lines because this will break the copying.
-- Use `bash` for any bash script `.sh`.
+- Use `bash` for any bash script `.sh`, or command line entry without output.
 
 ### Notebooks
 

@@ -53,7 +53,7 @@ Prepare the following environment variables.
 | `AZ_USERNAME`      | User name of VM      | `rapidsai`                                                     |
 | `AZ_SSH_KEY`       | public ssh key       | `~/.ssh/id_rsa.pub`                                            |
 
-```console
+```bash
 $ az vm create \
         --name ${AZ_VMNAME} \
         --resource-group ${AZ_RESOURCEGROUP} \
@@ -109,7 +109,7 @@ Next we need to allow network traffic to the VM so we can access Jupyter and Das
 | `AZ_NSGNAME`     | NSG name for the VM | `${AZ_VMNAME}NSG`          |
 | `AZ_NSGRULENAME` | Name for NSG rule   | `Allow-Dask-Jupyter-ports` |
 
-```console
+```bash
 $ az network nsg rule create \
     -g ${AZ_RESOURCEGROUP} \
     --nsg-name ${AZ_NSGNAME} \
@@ -128,7 +128,7 @@ Next, we can SSH into our VM to install RAPIDS. SSH instructions can be found by
 ````{tip}
 When connecting via SSH by doing
 
-```console
+```bash
 $ ssh -i <path-to-your-ssh-key-dir>/your-key-file.pem azureuser@<vm-ip-address>
 ```
 

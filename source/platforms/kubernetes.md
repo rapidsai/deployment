@@ -255,19 +255,19 @@ spec:
 
 ````
 
-```console
+```bash
 $ kubectl apply -f rapids-notebook.yaml
 ```
 
 The container creation takes approximately 7 min, you can check the status of the Pod by doing:
 
-```console
+```bash
 $ kubectl get pods
 ```
 
 Once it's ready, Jupyter will be accessible on port `30002` of your Kubernetes nodes via `NodePort` service. Alternatively you could use a `LoadBalancer` service type [if you have one configured](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) or a `ClusterIP` and use `kubectl` to port forward the port locally and access it that way.
 
-```console
+```bash
 $ kubectl port-forward service/rapids-notebook 8888
 ```
 

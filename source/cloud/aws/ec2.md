@@ -34,7 +34,7 @@ If you use the AWS Console, please use the default `ubuntu` user to ensure the N
 ````{tip}
 Depending on where your ssh key is, when connecting via SSH you might need to do
 
-```console
+```bash
 $ ssh -i <path-to-your-ssh-key-dir>/your-key-file.pem ubuntu@<ip address>
 ```
 

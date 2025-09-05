@@ -14,7 +14,7 @@ First you'll need to have the [`gcloud` CLI tool](https://cloud.google.com/sdk/g
 
 Ensure you are logged into the `gcloud` CLI.
 
-```console
+```bash
 $ gcloud init
 ```
 
@@ -22,7 +22,7 @@ $ gcloud init
 
 Now we can launch a GPU enabled GKE cluster.
 
-```console
+```bash
 $ gcloud container clusters create rapids-gpu \
   --accelerator type=nvidia-tesla-a100,count=2 --machine-type a2-highgpu-2g \
   --zone us-central1-c --release-channel stable
@@ -35,7 +35,7 @@ a2-highgpu-2g, each with two A100 GPUs.
 
 Now create a new nodepool on this GPU cluster.
 
-```console
+```bash
 $ gcloud container node-pools create scheduler-pool --cluster rapids-gpu \
   --accelerator type=nvidia-tesla-t4,count=1 --machine-type n1-standard-2 \
   --num-nodes 1 --node-labels dedicated=scheduler --zone us-central1-c
@@ -207,7 +207,7 @@ spec:
 
 You can create this cluster with `kubectl`.
 
-```console
+```bash
 $ kubectl apply -f rapids-dask-cluster.yaml
 ```
 

@@ -15,7 +15,7 @@ There are two options to get you up and running with RAPIDS in a few steps, than
 
 ### Option 1. Setting up your Brev GPU Instance
 
-1. Navigate to the [Brev console](https://brev.nvidia.com/org) and click on "Create your first instance".
+1. Navigate to the [Brev bash](https://brev.nvidia.com/org) and click on "Create your first instance".
 
 ![Screenshot of the "Create your first instance" UI](/_static/images/platforms/brev/brev1.png)
 
@@ -87,7 +87,7 @@ To create and use a Jupyter Notebook, click "Open Notebook" at the top right aft
 
 If you want to access your launched Brev instance(s) via Visual Studio Code or SSH using terminal, you need to install the [Brev CLI according to these instructions](https://docs.nvidia.com/brev/latest/brev-cli.html) or this code below:
 
-```console
+```bash
 $ sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/brevdev/brev-cli/main/bin/install-latest.sh)" && brev login
 ```
 
@@ -95,7 +95,7 @@ $ sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/brevdev/brev-cli/
 
 To connect to your Brev instance from VS Code open a new VS Code window and run:
 
-```console
+```bash
 $ brev open <instance-id>
 ```
 
@@ -105,7 +105,7 @@ It will automatically open a new VS Code window for you to use with RAPIDS.
 
 To access your Brev instance from the terminal run:
 
-```console
+```bash
 $ brev shell <instance-id>
 ```
 
@@ -113,7 +113,7 @@ $ brev shell <instance-id>
 
 Assuming your Jupyter Notebook is running on port `8888` in your Brev environment, you can forward this port to your local machine using the following SSH command:
 
-```console
+```bash
 $ ssh -L 8888:localhost:8888 <username>@<ip> -p 22
 ```
 
@@ -121,7 +121,7 @@ This command forwards port `8888` on your local machine to port `8888` on the re
 
 Or for port `2222` (default port).
 
-```console
+```bash
 $ ssh <username>@<ip> -p 2222
 ```
 
@@ -165,10 +165,10 @@ print(gdf)
 - [Brev Docs](https://brev.dev/)
 - Please note: Git is not preinstalled in the RAPIDS container, but can be installed into the container when it is running using
 
-```console
+```bash
 $ apt update
 ```
 
-```console
+```bash
 $ apt install git -y
 ```
