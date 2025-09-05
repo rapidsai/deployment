@@ -54,7 +54,7 @@ Once the Notebook is ready, click Connect to launch Jupyter.
 
 You can verify everything works okay by opening a terminal in Jupyter and running:
 
-```console
+```bash
 $ nvidia-smi
 ```
 
@@ -215,7 +215,7 @@ Create a file with the above contents, and then apply it into your user’s name
 
 For the default `user@example.com` user it would look like this.
 
-```console
+```bash
 $ kubectl apply -n kubeflow-user-example-com -f configure-dask-dashboard.yaml
 ```
 

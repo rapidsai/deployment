@@ -45,7 +45,7 @@ spec:
 
 You can create this Daemonset with `kubectl`.
 
-```console
+```bash
 $ kubectl apply -f caching-daemonset.yaml
 ```
 

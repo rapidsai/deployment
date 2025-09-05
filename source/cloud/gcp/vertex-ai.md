@@ -35,16 +35,20 @@ You can create a new RAPIDS conda environment and register it with `ipykernel` f
 
 ```bash
 # Create a new environment
-conda create -y -n rapids \
+$ conda create -y -n rapids \
     {{ rapids_conda_channels }} \
     {{ rapids_conda_packages }} \
     ipykernel
+```
 
+```bash
 # Activate the environment
-conda activate rapids
+$ conda activate rapids
+```
 
+```bash
 # Register the environment with Jupyter
-python -m ipykernel install --prefix "${DL_ANACONDA_HOME}/envs/rapids" --name rapids --display-name rapids
+$ python -m ipykernel install --prefix "${DL_ANACONDA_HOME}/envs/rapids" --name rapids --display-name rapids
 ```
 
 Then refresh the Jupyter Lab page and open the launcher. You will see a new "rapids" kernel available.

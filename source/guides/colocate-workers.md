@@ -8,7 +8,7 @@ First you'll need to have the [`gcloud` CLI tool](https://cloud.google.com/sdk/g
 
 Ensure you are logged into the `gcloud` CLI.
 
-```console
+```bash
 $ gcloud init
 ```
 
@@ -16,7 +16,7 @@ $ gcloud init
 
 Now we can launch a GPU enabled GKE cluster.
 
-```console
+```bash
 $ gcloud container clusters create rapids-gpu \
   --accelerator type=nvidia-tesla-a100,count=2 --machine-type a2-highgpu-2g \
   --zone us-central1-c --release-channel stable
@@ -163,7 +163,7 @@ spec:
 
 You can create this cluster with `kubectl`.
 
-```console
+```bash
 $ kubectl apply -f rapids-dask-cluster.yaml
 ```
 

@@ -57,7 +57,7 @@ You can compute password hash by following the [jupyter notebook guide](https://
 
 ### Installing the Helm Chart
 
-```console
+```bash
 $ helm install rapids-release --repo https://helm.dask.org dask -f rapids-config.yaml
 ```
 
@@ -75,10 +75,12 @@ For simplicity, this guide will setup access to the Jupyter server via port forw
 
 First, setup port forwarding from the cluster to external port:
 
-```console
+```bash
 # For the Jupyter server
 $ kubectl port-forward --address 127.0.0.1 service/rapids-release-dask-jupyter 8888:8888
+```
 
+```bash
 # For the Dask dashboard
 $ kubectl port-forward --address 127.0.0.1 service/rapids-release-dask-scheduler 8787:8787
 ```
@@ -116,9 +118,11 @@ In case you want to scale up the cluster with more GPU workers, you may do so vi
 
 ```bash
 $ kubectl scale deployment rapids-release-dask-worker --replicas=8
+```
 
-# or
+or
 
+```bash
 $ helm upgrade --set worker.replicas=8 rapids-release dask/dask
 ```
 

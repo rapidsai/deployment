@@ -14,7 +14,7 @@ First you'll need to have the [`az` CLI tool](https://learn.microsoft.com/en-us/
 
 Ensure you are logged into the `az` CLI.
 
-```console
+```bash
 $ az login
 ```
 
@@ -23,7 +23,7 @@ $ az login
 Now we can launch a GPU enabled AKS cluster. First launch an AKS cluster.
 
 ```bash
-az aks create -g <resource group> -n rapids \
+$ az aks create -g <resource group> -n rapids \
         --enable-managed-identity \
         --node-count 1 \
         --enable-addons monitoring \
@@ -77,13 +77,13 @@ Microsoft.ContainerService/GPUDedicatedVHDPreview  Registered
 
 When the status shows as registered, refresh the registration of the `Microsoft.ContainerService` resource provider by using the `az provider register` command:
 
-```console
+```bash
 $ az provider register --namespace Microsoft.ContainerService
 ```
 
 Then install the aks-preview CLI extension, use the following Azure CLI commands:
 
-```console
+```bash
 $ az extension add --name aks-preview
 ```
 
@@ -92,7 +92,7 @@ $ az extension add --name aks-preview
 `````
 
 ```bash
-az aks nodepool add \
+$ az aks nodepool add \
     --resource-group <resource group> \
     --cluster-name rapids \
     --name gpunp \
@@ -108,7 +108,7 @@ Here we have added a new pool made up of `Standard_NC48ads_A100_v4` instances wh
 Then we can install the NVIDIA drivers.
 
 ```bash
-helm install --wait --generate-name --repo https://helm.ngc.nvidia.com/nvidia \
+$ helm install --wait --generate-name --repo https://helm.ngc.nvidia.com/nvidia \
     -n gpu-operator --create-namespace \
     gpu-operator \
     --set operator.runtimeClass=nvidia-container-runtime

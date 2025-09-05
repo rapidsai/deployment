@@ -20,7 +20,7 @@ Install the AWS CLI tools following the [official instructions](https://docs.aws
 
 Also install `dask-cloudprovider` and ensure you select the `aws` optional extras.
 
-```console
+```bash
 $ pip install "dask-cloudprovider[aws]"
 ```
 
