@@ -23,14 +23,17 @@ This tool will build your docs and host them on a local web server.
 It will watch for file changes, rebuild automatically and tell the browser page to reload. Magic!
 
 ```console
-$ uv run sphinx-autobuild source build/html
-[sphinx-autobuild] > sphinx-build ./source ./build/html
-Running Sphinx v4.5.0
+$ uv run sphinx-autobuild -b dirhtml source build/html
+[sphinx-autobuild] Starting initial build
+[sphinx-autobuild] > python -m sphinx build -b dirhtml source build/html
+Running Sphinx v8.2.3
 ...
+
 build succeeded.
 
-The HTML pages are in build.
-[I 220413 12:13:40 server:335] Serving on http://127.0.0.1:8000
+The HTML pages are in build/html.
+[sphinx-autobuild] Serving on http://127.0.0.1:8000
+[sphinx-autobuild] Waiting to detect changes...
 ```
 
 Alternatively you can build the static site into `build/html` with `sphinx`.
