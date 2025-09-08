@@ -20,7 +20,7 @@ Physical GPUs can be addressed by their indices `[0..N)` (where `N` is the total
 
 The simplest way to determine the names of MIG instances is to run `nvidia-smi -L` on the command line.
 
-```bash
+```console
 $ nvidia-smi -L
 GPU 0: NVIDIA A100-PCIE-40GB (UUID: GPU-84fd49f2-48ad-50e8-9f2e-3bf0dfd47ccb)
   MIG 2g.10gb     Device  0: (UUID: MIG-41b3359c-e721-56e5-8009-12e5797ed514)
@@ -65,8 +65,8 @@ Suppose you have 3 MIG instances on the local system:
 
 To start a `dask-cuda-worker` that the address to the scheduler is located in the `scheduler.json` file, the user would run the following:
 
-```bash
-CUDA_VISIBLE_DEVICES="MIG-41b3359c-e721-56e5-8009-12e5797ed514,MIG-65b79fff-6d3c-5490-a288-b31ec705f310,MIG-c6e2bae8-46d4-5a7e-9a68-c6cf1f680ba0" dask-cuda-worker scheduler.json # --other-arguments
+```console
+$ CUDA_VISIBLE_DEVICES="MIG-41b3359c-e721-56e5-8009-12e5797ed514,MIG-65b79fff-6d3c-5490-a288-b31ec705f310,MIG-c6e2bae8-46d4-5a7e-9a68-c6cf1f680ba0" dask-cuda-worker scheduler.json # --other-arguments
 ```
 
 Please note that in the example above we created 3 Dask-CUDA workers on one node, for a multi-node cluster, the correct MIG names need to be specified, and they will always be different for each host.

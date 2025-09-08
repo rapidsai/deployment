@@ -6,14 +6,28 @@ RAPIDS can be deployed on Google Cloud Dataproc using Dask. For more details, se
 
 It is strongly recommended that you copy the initialization scripts into your own Storage bucket to prevent unintended upgrades from upstream in the cluster:
 
-```console
+```bash
 $ REGION=<region>
-$ GCS_BUCKET=<bucket_name>
-$ gcloud storage buckets create gs://$GCS_BUCKET
-$ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/gpu/install_gpu_driver.sh gs://$GCS_BUCKET
-$ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/dask/dask.sh gs://$GCS_BUCKET
-$ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/rapids/rapids.sh gs://$GCS_BUCKET
+```
 
+```bash
+$ GCS_BUCKET=<bucket_name>
+```
+
+```bash
+$ gcloud storage buckets create gs://$GCS_BUCKET
+```
+
+```bash
+$ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/gpu/install_gpu_driver.sh gs://$GCS_BUCKET
+```
+
+```bash
+$ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/dask/dask.sh gs://$GCS_BUCKET
+```
+
+```bash
+$ gsutil cp gs://goog-dataproc-initialization-actions-${REGION}/rapids/rapids.sh gs://$GCS_BUCKET
 ```
 
 **1. Create Dataproc cluster with Dask RAPIDS.** Use the gcloud command to create a new cluster. Because of an Anaconda version conflict, script deployment on older images is slow, we recommend using Dask with Dataproc 2.0+.
@@ -24,12 +38,23 @@ At the time of writing [Dataproc only supports RAPIDS version 23.12 and earlier 
 Please ensure that your setup complies with this compatibility requirement. Using newer RAPIDS versions may result in unexpected behavior or errors.
 ```
 
-```console
+```bash
 $ CLUSTER_NAME=<CLUSTER_NAME>
-$ DASK_RUNTIME=yarn
-$ RAPIDS_VERSION=23.12
-$ CUDA_VERSION=11.8
+```
 
+```bash
+$ DASK_RUNTIME=yarn
+```
+
+```bash
+$ RAPIDS_VERSION=23.12
+```
+
+```bash
+$ CUDA_VERSION=11.8
+```
+
+```bash
 $ gcloud dataproc clusters create $CLUSTER_NAME\
     --region $REGION\
     --image-version 2.0-ubuntu18\
@@ -42,7 +67,6 @@ $ gcloud dataproc clusters create $CLUSTER_NAME\
     --optional-components=JUPYTER\
     --metadata gpu-driver-provider=NVIDIA,dask-runtime=$DASK_RUNTIME,rapids-runtime=DASK,rapids-version=$RAPIDS_VERSION,cuda-version=$CUDA_VERSION\
     --enable-component-gateway
-
 ```
 
 [GCS_BUCKET] = name of the bucket to use.\
