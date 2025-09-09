@@ -95,11 +95,6 @@ Each directory contains a `Dockerfile` with the exact installation steps and pac
 - **Base components**: [`dist/12.9.1/ubuntu2404/base/Dockerfile`](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/12.9.1/ubuntu2404/base/Dockerfile)
 - **Runtime components**: [`dist/12.9.1/ubuntu2404/runtime/Dockerfile`](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/12.9.1/ubuntu2404/runtime/Dockerfile)
 
-**Rocky Linux 9:**
-
-- **Base components**: [`dist/12.9.1/rockylinux9/base/Dockerfile`](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/12.9.1/rockylinux9/base/Dockerfile)
-- **Runtime components**: [`dist/12.9.1/rockylinux9/runtime/Dockerfile`](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/12.9.1/rockylinux9/runtime/Dockerfile)
-
 ### Installing CUDA components on your container
 
 1. Navigate to `dist/{cuda_version}/{your_os}/base/` or `runtime/` in the repository
@@ -107,11 +102,15 @@ Each directory contains a `Dockerfile` with the exact installation steps and pac
 3. Copy all `ENV` variables for package versions and NVIDIA Container Toolkit support
 4. Copy the `RUN` commands for installing the packages.
 5. If you are using the `runtime` components, make sure to copy the `ENV` and `RUN` commands from the `base` Dockerfile as well.
-6. For RHEL-based systems, also copy any `.repo` configuration files needed
+6. For RHEL-based systems, also copy any `.repo` configuration files needed.
 
 ```{note}
 Package versions change between CUDA releases. Always check the specific Dockerfile for your desired CUDA version and distribution to get the supported versions.
 ```
+
+### Installing RAPIDS libraries on your container
+
+Refer to the Docker Templates in the [Custom RAPIDS Docker Guide](../custom-docker.md) to configure your RAPIDS installation, adding the conda or pip installation commands after the CUDA components are installed.
 
 ## Essential Environment Variables
 
