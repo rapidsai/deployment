@@ -377,4 +377,4 @@ After starting your container, you can quickly test that RAPIDS is installed and
    All checks passed!
    ```
 
-For more RAPIDS on Docker, see the [Custom RAPIDS Docker Guide](custom-docker.md) and the [RAPIDS installation guide](https://docs.rapids.ai/install/).
+For more RAPIDS on Docker, see the [Custom RAPIDS Docker Guide](../custom-docker.md) and the [RAPIDS installation guide](https://docs.rapids.ai/install/).
