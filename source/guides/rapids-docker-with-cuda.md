@@ -86,15 +86,6 @@ The [NVIDIA CUDA Container Images repository](https://gitlab.com/nvidia/containe
 - Repository setup uses `.repo` configuration files
 - Include repository files: `cuda.repo-x86_64`, `cuda.repo-arm64`
 
-### Examining Components for Your Distribution
-
-Each directory contains a `Dockerfile` with the exact installation steps and package versions. For example, to see what's installed in CUDA 12.9.1:
-
-**Ubuntu 24.04:**
-
-- **Base components**: [`dist/12.9.1/ubuntu2404/base/Dockerfile`](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/12.9.1/ubuntu2404/base/Dockerfile)
-- **Runtime components**: [`dist/12.9.1/ubuntu2404/runtime/Dockerfile`](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/12.9.1/ubuntu2404/runtime/Dockerfile)
-
 ### Installing CUDA components on your container
 
 1. Navigate to `dist/{cuda_version}/{your_os}/base/` or `runtime/` in the repository
