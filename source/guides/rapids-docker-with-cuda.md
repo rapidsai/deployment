@@ -23,24 +23,24 @@ NVIDIA provides three tiers of CUDA container images, each building on the previ
 
 The **base** images provide the minimal CUDA runtime environment:
 
-| Component | Package Name | Purpose |
-|-----------|--------------|---------|
-| CUDA Runtime | `cuda-cudart` | Core CUDA runtime library (`libcudart.so`) |
+| Component          | Package Name  | Purpose                                           |
+| ------------------ | ------------- | ------------------------------------------------- |
+| CUDA Runtime       | `cuda-cudart` | Core CUDA runtime library (`libcudart.so`)        |
 | CUDA Compatibility | `cuda-compat` | Forward compatibility libraries for older drivers |
 
 ### Runtime Components (Required for RAPIDS on pip)
 
 The **runtime** images include all base components plus additional CUDA libraries:
 
-| Component | Package Name | Purpose |
-|-----------|--------------|---------|
-| **All Base Components** | (see above) | Core CUDA runtime |
-| CUDA Libraries | `cuda-libraries` | Comprehensive CUDA library collection |
-| CUDA Math Libraries | `libcublas` | Basic Linear Algebra Subprograms (BLAS) |
-| NVIDIA Performance Primitives | `libnpp` | Image, signal & video processing primitives |
-| Sparse Matrix Library | `libcusparse` | Sparse matrix operations |
-| Profiling Tools | `cuda-nvtx` | NVIDIA Tools Extension for profiling |
-| Communication Library | `libnccl2` | Multi-GPU and multi-node collective communications |
+| Component                     | Package Name     | Purpose                                            |
+| ----------------------------- | ---------------- | -------------------------------------------------- |
+| **All Base Components**       | (see above)      | Core CUDA runtime                                  |
+| CUDA Libraries                | `cuda-libraries` | Comprehensive CUDA library collection              |
+| CUDA Math Libraries           | `libcublas`      | Basic Linear Algebra Subprograms (BLAS)            |
+| NVIDIA Performance Primitives | `libnpp`         | Image, signal & video processing primitives        |
+| Sparse Matrix Library         | `libcusparse`    | Sparse matrix operations                           |
+| Profiling Tools               | `cuda-nvtx`      | NVIDIA Tools Extension for profiling               |
+| Communication Library         | `libnccl2`       | Multi-GPU and multi-node collective communications |
 
 ### Development Components (Optional)
 
@@ -62,9 +62,11 @@ The [NVIDIA CUDA Container Images repository](https://gitlab.com/nvidia/containe
 ### Supported Distributions
 
 **Debian/Ubuntu-based (uses `apt`):**
+
 - **Ubuntu**: `ubuntu2004/`, `ubuntu2204/`, `ubuntu2404/`
 
 **RHEL/CentOS-based (uses `yum`/`dnf`):**
+
 - **Rocky Linux**: `rockylinux8/`, `rockylinux9/`, `rockylinux10/`
 - **RHEL/CentOS**: `ubi8/`, `ubi9/`, `ubi10/`
 - **Amazon Linux**: `amzn2023/`
@@ -74,11 +76,13 @@ The [NVIDIA CUDA Container Images repository](https://gitlab.com/nvidia/containe
 ### Key Differences by Distribution Type
 
 **Ubuntu/Debian distributions:**
+
 - Use `apt-get install` commands
 - Repository setup uses GPG keys and `.list` files
 
 **RHEL/CentOS/Rocky Linux distributions:**
-- Use `yum install` or `dnf install` commands  
+
+- Use `yum install` or `dnf install` commands
 - Repository setup uses `.repo` configuration files
 - Include repository files: `cuda.repo-x86_64`, `cuda.repo-arm64`
 
@@ -87,10 +91,12 @@ The [NVIDIA CUDA Container Images repository](https://gitlab.com/nvidia/containe
 Each directory contains a `Dockerfile` with the exact installation steps and package versions. For example, to see what's installed in CUDA 12.9.1:
 
 **Ubuntu 24.04:**
+
 - **Base components**: [`dist/12.9.1/ubuntu2404/base/Dockerfile`](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/12.9.1/ubuntu2404/base/Dockerfile)
 - **Runtime components**: [`dist/12.9.1/ubuntu2404/runtime/Dockerfile`](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/12.9.1/ubuntu2404/runtime/Dockerfile)
 
 **Rocky Linux 9:**
+
 - **Base components**: [`dist/12.9.1/rockylinux9/base/Dockerfile`](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/12.9.1/rockylinux9/base/Dockerfile)
 - **Runtime components**: [`dist/12.9.1/rockylinux9/runtime/Dockerfile`](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/12.9.1/rockylinux9/runtime/Dockerfile)
 
@@ -101,7 +107,7 @@ Each directory contains a `Dockerfile` with the exact installation steps and pac
 3. Copy all `ENV` variables for package versions and NVIDIA Container Toolkit support
 4. Copy the `RUN` commands for installing the packages.
 5. If you are using the `runtime` components, make sure to copy the `ENV` and `RUN` commands from the `base` Dockerfile as well.
-5. For RHEL-based systems, also copy any `.repo` configuration files needed
+6. For RHEL-based systems, also copy any `.repo` configuration files needed
 
 ```{note}
 Package versions change between CUDA releases. Always check the specific Dockerfile for your desired CUDA version and distribution to get the supported versions.
@@ -111,13 +117,13 @@ Package versions change between CUDA releases. Always check the specific Dockerf
 
 These environment variables are **required** for CUDA functionality on the container and access to the host system's GPUs through the NVIDIA Container Toolkit
 
-| Variable | Purpose |
-|----------|---------|
-| `NVIDIA_VISIBLE_DEVICES` | Specifies which GPUs are visible |
-| `NVIDIA_DRIVER_CAPABILITIES` | Required driver capabilities |
-| `NVIDIA_REQUIRE_CUDA` | Driver version constraints |
-| `PATH` | Include CUDA binaries |
-| `LD_LIBRARY_PATH` | Include CUDA libraries |
+| Variable                     | Purpose                          |
+| ---------------------------- | -------------------------------- |
+| `NVIDIA_VISIBLE_DEVICES`     | Specifies which GPUs are visible |
+| `NVIDIA_DRIVER_CAPABILITIES` | Required driver capabilities     |
+| `NVIDIA_REQUIRE_CUDA`        | Driver version constraints       |
+| `PATH`                       | Include CUDA binaries            |
+| `LD_LIBRARY_PATH`            | Include CUDA libraries           |
 
 ## Complete Integration Examples
 
@@ -202,7 +208,7 @@ WORKDIR /home/rapids
 # Copy the environment file template
 COPY env.yaml /home/rapids/env.yaml
 
-# Update the base environment with user's packages from env.yaml 
+# Update the base environment with user's packages from env.yaml
 RUN conda env update -n base -f env.yaml && \
     conda clean --all --yes
 
@@ -211,7 +217,7 @@ CMD ["bash"]
 
 ### RAPIDS with pip (Runtime Components)
 
-Create a `requirements.txt` file alongside your Dockerfile with your desired RAPIDS packages following the configuration described in the [Custom RAPIDS Docker Guide](../custom-docker.md). Set the `TARGETARCH` build argument to match your target architecture (`amd64` for x86_64 or `arm64` for ARM processors). You can also customize the Python version by changing the `PYTHON_VER` build argument. 
+Create a `requirements.txt` file alongside your Dockerfile with your desired RAPIDS packages following the configuration described in the [Custom RAPIDS Docker Guide](../custom-docker.md). Set the `TARGETARCH` build argument to match your target architecture (`amd64` for x86_64 or `arm64` for ARM processors). You can also customize the Python version by changing the `PYTHON_VER` build argument.
 
 ```dockerfile
 FROM ubuntu:24.04
@@ -332,19 +338,18 @@ After starting your container, you can quickly test that RAPIDS is installed and
 
    This command starts your container and drops you directly into a bash shell.
 
+   ```bash
+   # Build the conda-based container (requires env.yaml in build context)
+   docker build -f conda-rapids.Dockerfile -t rapids-conda-cuda .
 
-    ```bash
-    # Build the conda-based container (requires env.yaml in build context)
-    docker build -f conda-rapids.Dockerfile -t rapids-conda-cuda .
+   # Build the pip-based container (requires requirements.txt in build context)
+   docker build -f pip-rapids.Dockerfile -t rapids-pip-cuda .
 
-    # Build the pip-based container (requires requirements.txt in build context)  
-    docker build -f pip-rapids.Dockerfile -t rapids-pip-cuda .
+   # Run conda container with GPU access
+   docker run --gpus all -it rapids-conda-cuda
 
-    # Run conda container with GPU access
-    docker run --gpus all -it rapids-conda-cuda
-
-    # Run pip container with GPU access
-    docker run --gpus all -it rapids-pip-cuda
+   # Run pip container with GPU access
+   docker run --gpus all -it rapids-pip-cuda
    ```
 
 2. **Install RAPIDS CLI**
