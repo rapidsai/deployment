@@ -2,10 +2,10 @@
 
 This guide provides instructions to add RAPIDS and CUDA to your existing Docker images. This approach allows you to integrate RAPIDS libraries into containers that must start from a specific base image, such as application-specific containers.
 
-The CUDA components are based on the official NVIDIA CUDA container images maintained at the [NVIDIA CUDA Container Images GitLab repository](https://gitlab.com/nvidia/container-images/cuda).
+The CUDA installation steps are sourced from the official NVIDIA CUDA container images maintained at the [NVIDIA CUDA Container Images GitLab repository](https://gitlab.com/nvidia/container-images/cuda).
 
 ```{note}
-If you have the flexibility to choose your base image, consider using the [Custom RAPIDS Docker Guide](custom-docker.md) which starts from NVIDIA's official CUDA base images for a simpler setup.
+If you have the flexibility to choose your base image, consider using the [Custom RAPIDS Docker Guide](../custom-docker.md) which starts from NVIDIA's official CUDA base images for a simpler setup.
 ```
 
 ## Overview
