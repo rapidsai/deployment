@@ -96,7 +96,7 @@ The [NVIDIA CUDA Container Images repository](https://gitlab.com/nvidia/containe
 6. For RHEL-based systems, also copy any `.repo` configuration files needed.
 
 ```{note}
-Package versions change between CUDA releases. Always check the specific Dockerfile for your desired CUDA version and distribution to get the supported versions.
+Package versions change between CUDA releases. Always check the specific Dockerfile for your desired CUDA version and distribution to get the correct versions.
 ```
 
 ### Installing RAPIDS libraries on your container
