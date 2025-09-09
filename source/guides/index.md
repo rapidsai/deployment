@@ -20,6 +20,17 @@ Use RAPIDS with Multi-Instance GPUs
 ````
 
 ````{grid-item-card}
+:link: rapids-docker-with-cuda
+:link-type: doc
+Building RAPIDS Containers from a custom base image
+^^^
+Add RAPIDS and CUDA to your existing Docker images
+
+{bdg-primary}`Docker`
+{bdg-primary}`CUDA`
+````
+
+````{grid-item-card}
 :link: azure/infiniband
 :link-type: doc
 Infiniband on Azure
