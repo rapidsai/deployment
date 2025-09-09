@@ -37,7 +37,7 @@ The **runtime** images include all base components plus additional CUDA librarie
 | **All Base Components**       | (see above)      | Core CUDA runtime                                  |
 | CUDA Libraries                | `cuda-libraries` | Comprehensive CUDA library collection              |
 | CUDA Math Libraries           | `libcublas`      | Basic Linear Algebra Subprograms (BLAS)            |
-| NVIDIA Performance Primitives | `libnpp`         | Image, signal & video processing primitives        |
+| NVIDIA Performance Primitives | `libnpp`         | Image, signal and video processing primitives        |
 | Sparse Matrix Library         | `libcusparse`    | Sparse matrix operations                           |
 | Profiling Tools               | `cuda-nvtx`      | NVIDIA Tools Extension for profiling               |
 | Communication Library         | `libnccl2`       | Multi-GPU and multi-node collective communications |
