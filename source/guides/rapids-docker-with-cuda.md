@@ -4,8 +4,8 @@ This guide provides instructions to add RAPIDS and CUDA to your existing Docker 
 
 The CUDA installation steps are sourced from the official NVIDIA CUDA container images maintained at the [NVIDIA CUDA Container Images GitLab repository](https://gitlab.com/nvidia/container-images/cuda).
 
-```{note}
-If you have the flexibility to choose your base image, consider using the [Custom RAPIDS Docker Guide](../custom-docker.md) which starts from NVIDIA's official CUDA base images for a simpler setup.
+```{docref} ../custom-docker
+If you have the flexibility to choose your base image, see the Custom RAPIDS Docker Guide which starts from NVIDIA's official CUDA base images for a simpler setup.
 ```
 
 ## Overview
@@ -37,7 +37,7 @@ The **runtime** images include all base components plus additional CUDA librarie
 | **All Base Components**       | (see above)      | Core CUDA runtime                                  |
 | CUDA Libraries                | `cuda-libraries` | Comprehensive CUDA library collection              |
 | CUDA Math Libraries           | `libcublas`      | Basic Linear Algebra Subprograms (BLAS)            |
-| NVIDIA Performance Primitives | `libnpp`         | Image, signal and video processing primitives        |
+| NVIDIA Performance Primitives | `libnpp`         | Image, signal and video processing primitives      |
 | Sparse Matrix Library         | `libcusparse`    | Sparse matrix operations                           |
 | Profiling Tools               | `cuda-nvtx`      | NVIDIA Tools Extension for profiling               |
 | Communication Library         | `libnccl2`       | Multi-GPU and multi-node collective communications |
@@ -88,12 +88,12 @@ The [NVIDIA CUDA Container Images repository](https://gitlab.com/nvidia/containe
 
 ### Installing CUDA components on your container
 
-1. Navigate to `dist/{cuda_version}/{your_os}/base/` or `runtime/` in the repository
+1. Navigate to `dist/{cuda_version}/{your_os}/base/` or `runtime/` in the [repository](https://gitlab.com/nvidia/container-images/cuda)
 2. Open the `Dockerfile` for your target distribution
-3. Copy all `ENV` variables for package versions and NVIDIA Container Toolkit support
-4. Copy the `RUN` commands for installing the packages.
-5. If you are using the `runtime` components, make sure to copy the `ENV` and `RUN` commands from the `base` Dockerfile as well.
-6. For RHEL-based systems, also copy any `.repo` configuration files needed.
+3. Copy all `ENV` variables for package versioning and NVIDIA Container Toolkit support (see the Essential Environment Variables section below)
+4. Copy the `RUN` commands for installing the packages
+5. If you are using the `runtime` components, make sure to copy the `ENV` and `RUN` commands from the `base` Dockerfile as well
+6. For RHEL-based systems, also copy any `.repo` configuration files needed
 
 ```{note}
 Package versions change between CUDA releases. Always check the specific Dockerfile for your desired CUDA version and distribution to get the correct versions.
@@ -105,7 +105,7 @@ Refer to the Docker Templates in the [Custom RAPIDS Docker Guide](../custom-dock
 
 ## Essential Environment Variables
 
-These environment variables are **required** for CUDA functionality on the container and access to the host system's GPUs through the NVIDIA Container Toolkit
+These environment variables are **required** when building CUDA containers, as they control GPU access and CUDA functionality through the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/docker-specialized.html)
 
 | Variable                     | Purpose                          |
 | ---------------------------- | -------------------------------- |
@@ -134,8 +134,6 @@ ENV NVARCH=${TARGETARCH/amd64/x86_64}
 ENV NVARCH=${NVARCH/arm64/sbsa}
 
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
-
-LABEL maintainer="NVIDIA CORPORATION <cudatools@nvidia.com>"
 
 # NVIDIA Repository Setup (Ubuntu 24.04)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -199,6 +197,8 @@ WORKDIR /home/rapids
 COPY env.yaml /home/rapids/env.yaml
 
 # Update the base environment with user's packages from env.yaml
+# Note: The -n base flag ensures packages are installed to the base environment
+# overriding any 'name:' specified in the env.yaml file
 RUN conda env update -n base -f env.yaml && \
     conda clean --all --yes
 
@@ -221,8 +221,6 @@ ENV NVARCH=${TARGETARCH/amd64/x86_64}
 ENV NVARCH=${NVARCH/arm64/sbsa}
 
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
-
-LABEL maintainer="NVIDIA CORPORATION <cudatools@nvidia.com>"
 
 # NVIDIA Repository Setup (Ubuntu 24.04)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -362,7 +360,7 @@ After starting your container, you can quickly test that RAPIDS is installed and
 
    If your installation is successful, you will see output similar to this:
 
-   ```bash
+   ```console
    🧑‍⚕️ Performing REQUIRED health check for RAPIDS
    Running checks
    All checks passed!
