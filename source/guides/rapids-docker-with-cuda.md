@@ -2,15 +2,17 @@
 
 This guide provides instructions to add RAPIDS and CUDA to your existing Docker images. This approach allows you to integrate RAPIDS libraries into containers that must start from a specific base image, such as application-specific containers.
 
-The CUDA installation steps are sourced from the official NVIDIA CUDA container images maintained at the [NVIDIA CUDA Container Images GitLab repository](https://gitlab.com/nvidia/container-images/cuda).
+The CUDA installation steps are sourced from the official [NVIDIA CUDA Container Images Repository](https://gitlab.com/nvidia/container-images/cuda).
 
-```{docref} ../custom-docker
-If you have the flexibility to choose your base image, see the Custom RAPIDS Docker Guide which starts from NVIDIA's official CUDA base images for a simpler setup.
+```{warning}
+We strongly recommend that you use the official CUDA container images published by NVIDIA. This guide is intended for those extreme situations where you cannot use the CUDA images as the base and need to manually install CUDA components on your containers. This approach introduces significant complexity and potential issues that can be difficult to debug. We cannot provide support for users beyond what is on this page.
+
+If you have the flexibility to choose your base image, see the {doc}`Custom RAPIDS Docker Guide <../custom-docker>` which starts from NVIDIA's official CUDA images for a simpler setup.
 ```
 
 ## Overview
 
-If you cannot use NVIDIA's CUDA container images, you will need to manually install CUDA components in your existing Docker image. The components you need depend on how you plan to install RAPIDS:
+If you cannot use NVIDIA's CUDA container images, you will need to manually install CUDA components in your existing Docker image. The components you need depends on the package manager used to install RAPIDS:
 
 - **For conda installations**: You need the components from the NVIDIA `base` CUDA images
 - **For pip installations**: You need the components from the NVIDIA `runtime` CUDA images
@@ -30,7 +32,7 @@ The **base** images provide the minimal CUDA runtime environment:
 
 ### Runtime Components (Required for RAPIDS on pip)
 
-The **runtime** images include all base components plus additional CUDA libraries:
+The **runtime** images include all the base components plus additional CUDA packages such as:
 
 | Component                     | Package Name     | Purpose                                            |
 | ----------------------------- | ---------------- | -------------------------------------------------- |
@@ -44,7 +46,7 @@ The **runtime** images include all base components plus additional CUDA librarie
 
 ### Development Components (Optional)
 
-The **devel** images add development tools to runtime images:
+The **devel** images add development tools to runtime images such as:
 
 - CUDA development headers and static libraries
 - CUDA compiler (`nvcc`)
@@ -52,7 +54,7 @@ The **devel** images add development tools to runtime images:
 - Additional development utilities
 
 ```{note}
-Development components are typically not needed for RAPIDS usage unless you plan to compile CUDA code within your container.
+Development components are typically not needed for RAPIDS usage unless you plan to compile CUDA code within your container. For the complete and up to date list of runtime and devel components, see the respective Dockerfiles in the [NVIDIA CUDA Container Images Repository](https://gitlab.com/nvidia/container-images/cuda/-/tree/master/dist).
 ```
 
 ## Getting the Right Components for Your Setup
@@ -61,17 +63,21 @@ The [NVIDIA CUDA Container Images repository](https://gitlab.com/nvidia/containe
 
 ### Supported Distributions
 
+CUDA components are available for most popular Linux distributions, including:
+
 **Debian/Ubuntu-based (uses `apt`):**
 
-- **Ubuntu**: `ubuntu2004/`, `ubuntu2204/`, `ubuntu2404/`
+- Ubuntu 20.04, 22.04, 24.04
 
 **RHEL/CentOS-based (uses `yum`/`dnf`):**
 
-- **Rocky Linux**: `rockylinux8/`, `rockylinux9/`, `rockylinux10/`
-- **RHEL/CentOS**: `ubi8/`, `ubi9/`, `ubi10/`
-- **Amazon Linux**: `amzn2023/`
-- **Azure Linux**: `azl3/`
-- **OpenSUSE**: `opensuse15/` (CUDA 13.0+ only)
+- Rocky Linux, RHEL/UBI, Amazon Linux, Azure Linux
+
+**Other distributions:**
+
+- OpenSUSE (CUDA 13.0+)
+
+For the complete and current list of supported distributions for your desired version, check the repository linked above.
 
 ### Key Differences by Distribution Type
 
@@ -117,7 +123,12 @@ These environment variables are **required** when building CUDA containers, as t
 
 ## Complete Integration Examples
 
-Here are complete examples showing how to build a RAPIDS container with CUDA 12.9.1 components on an Ubuntu 24.04 base image for both conda and pip installations:
+Here are complete examples showing how to build a RAPIDS container with CUDA 12.9.1 components on an Ubuntu 24.04 base image:
+
+`````{tab-set}
+
+````{tab-item} conda
+:sync: conda
 
 ### RAPIDS with conda (Base Components)
 
@@ -204,6 +215,11 @@ RUN conda env update -n base -f env.yaml && \
 
 CMD ["bash"]
 ```
+
+````
+
+````{tab-item} pip
+:sync: pip
 
 ### RAPIDS with pip (Runtime Components)
 
@@ -317,6 +333,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 CMD ["bash"]
 ```
+
+````
+
+`````
 
 ## Verifying Your Installation
 
