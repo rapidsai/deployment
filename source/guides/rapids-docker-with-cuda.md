@@ -207,11 +207,17 @@ WORKDIR /home/rapids
 # Copy the environment file template
 COPY env.yaml /home/rapids/env.yaml
 
+# Initialize conda on bash for the rapids user 
+RUN /opt/conda/bin/conda init bash
+
 # Update the base environment with user's packages from env.yaml
 # Note: The -n base flag ensures packages are installed to the base environment
 # overriding any 'name:' specified in the env.yaml file
-RUN conda env update -n base -f env.yaml && \
-    conda clean --all --yes
+RUN /opt/conda/bin/conda env update -n base -f env.yaml && \
+    /opt/conda/bin/conda clean --all --yes
+
+# Activate base environment
+RUN echo "conda activate base" >> /home/rapids/.bashrc
 
 CMD ["bash"]
 ```
@@ -330,6 +336,9 @@ COPY requirements.txt /home/rapids/requirements.txt
 
 # Install all packages
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Activate virtual environment for interactive shells
+RUN echo "source /home/rapids/venv/bin/activate" >> /home/rapids/.bashrc
 
 CMD ["bash"]
 ```

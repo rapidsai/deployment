@@ -38,8 +38,16 @@ WORKDIR /home/rapids
 # Copy the environment file template
 COPY env.yaml /home/rapids/env.yaml
 
+# Initialize conda for interactive shells
+RUN /opt/conda/bin/conda init bash
+
 # Update the base environment with user's packages from env.yaml
-RUN conda env update -n base -f env.yaml && \
-    conda clean --all --yes
+# Note: The -n base flag ensures packages are installed to the base environment
+# overriding any 'name:' specified in the env.yaml file
+RUN /opt/conda/bin/conda env update -n base -f env.yaml && \
+    /opt/conda/bin/conda clean --all --yes
+
+# Activate base environment
+RUN echo "conda activate base" >> /home/rapids/.bashrc
 
 CMD ["bash"]

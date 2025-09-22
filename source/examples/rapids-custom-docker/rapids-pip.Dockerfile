@@ -49,4 +49,7 @@ COPY requirements.txt /home/rapids/requirements.txt
 # Install all packages
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Activate virtual environment for interactive shells
+RUN echo "source /home/rapids/venv/bin/activate" >> /home/rapids/.bashrc
+
 CMD ["bash"]
