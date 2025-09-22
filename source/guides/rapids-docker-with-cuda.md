@@ -205,9 +205,9 @@ USER rapids
 WORKDIR /home/rapids
 
 # Copy the environment file template
-COPY env.yaml /home/rapids/env.yaml
+COPY --chmod=644 env.yaml /home/rapids/env.yaml
 
-# Initialize conda on bash for the rapids user 
+# Initialize conda on bash for the rapids user
 RUN /opt/conda/bin/conda init bash
 
 # Update the base environment with user's packages from env.yaml
@@ -332,7 +332,7 @@ ENV PATH="/home/rapids/venv/bin:$PATH"
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel
 
 # Copy the requirements file
-COPY requirements.txt /home/rapids/requirements.txt
+COPY --chmod=644 requirements.txt /home/rapids/requirements.txt
 
 # Install all packages
 RUN pip install --no-cache-dir -r requirements.txt

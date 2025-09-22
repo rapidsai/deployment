@@ -36,7 +36,7 @@ USER rapids
 WORKDIR /home/rapids
 
 # Copy the environment file template
-COPY env.yaml /home/rapids/env.yaml
+COPY --chmod=644 env.yaml /home/rapids/env.yaml
 
 # Initialize conda for interactive shells
 RUN /opt/conda/bin/conda init bash
