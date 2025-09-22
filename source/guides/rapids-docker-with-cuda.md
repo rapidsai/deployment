@@ -193,8 +193,10 @@ RUN wget -qO /tmp/miniforge.sh "https://github.com/conda-forge/miniforge/release
     rm /tmp/miniforge.sh && \
     /opt/conda/bin/conda clean --all --yes
 
-# Add conda to PATH
+# Add conda to PATH and activate base environment
 ENV PATH="/opt/conda/bin:${PATH}"
+ENV CONDA_DEFAULT_ENV=base
+ENV CONDA_PREFIX=/opt/conda
 
 # Create conda group and rapids user
 RUN groupadd -g 1001 conda && \
@@ -207,17 +209,11 @@ WORKDIR /home/rapids
 # Copy the environment file template
 COPY --chmod=644 env.yaml /home/rapids/env.yaml
 
-# Initialize conda on bash for the rapids user
-RUN /opt/conda/bin/conda init bash
-
 # Update the base environment with user's packages from env.yaml
 # Note: The -n base flag ensures packages are installed to the base environment
 # overriding any 'name:' specified in the env.yaml file
 RUN /opt/conda/bin/conda env update -n base -f env.yaml && \
     /opt/conda/bin/conda clean --all --yes
-
-# Activate base environment
-RUN echo "conda activate base" >> /home/rapids/.bashrc
 
 CMD ["bash"]
 ```
@@ -327,6 +323,7 @@ WORKDIR /home/rapids
 # Create and activate virtual environment
 RUN python -m venv /home/rapids/venv
 ENV PATH="/home/rapids/venv/bin:$PATH"
+ENV VIRTUAL_ENV="/home/rapids/venv"
 
 # Upgrade pip
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel
@@ -336,9 +333,6 @@ COPY --chmod=644 requirements.txt /home/rapids/requirements.txt
 
 # Install all packages
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Activate virtual environment for interactive shells
-RUN echo "source /home/rapids/venv/bin/activate" >> /home/rapids/.bashrc
 
 CMD ["bash"]
 ```

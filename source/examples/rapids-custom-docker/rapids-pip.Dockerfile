@@ -39,6 +39,7 @@ WORKDIR /home/rapids
 # Create and activate virtual environment
 RUN python -m venv /home/rapids/venv
 ENV PATH="/home/rapids/venv/bin:$PATH"
+ENV VIRTUAL_ENV="/home/rapids/venv"
 
 # Upgrade pip
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel
@@ -48,8 +49,5 @@ COPY --chmod=644 requirements.txt /home/rapids/requirements.txt
 
 # Install all packages
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Activate virtual environment for interactive shells
-RUN echo "source /home/rapids/venv/bin/activate" >> /home/rapids/.bashrc
 
 CMD ["bash"]
