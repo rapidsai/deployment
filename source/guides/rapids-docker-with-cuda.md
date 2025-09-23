@@ -63,21 +63,7 @@ The [NVIDIA CUDA Container Images repository](https://gitlab.com/nvidia/containe
 
 ### Supported Distributions
 
-CUDA components are available for most popular Linux distributions, including:
-
-**Debian/Ubuntu-based (uses `apt`):**
-
-- Ubuntu 20.04, 22.04, 24.04
-
-**RHEL/CentOS-based (uses `yum`/`dnf`):**
-
-- Rocky Linux, RHEL/UBI, Amazon Linux, Azure Linux
-
-**Other distributions:**
-
-- OpenSUSE (CUDA 13.0+)
-
-For the complete and current list of supported distributions for your desired version, check the repository linked above.
+CUDA components are available for most popular Linux distributions. For the complete and current list of supported distributions for your desired version, check the repository linked above.
 
 ### Key Differences by Distribution Type
 
