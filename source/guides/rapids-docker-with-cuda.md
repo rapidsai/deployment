@@ -111,6 +111,10 @@ These environment variables are **required** when building CUDA containers, as t
 
 Here are complete examples showing how to build a RAPIDS container with CUDA 12.9.1 components on an Ubuntu 24.04 base image:
 
+```{tip}
+These examples must be built with Docker v28+.
+```
+
 `````{tab-set}
 
 ````{tab-item} conda
