@@ -39,12 +39,13 @@ WORKDIR /home/rapids
 # Create and activate virtual environment
 RUN python -m venv /home/rapids/venv
 ENV PATH="/home/rapids/venv/bin:$PATH"
+ENV VIRTUAL_ENV="/home/rapids/venv"
 
 # Upgrade pip
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel
 
 # Copy the requirements file
-COPY requirements.txt /home/rapids/requirements.txt
+COPY --chmod=644 requirements.txt /home/rapids/requirements.txt
 
 # Install all packages
 RUN pip install --no-cache-dir -r requirements.txt
