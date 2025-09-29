@@ -28,7 +28,7 @@ versions = {
     "stable": {
         "rapids_version": stable_version,
         "rapids_api_docs_version": "stable",
-        "rapids_container": f"nvcr.io/nvidia/rapidsai/base:{stable_version}-cuda12.8-py3.12",
+        "rapids_container": f"nvcr.io/nvidia/rapidsai/base:{stable_version}-cuda12-py3.13",
         "rapids_notebooks_container": f"nvcr.io/nvidia/rapidsai/notebooks:{stable_version}-cuda12.8-py3.12",
         "rapids_conda_channels": "-c rapidsai -c conda-forge -c nvidia",
         "rapids_conda_packages": f"rapids={stable_version} python=3.12 cuda-version=12.8",
@@ -41,7 +41,7 @@ versions = {
     "nightly": {
         "rapids_version": f"{nightly_version}",
         "rapids_api_docs_version": "nightly",
-        "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-cuda12.9-py3.12",
+        "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-cuda12-py3.13",
         "rapids_notebooks_container": f"rapidsai/notebooks:{nightly_version + 'a'}-cuda12.9-py3.12",
         "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge -c nvidia",
         "rapids_conda_packages": f"rapids={nightly_version} python=3.12 cuda-version=12.9",
@@ -84,6 +84,7 @@ extensions = [
     "rapids_grid_toctree",
     "rapids_version_templating",
     "rapids_admonitions",
+    "sphinx_reredirects",
 ]
 
 myst_enable_extensions = ["colon_fence", "dollarmath"]
@@ -98,6 +99,8 @@ exclude_patterns = []
 
 copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
 copybutton_prompt_is_regexp = True
+copybutton_line_continuation_character = "\\"
+
 
 suppress_warnings = ["myst.header", "myst.nested_header"]
 
@@ -157,7 +160,8 @@ intersphinx_mapping = {
 }
 
 redirects = {
-    "platforms/brev-dev": "cloud/nvidia/brev/",
+    "platforms/brev-dev": "../../cloud/nvidia/brev/",
+    "guides/l4-gcp": "../../cloud/gcp/",
 }
 
 

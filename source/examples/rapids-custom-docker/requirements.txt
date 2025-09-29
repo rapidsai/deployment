@@ -1,0 +1,2 @@
+# RAPIDS libraries (pip versions)
+cudf-cu12=={{rapids_pip_version}}

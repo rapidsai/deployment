@@ -240,7 +240,7 @@ Legend:
 
 ```
 
-### Install UCX-Py and tools
+### Install UCXX and tools
 
 ```shell
 wget https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
@@ -255,40 +255,40 @@ Accept the default and allow conda init to run.
 
 Then start a new shell.
 
-Create a conda environment (see [UCX-Py](https://ucx-py.readthedocs.io/en/latest/install.html) docs)
+Create a conda environment (see [UCXX](https://docs.rapids.ai/api/ucxx/nightly/install/) docs)
 
 ```shell
-mamba create -n ucxpy {{ rapids_conda_channels }} {{ rapids_conda_packages }} ipython ucx-proc=*=gpu ucx ucx-py dask distributed numpy cupy pytest pynvml -y
-mamba activate ucxpy
+mamba create -n ucxx {{ rapids_conda_channels }} {{ rapids_conda_packages }} ipython dask distributed distributed-ucxx numpy cupy pytest pynvml -y
+mamba activate ucxx
 ```
 
-Clone UCX-Py repo locally
+Clone UCXX repo locally
 
 ```shell
-git clone https://github.com/rapidsai/ucx-py.git
-cd ucx-py
+git clone https://github.com/rapidsai/ucxx.git
+cd ucxx
 ```
 
 ### Run Tests
 
-Start by running the UCX-Py test suite, from within the `ucx-py` repo:
+Start by running the UCXX test suite, from within the `ucxx` repo:
 
 ```shell
-pytest -vs tests/
-pytest -vs ucp/_libs/tests/
+pytest -vs python/ucxx/ucxx/_lib/tests
+pytest -vs python/ucxx/ucxx/_lib_async/tests
 ```
 
-Now check to see if InfiniBand works, for that you can run some of the benchmarks that we include in UCX-Py, for example:
+Now check to see if InfiniBand works, for that you can run some of the benchmarks that we include in UCXX, for example:
 
 ```shell
-# cd out of the ucx-py directory
+# cd out of the ucxx directory
 cd ..
 # Let UCX pick the best transport (expecting NVLink when available,
 # otherwise InfiniBand, or TCP in worst case) on devices 0 and 1
-python -m ucp.benchmarks.send_recv --server-dev 0 --client-dev 1 -o rmm --reuse-alloc -n 128MiB
+python -m ucxx.benchmarks.send_recv --server-dev 0 --client-dev 1 -o rmm --reuse-alloc -n 128MiB
 
 # Force TCP-only on devices 0 and 1
-UCX_TLS=tcp,cuda_copy python -m ucp.benchmarks.send_recv --server-dev 0 --client-dev 1 -o rmm --reuse-alloc -n 128MiB
+UCX_TLS=tcp,cuda_copy python -m ucxx.benchmarks.send_recv --server-dev 0 --client-dev 1 -o rmm --reuse-alloc -n 128MiB
 ```
 
 We expect the first case above to have much higher bandwidth than the second. If you happen to have both

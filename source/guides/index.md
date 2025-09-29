@@ -20,6 +20,17 @@ Use RAPIDS with Multi-Instance GPUs
 ````
 
 ````{grid-item-card}
+:link: rapids-docker-with-cuda
+:link-type: doc
+Building RAPIDS Containers from a custom base image
+^^^
+Add RAPIDS and CUDA to your existing Docker images
+
+{bdg-primary}`Docker`
+{bdg-primary}`CUDA`
+````
+
+````{grid-item-card}
 :link: azure/infiniband
 :link-type: doc
 Infiniband on Azure
@@ -73,16 +84,6 @@ Prepull Docker Images while using the Dask Autoscaler on Kubernetes
 {bdg-primary}`Dask`
 {bdg-primary}`Kubernetes`
 {bdg-primary}`dask-operator`
-````
-
-````{grid-item-card}
-:link: l4-gcp
-:link-type: doc
-L4 on Google Cloud Platform
-^^^
-How to setup a VM instance on GCP with an L4 GPU.
-
-{bdg-primary}`Google Cloud Platform`
 ````
 
 `````

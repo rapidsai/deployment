@@ -15,11 +15,19 @@ NEXT_MAJOR=$(echo "$NEXT_FULL_TAG" | awk '{split($0, a, "."); print a[1]}')
 NEXT_MINOR=$(echo "$NEXT_FULL_TAG" | awk '{split($0, a, "."); print a[2]}')
 NEXT_SHORT_TAG=${NEXT_MAJOR}.${NEXT_MINOR}
 
-# Calculate the next nightly version
+# Calculate the next nightly version with proper year rollover handling
 NEXT_MINOR_INT=$((10#$NEXT_MINOR))
-NEXT_NIGHTLY_MINOR=$((NEXT_MINOR_INT + 2))
-NEXT_NIGHTLY_MINOR=$(printf "%02d" $NEXT_NIGHTLY_MINOR)
-NEXT_NIGHTLY_TAG=${NEXT_MAJOR}.${NEXT_NIGHTLY_MINOR}
+if [ $NEXT_MINOR_INT -eq 12 ]; then
+    # Year rollover: 25.12 -> 26.02
+    NEXT_NIGHTLY_MAJOR=$((10#$NEXT_MAJOR + 1))
+    NEXT_NIGHTLY_MINOR="02"
+    NEXT_NIGHTLY_TAG=${NEXT_NIGHTLY_MAJOR}.${NEXT_NIGHTLY_MINOR}
+else
+    # Normal increment: 25.10 -> 25.12, 25.08 -> 25.10, etc.
+    NEXT_NIGHTLY_MINOR=$((NEXT_MINOR_INT + 2))
+    NEXT_NIGHTLY_MINOR=$(printf "%02d" $NEXT_NIGHTLY_MINOR)
+    NEXT_NIGHTLY_TAG=${NEXT_MAJOR}.${NEXT_NIGHTLY_MINOR}
+fi
 
 echo "Preparing release $NEXT_FULL_TAG with next nightly version $NEXT_NIGHTLY_TAG"
 

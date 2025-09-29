@@ -7,7 +7,7 @@ counter=0
 
 for imagepath in $imagepaths; do
     filename=$(basename -- "$imagepath")
-    if ! grep -q -r "$filename" source README.md; then
+    if ! grep -q -r "$filename" --include '*.md' --include '*.ipynb' --include '*.py' source README.md; then
         echo "Found unused image $imagepath"
         counter=$((counter+1))
     fi

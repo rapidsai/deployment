@@ -14,7 +14,7 @@ First you'll need to have the [`aws` CLI tool](https://aws.amazon.com/cli/) and 
 
 Ensure you are logged into the `aws` CLI.
 
-```console
+```bash
 $ aws configure
 ```
 
@@ -28,16 +28,18 @@ In your aws console under `EC2` in the side panel under Network & Security > Key
 key pair or import (see "Actions" dropdown) one you've created locally.
 
 2. If you are not using your default AWS profile, add `--profile <your-profile>` to the following command.
+
+3. The `--ssh-public-key` argument is the name assigned during creation of your key in AWS console.
 ```
 
-```console
+```bash
 $ eksctl create cluster rapids \
                       --version 1.30 \
                       --nodes 3 \
                       --node-type=g4dn.xlarge \
                       --timeout=40m \
                       --ssh-access \
-                      --ssh-public-key <public key ID> \  # Name assigned during creation of your key in aws console
+                      --ssh-public-key <public key ID> \
                       --region us-east-1 \
                       --zones=us-east-1c,us-east-1b,us-east-1d \
                       --auto-kubeconfig
@@ -48,7 +50,7 @@ With this command, you’ve launched an EKS cluster called `rapids`. You’ve sp
 To access the cluster we need to pull down the credentials.
 Add `--profile <your-profile>` if you are not using the default profile.
 
-```console
+```bash
 $ aws eks --region us-east-1 update-kubeconfig --name rapids
 ```
 

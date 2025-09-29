@@ -5,31 +5,41 @@
 For fast and consistent builds of the documentation we recommend running all build commands with [uv](https://docs.astral.sh/uv/getting-started/installation/) and `uv run`.
 Build dependencies are stored in `pyproject.toml` and locked with `uv.lock` to ensure reproducible builds.
 
-We also recommend building with [sphinx-autobuild](https://github.com/executablebooks/sphinx-autobuild).
-This tool will build your docs and host them on a local web server.
-It will watch for file changes, rebuild automatically and tell the browser page to reload. Magic!
-
-```console
-$ uv run sphinx-autobuild source build/html
-[sphinx-autobuild] > sphinx-build ./source ./build/html
-Running Sphinx v4.5.0
-...
-build succeeded.
-
-The HTML pages are in build.
-[I 220413 12:13:40 server:335] Serving on http://127.0.0.1:8000
-```
-
-Alternatively you can build the static site into `build/html` with `sphinx`.
+To create a dedicated environment follow the instructions in the [uv docs](https://docs.astral.sh/uv/pip/environments/)
+once it's created you can install all the packages from the `uv.lock` doing:
 
 ```bash
-uv run make dirhtml
+uv venv && uv sync --locked
 ```
 
 The `uv.lock` file will ensure reproducible builds, but if you want to intentionally upgrade to newer versions of dependencies you can run
 
 ```bash
 uv lock --upgrade
+```
+
+We also recommend building with [sphinx-autobuild](https://github.com/executablebooks/sphinx-autobuild).
+This tool will build your docs and host them on a local web server.
+It will watch for file changes, rebuild automatically and tell the browser page to reload. Magic!
+
+```console
+$ uv run sphinx-autobuild -b dirhtml source build/html
+[sphinx-autobuild] Starting initial build
+[sphinx-autobuild] > python -m sphinx build -b dirhtml source build/html
+Running Sphinx v8.2.3
+...
+
+build succeeded.
+
+The HTML pages are in build/html.
+[sphinx-autobuild] Serving on http://127.0.0.1:8000
+[sphinx-autobuild] Waiting to detect changes...
+```
+
+Alternatively you can build the static site into `build/html` with `sphinx`.
+
+```bash
+uv run make dirhtml
 ```
 
 ## Writing
@@ -56,6 +66,22 @@ Renders as:
 
 > **Note**
 > The `Visit the documentation >>` link is added automatically in the bottom right based on the page that is referenced in the directive argument.
+
+### Documentation style guide
+
+#### Kubernetes
+
+The [Kubernetes documentation style-guide](https://kubernetes.io/docs/contribute/style/style-guide/#use-upper-camel-case-for-api-objects)  
+encourages the use of `UpperCamelCase` (also known as `PascalCase`) when referring to Kubernetes resources.
+Please make sure to follow this guide when writing documentation that involves Kubernetes.
+
+#### Usage of console and bash blocks
+
+- Use `console` for any set of commands that are entered in a command line that contain output from the command.
+  - Start the line with `$`, they'll be omitted upon copying in sphinx rendered docs.
+  - Use `\` to break lines.
+  - Do not add comments like `# comment` in-line when using break lines because this will break the copying.
+- Use `bash` for any bash script `.sh`, or command line entry without output.
 
 ### Notebooks
 
@@ -131,10 +157,10 @@ The RAPIDS versions for things like container images and install instructions ar
 ```python
 versions = {
     "stable": {
-        "rapids_container": "nvcr.io/nvidia/rapidsai/base:25.10-cuda12.8-py3.12",
+        "rapids_container": "nvcr.io/nvidia/rapidsai/base:25.10-cuda12-py3.13",
     },
     "nightly": {
-        "rapids_container": "rapidsai/base:25.12a-cuda12.8-py3.12",
+        "rapids_container": "rapidsai/base:25.12a-cuda12-py3.13",
     },
 }
 ```
