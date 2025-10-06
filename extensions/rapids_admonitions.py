@@ -1,4 +1,4 @@
-from docutils.nodes import Text, admonition, inline, paragraph
+from docutils.nodes import Text, admonition, inline, paragraph, reference
 from docutils.parsers.rst.directives.admonitions import BaseAdmonition
 from sphinx.addnodes import pending_xref
 from sphinx.application import Sphinx
@@ -14,14 +14,17 @@ class Docref(BaseAdmonition, SphinxDirective):
         self.arguments = ["See Documentation"]
         self.options["classes"] = ["admonition-docref"]
         nodes = super().run()
-        custom_xref = pending_xref(
-            reftype="myst",
-            refdomain="std",
-            refexplicit=True,
-            reftarget=doc,
-            refdoc=self.env.docname,
-            refwarn=True,
-        )
+        if doc.startswith("http"):
+            custom_xref = reference("", "", refuri=doc, classes=["external"])
+        else:
+            custom_xref = pending_xref(
+                reftype="myst",
+                refdomain="std",
+                refexplicit=True,
+                reftarget=doc,
+                refdoc=self.env.docname,
+                refwarn=True,
+            )
         text_wrapper = inline()
         text_wrapper += Text("Visit the documentation >>")
         custom_xref += text_wrapper
