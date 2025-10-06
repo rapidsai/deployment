@@ -29,7 +29,7 @@ versions = {
         "rapids_version": stable_version,
         "rapids_api_docs_version": "stable",
         "rapids_container": f"nvcr.io/nvidia/rapidsai/base:{stable_version}-cuda12-py3.13",
-        "rapids_notebooks_container": f"nvcr.io/nvidia/rapidsai/notebooks:{stable_version}-cuda12.8-py3.12",
+        "rapids_notebooks_container": f"nvcr.io/nvidia/rapidsai/notebooks:{stable_version}-cuda12-py3.13",
         "rapids_conda_channels": "-c rapidsai -c conda-forge -c nvidia",
         "rapids_conda_packages": f"rapids={stable_version} python=3.12 cuda-version=12.8",
         "rapids_pip_index": "https://pypi.nvidia.com",
