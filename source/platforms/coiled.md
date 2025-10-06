@@ -63,14 +63,14 @@ Create an environment file containing the RAPIDS packages
 # rapids-environment.yaml
 name: rapidsai-notebooks
 channels:
-  - rapidsai
+  - { { rapids_conda_channel } }
   - conda-forge
   - nvidia
 dependencies:
   # RAPIDS packages
   - rapids={{ rapids_version }}
   - python=3.12
-  - cuda-version>=12.0,<=12.5
+  - cuda-version>=12.0,<=12.9
   # (optional) Jupyter packages, necessary for Coiled Notebooks and Dask clusters with Jupyter enabled
   - jupyterlab
   - jupyterlab-nvdashboard
