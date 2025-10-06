@@ -116,17 +116,12 @@ Dask now has a [dask-databricks](https://github.com/jacobtomlinson/dask-databric
 #!/bin/bash
 set -e
 
-# The Databricks Python directory isn't on the path in
-# databricksruntime/gpu-tensorflow:cuda11.8 for some reason
-export PATH="/databricks/python/bin:$PATH"
-
-# Install RAPIDS (cudf & dask-cudf) and dask-databricks
-/databricks/python/bin/pip install --extra-index-url=https://pypi.nvidia.com \
-      cudf-cu11 \
-      dask[complete] \
-      dask-cudf-cu11  \
-      dask-cuda=={{rapids_version}} \
-      dask-databricks
+# Install RAPIDS libraries
+pip install \
+    --extra-index-url={{rapids_pip_index}} \
+    "cudf-cu12>={{rapids_pip_version}}" "cuml-cu12>={{rapids_pip_version}}" \
+    "dask-cuda>={{rapids_pip_version}}" "dask-cudf-cu11>={{rapids_pip_version}} \
+    "dask[complete]" dask-databricks
 
 # Start the Dask cluster with CUDA workers
 dask databricks run --cuda
@@ -141,13 +136,7 @@ To launch a dask cluster with GPU workers, you must parse in `--cuda` flag optio
 
 Once your script is ready, follow the [instructions](launch-databricks-cluster) to launch a **Multi-node** cluster.
 
-Be sure to select `14.2 (Scala 2.12, Spark 3.5.0)` Standard Runtime as shown below.
-
-![Screenshot of standard runtime](../images/databricks-standard-runtime.png)
-
-Then expand the **Advanced Options** section and open the **Docker** tab. Select **Use your own Docker container** and enter the image `databricksruntime/gpu-tensorflow:cuda11.8` or `databricksruntime/gpu-pytorch:cuda11.8`.
-
-![Screenshot of custom docker container](../images/databricks-custom-container.png)
+Be sure to select `16.4 LTS ML (includes Apache Spark 3.5.2, GPU, Scala 2.13)` ML Runtime as shown below.
 
 Configure the path to your init script in the **Init Scripts** tab. Optionally, you can also configure cluster log delivery in the **Logging** tab, which will write the [init script logs](https://docs.databricks.com/en/init-scripts/logs.html) to DBFS in a subdirectory called `dbfs:/cluster-logs/<cluster-id>/init_scripts/`.
 
