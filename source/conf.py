@@ -31,7 +31,7 @@ versions = {
         "rapids_container": f"nvcr.io/nvidia/rapidsai/base:{stable_version}-cuda12-py3.13",
         "rapids_notebooks_container": f"nvcr.io/nvidia/rapidsai/notebooks:{stable_version}-cuda12-py3.13",
         "rapids_conda_channels": "-c rapidsai -c conda-forge -c nvidia",
-        "rapids_conda_packages": f"rapids={stable_version} python=3.12 cuda-version=12.8",
+        "rapids_conda_packages": f"rapids={stable_version} python=3.13 'cuda-version>=12.0,<=12.9'",
         "rapids_pip_index": "https://pypi.nvidia.com",
         "rapids_pip_version": stable_version,
         # SageMaker Notebook Instance examples need to stay pinned to an older RAPIDS until this is resolved:
