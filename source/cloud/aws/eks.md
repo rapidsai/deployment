@@ -45,7 +45,7 @@ $ eksctl create cluster rapids \
                       --auto-kubeconfig
 ```
 
-With this command, you’ve launched an EKS cluster called `rapids`. You’ve specified that it should use nodes of type `p3.8xlarge`. We also specified that we don't want to install the NVIDIA drivers as we will do that with the NVIDIA operator.
+With this command, you’ve launched an EKS cluster called `rapids`. You’ve specified that it should use nodes of type `g4dn.xlarge`. We also specified that we don't want to install the NVIDIA drivers as we will do that with the NVIDIA operator.
 
 To access the cluster we need to pull down the credentials.
 Add `--profile <your-profile>` if you are not using the default profile.
