@@ -15,31 +15,39 @@ There are two options to get you up and running with RAPIDS in a few steps, than
 
 ### Option 1. Setting up your Brev GPU Instance
 
-1. Navigate to the [Brev bash](https://brev.nvidia.com/org) and click on "Create your first instance".
+1. Navigate to the [Brev bash](https://brev.nvidia.com/org) and click on "Create new instance".
 
 ![Screenshot of the "Create your first instance" UI](/_static/images/platforms/brev/brev1.png)
 
-2. Select "Container Mode".
+2. Choose a compute type.
 
-![Screenshot showing "Container Mode" highlighted](/_static/images/platforms/brev/brev2.png)
+```{hint}
+New users commonly choose `L4` GPUs for trying things out.
+```
 
-3. Attach the "NVIDIA RAPIDS" Container.
+![Screenshot of the "Choose a compute type" UI](/_static/images/platforms/brev/brev-compute.png)
 
-![Screenshot showing the "NVIDIA RAPIDS" container highlighted](/_static/images/platforms/brev/brev3.png)
+3. Select the button to change the container or runtime (the default is "VM Mode w/ Jupyter")
 
-4. Configure your own instance.
+![Screenshot of the "Changing container or runtime" UI](/_static/images/platforms/brev/brev-runtime.png)
 
-![Screenshot of the "Create your Instance" UI with an NVIDIA T4 GPU highlighted](/_static/images/platforms/brev/brev4.png)
+2. Select "Featured Containers".
 
-5. And hit "Deploy".
+![Screenshot showing "Featured Containers" highlighted](/_static/images/platforms/brev/brev-featured-containers.png)
 
-![Screenshot of the instance creation summary screen with the deploy button highlighted](/_static/images/platforms/brev/brev5.png)
+3. Attach the "NVIDIA RAPIDS" Container and choose "Apply".
+
+![Screenshot showing the "NVIDIA RAPIDS" container highlighted](/_static/images/platforms/brev/brev-rapids-container.png)
+
+5. Give your instance a name and hit "Deploy".
+
+![Screenshot of the instance creation summary screen with the deploy button highlighted](/_static/images/platforms/brev/brev-deploy.png)
 
 ### Option 2. Setting up your Brev Launchable
 
 Brev Launchables are shareable environment configurations that combine code, containers, and compute into a single
 portable recipe. This option is most applicable if you want to set up a custom environment for a blueprint, like
-our [Single-cell Analysis Blueprint](https://github.com/clara-parabricks-workflows/single-cell-analysis-blueprint).
+our [Single-cell Analysis Blueprint](https://github.com/NVIDIA-AI-Blueprints/single-cell-analysis-blueprint/).
 However, you can use this to create quick-start templates for many different kinds of projects when you want users to
 drop into an environment where they can quickly prototype.
 
@@ -49,11 +57,12 @@ You can read more about Brev Launchables in the [Getting Started Guide](https://
 2. When asked **How would you like to provide your code files?** select the option that corresponds to your use case. If
    you are using a blueprint, you will select "I have code files in a git repository" paste a link to the blueprint GitHub
    repository here. Otherwise, select "I don't have any code files".
+   - E.g `https://github.com/NVIDIA-AI-Blueprints/single-cell-analysis-blueprint`
 3. When asked **What type of runtime environment do you need?** select "With container(s)".
 4. When prompted to **Choose a Container Configuration**, you have two options:
    1. **If you need a custom container**: Select "Docker Compose" and click on the toggle to select "I have an existing
       `docker-compose.yaml` file". Under **Upload Docker Compose** select "Provide GitHub/Gitlab URL" and provide a link to
-      a Docker Compose YAML file (e.g. [docker-compose-nb-2412.yaml](https://github.com/clara-parabricks-workflows/single-cell-analysis-blueprint/blob/main/docker/brev/docker-compose-nb-2412.yaml)).
+      a Docker Compose YAML file (e.g. [docker-compose-nb-2506.yaml](https://github.com/NVIDIA-AI-Blueprints/single-cell-analysis-blueprint/blob/main/docker/brev/docker-compose-nb-2506.yaml)).
       Click "Validate". Note, you needto pass a link to the file in GitHub, not to the `raw.github.com` file.
    2. **If you need a standard container**: Select "Featured Container" and then select the "NVIDIA RAPIDS" container.
 5. On the next page, when asked **Do you want a Jupyter Notebook experience?**, if you are using a standard container,
