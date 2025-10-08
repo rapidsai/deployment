@@ -43,6 +43,7 @@ Put the following in a local file called `rapids-azure-startup.sh`:
 sudo -u azureuser -i <<'EOF'
 source /anaconda/etc/profile.d/conda.sh
 conda create -y -n rapids \
+    --override-channels \
     {{ rapids_conda_channels }} \
     -c microsoft \
    {{ rapids_conda_packages }} \
