@@ -4,7 +4,7 @@ You can run RAPIDS workloads on [Anaconda Cloud Notebooks](https://www.anaconda.
 
 ## Overview
 
-To get started sign up for Anaconda Cloud and choose at least the [Starter Tier](https://www.anaconda.com/pricing).
+To get started, sign up for an Anaconda.com account and choose the [Starter Tier](https://www.anaconda.com/pricing).
 
 Navigate to [nb.anaconda.com](https://nb.anaconda.com/) and start your server.
 
