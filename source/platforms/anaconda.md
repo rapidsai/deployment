@@ -19,3 +19,5 @@ Then select an NVIDIA runtime
 Then create a notebook and change the current runtime to your NVIDIA runtime.
 
 ![Screenshot of the "notebook runtime" UI with the NVIDIA A10g environment selected](/_static/images/platforms/anaconda/select-nvidia-runtime.png)
+
+You will find common RAPIDS libraries including `cudf` and `cuml` already available in this environment and ready to use.
