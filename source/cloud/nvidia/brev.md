@@ -55,7 +55,7 @@ You can read more about Brev Launchables in the [Getting Started Guide](https://
 
 1. Go to [Brev’s Launchable Creator](https://brev.nvidia.com/launchables/create) (requires account)
 2. When asked **How would you like to provide your code files?**.
-   - Select "I have code files in a git repository", and provide the link to a github repository, if you have one that you'd like
+   - Select "I have code files in a git repository", and provide the link to a GitHub repository, if you have one that you'd like
      to be mounted in the instance once is up.
    - Otherwise, select "I don't have any code files".
 3. When asked **What type of runtime environment do you need?** select "With container(s)", and proceed.
