@@ -40,6 +40,9 @@ Choose "Provision with a creation script" to install RAPIDS and dependencies.
 Put the following in a local file called `rapids-azure-startup.sh`:
 
 ```bash
+#!/bin/bash
+set -e
+
 sudo -u azureuser -i <<'EOF'
 source /anaconda/etc/profile.d/conda.sh
 conda create -y -n rapids \
