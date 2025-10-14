@@ -39,6 +39,12 @@ Choose "Provision with a creation script" to install RAPIDS and dependencies.
 
 Put the following in a local file called `rapids-azure-startup.sh`:
 
+```{note}
+The script below has `set -e` to avoid silent fails. In case of failure, remove this line
+from the script, the VM will boot and inspect it by running each line of the script
+to see where it fails.
+```
+
 ```bash
 #!/bin/bash
 set -e
