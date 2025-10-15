@@ -69,7 +69,9 @@ You can read more about Brev Launchables in the [Getting Started Guide](https://
         want to work with. Note, you will not be able to resize the instance once created.
       - Create a name for your launchable, and deploy.
    2. **Docker Compose**: For a custom container that you can tailor to your needs.
-      - You can provide a `docker-compose.yaml` via url o from a local file. The structure should be as follow
+      - You can provide a `docker-compose.yaml` via url o from a local file. In the following template, make sure to
+        replace `<name_of_your_github_repo>` in the `volumes` path, with the name of your repository if you have one. Otherwise,
+        remove the `volumes`entry.
 
       ```yaml
       services:
