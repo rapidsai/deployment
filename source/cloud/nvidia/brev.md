@@ -49,31 +49,67 @@ Brev Launchables are shareable environment configurations that combine code, con
 portable recipe. This option is most applicable if you want to set up a custom environment for a blueprint, like
 our [Single-cell Analysis Blueprint](https://github.com/NVIDIA-AI-Blueprints/single-cell-analysis-blueprint/).
 However, you can use this to create quick-start templates for many different kinds of projects when you want users to
-drop into an environment where they can quickly prototype.
+drop into an environment that is ready to go (e.g. tutorials, workshops, demos, etc.).
 
 You can read more about Brev Launchables in the [Getting Started Guide](https://docs.nvidia.com/brev/latest/launchables-getting-started.html).
 
 1. Go to [Brev’s Launchable Creator](https://brev.nvidia.com/launchables/create) (requires account)
-2. When asked **How would you like to provide your code files?** select the option that corresponds to your use case. If
-   you are using a blueprint, you will select "I have code files in a git repository" paste a link to the blueprint GitHub
-   repository here. Otherwise, select "I don't have any code files".
-   - E.g `https://github.com/NVIDIA-AI-Blueprints/single-cell-analysis-blueprint`
-3. When asked **What type of runtime environment do you need?** select "With container(s)".
+2. When asked **How would you like to provide your code files?**.
+   - Select "I have code files in a git repository", and provide the link to a GitHub repository, if you have one that you'd like
+     to be mounted in the instance once is up.
+   - Otherwise, select "I don't have any code files".
+3. When asked **What type of runtime environment do you need?** select "With container(s)", and proceed.
+
+![Screenshot showing the Brev launchable setup with container](/_static/images/platforms/brev/brev-launchable-setup-start.png)
+
 4. When prompted to **Choose a Container Configuration**, you have two options:
-   1. **If you need a custom container**: Select "Docker Compose" and click on the toggle to select "I have an existing
-      `docker-compose.yaml` file". Under **Upload Docker Compose** select "Provide GitHub/Gitlab URL" and provide a link to
-      a Docker Compose YAML file (e.g. [docker-compose-nb-2506.yaml](https://github.com/NVIDIA-AI-Blueprints/single-cell-analysis-blueprint/blob/main/docker/brev/docker-compose-nb-2506.yaml)).
-      Click "Validate". Note, you needto pass a link to the file in GitHub, not to the `raw.github.com` file.
-   2. **If you need a standard container**: Select "Featured Container" and then select the "NVIDIA RAPIDS" container.
-5. On the next page, when asked **Do you want a Jupyter Notebook experience?**, if you are using a standard container,
-   you will be told there is a preconfigured Jupyter experience. Click "Next". If you are using a custom container with
-   Docker Compose, follow the instructions associated with the Blueprint you are using. Some will include Jupyter pre-installed.
-6. In the section titled **Do you need to expose services?**, if you are using a standard container, you will not need
-   to edit anything. If you are using a custom configuration, make sure to follow the instructions associated with your
-   blueprint.
-7. Select your desired compute environment. Make sure you select sufficient disk size to download the datasets you want
-   to work with. Note, you will not be able to resize the instance once created.
-8. Create a name for your launchable, and deploy 🚀!
+   1. **"Featured Container"** and select the "NVIDIA RAPIDS" container: For a ready to go environment with the
+      entire RAPIDS stack and Jupyter configured.
+      - Select your desired compute environment. Make sure you select sufficient disk size to download the datasets you
+        want to work with. Note, you will not be able to resize the instance once created.
+      - Create a name for your launchable, and deploy.
+   2. **Docker Compose**: For a custom container that you can tailor to your needs.
+      - You can provide a `docker-compose.yaml` via url o from a local file. In the following template, make sure to
+        replace `<name_of_your_github_repo>` in the `volumes` path, with the name of your repository if you have one. Otherwise,
+        remove the `volumes`entry.
+
+      ```yaml
+      services:
+      backend:
+         image: "{{rapids_notebooks_container}}"
+         pull_policy: always
+         ulimits:
+            memlock: -1
+            stack: 67108864
+         shm_size: 1g
+         deploy:
+            resources:
+            reservations:
+               devices:
+                  - driver: nvidia
+                  count: all
+                  capabilities: [gpu]
+         environment:
+            EXTRA_CONDA_PACKAGES: "hdbscan>=0.8.39 umap-learn>=0.5.7" # example of packages
+         ports:
+            - "8888:8888"      # Expose JupyterLab
+         volumes:
+            - /home/ubuntu/<name_of_your_github_repo>:/notebooks/ # e.g tutorial if repo at https://github.com/rapidsai-community/tutorial
+         user: root
+         working_dir: /notebooks
+         entrypoint: ["/home/rapids/entrypoint.sh"]
+         command: python -m jupyter lab --allow-root --ip=0.0.0.0 --no-browser --NotebookApp.token='' --NotebookApp.password='' --notebook-dir=/notebooks
+         restart: unless-stopped
+      ```
+
+      - Click "Validate".
+      - Select your desired compute environment. Make sure you select sufficient disk size to download the datasets you
+        want to work with. Note, you will not be able to resize the instance once created.
+      - On the next page, when asked **Do you want a Jupyter Notebook experience?** select **No, I don't want Jupyter**. This
+        is because the RAPIDS notebook container already have Jupyter setup. For convenience name the Secure Link to jupyter.
+
+      ![Screenshot showing the Brev launchable Jupyter experience setup](/_static/images/platforms/brev/brev-launchable-jupyter-setup-docker-compose.png)
+      - Create a name for your launchable, and deploy.
 
 ## Accessing your instance
 
