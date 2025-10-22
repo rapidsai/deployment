@@ -35,7 +35,7 @@ jobs:
         run: uv run make dirhtml SPHINXOPTS="-W --keep-going -n"
 
       - uses: aws-actions/configure-aws-credentials@v4
-        if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}
+        if: ${{ github.repository == 'rapidsai/deployment' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
         with:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
