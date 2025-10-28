@@ -35,14 +35,14 @@ jobs:
         run: uv run make dirhtml SPHINXOPTS="-W --keep-going -n"
 
       - uses: aws-actions/configure-aws-credentials@v4
-        if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}
+        if: ${{ github.repository == 'rapidsai/deployment' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
         with:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
           role-duration-seconds: 3600 # 1h
 
       - name: Sync HTML files to S3
-        if: ${{ github.repository == 'rapidsai/deployment' && github.event_name == 'push' }}
+        if: ${{ github.repository == 'rapidsai/deployment' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
         env:
           DESTINATION_DIR: ${{ startsWith(github.event.ref, 'refs/tags/') && 'stable' || 'nightly' }}
         run: aws s3 sync --no-progress --delete build/dirhtml "s3://rapidsai-docs/deployment/html/${DESTINATION_DIR}"
