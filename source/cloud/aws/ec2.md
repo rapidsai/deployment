@@ -60,7 +60,11 @@ NVIDIA maintains an [Amazon Machine Image (AMI) that pre-installs NVIDIA drivers
    chmod 400 "${KEY_NAME}.pem"
    ```
 
-5. Create a security group that allows SSH on `22` plus the Jupyter (`8888`) and Dask (`8786`, `8787`) ports, and keep outbound traffic open. Replace `0.0.0.0/0` with a narrower CIDR if you want to restrict inbound access.
+5. Create a security group that allows SSH on `22` plus the Jupyter (`8888`) and Dask (`8786`, `8787`) ports, and keep outbound traffic open. Replace `ALLOWED_CIDR` with something more restrictive if you want to limit inbound access. Use `ALLOWED_CIDR="$(curl ifconfig.co)/0"` to restrict access to your current IP address
+
+   ```bash
+   ALLOWED_CIDR=0.0.0.0/0
+   ```
 
    ```bash
    VPC_ID=$(aws ec2 describe-vpcs \
@@ -77,19 +81,24 @@ NVIDIA maintains an [Amazon Machine Image (AMI) that pre-installs NVIDIA drivers
        --query 'GroupId' \
        --output text)
    echo "$SG_ID"
+
+   SUBNET_ID=$(aws ec2 describe-subnets \
+       --region "$REGION" \
+       --filters "Name=vpc-id,Values=$VPC_ID" \
+       --query 'Subnets[0].SubnetId' \
+       --output text)
+   echo "$SUBNET_ID"
    ```
 
    ```bash
    aws ec2 authorize-security-group-ingress --region "$REGION" --group-id "$SG_ID" \
-       --protocol tcp --port 22 --cidr 0.0.0.0/0
+       --protocol tcp --port 22 --no-cli-pager --cidr "$ALLOWED_CIDR"
    aws ec2 authorize-security-group-ingress --region "$REGION" --group-id "$SG_ID" \
-       --protocol tcp --port 8888 --cidr 0.0.0.0/0
+       --protocol tcp --port 8888 --no-cli-pager --cidr "$ALLOWED_CIDR"
    aws ec2 authorize-security-group-ingress --region "$REGION" --group-id "$SG_ID" \
-       --protocol tcp --port 8786 --cidr 0.0.0.0/0
+       --protocol tcp --port 8786 --no-cli-pager --cidr "$ALLOWED_CIDR"
    aws ec2 authorize-security-group-ingress --region "$REGION" --group-id "$SG_ID" \
-       --protocol tcp --port 8787 --cidr 0.0.0.0/0
-   aws ec2 authorize-security-group-egress --region "$REGION" --group-id "$SG_ID" \
-       --protocol all --cidr 0.0.0.0/0
+       --protocol tcp --port 8787 --no-cli-pager --cidr "$ALLOWED_CIDR"
    ```
 
 6. Launch an EC2 instance with the NVIDIA AMI.
@@ -102,6 +111,8 @@ NVIDIA maintains an [Amazon Machine Image (AMI) that pre-installs NVIDIA drivers
        --instance-type "$INSTANCE_TYPE" \
        --key-name "$KEY_NAME" \
        --security-group-ids "$SG_ID" \
+       --subnet-id "$SUBNET_ID" \
+       --associate-public-ip-address \
        --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$VM_NAME}]" \
        --query 'Instances[0].InstanceId' \
        --output text)
@@ -179,6 +190,46 @@ If you see a "modprobe: FATAL: Module nvidia not found in directory /lib/modules
 ```{include} ../../_includes/test-rapids-docker-vm.md
 
 ```
+
+## Clean up
+
+`````{tab-set}
+
+````{tab-item} via AWS Console
+:sync: console
+
+1. In the **EC2 Dashboard**, select your instance, choose **Instance state** → **Terminate**, and confirm.
+2. Under **Key Pairs**, delete the key pair if you generated one and you no longer need it.
+3. Under **Security Groups**, find the group you created (for example `rapids-ec2-sg`), choose **Actions** → **Delete security group**.
+
+````
+
+````{tab-item} via AWS CLI
+:sync: cli
+
+1. Terminate the instance and wait until it is fully shut down.
+
+   ```bash
+   aws ec2 terminate-instances --region "$REGION" --instance-ids "$INSTANCE_ID --no-cli-pager"
+   aws ec2 wait instance-terminated --region "$REGION" --instance-ids "$INSTANCE_ID"
+   ```
+
+2. Delete the key pair and remove the local `.pem` file if you created it just for this guide.
+
+   ```bash
+   aws ec2 delete-key-pair --region "$REGION" --key-name "$KEY_NAME"
+   rm -f "${KEY_NAME}.pem"
+   ```
+
+3. Delete the security group.
+
+   ```bash
+   aws ec2 delete-security-group --region "$REGION" --group-id "$SG_ID"
+   ```
+
+````
+
+`````
 
 ```{relatedexamples}
 
