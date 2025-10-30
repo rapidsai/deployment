@@ -211,7 +211,7 @@ If you see a "modprobe: FATAL: Module nvidia not found in directory /lib/modules
 1. Terminate the instance and wait until it is fully shut down.
 
    ```bash
-   aws ec2 terminate-instances --region "$REGION" --instance-ids "$INSTANCE_ID --no-cli-pager"
+   aws ec2 terminate-instances --region "$REGION" --instance-ids "$INSTANCE_ID" --no-cli-pager
    aws ec2 wait instance-terminated --region "$REGION" --instance-ids "$INSTANCE_ID"
    ```
 
