@@ -69,6 +69,7 @@ NVIDIA maintains an [Amazon Machine Image (AMI) that pre-installs NVIDIA drivers
    ```bash
    VPC_ID=$(aws ec2 describe-vpcs \
        --region "$REGION" \
+       --filters Name=isDefault,Values=true \
        --query 'Vpcs[0].VpcId' \
        --output text)
    echo "$VPC_ID"
