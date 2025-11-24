@@ -24,4 +24,5 @@ rapids-snowflake-cudf/notebook
 cuml-snowflake-nb/notebook
 rapids-coiled-cudf/notebook
 rapids-morpheus-pipeline/notebook
+lulc-classification-gpu/notebook
 ```
