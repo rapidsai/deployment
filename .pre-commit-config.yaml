@@ -43,7 +43,7 @@ repos:
       - id: codespell
         additional_dependencies: [tomli]
         exclude: "^.*.jsonlines$"
-        args: ["--toml", "pyproject.toml"]
+        args: ["--toml", "pyproject.toml", "--ignore-words-list=classfication"]
 
 default_language_version:
   python: python3
