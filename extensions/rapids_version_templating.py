@@ -2,6 +2,7 @@ import re
 from copy import deepcopy
 from typing import TYPE_CHECKING
 
+import jinja2
 from docutils import nodes
 
 if TYPE_CHECKING:
@@ -73,9 +74,8 @@ class RapidsCustomNodeVisitor(nodes.SparseNodeVisitor):
         Replace template strings like ``{{ rapids_version }}`` with real
         values like ``24.10``.
         """
-        return self.app.builder.templates.render_string(
-            source=match.group(), context=self.app.config.rapids_version
-        )
+        template = jinja2.Template(match.group())
+        return template.render(self.app.config.rapids_version)
 
 
 def version_template(

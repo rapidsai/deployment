@@ -6,9 +6,12 @@ import shutil
 import tempfile
 from functools import partial
 
+import jinja2
+
 
 def template_func(app, match):
-    return app.builder.templates.render_string(match.group(), app.config.rapids_version)
+    template = jinja2.Template(match.group())
+    return template.render(app.config.rapids_version)
 
 
 def walk_files(app, dir, outdir):
