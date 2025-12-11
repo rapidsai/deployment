@@ -87,6 +87,7 @@ extensions = [
     "rapids_version_templating",
     "rapids_admonitions",
     "sphinx_reredirects",
+    "sphinx_llm.txt",
 ]
 
 myst_enable_extensions = ["colon_fence", "dollarmath"]

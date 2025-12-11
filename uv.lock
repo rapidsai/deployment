@@ -1047,6 +1047,7 @@ dependencies = [
     { name = "sphinx-autobuild" },
     { name = "sphinx-copybutton" },
     { name = "sphinx-design" },
+    { name = "sphinx-llm" },
     { name = "sphinx-reredirects" },
     { name = "sphinxcontrib-mermaid" },
 ]
@@ -1065,6 +1066,7 @@ requires-dist = [
     { name = "sphinx-autobuild", specifier = ">=2024.9.19" },
     { name = "sphinx-copybutton", specifier = ">=0.5.2" },
     { name = "sphinx-design", specifier = ">=0.6.1" },
+    { name = "sphinx-llm", specifier = ">=0.1.4" },
     { name = "sphinx-reredirects" },
     { name = "sphinxcontrib-mermaid", specifier = ">=1.0.0" },
 ]
@@ -1257,6 +1259,33 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/2b/69/b34e0cb5336f09c6866d53b4a19d76c227cdec1bbc7ac4de63ca7d58c9c7/sphinx_design-0.6.1.tar.gz", hash = "sha256:b44eea3719386d04d765c1a8257caca2b3e6f8421d7b3a5e742c0fd45f84e632", size = 2193689 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c6/43/65c0acbd8cc6f50195a3a1fc195c404988b15c67090e73c7a41a9f57d6bd/sphinx_design-0.6.1-py3-none-any.whl", hash = "sha256:b11f37db1a802a183d61b159d9a202314d4d2fe29c163437001324fe2f19549c", size = 2215338 },
+]
+
+[[package]]
+name = "sphinx-llm"
+version = "0.1.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "sphinx" },
+    { name = "sphinx-markdown-builder" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b7/b5/194aeb37dfb66334653db836ebf45cf9bdab01bcf1906ed1fe5c6e63f381/sphinx_llm-0.1.4.tar.gz", hash = "sha256:be0032b62809548edc0131ecffffaba9617ff8aaebf19bf5c2c1d18d1b7af557", size = 263386 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8d/8c/f71906df31fb9ef6473b6ba74378c7e4ce314d4e3071addbce05fd7e32e5/sphinx_llm-0.1.4-py3-none-any.whl", hash = "sha256:f19ffdd6fba561af6acbe4f335f396d7af6c92de5fa5ccf29fbb7f74c4b87985", size = 13799 },
+]
+
+[[package]]
+name = "sphinx-markdown-builder"
+version = "0.6.9"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "docutils" },
+    { name = "sphinx" },
+    { name = "tabulate" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d2/f6/7566ba54c8b9744192bdf19ba01e62e1bb6cb1e8526447cdb29feb7cac7c/sphinx_markdown_builder-0.6.9.tar.gz", hash = "sha256:e89dc1b9eb837da430c2c230011fad95a3dfab0345ad503a32e35a31d284a722", size = 22707 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/18/ee/02f9986d7818be2ccc5bce76d388e73f5a163f604f682d1ad69e6bc0df7c/sphinx_markdown_builder-0.6.9-py3-none-any.whl", hash = "sha256:35b555760c48d4a38fe4b27813cb5ca636bbd22d8ef0742ac6959043f8000840", size = 16717 },
 ]
 
 [[package]]
