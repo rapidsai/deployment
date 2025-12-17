@@ -6,7 +6,7 @@ review_priority: "p0"
 
 RAPIDS can be used in a few ways with [AWS SageMaker](https://aws.amazon.com/sagemaker/).
 
-## SageMaker Notebooks
+## SageMaker AI Notebooks
 
 To get started head to [the SageMaker AI console](https://console.aws.amazon.com/sagemaker/) and create a [new SageMaker Notebook Instance](https://console.aws.amazon.com/sagemaker/home#/notebook-instances/create).
 
@@ -71,7 +71,7 @@ Then in Jupyter select the `rapids` kernel when working with a new notebook.
 
 Once inside JupyterLab you should be able to upload the [Running RAPIDS hyperparameter experiments at scale](/examples/rapids-sagemaker-higgs/notebook) example notebook and continue following those instructions.
 
-## SageMaker Estimators
+## SageMaker AI Estimators
 
 RAPIDS can also be used in [SageMaker Estimators](https://sagemaker.readthedocs.io/en/stable/api/training/estimators.html).
 Estimators allow you to launch training jobs on ephemeral VMs which SageMaker manages for you.
