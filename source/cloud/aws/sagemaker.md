@@ -6,9 +6,9 @@ review_priority: "p0"
 
 RAPIDS can be used in a few ways with [AWS SageMaker](https://aws.amazon.com/sagemaker/).
 
-## SageMaker Notebooks
+## SageMaker AI Notebooks
 
-To get started head to [the SageMaker console](https://console.aws.amazon.com/sagemaker/) and create a [new SageMaker Notebook Instance](https://console.aws.amazon.com/sagemaker/home#/notebook-instances/create).
+To get started head to [the SageMaker AI console](https://console.aws.amazon.com/sagemaker/) and create a [new SageMaker Notebook Instance](https://console.aws.amazon.com/sagemaker/home#/notebook-instances/create).
 
 Choose `Applications and IDEs > Notebooks > Create notebook instance`.
 
@@ -17,8 +17,8 @@ Choose `Applications and IDEs > Notebooks > Create notebook instance`.
 If a field is not mentioned below, leave the default values:
 
 - **Notebook instance name** = Name of the notebook instance
-- **Notebook instance type** = Type of notebook instance. Select a RAPIDS-compatible GPU ([see the RAPIDS docs](https://docs.rapids.ai/install#system-req)) as the SageMaker Notebook instance type (e.g., `ml.p3.2xlarge`).
-- **Platform identifier** = 'Amazon Linux 2, Jupyter Lab 4'
+- **Notebook instance type** = Type of notebook instance. Select a RAPIDS-compatible GPU ([see the RAPIDS docs](https://docs.rapids.ai/install#system-req)) as the SageMaker Notebook instance type (e.g., `ml.g6.xlarge`).
+- **Platform identifier** = 'Amazon Linux 2023, Jupyter Lab 4'
 
 ![Screenshot of the create new notebook screen with a ml.p3.2xlarge selected](../../images/sagemaker-create-notebook-instance.png)
 
@@ -41,22 +41,14 @@ set -e
 
 sudo -u ec2-user -i <<'EOF'
 
-mamba create -y -n rapids -c rapidsai -c conda-forge -c nvidia rapids=24.12 python=3.12 cuda-version=12.4 \
-    boto3 \
-    ipykernel \
-    'sagemaker-python-sdk>=2.239.0'
+eval "$(conda shell.bash hook)"
 
+conda create -y -n rapids {{ rapids_conda_channels }} {{ rapids_sagemaker_conda_packages }} boto3 ipykernel sagemaker-python-sdk
 conda activate rapids
 
 python -m ipykernel install --user --name rapids
 echo "kernel install completed"
 EOF
-```
-
-```{warning}
-RAPIDS `>24.12` will not be installable on SageMaker Notebook Instances until those instances support
-Amazon Linux 2023 or other Linux distributions with GLIBC of at least 2.28.
-For more details, see [rapidsai/deployment#520](https://github.com/rapidsai/deployment/issues/520).
 ```
 
 Set the volume size to at least `15GB`, to accommodate the conda environment.
@@ -79,7 +71,7 @@ Then in Jupyter select the `rapids` kernel when working with a new notebook.
 
 Once inside JupyterLab you should be able to upload the [Running RAPIDS hyperparameter experiments at scale](/examples/rapids-sagemaker-higgs/notebook) example notebook and continue following those instructions.
 
-## SageMaker Estimators
+## SageMaker AI Estimators
 
 RAPIDS can also be used in [SageMaker Estimators](https://sagemaker.readthedocs.io/en/stable/api/training/estimators.html).
 Estimators allow you to launch training jobs on ephemeral VMs which SageMaker manages for you.

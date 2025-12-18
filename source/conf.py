@@ -31,13 +31,13 @@ versions = {
         "rapids_container": f"nvcr.io/nvidia/rapidsai/base:{stable_version}-cuda12-py3.13",
         "rapids_notebooks_container": f"nvcr.io/nvidia/rapidsai/notebooks:{stable_version}-cuda12-py3.13",
         "rapids_conda_channel": "rapidsai",
-        "rapids_conda_channels": "-c rapidsai -c conda-forge -c nvidia",
+        "rapids_conda_channels": "-c rapidsai -c conda-forge",
         "rapids_conda_packages": f"rapids={stable_version} python=3.13 'cuda-version>=12.0,<=12.9'",
         "rapids_pip_index": "https://pypi.nvidia.com",
         "rapids_pip_version": stable_version,
         # SageMaker Notebook Instance examples need to stay pinned to an older RAPIDS until this is resolved:
         # https://github.com/rapidsai/deployment/issues/520
-        "rapids_sagemaker_conda_packages": "rapids=24.12 python=3.12 cuda-version=12.5",
+        "rapids_sagemaker_conda_packages": f"rapids={stable_version} python=3.12 cuda-version=13",
     },
     "nightly": {
         "rapids_version": f"{nightly_version}",
@@ -45,13 +45,13 @@ versions = {
         "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-cuda12-py3.13",
         "rapids_notebooks_container": f"rapidsai/notebooks:{nightly_version + 'a'}-cuda12-py3.13",
         "rapids_conda_channel": "rapidsai-nightly",
-        "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge -c nvidia",
+        "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge",
         "rapids_conda_packages": f"rapids={nightly_version} python=3.13 'cuda-version>=12.0,<=12.9'",
         "rapids_pip_index": "https://pypi.anaconda.org/rapidsai-wheels-nightly/simple",
         "rapids_pip_version": f"{nightly_version}.*,>=0.0.0a0",
         # SageMaker Notebook Instance examples need to stay pinned to an older RAPIDS until this is resolved:
         # https://github.com/rapidsai/deployment/issues/520
-        "rapids_sagemaker_conda_packages": "rapids=24.12 python=3.12 cuda-version=12.5",
+        "rapids_sagemaker_conda_packages": f"rapids={nightly_version} python=3.12 cuda-version=13",
     },
 }
 rapids_version = (
