@@ -13,7 +13,7 @@ Choose your preferred installation method for running RAPIDS
 ````{grid-item-card}
 :link: https://docs.rapids.ai/install#conda
 :link-type: url
-{fas}`box;sd-text-primary` Conda
+{fas}`box;sd-text-primary` conda
 ^^^
 Install RAPIDS using conda
 ````
@@ -43,10 +43,3 @@ Install RAPIDS on Windows using Windows Subsystem for Linux version 2 (WSL2)
 ````
 
 `````
-
-:::{toctree}
-:hidden:
-:maxdepth: 1
-
-custom-docker.md
-:::
