@@ -13,7 +13,10 @@ locally (which triggers remote execution).
 ### Setup
 
 To get started with Modal, first sign up for an account at [modal.com](https://modal.com), and follow the [getting
-started](https://modal.com/docs/guide#getting-started) setup
+started](https://modal.com/docs/guide#getting-started) setup.
+
+Modal has a starter tier, that includes enough free credits to run this example, and explore GPU usage for several hours.
+For more information, check out the [Modal pricing page](https://modal.com/pricing).
 
 ### Example
 
