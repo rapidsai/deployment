@@ -18,6 +18,26 @@ started](https://modal.com/docs/guide#getting-started) setup.
 Modal has a starter tier, that includes enough free credits to run this example, and explore GPU usage for several hours.
 For more information, check out the [Modal pricing page](https://modal.com/pricing).
 
+```{warning}
+
+### Python Installation Requirements
+
+Modal's default Python installation uses compilation flags that are not compatible with `numba`, which is required by
+RAPIDS. To work around this, you must install Python from Astral's standalone Python builds, which include the correct
+compilation flags. As we did in the example above, where we are downloading and installing a standalone Python build in
+the Docker setup commands.
+
+### RAPIDS Memory Manager (RMM) Mode Limitations
+
+Modal containers use `gvisor` for sandboxing, which does not support `cudaMallocManaged`. This means you cannot use the
+default `managed_pool` or `managed` RMM modes with `cudf.pandas`.
+
+Instead, you need to set the environment variable `CUDF_PANDAS_RMM_MODE` to `async` as shown in the example code above.
+
+For more details on RMM modes, see the [cudf.pandas
+documentation](https://docs.rapids.ai/api/cudf/stable/cudf_pandas/how-it-works/#how-it-works).
+```
+
 ### Example
 
 The example below demonstrates how to use RAPIDS cuDF's pandas accelerator mode on Modal. This example processes NYC
@@ -30,26 +50,20 @@ import modal
 
 app = modal.App("zcc-cudf-demo")
 
-standalone_python_url = (
-    "https://github.com/astral-sh/python-build-standalone/releases/download/20251028/"
-    "cpython-3.12.12+20251028-x86_64_v3-unknown-linux-gnu-install_only.tar.gz"
-)
-install_python_commands = [
-    "RUN apt update",
-    "RUN apt install -y curl",
-    f"RUN curl -L -o /tmp/python-standalone.tar.gz {standalone_python_url}",
-    "RUN tar -xzf /tmp/python-standalone.tar.gz -C /tmp",
-    "RUN cp -r /tmp/python/* /usr/local",
+install_uv_commands = [
+    "RUN apt-get update && apt-get install -y python3 python3-pip python3-venv curl",
+    "RUN ln -sf /usr/bin/python3 /usr/bin/python",
+    "RUN curl -LsSf https://astral.sh/uv/install.sh | env INSTALLER_DIR=/usr/local/bin sh",
 ]
 
 ctk_image = modal.Image.from_registry(
     "nvidia/cuda:12.9.0-runtime-ubuntu24.04",
-    setup_dockerfile_commands=install_python_commands,
+    setup_dockerfile_commands=install_uv_commands,
 ).entrypoint([])  # removes chatty prints on entry
 
 
 image = ctk_image.uv_pip_install(
-    "cudf-cu12==25.12.*",
+    "cudf-cu12=={{ rapids_version }}",
 ).env({"CUDF_PANDAS_RMM_MODE": "async"})
 
 
@@ -132,22 +146,3 @@ df:    Registration State           Violation Description  count
 [67 rows x 3 columns]
 <class 'cudf.pandas.fast_slow_proxy._FastSlowProxyMeta'>
 ```
-
-## Important Caveats of Setup and Usage
-
-### Python Installation Requirements
-
-Modal's default Python installation uses compilation flags that are not compatible with `numba`, which is required by
-RAPIDS. To work around this, you must install Python from Astral's standalone Python builds, which include the correct
-compilation flags. As we did in the example above, where we are downloading and installing a standalone Python build in
-the Docker setup commands.
-
-### RAPIDS Memory Manager (RMM) Mode
-
-Modal containers use `gvisor` for sandboxing, which does not support `cudaMallocManaged`. This means you cannot use the
-default `managed_pool` or `managed` RMM modes with `cudf.pandas`.
-
-Instead, you need to set the environment variable `CUDF_PANDAS_RMM_MODE` to `async` as shown in the example code above.
-
-For more details on RMM modes, see the [cudf.pandas
-documentation](https://docs.rapids.ai/api/cudf/stable/cudf_pandas/how-it-works/#how-it-works).
