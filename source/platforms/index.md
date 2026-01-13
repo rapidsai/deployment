@@ -101,4 +101,14 @@ Run RAPIDS on Anaconda Cloud Notebooks.
 {bdg}`single-node`
 ````
 
+````{grid-item-card}
+:link: modal
+:link-type: doc
+Modal
+^^^
+Run RAPIDS on Modal.
+
+{bdg}`single-node`
+````
+
 `````
