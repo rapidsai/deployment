@@ -45,7 +45,7 @@ The choice of base image depends on how your package manager handles CuPy (a dep
 ### Conda → Uses `cuda-base`
 
 ```dockerfile
-FROM nvidia/cuda:12.9.1-base-ubuntu24.04
+FROM nvidia/cuda:13.1.1-base-ubuntu24.04
 ```
 
 This approach works because conda can install both Python and non-Python dependencies, including system-level CUDA libraries like `libcudart` and `libnvrtc`. When installing RAPIDS libraries via conda, the package manager automatically pulls the required CUDA runtime libraries alongside CuPy and other dependencies, providing complete dependency management in a single installation step.
@@ -53,7 +53,7 @@ This approach works because conda can install both Python and non-Python depende
 ### Pip → Uses `cuda-runtime`
 
 ```dockerfile
-FROM nvidia/cuda:12.9.1-runtime-ubuntu24.04
+FROM nvidia/cuda:13.1.1-runtime-ubuntu24.04
 ```
 
 This approach is necessary because CuPy wheels distributed via PyPI do not currently bundle CUDA runtime libraries (`libcudart`, `libnvrtc`) within the wheel packages themselves. Since pip cannot install system-level CUDA libraries, CuPy expects these libraries to already be present in the system environment. The `cuda-runtime` image provides the necessary CUDA runtime libraries that CuPy requires, eliminating the need for manual library installation.
@@ -133,7 +133,7 @@ docker run --gpus all -it rapids-pip-base
 ```
 
 :::{important}
-When using `pip`, you must specify the CUDA version in the package name (e.g., `cudf-cu12`, `cuml-cu12`). This ensures you install the version of the library that is compatible with the CUDA toolkit.
+When using `pip`, you must specify the CUDA version in the package name (e.g., `cudf-cu13`, `cuml-cu13`). This ensures you install the version of the library that is compatible with the CUDA toolkit.
 :::
 
 ```{note}
@@ -181,7 +181,7 @@ To add packages to the Pip environment, add them to your `requirements.txt` file
 **Example: Adding `scikit-learn` and `lightgbm` to a pip image containing `cudf`**
 
 ```text
-cudf-cu12=={{rapids_pip_version}}
+cudf-cu13=={{rapids_pip_version}}
 scikit-learn
 lightgbm
 ```
@@ -198,7 +198,7 @@ The following variables can be modified at the top of each Dockerfile to customi
 
 | Variable                | Default Value | Description                                            | Example Values       |
 | ----------------------- | ------------- | ------------------------------------------------------ | -------------------- |
-| `CUDA_VER`              | `12.9.1`      | Sets the CUDA version for the base image and packages. | `12.0`               |
+| `CUDA_VER`              | `13.1.1`      | Sets the CUDA version for the base image and packages. | `12.9.1`, `13.0.0`   |
 | `PYTHON_VER` (pip only) | `3.12`        | Defines the Python version to install and use.         | `3.11`, `3.10`       |
 | `LINUX_DISTRO`          | `ubuntu`      | The Linux distribution being used                      | `rockylinux9`, `cm2` |
 | `LINUX_DISTRO_VER`      | `24.04`       | The version of the Linux distribution.                 | `20.04`              |

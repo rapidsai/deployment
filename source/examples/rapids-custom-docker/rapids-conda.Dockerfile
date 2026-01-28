@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # Copyright (c) 2024-2025, NVIDIA CORPORATION.
 
-ARG CUDA_VER=12.9.1
+ARG CUDA_VER=13.1.1
 ARG LINUX_DISTRO=ubuntu
 ARG LINUX_DISTRO_VER=24.04
 
