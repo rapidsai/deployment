@@ -10,14 +10,14 @@ The [NVIDIA Brev](https://brev.nvidia.com/) platform provides you a one stop men
 
 There are two options to get you up and running with RAPIDS in a few steps, thanks to the Brev RAPIDS quickstart:
 
-1. Brev GPU Instances - quickly get the GPU, across most clouds, to get your work done.
+1. Brev GPU Environments - quickly get the GPU, across most clouds, to get your work done.
 2. Brev Launchables - quickly create one-click starting, reusable instances that you customized to your MLOps needs.
 
-### Option 1. Setting up your Brev GPU Instance
+### Option 1. Setting up your Brev GPU Environment
 
-1. Navigate to the [Brev bash](https://brev.nvidia.com/org) and click on "Create new instance".
+1. Navigate to the [Brev](https://brev.nvidia.com/org) and click on "Create Environment".
 
-![Screenshot of the "Create your first instance" UI](/_static/images/platforms/brev/brev1.png)
+![Screenshot of the "Create your first environment" UI](/_static/images/platforms/brev/brev-gpu-env.png)
 
 2. Choose a compute type.
 
@@ -27,17 +27,13 @@ New users commonly choose `L4` GPUs for trying things out.
 
 ![Screenshot of the "Choose a compute type" UI](/_static/images/platforms/brev/brev-compute.png)
 
-3. Select the button to change the container or runtime (the default is "VM Mode w/ Jupyter")
+3. Select the "Edit" button to change the software configuration container or runtime (the default is "VM Mode w/ Jupyter")
 
-![Screenshot of the "Changing container or runtime" UI](/_static/images/platforms/brev/brev-runtime.png)
+![Screenshot of the "Editing container or runtime" UI](/_static/images/platforms/brev/brev-edit-software-config.png)
 
-2. Select "Featured Containers".
+4. Select "Single Container", attach the "NVIDIA RAPIDS" Container and choose "Apply"..
 
-![Screenshot showing "Featured Containers" highlighted](/_static/images/platforms/brev/brev-featured-containers.png)
-
-3. Attach the "NVIDIA RAPIDS" Container and choose "Apply".
-
-![Screenshot showing the "NVIDIA RAPIDS" container highlighted](/_static/images/platforms/brev/brev-rapids-container.png)
+![Screenshot showing "Single Container" highlighted](/_static/images/platforms/brev/brev-single-container.png)
 
 5. Give your instance a name and hit "Deploy".
 
