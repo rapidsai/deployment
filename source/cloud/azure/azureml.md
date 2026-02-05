@@ -28,7 +28,7 @@ The compute instance provides an integrated Jupyter notebook service, JupyterLab
 
 Sign in to [Azure Machine Learning Studio](https://ml.azure.com/) and navigate to your workspace on the left-side menu.
 
-Select **New** > **Compute instance** (Create compute instance) > choose an [Azure RAPIDS compatible GPU](https://docs.rapids.ai/deployment/stable/cloud/azure/) VM size (e.g., `Standard_NC12s_v3`)
+Select **New** > **Compute instance** (Create compute instance) > choose an [Azure RAPIDS compatible GPU](https://docs.rapids.ai/deployment/stable/cloud/azure/) VM size (e.g., `Standard_NC6s_v3`)
 
 ![Screenshot of create new notebook with a gpu-instance](../../images/azureml-create-notebook-instance.png)
 
