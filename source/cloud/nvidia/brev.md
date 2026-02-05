@@ -98,7 +98,7 @@ You can read more about Brev Launchables in the [Getting Started Guide](https://
          user: root
          working_dir: /notebooks
          entrypoint: ["/home/rapids/entrypoint.sh"]
-         command: python -m jupyter lab --allow-root --ip=0.0.0.0 --no-browser --NotebookApp.token='' --NotebookApp.password='' --notebook-dir=/notebooks
+         command: python -m jupyter lab --allow-root --ip=127.0.0.1 --no-browser --NotebookApp.token='' --NotebookApp.password='' --notebook-dir=/notebooks
          restart: unless-stopped
       ```
 
