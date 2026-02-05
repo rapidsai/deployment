@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # Copyright (c) 2024-2025, NVIDIA CORPORATION.
 
-ARG CUDA_VER=12.9.1
+ARG CUDA_VER=13.1.1
 ARG PYTHON_VER=3.12
 ARG LINUX_DISTRO=ubuntu
 ARG LINUX_DISTRO_VER=24.04
@@ -49,5 +49,7 @@ COPY --chmod=644 requirements.txt /home/rapids/requirements.txt
 
 # Install all packages
 RUN pip install --no-cache-dir -r requirements.txt
+
+ENTRYPOINT []
 
 CMD ["bash"]
