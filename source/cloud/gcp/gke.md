@@ -24,11 +24,11 @@ Now we can launch a GPU enabled GKE cluster.
 
 ```bash
 $ gcloud container clusters create rapids-gpu-kubeflow \
-  --accelerator type=nvidia-tesla-a100,count=2 --machine-type a2-highgpu-2g \
+  --accelerator type=nvidia-tesla-a100,count=2,gpu-driver-version=latest --machine-type a2-highgpu-2g \
   --zone us-central1-c --release-channel stable
 ```
 
-With this command, you’ve launched a GKE cluster called `rapids-gpu-kubeflow`. You’ve specified that it should use nodes of type a2-highgpu-2g, each with two A100 GPUs.
+With this command, you’ve launched a GKE cluster called `rapids-gpu-kubeflow`. You’ve specified that it should use nodes of type a2-highgpu-2g, each with two A100 GPUs, along with the latest GPU drivers for the current GKE version.
 
 ````{note}
 After creating your cluster, if you get a message saying
@@ -53,14 +53,7 @@ $ gcloud container clusters get-credentials rapids-gpu-kubeflow \
 
 With this command, your `kubeconfig` is updated with credentials and endpoint information for the `rapids-gpu-kubeflow` cluster.
 
-## Install drivers
-
-Next, [install the NVIDIA drivers](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#installing_drivers) onto each node.
-
-```console
-$ kubectl apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/master/nvidia-driver-installer/cos/daemonset-preloaded-latest.yaml
-daemonset.apps/nvidia-driver-installer created
-```
+## Verify drivers
 
 Verify that the NVIDIA drivers are successfully installed.
 
@@ -71,7 +64,7 @@ kube-system          nvidia-gpu-device-plugin-medium-cos-pw89w                  
 kube-system          nvidia-gpu-device-plugin-medium-cos-wdnm9                       2/2     Running   0          3m42s
 ```
 
-After your drivers are installed, you are ready to test your cluster.
+After GPU device plugin pods are in running state, you are ready to test your cluster.
 
 ```{include} ../../_includes/check-gpu-pod-works.md
 
