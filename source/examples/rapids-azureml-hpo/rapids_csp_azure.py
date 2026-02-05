@@ -29,7 +29,7 @@ import pyarrow.orc as pyarrow_orc
 import sklearn
 import xgboost
 from cuml.dask.common import utils as dask_utils
-from cuml.metrics.accuracy import accuracy_score
+from cuml.metrics import accuracy_score
 from cuml.model_selection import train_test_split as cuml_train_test_split
 from dask.distributed import Client
 from dask_cuda import LocalCUDACluster
@@ -277,8 +277,8 @@ class RapidsCloudML:
             elif "GPU" in self.compute_type:
                 if "single" in self.compute_type:
                     X_train, X_test, y_train, y_test = cuml_train_test_split(
-                        X=dataset,
-                        y=y_label,
+                        dataset,
+                        y_label,
                         train_size=train_size,
                         shuffle=shuffle,
                         random_state=random_state,
