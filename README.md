@@ -146,6 +146,40 @@ prettier.................................................................Passed
 markdownlint.............................................................Passed
 ```
 
+## Agentic testing
+
+Testing documentation can be tricky. When it comes to these documentation pages there are a few things we often want to check:
+
+1. Do the docs pages build successfully?
+2. Can RAPIDS be installed on the Cloud platforms we are documenting?
+3. Do the instructions in the documentation sufficiently guide a user through running RAPIDS on their preferred cloud platform?
+
+Items 1 and 2 are relatively easy to automate. We can check builds in CI and we can verify cloud platforms using scripts or terraform configurations. But item 3 is much harder to automate.
+
+However, coding agents are the perfect solution to this with a couple of extra tools.
+
+In `.claude/skills` you will find a couple of skills which allow you to test individual pages. It works by using [playwright](https://github.com/microsoft/playwright) to drive a browser and carry out the steps in the documentation page.
+
+The goal here is for human-in-the-loop testing. You may not want to automate every action, and you may want the agent to defer to the user in case of failure. The goal is to kick off an agent and keep an eye on it while it runs through the documentation, requiring minimal effort from the user.
+
+### Example
+
+You can kick off a testing job using the `/release-testing` skill, just tell it which page you want to test.
+
+```bash
+claude "/release-testing test the AWS EC2 page"
+```
+
+The agent will take the following actions:
+
+- Rebuild a local copy of the nightly documentation
+- Locate the page you asked it to test
+- Open a fresh Chrome web browser with `playwright-cli`
+- Follows the instructions in the docs page and prompts you if it gets stuck
+- Once complete it will give you a report of what it found and if it has recommendations for updating the docs
+
+**Note: It will not perform destructive tasks like deleting resources so you will need to do this manually.**
+
 ## Releasing
 
 This repository is continuously deployed to the [nightly docs at docs.rapids.ai](https://docs.rapids.ai/deployment/nightly/) via the [build-and-deploy](https://github.com/rapidsai/deployment/blob/main/.github/workflows/build-and-deploy.yml) workflow. All commits to main are built to static HTML and pushed to the [`deployment/nightly` subdirectory in the rapidsai/docs repo](https://github.com/rapidsai/docs/tree/gh-pages/deployment) which in turn is published to GitHub Pages.
