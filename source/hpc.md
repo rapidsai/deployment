@@ -6,7 +6,7 @@ review_priority: "p1"
 
 RAPIDS can be deployed on HPC clusters managed by [SLURM](https://slurm.schedmd.com/).
 
-## SLURM Basics
+## SLURM
 
 SLURM is a job scheduler that manages access to compute nodes on HPC clusters.
 Instead of logging into a GPU machine directly, you ask SLURM for resources
@@ -16,6 +16,8 @@ available.
 Nodes are organized into **partitions**, groups of machines with similar
 hardware. For example, your cluster might have a `gpu` partition with A100 nodes
 and a `cpu` partition with CPU-only nodes.
+
+For a more comprehensive overview, see the [SLURM quickstart guide](https://slurm.schedmd.com/quickstart.html).
 
 ### Partitions
 
@@ -79,9 +81,13 @@ terminated and you lose your work. To avoid this, start a
 ```bash
 tmux new -s rapids
 srun -p gpu --gres=gpu:1 --time=01:00:00 --pty bash
-# ... work ...
-# Detach with Ctrl+b, d and your job keeps running
-# Reattach later:
+```
+
+To detach from the tmux session without ending your job, press `Ctrl+b`
+then `d`. Your interactive job continues running in the background. When
+you reconnect via SSH, reattach to the session with:
+
+```bash
 tmux attach -t rapids
 ```
 
