@@ -1,0 +1,14 @@
+[project]
+name = "ray-cuml"
+version = "0.1.0" 
+requires-python = "==3.13.*"
+dependencies = [
+    "ray[default]==2.53.0",
+    "ray[data]==2.53.0",
+    "ray[train]==2.53.0",
+    "ray[tune]==2.53.0",
+    "cuml-cu12==26.2.*",
+    "jupyterlab-nvdashboard",
+    "ipykernel",
+    "ipywidgets"
+]
