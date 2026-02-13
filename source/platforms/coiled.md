@@ -65,7 +65,6 @@ name: rapidsai-notebooks
 channels:
   - { { rapids_conda_channel } }
   - conda-forge
-  - nvidia
 dependencies:
   # RAPIDS packages
   - rapids={{ rapids_version }}

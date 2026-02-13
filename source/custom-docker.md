@@ -167,7 +167,6 @@ name: base
 channels:
   - {{ rapids_conda_channels_list[0] }}
   - conda-forge
-  - nvidia
 dependencies:
   - cudf={{rapids_version}}
   - scikit-learn
