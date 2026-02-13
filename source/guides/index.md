@@ -86,4 +86,15 @@ Prepull Docker Images while using the Dask Autoscaler on Kubernetes
 {bdg-primary}`dask-operator`
 ````
 
+````{grid-item-card}
+:link: deploy-dask-spark
+:link-type: doc
+How do Dask and Spark relate to deploying RAPIDS?
+^^^
+Why does deploying RAPIDS often mean deploying a distributed framework?
+
+{bdg-primary}`Dask`
+{bdg-primary}`Spark`
+````
+
 `````
