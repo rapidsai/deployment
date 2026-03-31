@@ -29,8 +29,8 @@ set -e
 # Install RAPIDS libraries
 pip install \
     --extra-index-url={{rapids_pip_index}} \
-    "cudf-cu12>={{rapids_pip_version}}" "cuml-cu12>={{rapids_pip_version}}" \
-    "dask-cuda>={{rapids_pip_version}}"
+    "cudf-cu12=={{rapids_pip_version}}" "cuml-cu12=={{rapids_pip_version}}" \
+    "dask-cuda=={{rapids_pip_version}}"
 
 ```
 
