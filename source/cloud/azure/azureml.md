@@ -63,7 +63,7 @@ conda activate rapids
 
 pip install 'azure-ai-ml>=1.24'
 
-python -m ipykernel install --user --name rapids
+python -m ipykernel install --user --name rapids --env CONDA_PREFIX "$CONDA_PREFIX"
 echo "kernel install completed"
 EOF
 ```
