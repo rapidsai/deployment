@@ -59,7 +59,9 @@ def evaluate_flow(
         "1",
     )
     champion_version, challenger_version = stage_challenger_version(
-        source_artifacts, model_repo_path, model_name,
+        source_artifacts,
+        model_repo_path,
+        model_name,
     )
 
     # Step 2: Reload model to pick up new version
@@ -75,12 +77,18 @@ def evaluate_flow(
     labels = np.asarray(labels, dtype=np.int32).ravel()
 
     # Remove labels from inference data
-    inference_data = {k: v for k, v in test_data.items() if not k.startswith("edge_label_")}
+    inference_data = {
+        k: v for k, v in test_data.items() if not k.startswith("edge_label_")
+    }
 
     # Step 4: Score challenger
     challenger_metrics = score_model_version(
-        triton_url, model_name, challenger_version,
-        inference_data, labels, decision_threshold,
+        triton_url,
+        model_name,
+        challenger_version,
+        inference_data,
+        labels,
+        decision_threshold,
     )
 
     # Step 5: Score champion (if exists)
@@ -88,8 +96,12 @@ def evaluate_flow(
     if champion_version > 0:
         if health_check(triton_url, model_name, champion_version):
             champion_metrics = score_model_version(
-                triton_url, model_name, champion_version,
-                inference_data, labels, decision_threshold,
+                triton_url,
+                model_name,
+                champion_version,
+                inference_data,
+                labels,
+                decision_threshold,
             )
         else:
             champion_metrics = get_champion_metrics(model_name)
@@ -108,7 +120,9 @@ def evaluate_flow(
             f"(delta={challenger_val - champion_val:.4f}, min={min_improvement})"
         )
 
-    logger.info("Promotion decision: %s — %s", "PROMOTE" if should_promote else "REJECT", reason)
+    logger.info(
+        "Promotion decision: %s — %s", "PROMOTE" if should_promote else "REJECT", reason
+    )
 
     # Step 7: Log to MLflow
     log_evaluation_metrics(challenger_run_id, challenger_metrics, champion_metrics)
@@ -127,4 +141,5 @@ def evaluate_flow(
 
 if __name__ == "__main__":
     import sys
+
     evaluate_flow(challenger_run_id=sys.argv[1] if len(sys.argv) > 1 else "manual")

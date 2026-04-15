@@ -25,13 +25,17 @@ def load_test_data(test_data_dir: str) -> dict:
     if os.path.isdir(nodes_dir):
         for fname in sorted(os.listdir(nodes_dir)):
             if fname.endswith(".csv") and not fname.endswith("_feature_mask.csv"):
-                node_name = fname[:-len(".csv")]
+                node_name = fname[: -len(".csv")]
                 node_df = pd.read_csv(os.path.join(nodes_dir, fname))
                 out[f"x_{node_name}"] = node_df.to_numpy(dtype=np.float32)
 
                 mask_path = os.path.join(nodes_dir, f"{node_name}_feature_mask.csv")
                 if os.path.exists(mask_path):
-                    mask = pd.read_csv(mask_path, header=None).to_numpy(dtype=np.int32).ravel()
+                    mask = (
+                        pd.read_csv(mask_path, header=None)
+                        .to_numpy(dtype=np.int32)
+                        .ravel()
+                    )
                 else:
                     mask = np.zeros(node_df.shape[1], dtype=np.int32)
                 out[f"feature_mask_{node_name}"] = mask
@@ -48,22 +52,24 @@ def load_test_data(test_data_dir: str) -> dict:
                 continue
             path = os.path.join(edges_dir, fname)
             if fname.endswith("_attr.csv"):
-                edge_name = fname[:-len("_attr.csv")]
+                edge_name = fname[: -len("_attr.csv")]
                 edge_attrs[edge_name] = pd.read_csv(path)
             elif fname.endswith("_label.csv"):
-                edge_name = fname[:-len("_label.csv")]
+                edge_name = fname[: -len("_label.csv")]
                 edge_labels[edge_name] = pd.read_csv(path)
             elif fname.endswith("_feature_mask.csv"):
-                edge_name = fname[:-len("_feature_mask.csv")]
+                edge_name = fname[: -len("_feature_mask.csv")]
                 edge_feature_masks[edge_name] = pd.read_csv(path, header=None)
             else:
-                edge_name = fname[:-len(".csv")]
+                edge_name = fname[: -len(".csv")]
                 base_edges[edge_name] = pd.read_csv(path)
 
     for edge_name, df in base_edges.items():
         out[f"edge_index_{edge_name}"] = df.to_numpy(dtype=np.int64).T
         if edge_name in edge_attrs:
-            out[f"edge_attr_{edge_name}"] = edge_attrs[edge_name].to_numpy(dtype=np.float32)
+            out[f"edge_attr_{edge_name}"] = edge_attrs[edge_name].to_numpy(
+                dtype=np.float32
+            )
         if edge_name in edge_feature_masks:
             out[f"edge_feature_mask_{edge_name}"] = (
                 edge_feature_masks[edge_name].to_numpy(dtype=np.int32).ravel()

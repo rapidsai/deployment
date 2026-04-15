@@ -15,7 +15,9 @@ logger = logging.getLogger(__name__)
 
 
 @task(name="get-current-version")
-def get_current_version(model_repo_path: str, model_name: str = TRITON_MODEL_NAME) -> int:
+def get_current_version(
+    model_repo_path: str, model_name: str = TRITON_MODEL_NAME
+) -> int:
     """Get the highest version number in the Triton model repository.
 
     Returns 0 if the model directory doesn't exist.
@@ -59,7 +61,7 @@ def stage_challenger_version(
     # Ensure config.pbtxt has version_policy { all {} } so both versions are served
     config_path = os.path.join(model_repo_path, model_name, "config.pbtxt")
     if os.path.exists(config_path):
-        with open(config_path, "r") as f:
+        with open(config_path) as f:
             config_text = f.read()
         if "version_policy" not in config_text:
             with open(config_path, "a") as f:
@@ -68,7 +70,8 @@ def stage_challenger_version(
 
     logger.info(
         "Staged challenger as version %d (champion is version %d)",
-        challenger_version, champion_version,
+        challenger_version,
+        champion_version,
     )
     return champion_version, challenger_version
 

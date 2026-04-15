@@ -25,7 +25,9 @@ def get_or_create_experiment(experiment_name: str = MLFLOW_EXPERIMENT_NAME) -> s
     if experiment is not None:
         return experiment.experiment_id
     experiment_id = mlflow.create_experiment(experiment_name)
-    logger.info("Created MLflow experiment '%s' (id=%s)", experiment_name, experiment_id)
+    logger.info(
+        "Created MLflow experiment '%s' (id=%s)", experiment_name, experiment_id
+    )
     return experiment_id
 
 
@@ -74,11 +76,15 @@ def log_evaluation_metrics(
     """Log evaluation metrics to an existing MLflow run."""
     with mlflow.start_run(run_id=run_id):
         # Log challenger metrics
-        mlflow.log_metrics({f"challenger_{k}": v for k, v in challenger_metrics.items()})
+        mlflow.log_metrics(
+            {f"challenger_{k}": v for k, v in challenger_metrics.items()}
+        )
 
         # Log champion metrics and delta if champion exists
         if champion_metrics:
-            mlflow.log_metrics({f"champion_{k}": v for k, v in champion_metrics.items()})
+            mlflow.log_metrics(
+                {f"champion_{k}": v for k, v in champion_metrics.items()}
+            )
             deltas = {
                 f"{k}_delta": challenger_metrics.get(k, 0) - champion_metrics.get(k, 0)
                 for k in challenger_metrics
@@ -122,13 +128,17 @@ def register_champion(run_id: str, model_name: str = TRITON_MODEL_NAME) -> None:
 
     # Move champion alias to this version
     client.set_registered_model_alias(model_name, "champion", mv.version)
-    logger.info("Registered %s version %s as champion (run %s)", model_name, mv.version, run_id)
+    logger.info(
+        "Registered %s version %s as champion (run %s)", model_name, mv.version, run_id
+    )
 
 
 @task(name="log-promotion-decision")
 def log_promotion_decision(run_id: str, should_promote: bool, reason: str = "") -> None:
     """Log the promotion decision to the MLflow run."""
     with mlflow.start_run(run_id=run_id):
-        mlflow.set_tag("promotion_decision", "promoted" if should_promote else "rejected")
+        mlflow.set_tag(
+            "promotion_decision", "promoted" if should_promote else "rejected"
+        )
         if reason:
             mlflow.set_tag("promotion_reason", reason)

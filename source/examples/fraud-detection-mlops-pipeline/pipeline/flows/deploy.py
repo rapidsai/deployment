@@ -35,7 +35,9 @@ def deploy_flow(
     challenger_run_id = eval_result["challenger_run_id"]
 
     if should_promote:
-        logger.info("Promoting challenger version %d as new champion", challenger_version)
+        logger.info(
+            "Promoting challenger version %d as new champion", challenger_version
+        )
 
         # Remove old champion artifacts and reload
         if champion_version > 0:
@@ -54,7 +56,11 @@ def deploy_flow(
         register_champion(challenger_run_id, model_name)
 
         logger.info("Deploy complete: version %d is now champion", challenger_version)
-        return {"action": "promoted", "version": challenger_version, "run_id": challenger_run_id}
+        return {
+            "action": "promoted",
+            "version": challenger_version,
+            "run_id": challenger_run_id,
+        }
 
     else:
         logger.info("Rejecting challenger version %d", challenger_version)
@@ -66,9 +72,14 @@ def deploy_flow(
 
         logger.info(
             "Rejected: version %d cleaned up, champion version %d unchanged",
-            challenger_version, champion_version,
+            challenger_version,
+            champion_version,
         )
-        return {"action": "rejected", "version": challenger_version, "reason": eval_result.get("reason", "")}
+        return {
+            "action": "rejected",
+            "version": challenger_version,
+            "reason": eval_result.get("reason", ""),
+        }
 
 
 if __name__ == "__main__":

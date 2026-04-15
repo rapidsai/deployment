@@ -59,7 +59,10 @@ def full_pipeline_flow(
             fraud_ratio=fraud_ratio,
             under_sample=under_sample,
         )
-        logger.info("Preprocessing complete: %d transactions", preprocess_result["metadata"]["num_transactions"])
+        logger.info(
+            "Preprocessing complete: %d transactions",
+            preprocess_result["metadata"]["num_transactions"],
+        )
 
     # Stage 2: Train
     gnn_data_dir = os.path.join(data_output_path, "gnn")
@@ -81,7 +84,11 @@ def full_pipeline_flow(
         model_repo_path=model_repo_path,
         min_improvement=min_improvement,
     )
-    logger.info("Evaluation: %s — %s", "PROMOTE" if eval_result["should_promote"] else "REJECT", eval_result["reason"])
+    logger.info(
+        "Evaluation: %s — %s",
+        "PROMOTE" if eval_result["should_promote"] else "REJECT",
+        eval_result["reason"],
+    )
 
     # Stage 4: Deploy
     deploy_result = deploy_flow(

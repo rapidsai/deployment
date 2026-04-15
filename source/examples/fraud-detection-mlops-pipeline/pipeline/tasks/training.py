@@ -65,29 +65,48 @@ def run_training_container(
     forces socket-based communication, bypassing UCX and OFI plugins.
     """
     cmd = [
-        "docker", "run",
+        "docker",
+        "run",
         "--rm",
-        "--gpus", f"device={gpu_device}",
-        "--cap-add", "SYS_NICE",
+        "--gpus",
+        f"device={gpu_device}",
+        "--cap-add",
+        "SYS_NICE",
         "--shm-size=8g",
         "--privileged",
-        "-e", "NCCL_IB_DISABLE=1",
-        "-e", "NCCL_NET=Socket",
-        "-e", "NCCL_SOCKET_IFNAME=eth0",
-        "-e", "NCCL_P2P_DISABLE=1",
-        "-e", "NCCL_SHM_DISABLE=1",
-        "-v", f"{data_dir}:/data",
-        "-v", f"{output_dir}:/trained_models",
-        "-v", f"{config_path}:/app/config.json",
-        "--entrypoint", "bash",
+        "-e",
+        "NCCL_IB_DISABLE=1",
+        "-e",
+        "NCCL_NET=Socket",
+        "-e",
+        "NCCL_SOCKET_IFNAME=eth0",
+        "-e",
+        "NCCL_P2P_DISABLE=1",
+        "-e",
+        "NCCL_SHM_DISABLE=1",
+        "-v",
+        f"{data_dir}:/data",
+        "-v",
+        f"{output_dir}:/trained_models",
+        "-v",
+        f"{config_path}:/app/config.json",
+        "--entrypoint",
+        "bash",
         training_image,
-        "-c", "torchrun --standalone --nproc_per_node=1 /app/main.py --config /app/config.json",
+        "-c",
+        "torchrun --standalone --nproc_per_node=1 /app/main.py --config /app/config.json",
     ]
     logger.info("Running training container: %s", " ".join(cmd))
 
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
-        logger.error("Training container failed:\nstdout: %s\nstderr: %s", result.stdout, result.stderr)
-        raise RuntimeError(f"Training container exited with code {result.returncode}: {result.stderr}")
+        logger.error(
+            "Training container failed:\nstdout: %s\nstderr: %s",
+            result.stdout,
+            result.stderr,
+        )
+        raise RuntimeError(
+            f"Training container exited with code {result.returncode}: {result.stderr}"
+        )
 
     logger.info("Training container completed successfully")

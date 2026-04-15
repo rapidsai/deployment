@@ -46,22 +46,28 @@ def preprocess_flow(
 
     logger.info(
         "Preprocessing complete: %d transactions, %d users, %d merchants",
-        metadata["num_transactions"], metadata["num_users"], metadata["num_merchants"],
+        metadata["num_transactions"],
+        metadata["num_users"],
+        metadata["num_merchants"],
     )
 
     # Step 2: Log to MLflow
     experiment_id = get_or_create_experiment(MLFLOW_PREPROCESS_EXPERIMENT_NAME)
     with mlflow.start_run(experiment_id=experiment_id, run_name="preprocess"):
-        mlflow.log_params({
-            "preprocess.fraud_ratio": fraud_ratio,
-            "preprocess.under_sample": under_sample,
-        })
-        mlflow.log_metrics({
-            "preprocess.row_count": float(metadata["row_count"]),
-            "preprocess.num_users": float(metadata["num_users"]),
-            "preprocess.num_merchants": float(metadata["num_merchants"]),
-            "preprocess.num_transactions": float(metadata["num_transactions"]),
-        })
+        mlflow.log_params(
+            {
+                "preprocess.fraud_ratio": fraud_ratio,
+                "preprocess.under_sample": under_sample,
+            }
+        )
+        mlflow.log_metrics(
+            {
+                "preprocess.row_count": float(metadata["row_count"]),
+                "preprocess.num_users": float(metadata["num_users"]),
+                "preprocess.num_merchants": float(metadata["num_merchants"]),
+                "preprocess.num_transactions": float(metadata["num_transactions"]),
+            }
+        )
         mlflow.set_tag("stage", "preprocess")
 
     gnn_dir = os.path.join(output_base_path, "gnn")

@@ -14,7 +14,8 @@
 
 # # Credit Card Transaction Data Cleanup and Prep
 #
-# This source code shows the steps for cleanup and preparing the credit card transaction data for training models with Training NIM.
+# This source code shows the steps for cleanup and preparing the credit card
+# transaction data for training models with Training NIM.
 #
 # ### The dataset:
 #  * IBM TabFormer: https://github.com/IBM/TabFormer
@@ -31,7 +32,9 @@
 #      * use one-hot encoding for fields with less than 8 categories
 #      * use binary encoding for fields with more than 8 categories
 #    * Create a continuous node index across users, merchants, and transactions
-#      * having node ID start at zero and then be contiguous is critical for creation of Compressed Sparse Row (CSR) formatted data without wasting memory.
+#      * having node ID start at zero and then be contiguous is critical
+#        for creation of Compressed Sparse Row (CSR) formatted data
+#        without wasting memory.
 #  * Produce:
 #    * For XGBoost:
 #      * Training   - all data before 2018
@@ -46,13 +49,25 @@
 #
 #
 # ### Graph formation
-# Given that we are limited to just the data in the transaction file, the ideal model would be to have a bipartite graph of Users to Merchants where the edges represent the credit card transaction and then perform Link Classification on the Edges to identify fraud. Unfortunately the current version of cuGraph does not support GNN Link Prediction. That limitation will be lifted over the next few release at which time this code will be updated. Luckily, there is precedence for viewing transactions as nodes and then doing node classification using the popular GraphSAGE GNN. That is the approach this code takes. The produced graph will be a tri-partite graph where each transaction is represented as a node.
+# Given that we are limited to just the data in the transaction file, the
+# ideal model would be to have a bipartite graph of Users to Merchants where
+# the edges represent the credit card transaction and then perform Link
+# Classification on the Edges to identify fraud. Unfortunately the current
+# version of cuGraph does not support GNN Link Prediction. That limitation
+# will be lifted over the next few release at which time this code will be
+# updated. Luckily, there is precedence for viewing transactions as nodes
+# and then doing node classification using the popular GraphSAGE GNN. That
+# is the approach this code takes. The produced graph will be a tri-partite
+# graph where each transaction is represented as a node.
 #
 # <img src="../img/3-partite.jpg" width="35%"/>
 #
 #
 # ### Features
-# For the XGBoost approach, there is no need to generate empty features for the Merchants. However, for GNN processing, every node needs to have the same set of feature data. Therefore, we need to generate empty features for the User and Merchant nodes.
+# For the XGBoost approach, there is no need to generate empty features
+# for the Merchants. However, for GNN processing, every node needs to
+# have the same set of feature data. Therefore, we need to generate
+# empty features for the User and Merchant nodes.
 #
 # -----
 
@@ -64,18 +79,17 @@ import logging
 import os
 
 import cudf
+import matplotlib.pyplot as plt
+import networkx as nx
 import numpy as np
 import pandas as pd
 import scipy.stats as ss
-import networkx as nx
-import matplotlib.pyplot as plt
 from category_encoders import BinaryEncoder
 from scipy.stats import pointbiserialr
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, RobustScaler
-
 
 COL_USER = "User"
 COL_CARD = "Card"
@@ -203,7 +217,9 @@ def preprocess_data(
     # * Look into spread of Amount and choose right scaler for it
 
     # Drop the "$" from the Amount field and then convert from string to float
-    data[COL_AMOUNT] = data[COL_AMOUNT].str.replace("$", "", regex=False).astype("float")
+    data[COL_AMOUNT] = (
+        data[COL_AMOUNT].str.replace("$", "", regex=False).astype("float")
+    )
 
     # #### Change the 'Fraud' values to be integer where
     #   * 1 == Fraud
@@ -229,7 +245,6 @@ def preprocess_data(
 
     # #### Convert Merchant column to str type
     data[COL_MERCHANT] = data[COL_MERCHANT].astype("str")
-    max_nr_cards_per_user = len(data[COL_CARD].unique())
 
     # Combine User and Card to generate unique numbers
     data[COL_CARD] = data[COL_USER] * len(data[COL_CARD].unique()) + data[COL_CARD]
@@ -324,7 +339,7 @@ def preprocess_data(
     for c1 in columns_to_compute_corr:
         for c2 in [COL_FRAUD]:
             coff = 100 * cramers_v(data[c1][::sparse_factor], data[c2][::sparse_factor])
-            logger.info("Correlation ({}, {}) = {:6.2f}%".format(c1, c2, coff))
+            logger.info(f"Correlation ({c1}, {c2}) = {coff:6.2f}%")
 
     # ### Correlation of target with numerical columns
 
@@ -334,7 +349,7 @@ def preprocess_data(
             data[COL_FRAUD],
             data[col],
         )
-        logger.info("r_pb ({}) = {:3.2f} with p_value {:3.2f}".format(col, r_pb, p_value))
+        logger.info(f"r_pb ({col}) = {r_pb:3.2f} with p_value {p_value:3.2f}")
 
     numerical_predictors = [COL_AMOUNT]
     nominal_predictors = [
@@ -608,7 +623,9 @@ def preprocess_data(
     # ### GNN Data
 
     # #### Setting Vertex IDs
-    # In order to create a graph, the different vertices need to be assigned unique vertex IDs. Additionally, the IDs needs to be consecutive and positive.
+    # In order to create a graph, the different vertices need to be assigned
+    # unique vertex IDs. Additionally, the IDs needs to be consecutive
+    # and positive.
     #
     # There are three nodes groups here: Transactions, Users, and Merchants.
     #
@@ -624,7 +641,11 @@ def preprocess_data(
     data[COL_TRANSACTION_ID] = data.index
 
     merchant_name_to_id = dict(
-        zip(data[COL_MERCHANT].unique(), np.arange(len(data[COL_MERCHANT].unique())))
+        zip(
+            data[COL_MERCHANT].unique(),
+            np.arange(len(data[COL_MERCHANT].unique())),
+            strict=False,
+        )
     )
 
     data[COL_MERCHANT_ID] = data[COL_MERCHANT].map(merchant_name_to_id)
@@ -633,7 +654,11 @@ def preprocess_data(
     # * You can use user or card as nodes
 
     id_to_consecutive_id = dict(
-        zip(data[COL_CARD].unique(), np.arange(len(data[COL_CARD].unique())))
+        zip(
+            data[COL_CARD].unique(),
+            np.arange(len(data[COL_CARD].unique())),
+            strict=False,
+        )
     )
 
     # Convert Card to consecutive IDs
@@ -789,7 +814,11 @@ def preprocess_data(
     data[COL_TRANSACTION_ID] = data.index
 
     merchant_name_to_id = dict(
-        zip(data[COL_MERCHANT].unique(), np.arange(len(data[COL_MERCHANT].unique())))
+        zip(
+            data[COL_MERCHANT].unique(),
+            np.arange(len(data[COL_MERCHANT].unique())),
+            strict=False,
+        )
     )
 
     data[COL_MERCHANT_ID] = data[COL_MERCHANT].map(merchant_name_to_id)
@@ -798,7 +827,11 @@ def preprocess_data(
     # * You can use user or card as nodes
 
     id_to_consecutive_id = dict(
-        zip(data[COL_CARD].unique(), np.arange(len(data[COL_CARD].unique())))
+        zip(
+            data[COL_CARD].unique(),
+            np.arange(len(data[COL_CARD].unique())),
+            strict=False,
+        )
     )
 
     # Convert Card to consecutive IDs
