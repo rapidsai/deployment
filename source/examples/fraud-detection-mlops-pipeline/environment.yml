@@ -1,0 +1,17 @@
+name: fraud-mlops
+channels:
+  - rapidsai
+  - conda-forge
+  - nvidia
+dependencies:
+  - python=3.13
+  - cuda-version>=13.0,<=13.1
+  - rapids=26.04
+  - prefect
+  - mlflow
+  - tritonclient
+  - python-dotenv
+  - category_encoders
+  - scipy
+  - networkx
+  - matplotlib
