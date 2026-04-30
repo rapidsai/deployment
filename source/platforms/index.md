@@ -92,16 +92,6 @@ Run RAPIDS on Snowflake.
 ````
 
 ````{grid-item-card}
-:link: anaconda
-:link-type: doc
-Anaconda Cloud Notebooks
-^^^
-Run RAPIDS on Anaconda Cloud Notebooks.
-
-{bdg}`single-node`
-````
-
-````{grid-item-card}
 :link: modal
 :link-type: doc
 Modal
