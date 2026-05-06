@@ -19,6 +19,12 @@ and a `cpu` partition with CPU-only nodes.
 
 For a more comprehensive overview, see the [SLURM quickstart guide](https://slurm.schedmd.com/quickstart.html).
 
+```{note}
+Some clusters provide SLURM commands through environment modules. If commands
+such as `sinfo`, `srun`, or `sbatch` are not found, load your cluster's SLURM
+module first, for example `module load slurm`.
+```
+
 ### Partitions
 
 Check which partitions are available and what GPUs they have. The `-o` flag
@@ -57,6 +63,11 @@ the allocated node.
 For longer-running work, write a script and submit it with `sbatch`. SLURM
 runs the script when resources become available and you don't need to stay
 connected.
+
+Run batch jobs from a filesystem that is shared between the submit host and
+compute nodes. This ensures your scripts, input data, and SLURM output files
+are visible wherever the job runs. Your cluster admin can tell you which paths
+are shared.
 
 ```bash
 sbatch my_job.sh
@@ -113,6 +124,17 @@ driver is available by running `nvidia-smi` on a compute node.
 
 #### Create the environment
 
+Create the environment in a location that is available on compute nodes. On
+many clusters this means installing conda and environments on a shared
+filesystem rather than on the login node's local disk.
+
+```{note}
+Recent versions of conda may require accepting Anaconda's Terms of Service for
+default channels before non-interactive environment creation. If `conda create`
+fails with a Terms of Service error, follow the command that conda prints to 
+accept the Terms of Service
+```
+
 ```bash
 conda create -n rapids-{{ rapids_version }} {{ rapids_conda_channels }} \
     {{ rapids_conda_packages }}
@@ -123,6 +145,11 @@ conda create -n rapids-{{ rapids_version }} {{ rapids_conda_channels }} \
 Place a module file in your cluster's module path so that users can load
 the environment. Replace `<path to miniconda3>` with the absolute path to
 your conda installation.
+
+The example below is a Lua modulefile and requires
+[Lmod](https://lmod.readthedocs.io/). Verify that `module --version` reports
+Lmod before using it. If your cluster uses Tcl Environment Modules, ask your
+cluster admin for the equivalent Tcl modulefile.
 
 ```bash
 mkdir -p /opt/modulefiles/rapids
@@ -151,8 +178,12 @@ EOF
 
 ```bash
 module load rapids/{{ rapids_version }}
-python -c "import cudf; print(cudf.__version__)"
+srun -p gpu --gres=gpu:1 python -c "import cudf; print(cudf.__version__)"
 ```
+
+Run this verification on a GPU compute node. A login or head node may not have
+a GPU or a compatible NVIDIA driver even when the compute nodes are configured
+correctly.
 
 ### Containers
 
@@ -185,6 +216,13 @@ that integrates Enroot into SLURM, adding `--container-*` flags to `srun` and
 `sbatch` so you can launch containerized jobs directly through the scheduler.
 Pyxis + Enroot is pre-installed on many GPU clusters including NVIDIA DGX
 systems.
+
+GPU containers also require NVIDIA container runtime tooling on compute nodes,
+including `nvidia-container-cli` from
+[`libnvidia-container`](https://github.com/NVIDIA/libnvidia-container). If
+Pyxis fails while starting the container and references `nvidia-container-cli`,
+ask your cluster admin to install the NVIDIA container runtime packages on the
+compute nodes.
 
 Import the RAPIDS container image as a squashfs file. We recommend
 pre-importing large images to avoid re-downloading on every job.
@@ -259,7 +297,9 @@ srun -p gpu --gres=gpu:1 \
 ### Batch
 
 Write a SLURM batch script to run the same workload without an interactive
-session. This is the typical workflow for production jobs.
+session. This is the typical workflow for production jobs. Save the script in a
+shared filesystem so compute nodes can access it and so the SLURM output file is
+written somewhere visible after the job completes.
 
 ```bash
 #!/usr/bin/env bash
