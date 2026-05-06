@@ -128,15 +128,9 @@ Create the environment in a location that is available on compute nodes. On
 many clusters this means installing conda and environments on a shared
 filesystem rather than on the login node's local disk.
 
-```{note}
-Recent versions of conda may require accepting Anaconda's Terms of Service for
-default channels before non-interactive environment creation. If `conda create`
-fails with a Terms of Service error, follow the command that conda prints to
-accept the Terms of Service
-```
-
 ```bash
-conda create -n rapids-{{ rapids_version }} {{ rapids_conda_channels }} \
+conda create -n rapids-{{ rapids_version }} --override-channels \
+    {{ rapids_conda_channels }} \
     {{ rapids_conda_packages }}
 ```
 
