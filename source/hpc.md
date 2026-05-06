@@ -199,6 +199,13 @@ Check with your cluster admin which container runtime is available. The
 examples below cover Apptainer and Pyxis + Enroot, two of the most common
 setups on HPC clusters.
 
+GPU containers also require NVIDIA container runtime tooling on compute nodes,
+including `nvidia-container-cli` from
+[`libnvidia-container`](https://github.com/NVIDIA/libnvidia-container). If
+Pyxis fails while starting the container and references `nvidia-container-cli`,
+ask your cluster admin to install the NVIDIA container runtime packages on the
+compute nodes.
+
 #### Apptainer
 
 [Apptainer](https://apptainer.org/) is a container runtime designed for HPC.
@@ -216,13 +223,6 @@ that integrates Enroot into SLURM, adding `--container-*` flags to `srun` and
 `sbatch` so you can launch containerized jobs directly through the scheduler.
 Pyxis + Enroot is pre-installed on many GPU clusters including NVIDIA DGX
 systems.
-
-GPU containers also require NVIDIA container runtime tooling on compute nodes,
-including `nvidia-container-cli` from
-[`libnvidia-container`](https://github.com/NVIDIA/libnvidia-container). If
-Pyxis fails while starting the container and references `nvidia-container-cli`,
-ask your cluster admin to install the NVIDIA container runtime packages on the
-compute nodes.
 
 Import the RAPIDS container image as a squashfs file. We recommend
 pre-importing large images to avoid re-downloading on every job.
