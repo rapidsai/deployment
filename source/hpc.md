@@ -131,7 +131,7 @@ filesystem rather than on the login node's local disk.
 ```{note}
 Recent versions of conda may require accepting Anaconda's Terms of Service for
 default channels before non-interactive environment creation. If `conda create`
-fails with a Terms of Service error, follow the command that conda prints to 
+fails with a Terms of Service error, follow the command that conda prints to
 accept the Terms of Service
 ```
 
