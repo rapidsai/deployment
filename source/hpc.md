@@ -7,12 +7,12 @@ review_priority: "index"
 RAPIDS works extremely well in traditional HPC (High Performance Computing)
 environments where GPUs are often co-located with accelerated networking
 hardware. RAPIDS can be deployed on HPC clusters managed by
-[SLURM](https://slurm.schedmd.com/).
+[Slurm](https://slurm.schedmd.com/).
 
-## SLURM
+## Slurm
 
-SLURM is a job scheduler that manages access to compute nodes on HPC clusters.
-Instead of logging into a GPU machine directly, you ask SLURM for resources
+Slurm is a job scheduler that manages access to compute nodes on HPC clusters.
+Instead of logging into a GPU machine directly, you ask Slurm for resources
 (CPUs, GPUs, memory, time) and it allocates a node for you when one becomes
 available.
 
@@ -20,11 +20,11 @@ Nodes are organized into **partitions**, groups of machines with similar
 hardware. For example, your cluster might have a `gpu` partition with A100 nodes
 and a `cpu` partition with CPU-only nodes.
 
-For a more comprehensive overview, see the [SLURM quickstart guide](https://slurm.schedmd.com/quickstart.html).
+For a more comprehensive overview, see the [Slurm quickstart guide](https://slurm.schedmd.com/quickstart.html).
 
 ```{note}
-Some clusters provide SLURM commands through environment modules. If commands
-such as `sinfo`, `srun`, or `sbatch` are not found, load your cluster's SLURM
+Some clusters provide Slurm commands through environment modules. If commands
+such as `sinfo`, `srun`, or `sbatch` are not found, load your cluster's Slurm
 module first, for example `module load slurm`.
 ```
 
@@ -63,12 +63,12 @@ the allocated node.
 
 ### Batch Jobs
 
-For longer-running work, write a script and submit it with `sbatch`. SLURM
+For longer-running work, write a script and submit it with `sbatch`. Slurm
 runs the script when resources become available and you don't need to stay
 connected.
 
 Run batch jobs from a filesystem that is shared between the submit host and
-compute nodes. This ensures your scripts, input data, and SLURM output files
+compute nodes. This ensures your scripts, input data, and Slurm output files
 are visible wherever the job runs. Your cluster admin can tell you which paths
 are shared.
 
@@ -125,10 +125,10 @@ nodes. This is typically managed by your cluster admin. You can verify the
 driver is available by running `nvidia-smi` on a compute node.
 ```
 
-#### Install miniforge
+#### Install Miniforge
 
 If conda isn't already available on your cluster, install
-[miniforge](https://github.com/conda-forge/miniforge). Install it to a shared
+[Miniforge](https://github.com/conda-forge/miniforge). Install it to a shared
 filesystem so compute nodes can read the environments you create.
 
 ```bash
@@ -151,9 +151,10 @@ conda create -n rapids-{{ rapids_version }} --override-channels \
 
 #### Create the module file
 
-Place a module file in your cluster's module path so that users can load
-the environment. Replace `<path to miniforge3>` with the absolute path to
-your miniforge installation.
+Replace `<path to miniforge3>` with the absolute path to your Miniforge
+installation. The example below installs the modulefile to `~/modulefiles`,
+which works without admin access. Cluster admins can install it to a
+shared module path (e.g. `/opt/modulefiles`) instead so all users can load it.
 
 The example below is a Lua modulefile and requires
 [Lmod](https://lmod.readthedocs.io/). Verify that `module --version` reports
@@ -161,8 +162,8 @@ Lmod before using it. If your cluster uses Tcl Environment Modules, ask your
 cluster admin for the equivalent Tcl modulefile.
 
 ```bash
-mkdir -p /opt/modulefiles/rapids
-cat << 'EOF' > /opt/modulefiles/rapids/{{ rapids_version }}.lua
+mkdir -p ~/modulefiles/rapids
+cat << 'EOF' > ~/modulefiles/rapids/{{ rapids_version }}.lua
 help([[RAPIDS {{ rapids_version }} - GPU-accelerated data science libraries.]])
 
 whatis("Name: RAPIDS")
@@ -182,6 +183,15 @@ setenv("CONDA_PREFIX",     env_prefix)
 setenv("CONDA_DEFAULT_ENV", env)
 EOF
 ```
+
+Add the modulefile directory to your module search path:
+
+```bash
+module use ~/modulefiles
+```
+
+To make this persistent across sessions, add `module use ~/modulefiles` to
+your `~/.bashrc`.
 
 #### Verify
 
@@ -227,8 +237,8 @@ apptainer pull rapids.sif docker://{{ rapids_container }}
 #### Pyxis + Enroot
 
 [Enroot](https://github.com/NVIDIA/enroot) is NVIDIA's lightweight container
-runtime for HPC. [Pyxis](https://github.com/NVIDIA/pyxis) is a SLURM plugin
-that integrates Enroot into SLURM, adding `--container-*` flags to `srun` and
+runtime for HPC. [Pyxis](https://github.com/NVIDIA/pyxis) is a Slurm plugin
+that integrates Enroot into Slurm, adding `--container-*` flags to `srun` and
 `sbatch` so you can launch containerized jobs directly through the scheduler.
 Pyxis + Enroot is pre-installed on many GPU clusters including NVIDIA DGX
 systems.
@@ -305,9 +315,9 @@ srun -p gpu --gres=gpu:1 \
 
 ### Batch
 
-Write a SLURM batch script to run the same workload without an interactive
+Write a Slurm batch script to run the same workload without an interactive
 session. This is the typical workflow for production jobs. Save the script in a
-shared filesystem so compute nodes can access it and so the SLURM output file is
+shared filesystem so compute nodes can access it and so the Slurm output file is
 written somewhere visible after the job completes.
 
 ```bash
