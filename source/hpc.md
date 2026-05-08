@@ -128,9 +128,8 @@ driver is available by running `nvidia-smi` on a compute node.
 #### Install miniforge
 
 If conda isn't already available on your cluster, install
-[miniforge](https://github.com/conda-forge/miniforge), the conda distribution
-RAPIDS recommends. Install it to a shared filesystem so compute nodes can
-read the environments you create.
+[miniforge](https://github.com/conda-forge/miniforge). Install it to a shared
+filesystem so compute nodes can read the environments you create.
 
 ```bash
 curl -LO "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
