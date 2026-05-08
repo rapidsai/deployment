@@ -4,7 +4,10 @@ review_priority: "index"
 
 # HPC
 
-RAPIDS can be deployed on HPC clusters managed by [SLURM](https://slurm.schedmd.com/).
+RAPIDS works extremely well in traditional HPC (High Performance Computing)
+environments where GPUs are often co-located with accelerated networking
+hardware. RAPIDS can be deployed on HPC clusters managed by
+[SLURM](https://slurm.schedmd.com/).
 
 ## SLURM
 
@@ -112,8 +115,8 @@ to manage software on HPC clusters. We'll create a
 then wrap it in an [Lmod](https://lmod.readthedocs.io/) module file so it can
 be loaded with a single command.
 
-We use conda here because it handles the CUDA toolkit and RAPIDS dependencies
-together, avoiding version conflicts with system libraries.
+Conda installs the full RAPIDS suite alongside the CUDA toolkit in a single
+command, which is convenient on shared HPC filesystems.
 
 ```{note}
 Conda installs the CUDA **toolkit** (runtime libraries), but
@@ -122,11 +125,24 @@ nodes. This is typically managed by your cluster admin. You can verify the
 driver is available by running `nvidia-smi` on a compute node.
 ```
 
+#### Install miniforge
+
+If conda isn't already available on your cluster, install
+[miniforge](https://github.com/conda-forge/miniforge), the conda distribution
+RAPIDS recommends. Install it to a shared filesystem so compute nodes can
+read the environments you create.
+
+```bash
+curl -LO "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+bash Miniforge3-$(uname)-$(uname -m).sh -b -p /path/to/miniforge3
+source /path/to/miniforge3/etc/profile.d/conda.sh
+```
+
 #### Create the environment
 
 Create the environment in a location that is available on compute nodes. On
-many clusters this means installing conda and environments on a shared
-filesystem rather than on the login node's local disk.
+many clusters this means installing environments on a shared filesystem rather
+than on the login node's local disk.
 
 ```bash
 conda create -n rapids-{{ rapids_version }} --override-channels \
@@ -137,8 +153,8 @@ conda create -n rapids-{{ rapids_version }} --override-channels \
 #### Create the module file
 
 Place a module file in your cluster's module path so that users can load
-the environment. Replace `<path to miniconda3>` with the absolute path to
-your conda installation.
+the environment. Replace `<path to miniforge3>` with the absolute path to
+your miniforge installation.
 
 The example below is a Lua modulefile and requires
 [Lmod](https://lmod.readthedocs.io/). Verify that `module --version` reports
@@ -156,7 +172,7 @@ whatis("Description: GPU-accelerated data science libraries")
 
 family("rapids")
 
-local conda_root = "<path to miniconda3>"
+local conda_root = "<path to miniforge3>"
 local env        = "rapids-{{ rapids_version }}"
 local env_prefix = pathJoin(conda_root, "envs", env)
 
