@@ -4,6 +4,7 @@ on:
   push:
   pull_request:
 
+permissions: {}
 jobs:
   checks:
     name: "pre-commit hooks"
