@@ -18,7 +18,7 @@ Instead, please submit a private vulnerability report, see below.
    [NVIDIA PSIRT PGP key](https://www.nvidia.com/en-us/security/pgp-key).
 
 3. **GitHub Private Vulnerability Reporting**
-   Use the **Security and quality** tab on this repository → *Report a vulnerability*.
+   Use the **Security and quality** tab on this repository → _Report a vulnerability_.
 
 ## Report Details
 
@@ -26,12 +26,12 @@ We prefer all communications to be in English.
 
 Reports should include the following:
 
-* reproducible example showing how the vulnerability can be exploited
-* statement about the impact (including affected versions)
+- reproducible example showing how the vulnerability can be exploited
+- statement about the impact (including affected versions)
 
 And we'd appreciate if they also include:
 
-* statement about whether you are interested in implementing the fix yourself
+- statement about whether you are interested in implementing the fix yourself
 
 ## Disclosure Policy
 
