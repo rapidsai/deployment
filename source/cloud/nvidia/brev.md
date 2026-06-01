@@ -31,7 +31,8 @@ New users commonly choose `L4` GPUs for trying things out.
 
 ![Screenshot of the "Editing container or runtime" UI](/_static/images/platforms/brev/brev-edit-software-config.png)
 
-4. Select "Single Container", attach the "NVIDIA RAPIDS" Container and choose "Apply"..
+4. Select "Single Container", choose the RAPIDS release, python and CUDA versions, under the "NVIDIA RAPIDS" Container
+   selector and hit "Apply".
 
 ![Screenshot showing "Single Container" highlighted](/_static/images/platforms/brev/brev-single-container.png)
 

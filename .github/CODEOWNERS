@@ -1,1 +1,4 @@
 *  @rapidsai/deployment-write
+
+# Ops code owners
+/SECURITY.md             @rapidsai/ops-codeowners
