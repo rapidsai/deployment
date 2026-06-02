@@ -117,14 +117,29 @@ def get_champion_metrics(model_name: str = TRITON_MODEL_NAME) -> dict | None:
     return metrics
 
 
+def _is_existing_registered_model_error(exc: Exception) -> bool:
+    error_code = str(getattr(exc, "error_code", "")).upper()
+    message = str(exc).lower()
+    return "RESOURCE_ALREADY_EXISTS" in error_code or "already exists" in message
+
+
+def _create_registered_model_if_missing(client: MlflowClient, model_name: str) -> None:
+    try:
+        client.create_registered_model(model_name)
+    except Exception as exc:
+        if not _is_existing_registered_model_error(exc):
+            raise
+
+
 @task(name="register-champion")
 def register_champion(run_id: str, model_name: str = TRITON_MODEL_NAME) -> None:
     """Register a model version and assign the 'champion' alias."""
     client = MlflowClient(MLFLOW_TRACKING_URI)
 
-    # Register model version
+    # Triton artifacts are plain files, not MLflow logged models.
+    _create_registered_model_if_missing(client, model_name)
     model_uri = f"runs:/{run_id}/model"
-    mv = mlflow.register_model(model_uri, model_name)
+    mv = client.create_model_version(name=model_name, source=model_uri, run_id=run_id)
 
     # Move champion alias to this version
     client.set_registered_model_alias(model_name, "champion", mv.version)

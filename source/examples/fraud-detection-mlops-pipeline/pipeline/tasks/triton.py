@@ -100,18 +100,14 @@ def stage_challenger_version(
 def reload_model(
     triton_url: str,
     model_name: str,
-    timeout: int = 600,
+    timeout: int = 120,
 ) -> None:
     """Unload then reload a model in Triton to pick up filesystem changes.
 
     Since load_model/unload_model operate on the entire model (not individual versions),
     this is how we refresh Triton's view of available versions.
     """
-    client = httpclient.InferenceServerClient(
-        url=triton_url,
-        connection_timeout=timeout,
-        network_timeout=timeout,
-    )
+    client = httpclient.InferenceServerClient(url=triton_url)
     try:
         client.unload_model(model_name)
     except Exception:
