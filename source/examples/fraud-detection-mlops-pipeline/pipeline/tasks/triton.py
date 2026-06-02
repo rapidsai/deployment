@@ -14,6 +14,34 @@ from pipeline.config import TRITON_MODEL_NAME
 logger = logging.getLogger(__name__)
 
 
+def _ensure_model_config(
+    challenger_artifacts_path: str,
+    model_repo_path: str,
+    model_name: str,
+) -> None:
+    """Copy the generated root model config into the serving repository."""
+    source_config_path = os.path.join(
+        os.path.dirname(challenger_artifacts_path), "config.pbtxt"
+    )
+    target_config_path = os.path.join(model_repo_path, model_name, "config.pbtxt")
+
+    if os.path.exists(source_config_path):
+        shutil.copy2(source_config_path, target_config_path)
+        logger.info("Copied generated Triton config.pbtxt into the model repository")
+    elif not os.path.exists(target_config_path):
+        raise FileNotFoundError(
+            "Triton config.pbtxt was not found in the training output model "
+            f"repository: {source_config_path}"
+        )
+
+    with open(target_config_path) as f:
+        config_text = f.read()
+    if "version_policy" not in config_text:
+        with open(target_config_path, "a") as f:
+            f.write("\nversion_policy { all {} }\n")
+        logger.info("Added version_policy { all {} } to config.pbtxt")
+
+
 @task(name="get-current-version")
 def get_current_version(
     model_repo_path: str, model_name: str = TRITON_MODEL_NAME
@@ -58,15 +86,7 @@ def stage_challenger_version(
     target_dir = os.path.join(model_repo_path, model_name, str(challenger_version))
     shutil.copytree(challenger_artifacts_path, target_dir)
 
-    # Ensure config.pbtxt has version_policy { all {} } so both versions are served
-    config_path = os.path.join(model_repo_path, model_name, "config.pbtxt")
-    if os.path.exists(config_path):
-        with open(config_path) as f:
-            config_text = f.read()
-        if "version_policy" not in config_text:
-            with open(config_path, "a") as f:
-                f.write("\nversion_policy { all {} }\n")
-            logger.info("Added version_policy { all {} } to config.pbtxt")
+    _ensure_model_config(challenger_artifacts_path, model_repo_path, model_name)
 
     logger.info(
         "Staged challenger as version %d (champion is version %d)",
@@ -80,14 +100,18 @@ def stage_challenger_version(
 def reload_model(
     triton_url: str,
     model_name: str,
-    timeout: int = 120,
+    timeout: int = 600,
 ) -> None:
     """Unload then reload a model in Triton to pick up filesystem changes.
 
     Since load_model/unload_model operate on the entire model (not individual versions),
     this is how we refresh Triton's view of available versions.
     """
-    client = httpclient.InferenceServerClient(url=triton_url)
+    client = httpclient.InferenceServerClient(
+        url=triton_url,
+        connection_timeout=timeout,
+        network_timeout=timeout,
+    )
     try:
         client.unload_model(model_name)
     except Exception:
