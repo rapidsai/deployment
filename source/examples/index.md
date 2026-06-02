@@ -24,6 +24,7 @@ rapids-snowflake-cudf/notebook
 cuml-snowflake-nb/notebook
 rapids-coiled-cudf/notebook
 rapids-morpheus-pipeline/notebook
+fraud-detection-mlops-pipeline/notebook
 lulc-classification-gpu/notebook
 cuml-ray-hpo/notebook
 ```

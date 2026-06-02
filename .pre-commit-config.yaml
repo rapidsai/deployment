@@ -44,6 +44,10 @@ repos:
         additional_dependencies: [tomli]
         exclude: "^.*.jsonlines$"
         args: ["--toml", "pyproject.toml", "--ignore-words-list=classfication"]
+  - repo: https://github.com/zizmorcore/zizmor-pre-commit
+    rev: v1.24.1
+    hooks:
+      - id: zizmor
 
 default_language_version:
   python: python3
