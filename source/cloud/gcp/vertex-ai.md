@@ -58,7 +58,7 @@ $ conda activate rapids
 $ python -m ipykernel install --user --name rapids --display-name "rapids"
 ```
 
-Registering the kernel with `--user` installs the kernelspec in the Jupyter user's kernel directory, avoiding permissions errors from writing into the environment prefix. w
+Registering the kernel with `--user` installs the kernelspec in the Jupyter user's kernel directory, avoiding permissions errors from writing into the environment prefix.
 
 Then refresh the Jupyter Lab page and open the launcher. You will see a new "rapids" kernel available.
 
