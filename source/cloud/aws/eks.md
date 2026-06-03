@@ -10,7 +10,7 @@ To run RAPIDS you'll need a Kubernetes cluster with GPUs available.
 
 ## Prerequisites
 
-First you'll need to have the [`aws` CLI tool](https://aws.amazon.com/cli/) and [`eksctl` CLI tool](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html) installed along with [`kubectl`](https://kubernetes.io/docs/tasks/tools/), [`helm`](https://helm.sh/docs/intro/install/), for managing Kubernetes.
+First you'll need to have the [`aws` CLI tool](https://aws.amazon.com/cli/) and [`eksctl` CLI tool](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html) installed along with [`kubectl`](https://kubernetes.io/docs/tasks/tools/) for managing Kubernetes.
 
 Ensure you are logged into the `aws` CLI.
 
@@ -34,7 +34,6 @@ key pair or import (see "Actions" dropdown) one you've created locally.
 
 ```bash
 $ eksctl create cluster rapids \
-                      --version 1.30 \
                       --nodes 3 \
                       --node-type=g4dn.xlarge \
                       --timeout=40m \
@@ -45,7 +44,9 @@ $ eksctl create cluster rapids \
                       --auto-kubeconfig
 ```
 
-With this command, you’ve launched an EKS cluster called `rapids`. You’ve specified that it should use nodes of type `g4dn.xlarge`. We also specified that we don't want to install the NVIDIA drivers as we will do that with the NVIDIA operator.
+With this command, you've launched an EKS cluster called `rapids`. You've specified that it should use nodes of type `g4dn.xlarge`, which include one NVIDIA T4 GPU each.
+
+When `eksctl` sees an NVIDIA GPU instance type, it selects the correct [EKS-optimized accelerated AMI](https://docs.aws.amazon.com/eks/latest/userguide/ml-eks-optimized-ami.html) and installs the [NVIDIA Kubernetes device plugin](https://docs.aws.amazon.com/eks/latest/eksctl/gpu-support.html) automatically. The EKS-optimized NVIDIA AMI includes the NVIDIA driver, CUDA user-mode driver, and the NVIDIA Container Toolkit.
 
 To access the cluster we need to pull down the credentials.
 Add `--profile <your-profile>` if you are not using the default profile.
@@ -54,9 +55,9 @@ Add `--profile <your-profile>` if you are not using the default profile.
 $ aws eks --region us-east-1 update-kubeconfig --name rapids
 ```
 
-## Install drivers
+## Verify GPU support
 
-As we selected a GPU node type EKS will automatically install drivers for us. We can verify this by listing the NVIDIA driver plugin Pods.
+Verify that the NVIDIA device plugin Pods are running.
 
 ```console
 $ kubectl get po -n kube-system -l name=nvidia-device-plugin-ds
@@ -67,10 +68,10 @@ nvidia-device-plugin-daemonset-thjhc   1/1     Running   0          52m
 ```
 
 ```{note}
-By default this plugin will install the latest version on the NVIDIA drivers on every Node. If you need more control over your driver installation we recommend that when creating your cluster you set `eksctl create cluster --install-nvidia-plugin=false ...` and then install drivers yourself using the [NVIDIA GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html).
+If you need to manage the NVIDIA device plugin version yourself, set `eksctl create cluster --install-nvidia-plugin=false ...` when creating the cluster and then install the device plugin manually. If you choose to install the [NVIDIA GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html) on EKS-optimized NVIDIA AMIs, disable the operator's driver and toolkit installation because those components are already included in the AMI.
 ```
 
-After you have confirmed your drivers are installed, you are ready to test your cluster.
+After you have confirmed the device plugin is running, you are ready to test your cluster.
 
 ```{include} ../../_includes/check-gpu-pod-works.md
 
