@@ -59,7 +59,7 @@ Next we need to connect to the VM.
 ````{note}
 If you still can't perform the docker commands, and you get this message
 
-```bash
+```text
 permission denied while trying to connect to the docker API at unix:///var/run/docker.sock
 ```
 
