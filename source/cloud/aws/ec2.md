@@ -186,6 +186,23 @@ If you see `WARNING: UNPROTECTED PRIVATE KEY FILE!`, run `chmod 400 rapids-ec2-k
 If you see a "modprobe: FATAL: Module nvidia not found in directory /lib/modules/6.2.0-1011-aws" while first connecting to the EC2 instance, try logging out and reconnecting again.
 ```
 
+````{note}
+When running the docker run command, if you see an error that says
+
+```bash
+docker: Error response from daemon: failed to create task for container: failed to create shim task: OCI runtime create failed: runc create failed:
+unable to start container process: error during container init: failed to fulfil mount request: open /usr/lib/x86_64-linux-gnu/libnvidia-egl-wayland.so.1.1.13: no such file or directory
+```
+
+this is a known issue, and we are working on fixing it, please run teh following command:
+
+```bash
+sudo systemctl restart nvidia-cdi-refresh.service
+```
+
+and run the `docker run --gpu ...` command again.
+````
+
 ## Test RAPIDS
 
 ```{include} ../../_includes/test-rapids-docker-vm.md
