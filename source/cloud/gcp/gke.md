@@ -106,9 +106,9 @@ $ helm install --wait gpu-operator \
   --set driver.enabled=false
 ```
 
-````{note}
+```{note}
 On GKE 1.33 and later, NVIDIA documents a known `containerd` configuration issue that can prevent GPU Operator toolkit Pods from starting. If you hit this, follow NVIDIA's `RUNTIME_CONFIG_SOURCE=file` ClusterPolicy workaround in the [NVIDIA GPU Operator with Google GKE prerequisites](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/google-gke.html#prerequisites).
-````
+```
 
 Verify that the GPU Operator Pods are running.
 
