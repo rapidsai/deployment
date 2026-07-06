@@ -16,8 +16,8 @@ import sys
 
 # -- Project information -----------------------------------------------------
 
-project = "RAPIDS Deployment Documentation"
-html_title = "RAPIDS Deployment Documentation"
+project = "NVIDIA RAPIDS Deployment Documentation"
+html_title = "NVIDIA RAPIDS Deployment Documentation"
 copyright = f"{datetime.date.today().year}, NVIDIA"
 author = "NVIDIA"
 
@@ -121,39 +121,37 @@ html_theme_options = {
     "analytics": {
         "google_analytics_id": "G-02WR7CRJ3Z",
     },
-    "header_links_before_dropdown": 7,
-    # https://github.com/pydata/pydata-sphinx-theme/issues/1220
-    "icon_links": [],
-    "logo": {
-        "link": "https://docs.rapids.ai/",
-    },
-    "github_url": "https://github.com/rapidsai/",
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/rapidsai/deployment",
+            "icon": "fa-brands fa-github",
+            "type": "fontawesome",
+        },
+    ],
     "show_toc_level": 1,
     "navbar_align": "right",
     "secondary_sidebar_items": [
         "page-toc",
         "notebooks-extra-files-nav",
         "notebooks-tags",
-        "feedback",
+        "deployment-feedback",
     ],
 }
 
 html_sidebars = {
-    "**": ["sidebar-nav-bs", "sidebar-ethical-ads"],
-    "index": [],
-    "examples/index": ["notebooks-tag-filter", "sidebar-ethical-ads"],
+    "examples/index": ["sidebar-nav-bs", "notebooks-tag-filter"],
 }
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "pydata_sphinx_theme"
+html_theme = "nvidia_sphinx_theme"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
-html_logo = "_static/RAPIDS-logo-purple.png"
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
@@ -170,13 +168,5 @@ redirects = {
 
 
 def setup(app):
-    app.add_css_file("https://docs.rapids.ai/assets/css/custom.css")
-    app.add_css_file(
-        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"
-    )
     app.add_css_file("css/custom.css")
-    app.add_js_file(
-        "https://docs.rapids.ai/assets/js/custom.js", loading_method="defer"
-    )
-    app.add_js_file("js/nav.js", loading_method="defer")
     app.add_js_file("js/notebook-gallery.js", loading_method="defer")
