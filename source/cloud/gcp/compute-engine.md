@@ -36,22 +36,46 @@ To access Jupyter and Dask we will need to set up some firewall rules to open up
 
 1. Open [**Compute Engine**](https://console.cloud.google.com/compute/instances).
 2. Select your VM and press **Edit**.
-3. Scroll down to **Networking** and add the `rapids` network tag you gave your firewall rule.
-4. Select **Save**.
+3. Scroll down to **Networking** section, look for _Network tags_ and add the `rapids` network tag you gave your firewall rule.
+4. Under Firewall Allow HTTP and HTTPS traffic as well.
+5. Select **Save**.
 
 ## Connect to the VM
 
 Next we need to connect to the VM.
 
 1. Open [**Compute Engine**](https://console.cloud.google.com/compute/instances).
-2. Locate your VM and press the **SSH** button which will open a new browser tab with a terminal.
-3. **Read and accept** the NVIDIA installer prompts.
+2. Locate your VM
+   1. If you allow `0.0.0.0/0` in your IP range in the network setup, you can press the **SSH** button which will open a new browser tab with a terminal, and you will be able to connect to the instance.
+   2. If you limit you IP range to a local machine, you can connect via your terminal using gcloud. Press the SSH Dropdown
+      button and select **View gcloud command** and copy the command in your terminal.
 
 ## Install RAPIDS
 
 ```{include} ../../_includes/install-rapids-with-docker.md
 
 ```
+
+````{note}
+If you still can't perform the docker commands, and you get this message
+
+```text
+permission denied while trying to connect to the docker API at unix:///var/run/docker.sock
+```
+
+It's an issue with adding your user to the docker group.
+
+```bash
+sudo usermod -aG docker $USER
+```
+
+Exit your terminal to log out and then get back in via SSH, and check `docker` is in groups running:
+
+```bash
+groups
+```
+If docker is there, now you will be able to run the docker commands above.
+````
 
 ## Test RAPIDS
 
