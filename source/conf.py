@@ -129,6 +129,9 @@ html_theme_options = {
             "type": "fontawesome",
         },
     ],
+    "external_links": [
+        {"name": "Docs Home", "url": "https://docs.rapids.ai/"},
+    ],
     "show_toc_level": 1,
     "navbar_align": "right",
     "secondary_sidebar_items": [
@@ -137,6 +140,14 @@ html_theme_options = {
         "notebooks-tags",
         "deployment-feedback",
     ],
+}
+
+# The navbar version switcher is a static template override
+# (``_templates/version-switcher.html``) with hardcoded links straight to the
+# published nightly/stable docs, matching the previous nav.js behavior. This
+# label is the version the current build represents, shown on the dropdown.
+html_context = {
+    "deployment_version_label": rapids_version["rapids_api_docs_version"],
 }
 
 html_sidebars = {
