@@ -27,4 +27,5 @@ rapids-morpheus-pipeline/notebook
 fraud-detection-mlops-pipeline/notebook
 lulc-classification-gpu/notebook
 cuml-ray-hpo/notebook
+rapids-topic-modeling-slurm/notebook
 ```
