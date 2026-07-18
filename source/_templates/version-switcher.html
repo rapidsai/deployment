@@ -1,13 +1,13 @@
-{# Static nightly/stable version switcher.
-
-   Overrides the theme's fetch-based version switcher with a hardcoded dropdown
-   whose links jump straight to each version's home page (like the previous
-   nav.js). Because no ``switcher`` theme option is set, the theme's switcher
-   JavaScript never runs, so this static menu is left untouched. #}
-{%- set button_id = unique_html_id("pst-version-switcher-button") -%}
-{%- set dropdown_id = unique_html_id("pst-version-switcher-list") -%}
+{# Static nightly/stable version switcher. Overrides the theme's fetch-based
+version switcher with a hardcoded dropdown whose links jump straight to each
+version's home page (like the previous nav.js). Because no ``switcher`` theme
+option is set, the theme's switcher JavaScript never runs, so this static menu
+is left untouched. #} {%- set button_id =
+unique_html_id("pst-version-switcher-button") -%} {%- set dropdown_id =
+unique_html_id("pst-version-switcher-list") -%}
 <div class="version-switcher__container dropdown pst-js-only">
-  <button id="{{ button_id }}"
+  <button
+    id="{{ button_id }}"
     type="button"
     class="version-switcher__button btn btn-sm dropdown-toggle"
     data-bs-toggle="dropdown"
@@ -18,15 +18,24 @@
     {{ deployment_version_label | default("version") }}
     <span class="caret"></span>
   </button>
-  <div id="{{ dropdown_id }}"
+  <div
+    id="{{ dropdown_id }}"
     class="version-switcher__menu dropdown-menu list-group-flush py-0"
-    role="listbox" aria-labelledby="{{ button_id }}">
-    <a class="dropdown-item list-group-item list-group-item-action py-1"
-       role="option" href="https://docs.rapids.ai/deployment/nightly/">
+    role="listbox"
+    aria-labelledby="{{ button_id }}"
+  >
+    <a
+      class="dropdown-item list-group-item list-group-item-action py-1"
+      role="option"
+      href="https://docs.rapids.ai/deployment/nightly/"
+    >
       <span>nightly</span>
     </a>
-    <a class="dropdown-item list-group-item list-group-item-action py-1"
-       role="option" href="https://docs.rapids.ai/deployment/stable/">
+    <a
+      class="dropdown-item list-group-item list-group-item-action py-1"
+      role="option"
+      href="https://docs.rapids.ai/deployment/stable/"
+    >
       <span>stable</span>
     </a>
   </div>
