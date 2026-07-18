@@ -16,7 +16,7 @@ import sys
 
 # -- Project information -----------------------------------------------------
 
-project = "RAPIDS Deployment Documentation"
+project = "NVIDIA RAPIDS Deployment Documentation"
 html_title = "RAPIDS Deployment Documentation"
 copyright = f"{datetime.date.today().year}, NVIDIA"
 author = "NVIDIA"
@@ -121,39 +121,59 @@ html_theme_options = {
     "analytics": {
         "google_analytics_id": "G-02WR7CRJ3Z",
     },
-    "header_links_before_dropdown": 7,
-    # https://github.com/pydata/pydata-sphinx-theme/issues/1220
-    "icon_links": [],
-    "logo": {
-        "link": "https://docs.rapids.ai/",
-    },
-    "github_url": "https://github.com/rapidsai/",
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/rapidsai/deployment",
+            "icon": "fa-brands fa-github",
+            "type": "fontawesome",
+        },
+    ],
+    "external_links": [
+        {"name": "Docs Home", "url": "https://docs.rapids.ai/"},
+    ],
     "show_toc_level": 1,
     "navbar_align": "right",
     "secondary_sidebar_items": [
         "page-toc",
         "notebooks-extra-files-nav",
         "notebooks-tags",
-        "feedback",
+        "deployment-feedback",
     ],
 }
 
+# The navbar version switcher is a static template override
+# (``_templates/version-switcher.html``) with hardcoded links straight to the
+# published nightly/stable docs.
+# Three-state detection via DEPLOYMENT_DOCS_BUILD_STABLE:
+#   "true"  → stable  (CI tag build)
+#   "false" → nightly (CI non-tag build; CI always sets the var explicitly)
+#   unset   → dev     (local or ReadTheDocs preview build)
+_stable_env = os.environ.get("DEPLOYMENT_DOCS_BUILD_STABLE")
+if _stable_env == "true":
+    deployment_version_label = "stable"
+elif _stable_env == "false":
+    deployment_version_label = "nightly"
+else:
+    deployment_version_label = "dev"
+
+html_context = {
+    "deployment_version_label": deployment_version_label,
+}
+
 html_sidebars = {
-    "**": ["sidebar-nav-bs", "sidebar-ethical-ads"],
-    "index": [],
-    "examples/index": ["notebooks-tag-filter", "sidebar-ethical-ads"],
+    "examples/index": ["sidebar-nav-bs", "notebooks-tag-filter"],
 }
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "pydata_sphinx_theme"
+html_theme = "nvidia_sphinx_theme"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
-html_logo = "_static/RAPIDS-logo-purple.png"
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
@@ -170,13 +190,5 @@ redirects = {
 
 
 def setup(app):
-    app.add_css_file("https://docs.rapids.ai/assets/css/custom.css")
-    app.add_css_file(
-        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"
-    )
     app.add_css_file("css/custom.css")
-    app.add_js_file(
-        "https://docs.rapids.ai/assets/js/custom.js", loading_method="defer"
-    )
-    app.add_js_file("js/nav.js", loading_method="defer")
     app.add_js_file("js/notebook-gallery.js", loading_method="defer")
