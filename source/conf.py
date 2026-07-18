@@ -144,9 +144,7 @@ html_theme_options = {
 
 # The navbar version switcher is a static template override
 # (``_templates/version-switcher.html``) with hardcoded links straight to the
-# published nightly/stable docs, matching the previous nav.js behavior. This
-# label is the version the current build represents, shown on the dropdown.
-#
+# published nightly/stable docs.
 # Three-state detection via DEPLOYMENT_DOCS_BUILD_STABLE:
 #   "true"  → stable  (CI tag build)
 #   "false" → nightly (CI non-tag build; CI always sets the var explicitly)
