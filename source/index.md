@@ -3,9 +3,9 @@ review_priority: "index"
 html_theme.sidebar_secondary.remove: true
 ---
 
-# Deploying RAPIDS
+# NVIDIA RAPIDS Deployment Documentation
 
-Deployment documentation to get you up and running with RAPIDS anywhere.
+NVIDIA RAPIDS deployment documentation helps you get up and running with RAPIDS anywhere.
 
 `````{gridtoctree} 1 2 2 3
 :gutter: 2 2 2 2
