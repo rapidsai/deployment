@@ -4,7 +4,8 @@ version's home page (like the previous nav.js). Because no ``switcher`` theme
 option is set, the theme's switcher JavaScript never runs, so this static menu
 is left untouched. #} {%- set button_id =
 unique_html_id("pst-version-switcher-button") -%} {%- set dropdown_id =
-unique_html_id("pst-version-switcher-list") -%}
+unique_html_id("pst-version-switcher-list") -%} {%- set current =
+deployment_version_label | default("dev") -%}
 <div class="version-switcher__container dropdown pst-js-only">
   <button
     id="{{ button_id }}"
@@ -15,7 +16,7 @@ unique_html_id("pst-version-switcher-list") -%}
     aria-controls="{{ dropdown_id }}"
     aria-label="Version switcher list"
   >
-    {{ deployment_version_label | default("version") }}
+    {{ current }}
     <span class="caret"></span>
   </button>
   <div
@@ -25,18 +26,27 @@ unique_html_id("pst-version-switcher-list") -%}
     aria-labelledby="{{ button_id }}"
   >
     <a
-      class="dropdown-item list-group-item list-group-item-action py-1"
+      class="dropdown-item list-group-item list-group-item-action py-1{% if current == 'nightly' %} active{% endif %}"
       role="option"
       href="https://docs.rapids.ai/deployment/nightly/"
     >
       <span>nightly</span>
     </a>
     <a
-      class="dropdown-item list-group-item list-group-item-action py-1"
+      class="dropdown-item list-group-item list-group-item-action py-1{% if current == 'stable' %} active{% endif %}"
       role="option"
       href="https://docs.rapids.ai/deployment/stable/"
     >
       <span>stable</span>
     </a>
+    {%- if current == 'dev' %}
+    <a
+      class="dropdown-item list-group-item list-group-item-action py-1 active"
+      role="option"
+      href="/"
+    >
+      <span>dev</span>
+    </a>
+    {%- endif %}
   </div>
 </div>

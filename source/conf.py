@@ -146,8 +146,21 @@ html_theme_options = {
 # (``_templates/version-switcher.html``) with hardcoded links straight to the
 # published nightly/stable docs, matching the previous nav.js behavior. This
 # label is the version the current build represents, shown on the dropdown.
+#
+# Three-state detection via DEPLOYMENT_DOCS_BUILD_STABLE:
+#   "true"  → stable  (CI tag build)
+#   "false" → nightly (CI non-tag build; CI always sets the var explicitly)
+#   unset   → dev     (local or ReadTheDocs preview build)
+_stable_env = os.environ.get("DEPLOYMENT_DOCS_BUILD_STABLE")
+if _stable_env == "true":
+    deployment_version_label = "stable"
+elif _stable_env == "false":
+    deployment_version_label = "nightly"
+else:
+    deployment_version_label = "dev"
+
 html_context = {
-    "deployment_version_label": rapids_version["rapids_api_docs_version"],
+    "deployment_version_label": deployment_version_label,
 }
 
 html_sidebars = {
