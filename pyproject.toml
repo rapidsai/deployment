@@ -8,7 +8,7 @@ dependencies = [
     "myst-parser>=4.0.0",
     "nbsphinx>=0.9.5",
     "numpydoc>=1.8.0",
-    "pydata-sphinx-theme>=0.15.4",
+    "nvidia-sphinx-theme",
     "pre-commit>=3.8.0",
     "sphinx>=8.0.2",
     "sphinx-autobuild>=2024.9.19",
