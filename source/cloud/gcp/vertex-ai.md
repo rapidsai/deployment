@@ -25,8 +25,7 @@ Once the instance has started select **OPEN JUPYTER LAB** and at the top of a no
 ```{warning}
 Installing RAPIDS via `pip` in the default environment is [not currently possible](https://github.com/rapidsai/deployment/issues/517), for now you must create a new `conda` environment.
 
-Vertex AI currently ships with CUDA Toolkit 11 system packages as of the [Jan 2025 Vertex AI release](https://cloud.google.com/vertex-ai/docs/release-notes#January_31_2025).
-The default Python environment also contains the `cupy-cuda12x` package. This means it's not possible to install RAPIDS package like `cudf` via `pip` as `cudf-cu12` will conflict with the CUDA Toolkit version but `cudf-cu11` will conflict with the `cupy` version.
+Vertex AI now ships with CUDA 13 system packages, and the default Python environment contains a `cupy-cuda12x` package. Installing RAPIDS via `pip` into that environment conflicts with the preinstalled `cupy`, so create a dedicated `conda` environment (below) instead.
 
 You can find out your current system CUDA Toolkit version by running `ls -ld /usr/local/cuda*`.
 ```
