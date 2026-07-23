@@ -133,7 +133,7 @@ docker run --gpus all -it rapids-pip-base
 ```
 
 :::{important}
-When using `pip`, you must specify the CUDA version in the package name (e.g., `cudf-cu13`, `cuml-cu13`). This ensures you install the version of the library that is compatible with the CUDA toolkit.
+When using `pip`, you must specify the CUDA version in the package name (e.g., `cudf-cu{{ rapids_cuda_major }}`, `cuml-cu{{ rapids_cuda_major }}`). This ensures you install the version of the library that is compatible with the CUDA toolkit.
 :::
 
 ```{note}
@@ -180,7 +180,7 @@ To add packages to the Pip environment, add them to your `requirements.txt` file
 **Example: Adding `scikit-learn` and `lightgbm` to a pip image containing `cudf`**
 
 ```text
-cudf-cu13=={{rapids_pip_version}}
+cudf-cu{{ rapids_cuda_major }}=={{rapids_pip_version}}
 scikit-learn
 lightgbm
 ```
