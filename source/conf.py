@@ -49,9 +49,6 @@ versions = {
         "rapids_cuda_major": cuda_major,
         "rapids_cuda_version_range": stable_cuda_range,
         "rapids_cuda_docker_version": cuda_docker_version,
-        # SageMaker Notebook Instance examples need to stay pinned to an older RAPIDS until this is resolved:
-        # https://github.com/rapidsai/deployment/issues/520
-        "rapids_sagemaker_conda_packages": f"rapids={stable_version} python=3.12 cuda-version=13",
     },
     "nightly": {
         "rapids_version": f"{nightly_version}",
@@ -66,9 +63,6 @@ versions = {
         "rapids_cuda_major": cuda_major,
         "rapids_cuda_version_range": nightly_cuda_range,
         "rapids_cuda_docker_version": cuda_docker_version,
-        # SageMaker Notebook Instance examples need to stay pinned to an older RAPIDS until this is resolved:
-        # https://github.com/rapidsai/deployment/issues/520
-        "rapids_sagemaker_conda_packages": f"rapids={nightly_version} python=3.12 cuda-version=13",
     },
 }
 rapids_version = (
