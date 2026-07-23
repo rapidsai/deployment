@@ -57,7 +57,7 @@ install_uv_commands = [
 ]
 
 ctk_image = modal.Image.from_registry(
-    "nvidia/cuda:{{ rapids_cuda_docker_version }}-runtime-ubuntu24.04",
+    "nvidia/cuda:13.1.1-runtime-ubuntu24.04",
     setup_dockerfile_commands=install_uv_commands,
 ).entrypoint([])  # removes chatty prints on entry
 
