@@ -26,10 +26,15 @@ Navigate to the top-left **Workspace** tab and click on your **Home** directory 
 #!/bin/bash
 set -e
 
+# The Databricks ML runtime preinstalls cupy-cuda12x. RAPIDS CUDA 13 wheels
+# need the matching cupy-cuda13x build, so replace it before installing.
+pip uninstall -y cupy-cuda12x
+
 # Install RAPIDS libraries
 pip install \
     --extra-index-url={{rapids_pip_index}} \
-    "cudf-cu12=={{rapids_pip_version}}" "cuml-cu12=={{rapids_pip_version}}" \
+    "cupy-cuda{{rapids_cuda_major}}x" \
+    "cudf-cu{{rapids_cuda_major}}=={{rapids_pip_version}}" "cuml-cu{{rapids_cuda_major}}=={{rapids_pip_version}}" \
     "dask-cuda=={{rapids_pip_version}}"
 
 ```
