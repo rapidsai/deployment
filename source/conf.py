@@ -59,10 +59,6 @@ versions = {
         "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge",
         "rapids_conda_packages": f"rapids={nightly_version} python={python_version} '{nightly_cuda_range}'",
         "rapids_pip_index": "https://pypi.anaconda.org/rapidsai-wheels-nightly/simple",
-        # Callers pin with '==', so this must stay a bare version. The trailing
-        # '>=0.0.0a0' is an unbounded no-op whose only job is to put a prerelease
-        # marker in the specifier set, which is what makes pip consider nightly
-        # prereleases without needing '--pre'.
         "rapids_pip_version": f"{nightly_version}.*,>=0.0.0a0",
         "rapids_cuda_major": cuda_major,
         "rapids_cuda_version_range": nightly_cuda_range,
