@@ -45,9 +45,11 @@ from the script, the VM will boot and inspect it by running each line of the scr
 to see where it fails.
 ```
 
-```{note}
-AzureML is pinned to **CUDA 12**: its GPU instances ship NVIDIA driver 535.x,
-while CUDA 13 images require driver 580.65.06 or newer.
+```{warning}
+AzureML is pinned to **CUDA 12** as its GPU instances ship NVIDIA driver 535.x,
+while CUDA 13 images require driver 580.65.06 or newer. Driver 535.x has itself
+reached end-of-life and no longer receives updates, so we cannot guarantee that
+the instructions below will work on AzureML.
 ```
 
 ```bash
