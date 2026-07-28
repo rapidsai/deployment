@@ -57,13 +57,13 @@ install_uv_commands = [
 ]
 
 ctk_image = modal.Image.from_registry(
-    "nvidia/cuda:12.9.0-runtime-ubuntu24.04",
+    "nvidia/cuda:13.1.1-runtime-ubuntu24.04",
     setup_dockerfile_commands=install_uv_commands,
 ).entrypoint([])  # removes chatty prints on entry
 
 
 image = ctk_image.uv_pip_install(
-    "cudf-cu12=={{ rapids_version }}",
+    "cudf-cu{{ rapids_cuda_major }}=={{ rapids_version }}",
 ).env({"CUDF_PANDAS_RMM_MODE": "async"})
 
 
