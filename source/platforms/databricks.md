@@ -42,8 +42,8 @@ To get started, navigate to the **All Purpose Compute** tab of the **Compute** s
 
 ![Screenshot of the Databricks compute page](../images/databricks-create-compute.png)
 
-In order to launch a GPU node check the **Machine Learning** box and uncheck the **Use Photon Acceleration** box just below it, then select an LTS runtime with GPU support.
-For example you could select the `18 LTS (includes Apache Spark 4.1.0, GPU, Scala 2.13)` runtime version.
+In order to launch a GPU node check the **Machine Learning** box and uncheck the **Use Photon Acceleration** box just below it, then select a runtime in the dropdown.
+For example you could select the `18 LTS (Scala 2.13, Spark 4.1.0)` runtime version.
 
 The "GPU accelerated" nodes should now be available in the **Node type** dropdown.
 
