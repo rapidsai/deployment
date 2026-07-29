@@ -22,14 +22,6 @@ If you want to select a different GPU or select other hardware options you can s
 
 Once the instance has started select **OPEN JUPYTER LAB** and at the top of a notebook install the RAPIDS libraries you wish to use.
 
-```{warning}
-Installing RAPIDS via `pip` in the default environment is [not currently possible](https://github.com/rapidsai/deployment/issues/517), for now you must create a new `conda` environment.
-
-Vertex AI now ships with CUDA 13 system packages, and the default Python environment contains a `cupy-cuda12x` package. Installing RAPIDS via `pip` into that environment conflicts with the preinstalled `cupy`, so create a dedicated `conda` environment (below) instead.
-
-You can find out your current system CUDA Toolkit version by running `ls -ld /usr/local/cuda*`.
-```
-
 You can create a new RAPIDS conda environment and register it with `ipykernel` for use in Jupyter Lab. Open a new terminal in Jupyter and run the following commands.
 
 ```bash
