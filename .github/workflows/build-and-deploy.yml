@@ -49,8 +49,10 @@ jobs:
         run: echo "VERSION=${{ startsWith(github.event.ref, 'refs/tags/') && 'stable' || 'nightly' }}" >> "$GITHUB_OUTPUT"
 
       - name: Sync HTML files to S3
+        env:
+          VERSION: ${{ steps.set-version.outputs.VERSION }}
         if: ${{ github.repository == 'rapidsai/deployment' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
-        run: aws s3 sync --no-progress --delete build/dirhtml "s3://rapidsai-docs/deployment/html/${{ steps.set-version.outputs.VERSION }}"
+        run: aws s3 sync --no-progress --delete build/dirhtml "s3://rapidsai-docs/deployment/html/${VERSION}"
 
       - name: Publish to docs.nvidia.com
         if: ${{ github.repository == 'rapidsai/deployment' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
@@ -68,5 +70,5 @@ jobs:
           target-aws-region: ${{ secrets.NVIDIA_DOCS_AWS_REGION }}
           target-aws-secret-access-key: ${{ secrets.NVIDIA_DOCS_AWS_SECRET_ACCESS_KEY }}
           target-s3-bucket: ${{ secrets.NVIDIA_DOCS_S3_BUCKET }}
-          target-s3-key-suffix: ${{ steps.set-version.outputs.VERSION }}  # stable or nightly
+          target-s3-key-suffix: ${{ steps.set-version.outputs.VERSION }} # stable or nightly
           target-s3-key: datascience/deployment
