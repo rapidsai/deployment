@@ -26,14 +26,9 @@ Navigate to the top-left **Workspace** tab and click on your **Home** directory 
 #!/bin/bash
 set -e
 
-# The Databricks ML runtime preinstalls cupy-cuda12x. RAPIDS CUDA 13 wheels
-# need the matching cupy-cuda13x build, so replace it before installing.
-pip uninstall -y cupy-cuda12x
-
 # Install RAPIDS libraries
 pip install \
     --extra-index-url={{rapids_pip_index}} \
-    "cupy-cuda{{rapids_cuda_major}}x" \
     "cudf-cu{{rapids_cuda_major}}=={{rapids_pip_version}}" "cuml-cu{{rapids_cuda_major}}=={{rapids_pip_version}}" \
     "dask-cuda=={{rapids_pip_version}}"
 
@@ -47,8 +42,8 @@ To get started, navigate to the **All Purpose Compute** tab of the **Compute** s
 
 ![Screenshot of the Databricks compute page](../images/databricks-create-compute.png)
 
-In order to launch a GPU node uncheck **Use Photon Acceleration** and select any `15.x`, `16.x` or `17.x` ML LTS runtime with GPU support.
-For example for long-term support releases you could select the `15.4 LTS ML (includes Apache Spark 3.5.0, GPU, Scala 2.12)` runtime version.
+In order to launch a GPU node check the **Machine Learning** box and uncheck the **Use Photon Acceleration** box just below it, then select a runtime in the dropdown.
+For example you could select the `18 LTS (Scala 2.13, Spark 4.1.0)` runtime version.
 
 The "GPU accelerated" nodes should now be available in the **Node type** dropdown.
 
