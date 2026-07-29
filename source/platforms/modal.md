@@ -64,6 +64,7 @@ ctk_image = modal.Image.from_registry(
 
 image = ctk_image.uv_pip_install(
     "cudf-cu{{ rapids_cuda_major }}=={{ rapids_pip_version }}",
+    extra_index_url="{{ rapids_pip_index }}",
 ).env({"CUDF_PANDAS_RMM_MODE": "async"})
 
 
