@@ -59,7 +59,7 @@ versions = {
         "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge",
         "rapids_conda_packages": f"rapids={nightly_version} python={python_version} '{nightly_cuda_range}'",
         "rapids_pip_index": "https://pypi.anaconda.org/rapidsai-wheels-nightly/simple",
-        "rapids_pip_version": f"~={nightly_version}.0a0",
+        "rapids_pip_version": f"{nightly_version}.*,>=0.0.0a0",
         "rapids_cuda_major": cuda_major,
         "rapids_cuda_version_range": nightly_cuda_range,
         # AzureML is pinned to CUDA 12 currently (driver 535.x supports only CUDA 12.x).
