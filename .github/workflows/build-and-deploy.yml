@@ -18,7 +18,7 @@ permissions:
   contents: read
 
 jobs:
-  conda:
+  build:
     name: Build (and deploy)
     runs-on: ubuntu-latest
     steps:
@@ -44,8 +44,31 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           role-duration-seconds: 3600 # 1h
 
+      - name: Set version
+        id: set-version
+        run: echo "VERSION=${{ startsWith(github.event.ref, 'refs/tags/') && 'stable' || 'nightly' }}" >> "$GITHUB_OUTPUT"
+
       - name: Sync HTML files to S3
-        if: ${{ github.repository == 'rapidsai/deployment' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
         env:
-          DESTINATION_DIR: ${{ startsWith(github.event.ref, 'refs/tags/') && 'stable' || 'nightly' }}
-        run: aws s3 sync --no-progress --delete build/dirhtml "s3://rapidsai-docs/deployment/html/${DESTINATION_DIR}"
+          VERSION: ${{ steps.set-version.outputs.VERSION }}
+        if: ${{ github.repository == 'rapidsai/deployment' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
+        run: aws s3 sync --no-progress --delete build/dirhtml "s3://rapidsai-docs/deployment/html/${VERSION}"
+
+      - name: Publish to docs.nvidia.com
+        if: ${{ github.repository == 'rapidsai/deployment' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
+        uses: rapidsai/shared-actions/publish-docs@main
+        with:
+          akamai-access-token: ${{ secrets.NVIDIA_DOCS_AKAMAI_ACCESS_TOKEN }}
+          akamai-client-secret: ${{ secrets.NVIDIA_DOCS_AKAMAI_CLIENT_SECRET }}
+          akamai-client-token: ${{ secrets.NVIDIA_DOCS_AKAMAI_CLIENT_TOKEN }}
+          akamai-emails-to-notify: ${{ secrets.NVIDIA_DOCS_AKAMAI_EMAILS_TO_NOTIFY }}
+          akamai-host: ${{ secrets.NVIDIA_DOCS_AKAMAI_HOST }}
+          akamai-request-name: rapidsai-deployment-${{ steps.set-version.outputs.VERSION }}
+          dry-run: false
+          source-path: build/dirhtml
+          target-aws-access-key-id: ${{ secrets.NVIDIA_DOCS_AWS_ACCESS_KEY_ID }}
+          target-aws-region: ${{ secrets.NVIDIA_DOCS_AWS_REGION }}
+          target-aws-secret-access-key: ${{ secrets.NVIDIA_DOCS_AWS_SECRET_ACCESS_KEY }}
+          target-s3-bucket: ${{ secrets.NVIDIA_DOCS_S3_BUCKET }}
+          target-s3-key-suffix: ${{ steps.set-version.outputs.VERSION }} # stable or nightly
+          target-s3-key: datascience/deployment
