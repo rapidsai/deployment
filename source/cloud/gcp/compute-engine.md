@@ -6,11 +6,11 @@ review_priority: "p1"
 
 ## Create Virtual Machine
 
-Create a new [Compute Engine Instance](https://cloud.google.com/compute/docs/instances) with GPUs, the [NVIDIA Driver](https://www.nvidia.co.uk/Download/index.aspx) and the [NVIDIA Container Runtime](https://developer.nvidia.com/nvidia-container-runtime).
+Create a new [Compute Engine Instance](https://console.cloud.google.com/compute/overview) with GPUs, the [NVIDIA Driver](https://www.nvidia.com/drivers/) and the [NVIDIA Container Runtime](https://developer.nvidia.com/nvidia-container-runtime).
 
 NVIDIA maintains a [Virtual Machine Image (VMI) that pre-installs NVIDIA drivers and container runtimes](https://console.cloud.google.com/marketplace/product/nvidia-ngc-public/nvidia-gpu-optimized-vmi), we recommend using this image.
 
-1. Open [**Compute Engine**](https://console.cloud.google.com/compute/instances).
+1. Open [**Compute Engine**](https://console.cloud.google.com/compute/overview).
 1. Select **Create Instance**.
 1. Select the **Create VM from..** option at the top.
 1. Select **Marketplace**.
