@@ -21,6 +21,7 @@ jobs:
   build:
     name: Build (and deploy)
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
@@ -53,6 +54,11 @@ jobs:
           VERSION: ${{ steps.set-version.outputs.VERSION }}
         if: ${{ github.repository == 'rapidsai/deployment' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
         run: aws s3 sync --no-progress --delete build/dirhtml "s3://rapidsai-docs/deployment/html/${VERSION}"
+
+      - name: Download gha-tools with git clone
+        run: |
+          git clone https://github.com/rapidsai/gha-tools.git -b main /tmp/gha-tools
+          echo "/tmp/gha-tools/tools" >> "${GITHUB_PATH}"
 
       - name: Publish to docs.nvidia.com
         if: ${{ github.repository == 'rapidsai/deployment' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
