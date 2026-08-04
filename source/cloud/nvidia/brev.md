@@ -48,65 +48,112 @@ our [Single-cell Analysis Blueprint](https://github.com/NVIDIA-AI-Blueprints/sin
 However, you can use this to create quick-start templates for many different kinds of projects when you want users to
 drop into an environment that is ready to go (e.g. tutorials, workshops, demos, etc.).
 
-You can read more about Brev Launchables in the [Getting Started Guide](https://docs.nvidia.com/brev/latest/launchables-getting-started.html).
+You can read more about Brev Launchables in the [Launchables documentation](https://docs.nvidia.com/brev/concepts/launchables).
 
-1. Go to [Brev’s Launchable Creator](https://brev.nvidia.com/launchables/create) (requires account)
-2. When asked **How would you like to provide your code files?**.
-   - Select "I have code files in a git repository", and provide the link to a GitHub repository, if you have one that you'd like
-     to be mounted in the instance once is up.
-   - Otherwise, select "I don't have any code files".
-3. When asked **What type of runtime environment do you need?** select "With container(s)", and proceed.
+Go to [Brev's Launchable Creator](https://brev.nvidia.com/launchables/create) (requires an account) and follow the instructions for all of the sections below
 
-![Screenshot showing the Brev launchable setup with container](/_static/images/platforms/brev/brev-launchable-setup-start.png)
+#### Details
 
-4. When prompted to **Choose a Container Configuration**, you have two options:
-   1. **"Featured Container"** and select the "NVIDIA RAPIDS" container: For a ready to go environment with the
-      entire RAPIDS stack and Jupyter configured.
-      - Select your desired compute environment. Make sure you select sufficient disk size to download the datasets you
-        want to work with. Note, you will not be able to resize the instance once created.
-      - Create a name for your launchable, and deploy.
-   2. **Docker Compose**: For a custom container that you can tailor to your needs.
-      - You can provide a `docker-compose.yaml` via url o from a local file. In the following template, make sure to
-        replace `<name_of_your_github_repo>` in the `volumes` path, with the name of your repository if you have one. Otherwise,
-        remove the `volumes`entry.
+Give your Launchable a name and, optionally, a description.
 
-      ```yaml
-      services:
-      backend:
-         image: "{{rapids_notebooks_container}}"
-         pull_policy: always
-         ulimits:
-            memlock: -1
-            stack: 67108864
-         shm_size: 1g
-         deploy:
-            resources:
-            reservations:
-               devices:
-                  - driver: nvidia
-                  count: all
-                  capabilities: [gpu]
-         environment:
-            EXTRA_CONDA_PACKAGES: "hdbscan>=0.8.39 umap-learn>=0.5.7" # example of packages
-         ports:
-            - "8888:8888"      # Expose JupyterLab
-         volumes:
-            - /home/ubuntu/<name_of_your_github_repo>:/notebooks/ # e.g tutorial if repo at https://github.com/rapidsai-community/tutorial
-         user: root
-         working_dir: /notebooks
-         entrypoint: ["/home/rapids/entrypoint.sh"]
-         command: python -m jupyter lab --allow-root --ip=127.0.0.1 --no-browser --NotebookApp.token='' --NotebookApp.password='' --notebook-dir=/notebooks
-         restart: unless-stopped
-      ```
+#### Default Hardware Configuration
 
-      - Click "Validate".
-      - Select your desired compute environment. Make sure you select sufficient disk size to download the datasets you
-        want to work with. Note, you will not be able to resize the instance once created.
-      - On the next page, when asked **Do you want a Jupyter Notebook experience?** select **No, I don't want Jupyter**. This
-        is because the RAPIDS notebook container already have Jupyter setup. For convenience name the Secure Link to jupyter.
+Choose a GPU instance type and set the disk storage. People deploying your Launchable can pick a different
+configuration, so this is the default rather than a fixed choice.
 
-      ![Screenshot showing the Brev launchable Jupyter experience setup](/_static/images/platforms/brev/brev-launchable-jupyter-setup-docker-compose.png)
-      - Create a name for your launchable, and deploy.
+![Screenshot of the "Default hardware configuration" UI](/_static/images/platforms/brev/brev-launchable-hardware-config.png)
+
+#### Software Configuration
+
+Select Docker Compose, then provide a `docker-compose.yaml` by URL or from a local file, which gets validated.
+
+In the template below, if you are working with a repository, replace `<name_of_your_github_repo>` in the `volumes` entry below with the name of your repository. See the Source section below for more details.
+
+Leave **Install Jupyter on the host** turned off. It installs a separate JupyterLab on the instance on port `8888`, the same port the container publishes, and the RAPIDS container already serves JupyterLab with the example notebooks.
+
+```yaml
+services:
+  jupyter:
+    image: "{{rapids_notebooks_container}}"
+    pull_policy: always
+    ulimits:
+      memlock: -1
+      stack: 67108864
+    shm_size: 1g
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      - EXTRA_CONDA_PACKAGES # Value comes from a launch parameter of the same name
+    ports:
+      - "8888:8888" # Expose JupyterLab
+    volumes:
+      # Repo cloned by the Source section, mounted alongside the example notebooks.
+      # Remove this entry if you are not adding a repository.
+      - /home/ubuntu/<name_of_your_github_repo>:/home/rapids/notebooks/<name_of_your_github_repo>
+    user: root
+    command: jupyter-lab --notebook-dir=/home/rapids/notebooks --ip=0.0.0.0 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.allow_origin='*'
+    restart: unless-stopped
+```
+
+![Screenshot of the "Software configuration" UI with "Docker Compose" selected](/_static/images/platforms/brev/brev-launchable-software-config.png)
+
+#### Source
+
+Choose how to provide code files: no code files, a public git repository, or code already embedded in your container.
+
+A git repository is cloned onto the instance at `/home/ubuntu/<name_of_your_github_repo>`, not into the container. To make it visible in JupyterLab, mount it alongside the example notebooks using the `volumes` entry shown above, replacing `<name_of_your_github_repo>` with the name of your repository. Remove the `volumes` entry if you are not adding a repository.
+
+![Screenshot of the "Source" UI with "I have code files in a git repository" selected](/_static/images/platforms/brev/brev-launchable-source.png)
+
+#### Network
+
+Add a Secure Link for port `8888`. This gives JupyterLab a public URL fronted by NVIDIA authentication. The Secure
+Link name becomes part of that URL, so a name like `jupyter` is easier to recognise later.
+
+![Screenshot of the "Network" UI with a Secure Link on port 8888](/_static/images/platforms/brev/brev-launchable-network.png)
+
+#### Launch Parameters
+
+This is an optional step. Launch parameters collect values when someone deploys your Launchable and expose them as environment variables during container startup.
+
+This is useful for adding your own libraries to the container via `EXTRA_CONDA_PACKAGES`. Add a launch parameter of that name, set any defaults as you see fit, and then list the variable by name in the compose file so its value is passed into the container. While deploying your Launchable, you can then install extra packages each time without editing the Launchable itself:
+
+```yaml
+environment:
+  - EXTRA_CONDA_PACKAGES
+```
+
+![Screenshot of the "Launch parameters" UI with an EXTRA_CONDA_PACKAGES parameter](/_static/images/platforms/brev/brev-launchable-launch-parameters.png)
+
+#### View Access
+
+Choose whether the Launchable is visible to your organization or to anyone with the link.
+Then create the Launchable.
+
+![Screenshot of the "View access" UI](/_static/images/platforms/brev/brev-launchable-view-access.png)
+
+#### Deploying the Launchable
+
+Once created, the Launchable has its own page, which is where you can deploy an instance from and share it for broader use. From there you can change the instance type, adjust the storage, fill in any launch parameters, name the instance, and deploy.
+
+```{figure} /_static/images/platforms/brev/brev-launchable-deploy.png
+---
+alt: Screenshot of the Launchable page showing instance type, setup values, and the "Deploy Launchable" button
+width: 410px
+align: center
+---
+```
+
+```{note}
+The Launchable reports that the build has finished before JupyterLab is ready. The container still has to start, and
+any packages in `EXTRA_CONDA_PACKAGES` are installed before JupyterLab launches, so the Secure Link can take a minute
+or two longer to show the Jupyterlab UI.
+```
 
 ## Accessing your instance
 
