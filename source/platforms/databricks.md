@@ -11,6 +11,8 @@ You can install RAPIDS on Databricks in a few different ways:
 3. Spark users can install [RAPIDS Accelerator for Apache Spark 3.x on Databricks](https://docs.nvidia.com/spark-rapids/user-guide/latest/getting-started/databricks.html)
 4. Install Dask alongside Spark and then use libraries like `dask-cudf` for multi-node workloads
 
+(classic-gpu-compute)=
+
 ## Classic GPU compute
 
 (create-init-script)=
@@ -55,6 +57,8 @@ Then expand the **Advanced Options** section, open the **Init Scripts** tab and 
 ![Screenshot of init script path](../images/databricks-dask-init-script.png)
 
 Select **Create Compute**
+
+(serverless-gpu-compute)=
 
 ## Serverless GPU compute
 
