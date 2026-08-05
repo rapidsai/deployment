@@ -82,6 +82,16 @@ Run RAPIDS on Google Colab.
 ````
 
 ````{grid-item-card}
+:link: kaggle
+:link-type: doc
+Kaggle
+^^^
+Run RAPIDS in a Kaggle GPU notebook.
+
+{bdg}`single-node`
+````
+
+````{grid-item-card}
 :link: snowflake
 :link-type: doc
 Snowflake
