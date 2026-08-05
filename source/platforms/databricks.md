@@ -32,9 +32,7 @@ set -e
 # Install RAPIDS libraries
 pip install \
     --extra-index-url={{rapids_pip_index}} \
-    "cudf-cu{{rapids_cuda_major}}=={{rapids_pip_version}}" "cuml-cu{{rapids_cuda_major}}=={{rapids_pip_version}}" \
-    "dask-cuda=={{rapids_pip_version}}"
-
+    "cudf-cu{{rapids_cuda_major}}=={{rapids_pip_version}}" "cuml-cu{{rapids_cuda_major}}=={{rapids_pip_version}}"
 ```
 
 (launch-databricks-cluster)=
@@ -97,8 +95,7 @@ Install the RAPIDS libraries into your notebook environment.
 ```python
 %pip install \
     --extra-index-url={{rapids_pip_index}} \
-    "cudf-cu{{rapids_cuda_major}}=={{rapids_pip_version}}" "cuml-cu{{rapids_cuda_major}}=={{rapids_pip_version}}" \
-    "dask-cuda=={{rapids_pip_version}}"
+    "cudf-cu{{rapids_cuda_major}}=={{rapids_pip_version}}" "cuml-cu{{rapids_cuda_major}}=={{rapids_pip_version}}"
 ```
 
 Then restart the Python process so that the new packages are picked up.
@@ -153,5 +150,3 @@ df = pd.read_parquet(
 ```
 
 Upload the [10 Minutes to RAPIDS cuDF Pandas notebook](https://colab.research.google.com/drive/12tCzP94zFG2BRduACucn5Q_OcX1TUKY3) into your Databricks workspace and run through the cells.
-
-**NOTE**: cuDF pandas is open beta and under active development. You can [learn more through the documentation](https://docs.rapids.ai/api/cudf/~~~rapids_api_docs_version~~~/?_gl=1*1oyfbsi*_ga*MTc5NDYzNzYyNC4xNjgzMDc2ODc2*_ga_RKXFW6CM42*MTcwNTU4NDUyNS4yMC4wLjE3MDU1ODQ1MjUuNjAuMC4w) and the [release blog](https://developer.nvidia.com/blog/rapids-cudf-accelerates-pandas-nearly-150x-with-zero-code-changes/).
