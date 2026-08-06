@@ -59,17 +59,18 @@ You can create a RAPIDS software environment using a conda `environment.yaml` fi
 
 Create an environment file containing the RAPIDS packages
 
+<!-- prettier-ignore -->
 ```yaml
 # rapids-environment.yaml
 name: rapidsai-notebooks
 channels:
-  - { { rapids_conda_channel } }
+  - {{ rapids_conda_channel }}
   - conda-forge
 dependencies:
   # RAPIDS packages
   - rapids={{ rapids_version }}
   - python=3.12
-  - cuda-version>=12.0,<=12.9
+  - {{ rapids_cuda_version_range }}
   # (optional) Jupyter packages, necessary for Coiled Notebooks and Dask clusters with Jupyter enabled
   - jupyterlab
   - jupyterlab-nvdashboard
@@ -129,7 +130,7 @@ $ coiled notebook start --gpu --container {{ rapids_notebooks_container }}
 Note that the `--gpu` flag will automatically select a `g4dn.xlarge` instance with a T4 GPU on AWS. You could additionally add the `--vm-type` flag to explicitly choose another machine type with different GPU configuration. For example to choose a machine with 4 L4 GPUs you would run the following.
 
 ```bash
-$ coiled notebook start --gpu --vm-type g6.24xlarge --container nvcr.io/nvidia/rapidsai/notebooks:24.12-cuda12.5-py3.12
+$ coiled notebook start --gpu --vm-type g6.24xlarge --container {{ rapids_notebooks_container }}
 ```
 
 ## Dask Clusters

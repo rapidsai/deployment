@@ -43,7 +43,7 @@ sudo -u ec2-user -i <<'EOF'
 
 eval "$(conda shell.bash hook)"
 
-conda create -y -n rapids {{ rapids_conda_channels }} {{ rapids_sagemaker_conda_packages }} boto3 ipykernel sagemaker-python-sdk
+conda create -y -n rapids {{ rapids_conda_channels }} {{ rapids_conda_packages }} boto3 ipykernel sagemaker-python-sdk
 conda activate rapids
 
 python -m ipykernel install --user --name rapids --env CONDA_PREFIX "$CONDA_PREFIX"
