@@ -6,11 +6,14 @@ review_priority: "p0"
 
 You can install RAPIDS on Databricks in a few different ways:
 
-1. Accelerate machine learning workflows in a single-node GPU notebook environment
-2. Spark users can install [RAPIDS Accelerator for Apache Spark 3.x on Databricks](https://docs.nvidia.com/spark-rapids/user-guide/latest/getting-started/databricks.html)
-3. Install Dask alongside Spark and then use libraries like `dask-cudf` for multi-node workloads
+1. Accelerate machine learning workflows in a single-node GPU notebook environment on [classic compute](classic-gpu-compute)
+2. Accelerate machine learning workflows in a single-node GPU notebook environment on [serverless GPU compute](serverless-gpu-compute)
+3. Spark users can install [RAPIDS Accelerator for Apache Spark 3.x on Databricks](https://docs.nvidia.com/spark-rapids/user-guide/latest/getting-started/databricks.html)
+4. Install Dask alongside Spark and then use libraries like `dask-cudf` for multi-node workloads
 
-## Single-node GPU Notebook environment
+(classic-gpu-compute)=
+
+## Classic GPU compute
 
 (create-init-script)=
 
@@ -29,9 +32,7 @@ set -e
 # Install RAPIDS libraries
 pip install \
     --extra-index-url={{rapids_pip_index}} \
-    "cudf-cu12=={{rapids_pip_version}}" "cuml-cu12=={{rapids_pip_version}}" \
-    "dask-cuda=={{rapids_pip_version}}"
-
+    "cudf-cu{{rapids_cuda_major}}=={{rapids_pip_version}}" "cuml-cu{{rapids_cuda_major}}=={{rapids_pip_version}}"
 ```
 
 (launch-databricks-cluster)=
@@ -42,8 +43,8 @@ To get started, navigate to the **All Purpose Compute** tab of the **Compute** s
 
 ![Screenshot of the Databricks compute page](../images/databricks-create-compute.png)
 
-In order to launch a GPU node uncheck **Use Photon Acceleration** and select any `15.x`, `16.x` or `17.x` ML LTS runtime with GPU support.
-For example for long-term support releases you could select the `15.4 LTS ML (includes Apache Spark 3.5.0, GPU, Scala 2.12)` runtime version.
+In order to launch a GPU node check the **Machine Learning** box and uncheck the **Use Photon Acceleration** box just below it, then select a runtime in the dropdown.
+For example you could select the `18 LTS (Scala 2.13, Spark 4.1.0)` runtime version.
 
 The "GPU accelerated" nodes should now be available in the **Node type** dropdown.
 
@@ -55,9 +56,57 @@ Then expand the **Advanced Options** section, open the **Init Scripts** tab and 
 
 Select **Create Compute**
 
-### Test RAPIDS
+(serverless-gpu-compute)=
 
-Once your cluster has started, you can create a new notebook or open an existing one from the `/Workspace` directory then attach it to your running cluster.
+## Serverless GPU compute
+
+[Serverless GPU compute](https://docs.databricks.com/aws/en/compute/serverless/gpu) gives you a single-node GPU notebook with no cluster to create and no init script to maintain. Databricks provisions the GPU on demand when you attach a notebook to it.
+
+Because there is no cluster to configure, the [init script](create-init-script) approach above does not apply. Install RAPIDS from inside the notebook instead.
+
+```{note}
+Serverless GPU compute is in public preview and is only available in [certain regions](https://docs.databricks.com/aws/en/compute/serverless/gpu).
+```
+
+### Connect a notebook
+
+Open a notebook, click the compute dropdown at the top and select **Serverless GPU**.
+
+![Screenshot of selecting Serverless GPU from the notebook compute dropdown](../images/databricks-serverless-select-compute.png)
+
+From the submenu select **Configuration** to open the configuration side panel. Under **Hardware** set **Accelerator** to `1xA10`, and under **Environment** set **Base environment** to **Standard v5**. Then click **Apply** and **Confirm**.
+
+```{figure} /images/databricks-serverless-environment-panel.png
+---
+alt: Screenshot of the Environment side panel
+width: 50%
+align: center
+---
+```
+
+```{note}
+Choose the **Standard** environment rather than the **AI** environment. The AI environment preinstalls `cupy-cuda12x`, which conflicts with the `cupy-cuda13x` build that the RAPIDS CUDA {{rapids_cuda_major}} wheels depend on.
+```
+
+### Install RAPIDS
+
+Install the RAPIDS libraries into your notebook environment.
+
+```python
+%pip install \
+    --extra-index-url={{rapids_pip_index}} \
+    "cudf-cu{{rapids_cuda_major}}=={{rapids_pip_version}}" "cuml-cu{{rapids_cuda_major}}=={{rapids_pip_version}}"
+```
+
+Then restart the Python process so that the new packages are picked up.
+
+```python
+%restart_python
+```
+
+## Test RAPIDS
+
+You can run the following code snippet to verify that the RAPIDS libraries are installed successfully on your choice of compute.
 
 ```python
 import cudf
@@ -70,7 +119,7 @@ gdf
 2   3   6
 ```
 
-#### Quickstart with cuDF Pandas
+## Quickstart with cuDF Pandas
 
 RAPIDS recently introduced cuDF’s [pandas accelerator mode](https://rapids.ai/cudf-pandas/) to accelerate existing pandas workflows with zero changes to code.
 
@@ -100,6 +149,4 @@ df = pd.read_parquet(
 )
 ```
 
-Upload the [10 Minutes to RAPIDS cuDF Pandas notebook](https://colab.research.google.com/drive/12tCzP94zFG2BRduACucn5Q_OcX1TUKY3) in your single-node Databricks cluster and run through the cells.
-
-**NOTE**: cuDF pandas is open beta and under active development. You can [learn more through the documentation](https://docs.rapids.ai/api/cudf/~~~rapids_api_docs_version~~~/?_gl=1*1oyfbsi*_ga*MTc5NDYzNzYyNC4xNjgzMDc2ODc2*_ga_RKXFW6CM42*MTcwNTU4NDUyNS4yMC4wLjE3MDU1ODQ1MjUuNjAuMC4w) and the [release blog](https://developer.nvidia.com/blog/rapids-cudf-accelerates-pandas-nearly-150x-with-zero-code-changes/).
+Upload the [10 Minutes to RAPIDS cuDF Pandas notebook](https://colab.research.google.com/drive/12tCzP94zFG2BRduACucn5Q_OcX1TUKY3) into your Databricks workspace and run through the cells.

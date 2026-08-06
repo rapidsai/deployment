@@ -118,3 +118,11 @@ div.admonition.admonition-docref > .admonition-title::after {
   background-color: #348653;
   border-left: 0.5em #348653 solid;
 }
+
+.bd-sidebar-secondary:empty {
+  display: none;
+}
+
+.tagwrapper a {
+  text-decoration: none;
+}
