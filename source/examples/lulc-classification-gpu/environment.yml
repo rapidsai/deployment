@@ -1,0 +1,30 @@
+name: rapids-lulc
+channels:
+  - rapidsai
+  - conda-forge
+  - nvidia
+dependencies:
+  - python=3.13
+  - cuda-version>=13.0,<=13.2
+  - rapids=26.08
+  - dask-cuda
+  # Geospatial stack - not included in the base RAPIDS distribution
+  - cupy-xarray
+  - xarray
+  - zarr
+  - rioxarray
+  - rasterio
+  - geopandas
+  - shapely
+  - pyproj
+  - stackstac
+  - pystac-client
+  - planetary-computer
+  - rio-cogeo
+  # Metrics, plotting and notebook tooling
+  - scikit-learn
+  - matplotlib
+  - seaborn
+  - boto3
+  - ipykernel
+  - jupyterlab-nvdashboard
