@@ -1,0 +1,43 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Minneapolis",
+        "note": "Urban AOI, dominated by the Built area class. UTM zone 15N."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-93.42, 44.85],
+            [-93.09, 44.85],
+            [-93.09, 45.06],
+            [-93.42, 45.06],
+            [-93.42, 44.85]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hudson Valley",
+        "note": "Land-cover diverse AOI covering the Catskills, the Hudson River and the Ashokan Reservoir near Kingston, NY. Supplies Trees, Water, Crops and Rangeland. UTM zone 18N."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-74.15, 41.86],
+            [-73.9, 41.86],
+            [-73.9, 42.02],
+            [-74.15, 42.02],
+            [-74.15, 41.86]
+          ]
+        ]
+      }
+    }
+  ]
+}
