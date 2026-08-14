@@ -6,9 +6,11 @@ channels:
 dependencies:
   - python=3.13
   - cuda-version>=13.0,<=13.2
-  - rapids=26.08
-  - dask-cuda
-  # Geospatial stack - not included in the base RAPIDS distribution
+  - cudf=26.08
+  - cuml=26.08
+  - dask-cuda=26.08
+  - cupy
+  # Geospatial stack
   - cupy-xarray
   - xarray
   - zarr
