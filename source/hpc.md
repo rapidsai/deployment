@@ -334,11 +334,11 @@ python -m cudf.pandas my_script.py
 sbatch rapids_job.sh
 ```
 
- ## Orchestrating Pipelines
+## Orchestrating Pipelines
 
-  The workflows above submit one job at a time by hand. For multi-stage pipelines, for example CPU preprocessing followed by GPU training, [dagster-slurm](https://github.com/ascii-supply-networks/dagster-slurm) runs [Dagster](https://dagster.io/) assets as `sbatch` jobs over SSH: it packs your   Python environment with [pixi-pack](https://github.com/Quantco/pixi-pack), ships it to the cluster, submits each stage with its own resources (`gpus_per_node`, memory, wall time), and streams logs and results back into the Dagster UI.
-  It needs nothing on the cluster beyond SSH and `sbatch`, so it works without containers or admin access.
-  See the [GPU topic modeling on HPC](/examples/rapids-topic-modeling-slurm/notebook) example for a complete RAPIDS pipeline with cuML UMAP and HDBSCAN stages.
+The workflows above submit one job at a time by hand. For multi-stage pipelines, for example CPU preprocessing followed by GPU training, [dagster-slurm](https://github.com/ascii-supply-networks/dagster-slurm) runs [Dagster](https://dagster.io/) assets as `sbatch` jobs over SSH: it packs your Python environment with [pixi-pack](https://github.com/Quantco/pixi-pack), ships it to the cluster, submits each stage with its own resources (`gpus_per_node`, memory, wall time), and streams logs and results back into the Dagster UI.
+It needs nothing on the cluster beyond SSH and `sbatch`, so it works without containers or admin access.
+See the [GPU topic modeling on HPC](/examples/rapids-topic-modeling-slurm/notebook) example for a complete RAPIDS pipeline with cuML UMAP and HDBSCAN stages.
 
 ```{relatedexamples}
 
