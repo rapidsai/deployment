@@ -140,6 +140,7 @@ html_theme_options = {
             "type": "fontawesome",
         },
     ],
+    "public_docs_features": os.environ.get("CI") == "true",
     "external_links": [
         {"name": "Docs Home", "url": "https://docs.rapids.ai/"},
     ],
