@@ -148,9 +148,11 @@ markdownlint.............................................................Passed
 
 ## Releasing
 
-This repository is continuously deployed to the [nightly docs at docs.rapids.ai](https://docs.rapids.ai/deployment/nightly/) via the [build-and-deploy](https://github.com/rapidsai/deployment/blob/main/.github/workflows/build-and-deploy.yml) workflow. All commits to main are built to static HTML and pushed to the [`deployment/nightly` subdirectory in the rapidsai/docs repo](https://github.com/rapidsai/docs/tree/gh-pages/deployment) which in turn is published to GitHub Pages.
+This repository is continuously deployed via the [build-and-deploy](https://github.com/rapidsai/deployment/blob/main/.github/workflows/build-and-deploy.yml) workflow. Every commit to `main` is built to static HTML and published to the [latest documentation at docs.nvidia.com](https://docs.nvidia.com/datascience/deployment/latest/).
 
-We can also update the [stable documentation at docs.rapids.ai](https://docs.rapids.ai/deployment/stable/) by creating and pushing a tag which will cause the `build-and-deploy` workflow to push to the [`deployment/stable` subdirectory](https://github.com/rapidsai/docs/tree/gh-pages/deployment) instead.
+Pushing a release tag (`vYY.MM.PP`, for example `v26.08.00`) builds that commit with the stable configuration and publishes it to `https://docs.nvidia.com/datascience/deployment/YY.MM/`. Released versions stay available side by side and the version switcher in the navigation bar moves between them. Alpha tags (`vYY.MM.PPa`) do not publish anything. The switcher data (`versions.json`) and the publish target are produced by the build itself, see `extensions/rapids_docs_publishing.py`; the workflow only uploads them.
+
+The old `docs.rapids.ai/deployment/{stable,nightly}/` URLs redirect to the latest documentation on docs.nvidia.com. Those redirects live in the [rapidsai/docs](https://github.com/rapidsai/docs) repository (`_redirects`).
 
 The RAPIDS versions for things like container images and install instructions are templated into the documentation pages and are stored in `source/conf.py`.
 
@@ -183,23 +185,39 @@ In those cases, use `~~~` with no spaces, like this:
 For more, see the docs on [dask-cuda](https://docs.rapids.ai/api/dask-cuda/~~~rapids_api_docs_version~~~/install.html)
 ```
 
-All builds will use the nightly section by default which allows you to test with the latest and greatest containers when developing locally or previewing nightly docs builds. To build the docs using the stable images you need to set the environment variable `DEPLOYMENT_DOCS_BUILD_STABLE` to `true`. This is done automatically when building from a tag in CI.
+All builds will use the nightly section by default which allows you to test with the latest and greatest containers when developing locally or previewing nightly docs builds. To build the docs using the stable images you need to set the environment variable `DEPLOYMENT_DOCS_BUILD_STABLE` to `true`. This is done automatically when building from a tag in CI. The version switcher in the navigation bar only appears in CI builds (the workflow sets `RAPIDS_DOCS_PUBLISH=true`). Local and preview builds leave it out because the browser would refuse to load `versions.json` from docs.nvidia.com across origins.
+
+To reproduce a CI build locally, including the `build/publish` directory with `versions.json`, run:
+
+```bash
+RAPIDS_DOCS_PUBLISH=true RAPIDS_DOCS_RELEASE_TAGS="$(git tag --list)" uv run make dirhtml SPHINXOPTS="-W --keep-going -n"
+```
 
 Before you publish a new version for a release ensure that the latest container images are available and then update the `stable` config to use the new release version and update `nightly` to use the next upcoming nightly.
 
-Then you can push a tag to release.
+Then push a release tag. The tag must have the form `vYY.MM.PP` for the workflow to publish it.
 
 ```bash
-# Set next version number
+# Set the release version
 # See https://docs.rapids.ai/resources/versions/ and past releases for version scheme
-export RELEASE=x.x.x
+export RELEASE=vYY.MM.00
 
-# Create tags
-git commit --allow-empty -m "Release $RELEASE"
+# Create the tag
 git tag -a $RELEASE -m "Version $RELEASE"
 
 # Push
-git push upstream --tags
+git push upstream $RELEASE
+```
+
+### Fixing a released version
+
+To correct the documentation of a release that has already been published, branch from its tag, commit the fix and push a new patch tag. The patch number is dropped from the published path, so `v26.08.01` republishes `https://docs.nvidia.com/datascience/deployment/26.08/`.
+
+```bash
+git checkout -b fix-26.08 v26.08.00
+# ... commit the fix ...
+git tag -a v26.08.01 -m "Version v26.08.01"
+git push upstream v26.08.01
 ```
 
 ## Developer Certificate of Origin
