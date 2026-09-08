@@ -255,7 +255,7 @@ enroot import --output rapids.sqsh 'docker://{{ rapids_container.replace("/", "#
 
 ## Run a Single GPU Job
 
-[cudf.pandas](https://docs.rapids.ai/api/cudf/stable/cudf_pandas/) lets you
+[cudf.pandas](https://docs.nvidia.com/cudf/latest/cudf_pandas/) lets you
 accelerate existing pandas code on a GPU with no code changes. You run your
 script with `python -m cudf.pandas` instead of `python` and pandas operations
 are automatically dispatched to the GPU.

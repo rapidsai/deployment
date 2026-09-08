@@ -121,7 +121,7 @@ gdf
 
 ## Quickstart with cuDF Pandas
 
-RAPIDS recently introduced cuDF’s [pandas accelerator mode](https://rapids.ai/cudf-pandas/) to accelerate existing pandas workflows with zero changes to code.
+RAPIDS recently introduced cuDF’s [pandas accelerator mode](https://docs.nvidia.com/cudf/latest/cudf_pandas/) to accelerate existing pandas workflows with zero changes to code.
 
 Using `cudf.pandas` in Databricks on a single-node can offer significant performance improvements over traditional pandas when dealing with large datasets; operations are optimized to run on the GPU (cuDF) whenever possible, seamlessly falling back to the CPU (pandas) when necessary, with synchronization happening in the background.
 
