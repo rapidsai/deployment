@@ -98,6 +98,7 @@ extensions = [
     "rapids_grid_toctree",
     "rapids_version_templating",
     "rapids_admonitions",
+    "rapids_docs_publishing",
     "sphinx_reredirects",
     "sphinx_llm.txt",
 ]
@@ -154,24 +155,15 @@ html_theme_options = {
     ],
 }
 
-# The navbar version switcher is a static template override
-# (``_templates/version-switcher.html``) with hardcoded links straight to the
-# published nightly/stable docs.
-# Three-state detection via DEPLOYMENT_DOCS_BUILD_STABLE:
-#   "true"  → stable  (CI tag build)
-#   "false" → nightly (CI non-tag build; CI always sets the var explicitly)
-#   unset   → dev     (local or ReadTheDocs preview build)
-_stable_env = os.environ.get("DEPLOYMENT_DOCS_BUILD_STABLE")
-if _stable_env == "true":
-    deployment_version_label = "stable"
-elif _stable_env == "false":
-    deployment_version_label = "nightly"
-else:
-    deployment_version_label = "dev"
-
-html_context = {
-    "deployment_version_label": deployment_version_label,
-}
+# Publishing to docs.nvidia.com and the navbar version switcher, handled by
+# extensions/rapids_docs_publishing.py. Only CI builds publish or get the
+# switcher; the workflow turns both on by setting RAPIDS_DOCS_PUBLISH=true.
+# The switcher lists releases from rapids_docs_first_version upward.
+rapids_docs_publishing = os.environ.get("RAPIDS_DOCS_PUBLISH")
+rapids_docs_url = "https://docs.nvidia.com/datascience/deployment"
+rapids_docs_first_version = "26.08"
+rapids_docs_latest_version = nightly_version
+rapids_docs_release_tags = os.environ.get("RAPIDS_DOCS_RELEASE_TAGS", "").split()
 
 html_sidebars = {
     "examples/index": ["sidebar-nav-bs", "notebooks-tag-filter"],

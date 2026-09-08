@@ -2,11 +2,17 @@ name: Build and deploy
 on:
   push:
     tags:
-      - "*"
+      - "v[0-9][0-9].[0-9][0-9].[0-9][0-9]"
     branches:
       - main
   pull_request:
   workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "dry-run: build and log what would be published without uploading or flushing the CDN"
+        required: false
+        type: boolean
+        default: false
 
 # Required shell entrypoint to have properly activated conda environments
 defaults:
@@ -17,9 +23,19 @@ permissions:
   id-token: write
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+env:
+  DEPLOYMENT_DOCS_BUILD_STABLE: ${{ github.ref_type == 'tag' && 'true' || 'false' }}
+  RAPIDS_DOCS_PUBLISH: "true"
+  DRY_RUN: ${{ inputs.dry-run || false }}
+  PUBLISH: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && (github.ref == 'refs/heads/main' || github.ref_type == 'tag') }}
+
 jobs:
   build:
     name: Build (and deploy)
+    if: ${{ github.repository == 'rapidsai/deployment' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -33,35 +49,21 @@ jobs:
         with:
           enable-cache: false
 
+      # the release tags feed the version switcher data (see extensions/rapids_docs_publishing.py)
       - name: Build
-        env:
-          DEPLOYMENT_DOCS_BUILD_STABLE: ${{ startsWith(github.event.ref, 'refs/tags/') && 'true' || 'false' }}
-        run: uv run make dirhtml SPHINXOPTS="-W --keep-going -n"
+        run: RAPIDS_DOCS_RELEASE_TAGS="$(git tag --list)" uv run make dirhtml SPHINXOPTS="-W --keep-going -n"
 
-      - uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4.3.1
-        if: ${{ github.repository == 'rapidsai/deployment' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
-        with:
-          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION }}
-          role-duration-seconds: 3600 # 1h
-
-      - name: Set version
-        id: set-version
-        run: echo "VERSION=${{ startsWith(github.event.ref, 'refs/tags/') && 'stable' || 'nightly' }}" >> "$GITHUB_OUTPUT"
-
-      - name: Sync HTML files to S3
-        env:
-          VERSION: ${{ steps.set-version.outputs.VERSION }}
-        if: ${{ github.repository == 'rapidsai/deployment' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
-        run: aws s3 sync --no-progress --delete build/dirhtml "s3://rapidsai-docs/deployment/html/${VERSION}"
+      - name: Read publish manifest
+        id: publish
+        run: cat build/publish/publish.env | tee -a "${GITHUB_OUTPUT}"
 
       - name: Download gha-tools with git clone
         run: |
           git clone https://github.com/rapidsai/gha-tools.git -b main /tmp/gha-tools
           echo "/tmp/gha-tools/tools" >> "${GITHUB_PATH}"
 
-      - name: Publish to docs.nvidia.com
-        if: ${{ github.repository == 'rapidsai/deployment' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
+      - name: Publish docs to docs.nvidia.com/datascience/deployment/${{ steps.publish.outputs.TARGET }}
+        if: ${{ env.PUBLISH == 'true' }}
         uses: rapidsai/shared-actions/publish-docs@main
         with:
           akamai-access-token: ${{ secrets.NVIDIA_DOCS_AKAMAI_ACCESS_TOKEN }}
@@ -69,12 +71,30 @@ jobs:
           akamai-client-token: ${{ secrets.NVIDIA_DOCS_AKAMAI_CLIENT_TOKEN }}
           akamai-emails-to-notify: ${{ secrets.NVIDIA_DOCS_AKAMAI_EMAILS_TO_NOTIFY }}
           akamai-host: ${{ secrets.NVIDIA_DOCS_AKAMAI_HOST }}
-          akamai-request-name: rapidsai-deployment-${{ steps.set-version.outputs.VERSION }}
-          dry-run: false
+          akamai-request-name: rapidsai-deployment-${{ github.run_id }}-${{ steps.publish.outputs.TARGET }}
+          dry-run: ${{ env.DRY_RUN }}
           source-path: build/dirhtml
           target-aws-access-key-id: ${{ secrets.NVIDIA_DOCS_AWS_ACCESS_KEY_ID }}
           target-aws-region: ${{ secrets.NVIDIA_DOCS_AWS_REGION }}
           target-aws-secret-access-key: ${{ secrets.NVIDIA_DOCS_AWS_SECRET_ACCESS_KEY }}
           target-s3-bucket: ${{ secrets.NVIDIA_DOCS_S3_BUCKET }}
-          target-s3-key-suffix: ${{ steps.set-version.outputs.VERSION }} # stable or nightly
+          target-s3-key-suffix: ${{ steps.publish.outputs.TARGET }} # latest or YY.MM
+          target-s3-key: datascience/deployment
+
+      - name: Publish versions.json
+        if: ${{ env.PUBLISH == 'true' && steps.publish.outputs.VERSIONS_JSON == 'true' }}
+        uses: rapidsai/shared-actions/publish-one-doc@main
+        with:
+          akamai-access-token: ${{ secrets.NVIDIA_DOCS_AKAMAI_ACCESS_TOKEN }}
+          akamai-client-secret: ${{ secrets.NVIDIA_DOCS_AKAMAI_CLIENT_SECRET }}
+          akamai-client-token: ${{ secrets.NVIDIA_DOCS_AKAMAI_CLIENT_TOKEN }}
+          akamai-emails-to-notify: ${{ secrets.NVIDIA_DOCS_AKAMAI_EMAILS_TO_NOTIFY }}
+          akamai-host: ${{ secrets.NVIDIA_DOCS_AKAMAI_HOST }}
+          akamai-request-name: rapidsai-deployment-${{ github.run_id }}-versions-json
+          dry-run: ${{ env.DRY_RUN }}
+          file-path: build/publish/versions.json
+          target-aws-access-key-id: ${{ secrets.NVIDIA_DOCS_AWS_ACCESS_KEY_ID }}
+          target-aws-region: ${{ secrets.NVIDIA_DOCS_AWS_REGION }}
+          target-aws-secret-access-key: ${{ secrets.NVIDIA_DOCS_AWS_SECRET_ACCESS_KEY }}
+          target-s3-bucket: ${{ secrets.NVIDIA_DOCS_S3_BUCKET }}
           target-s3-key: datascience/deployment

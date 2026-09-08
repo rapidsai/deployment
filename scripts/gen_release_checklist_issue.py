@@ -18,7 +18,7 @@ verified last time.
 
 ## Verify pages
 
-- Look at the nightly build of each page listed below
+ - Look at the latest build of each page listed below
 - Check page renders correctly
 - Check for spelling/grammar problems
 - Check that the instructions work as expected
@@ -61,7 +61,7 @@ for file in (script_dir.parent / "source").rglob("*"):
 
         file_info = {
             "file": file,
-            "url": "https://docs.rapids.ai/deployment/nightly/" + rel_path,
+            "url": "https://docs.nvidia.com/datascience/deployment/latest/" + rel_path,
             "priority": priority,
         }
         if priority in priority_lists:
