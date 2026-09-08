@@ -159,7 +159,7 @@ html_theme_options = {
 # extensions/rapids_docs_publishing.py. Only CI builds publish or get the
 # switcher; the workflow turns both on by setting RAPIDS_DOCS_PUBLISH=true.
 # The switcher lists releases from rapids_docs_first_version upward.
-rapids_docs_publishing = os.environ.get("RAPIDS_DOCS_PUBLISH")
+rapids_docs_publishing = os.environ.get("RAPIDS_DOCS_PUBLISH") == "true"
 rapids_docs_url = "https://docs.nvidia.com/datascience/deployment"
 rapids_docs_first_version = "26.08"
 rapids_docs_latest_version = nightly_version
