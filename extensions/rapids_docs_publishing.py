@@ -9,7 +9,7 @@ version on main, shown as "latest"; the stable version on a release).
 
 After the HTML build, everything below lands in ``build/publish``:
 
-    publish.env     TARGET=26.08 / latest, the directory this build publishes
+    publish.env     TARGET=YY.MM / latest, the directory this build publishes
                     to, read by the workflow into step outputs
     versions.json   data for the navbar version switcher: "latest" first, then
                     every released version (from ``rapids_docs_release_tags``,
