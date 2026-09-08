@@ -255,7 +255,7 @@ Accept the default and allow conda init to run.
 
 Then start a new shell.
 
-Create a conda environment (see [UCXX](https://docs.rapids.ai/api/ucxx/nightly/install/) docs)
+Create a conda environment (see [UCXX](https://docs.nvidia.com/ucxx/latest/install/) docs)
 
 ```shell
 mamba create -n ucxx {{ rapids_conda_channels }} {{ rapids_conda_packages }} ipython dask distributed distributed-ucxx numpy cupy pytest pynvml -y

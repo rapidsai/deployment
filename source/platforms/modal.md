@@ -35,7 +35,7 @@ default `managed_pool` or `managed` RMM modes with `cudf.pandas`.
 Instead, you need to set the environment variable `CUDF_PANDAS_RMM_MODE` to `async` as shown in the example code above.
 
 For more details on RMM modes, see the [cudf.pandas
-documentation](https://docs.rapids.ai/api/cudf/stable/cudf_pandas/how-it-works/#how-it-works).
+documentation](https://docs.nvidia.com/cudf/latest/cudf_pandas/how-it-works/#how-it-works).
 ```
 
 ### Example
