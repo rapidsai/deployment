@@ -30,7 +30,7 @@ env:
   DEPLOYMENT_DOCS_BUILD_STABLE: ${{ github.ref_type == 'tag' && 'true' || 'false' }}
   RAPIDS_DOCS_PUBLISH: "true"
   DRY_RUN: ${{ inputs.dry-run || false }}
-  PUBLISH: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && (github.ref == 'refs/heads/main' || github.ref_type == 'tag') }}
+  UPLOAD: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && (github.ref == 'refs/heads/main' || github.ref_type == 'tag') }}
 
 jobs:
   build:
@@ -63,7 +63,7 @@ jobs:
           echo "/tmp/gha-tools/tools" >> "${GITHUB_PATH}"
 
       - name: Publish docs to docs.nvidia.com/datascience/deployment/${{ steps.publish.outputs.TARGET }}
-        if: ${{ env.PUBLISH == 'true' }}
+        if: ${{ env.UPLOAD == 'true' }}
         uses: rapidsai/shared-actions/publish-docs@main
         with:
           akamai-access-token: ${{ secrets.NVIDIA_DOCS_AKAMAI_ACCESS_TOKEN }}
@@ -82,7 +82,7 @@ jobs:
           target-s3-key: datascience/deployment
 
       - name: Publish versions.json
-        if: ${{ env.PUBLISH == 'true' && steps.publish.outputs.VERSIONS_JSON == 'true' }}
+        if: ${{ env.UPLOAD == 'true' && steps.publish.outputs.VERSIONS_JSON == 'true' }}
         uses: rapidsai/shared-actions/publish-one-doc@main
         with:
           akamai-access-token: ${{ secrets.NVIDIA_DOCS_AKAMAI_ACCESS_TOKEN }}
