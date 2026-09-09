@@ -1,7 +1,7 @@
 # RAPIDS Deployment Documentation
 
 This repository contains the source for the
-[RAPIDS Deployment Documentation](https://docs.rapids.ai/deployment/stable/).
+[RAPIDS Deployment Documentation](https://docs.nvidia.com/datascience/deployment/latest/).
 It explains how to install, configure, and operate RAPIDS across local systems,
 GPU clusters, and managed compute services.
 
@@ -60,9 +60,11 @@ uv run sphinx-autobuild -b dirhtml source build/html
 
 ## Published Documentation
 
-- [Stable documentation](https://docs.rapids.ai/deployment/stable/) is published
-  from release tags.
-- [Nightly documentation](https://docs.rapids.ai/deployment/nightly/) is
-  published from the `main` branch.
+- [Latest documentation](https://docs.nvidia.com/datascience/deployment/latest/)
+  is published from the `main` branch.
+- Released documentation is published from `vYY.MM.PP` release tags to
+  `https://docs.nvidia.com/datascience/deployment/YY.MM/`, for example
+  [26.08](https://docs.nvidia.com/datascience/deployment/26.08/). Use the
+  version switcher in the navigation bar to move between releases.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for instructions on building, writing, linting, and releasing.
