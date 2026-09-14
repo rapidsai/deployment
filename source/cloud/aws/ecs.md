@@ -6,7 +6,7 @@ deploying on ECS.](https://medium.com/rapids-ai/getting-started-with-rapids-on-a
 ## Run from within AWS
 
 The following steps assume you are running from within the same AWS VPC. One way to ensure this is to use
-[AWS EC2 Single Instance](https://docs.rapids.ai/deployment/stable/cloud/aws/ec2.html) as your development environment.
+[AWS EC2 Single Instance](https://docs.nvidia.com/datascience/deployment/latest/cloud/aws/ec2.html) as your development environment.
 
 ### Setup AWS credentials
 
@@ -40,7 +40,7 @@ For Networking, select the default VPC and all the subnets available in that VPC
 Select "Amazon EC2 instances" for the Infrastructure type and configure your settings:
 
 - Operating system: must be Linux-based architecture
-- EC2 instance type: must support RAPIDS-compatible GPUs ([see the RAPIDS docs](https://docs.rapids.ai/install#system-req))
+- EC2 instance type: must support RAPIDS-compatible GPUs ([see the RAPIDS docs](https://docs.nvidia.com/datascience/install/#system-req))
 - Desired capacity: number of maximum instances to launch (default maximum 5)
 - SSH Key pair
 

@@ -8,7 +8,7 @@ html_theme.sidebar_secondary.remove: true
 This guide provides instructions for building custom RAPIDS Docker containers. This approach allows you to select only the RAPIDS libraries you need, which is ideal for creating minimal, customizable images that can be tuned to your requirements.
 
 ```{note}
- For quick setup with pre-built containers that include the full RAPIDS suite,  please see the [Official RAPIDS Docker Installation Guide](https://docs.rapids.ai/install#docker).
+ For quick setup with pre-built containers that include the full RAPIDS suite,  please see the [Official RAPIDS Docker Installation Guide](https://docs.nvidia.com/datascience/install/#docker).
 ```
 
 ## Overview

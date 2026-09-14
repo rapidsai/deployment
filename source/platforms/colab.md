@@ -53,7 +53,7 @@ Choose GPU for Hardware Accelerator
 
 ### 3. Check GPU type
 
-Check the output of `!nvidia-smi` to make sure you've been allocated a Rapids Compatible GPU ([see the RAPIDS install docs](https://docs.rapids.ai/install/#system-req)).
+Check the output of `!nvidia-smi` to make sure you've been allocated a Rapids Compatible GPU ([see the RAPIDS install docs](https://docs.nvidia.com/datascience/install/#system-req)).
 
 ![Screenshot of nvidia-smi](../images/googlecolab-output-nvidia-smi.png)
 

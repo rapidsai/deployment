@@ -17,7 +17,7 @@ Choose `Applications and IDEs > Notebooks > Create notebook instance`.
 If a field is not mentioned below, leave the default values:
 
 - **Notebook instance name** = Name of the notebook instance
-- **Notebook instance type** = Type of notebook instance. Select a RAPIDS-compatible GPU ([see the RAPIDS docs](https://docs.rapids.ai/install#system-req)) as the SageMaker Notebook instance type (e.g., `ml.g6.xlarge`).
+- **Notebook instance type** = Type of notebook instance. Select a RAPIDS-compatible GPU ([see the RAPIDS docs](https://docs.nvidia.com/datascience/install/#system-req)) as the SageMaker Notebook instance type (e.g., `ml.g6.xlarge`).
 - **Platform identifier** = 'Amazon Linux 2023, Jupyter Lab 4'
 
 ![Screenshot of the create new notebook screen with a ml.p3.2xlarge selected](../../images/sagemaker-create-notebook-instance.png)

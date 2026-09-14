@@ -1,6 +1,6 @@
 # GPU optimization for the Dask scheduler on Kubernetes
 
-An optimization users can make while deploying Dask clusters is to ensure that the scheduler is placed on a node with a less powerful GPU to reduce overall cost. [This previous guide](https://docs.rapids.ai/deployment/stable/guides/scheduler-gpu-requirements/) explains why the scheduler needs access to the same environment as the workers, as there are a few edge cases where the scheduler does serialize data and unpickles high-level graphs.
+An optimization users can make while deploying Dask clusters is to ensure that the scheduler is placed on a node with a less powerful GPU to reduce overall cost. [This previous guide](https://docs.nvidia.com/datascience/deployment/latest/guides/scheduler-gpu-requirements/) explains why the scheduler needs access to the same environment as the workers, as there are a few edge cases where the scheduler does serialize data and unpickles high-level graphs.
 
 ```{warning}
 This guide outlines our current advice on scheduler hardware requirements, but this may be subject to change.
@@ -117,7 +117,7 @@ dask-operator   dask-kubernetes-operator-775b8bbbd5-zdrf7   1/1     Running   0 
 
 To configure the `DaskCluster` resource to run RAPIDS you need to set a few things:
 
-- The container image must contain RAPIDS, the [official RAPIDS container images](https://docs.rapids.ai/install/#docker) are a good choice for this.
+- The container image must contain RAPIDS, the [official RAPIDS container images](https://docs.nvidia.com/datascience/install/#docker) are a good choice for this.
 - The Dask workers must be configured with one or more NVIDIA GPU resources.
 - The worker command must be set to `dask-cuda-worker`.
 
@@ -213,7 +213,7 @@ $ kubectl apply -f rapids-dask-cluster.yaml
 
 ### Manifest breakdown
 
-Most of this manifest is explained in the [Dask Operator](https://docs.rapids.ai/deployment/stable/tools/kubernetes/dask-operator/#example-using-kubecluster) documentation in the tools section of the RAPIDS documentation.
+Most of this manifest is explained in the [Dask Operator](https://docs.nvidia.com/datascience/deployment/latest/tools/kubernetes/dask-operator/#example-using-kubecluster) documentation in the tools section of the RAPIDS documentation.
 
 The only addition made to the example from the above documentation page is the following section in the scheduler configuration
 
