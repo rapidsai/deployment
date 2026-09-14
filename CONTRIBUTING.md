@@ -182,7 +182,7 @@ In those cases, use `~~~` with no spaces, like this:
 ```markdown
 # My doc page
 
-For more, see the docs on [dask-cuda](https://docs.rapids.ai/api/dask-cuda/~~~rapids_api_docs_version~~~/install.html)
+For more, see the docs on [dask-cuda](https://docs.nvidia.com/dask-cuda/latest/install/)
 ```
 
 All builds will use the nightly section by default which allows you to test with the latest and greatest containers when developing locally or previewing nightly docs builds. To build the docs using the stable images you need to set the environment variable `DEPLOYMENT_DOCS_BUILD_STABLE` to `true`. This is done automatically when building from a tag in CI. The version switcher in the navigation bar only appears in CI builds (the workflow sets `RAPIDS_DOCS_PUBLISH=true`). Local and preview builds leave it out because the browser would refuse to load `versions.json` from docs.nvidia.com across origins.
@@ -199,7 +199,7 @@ Then push a release tag. The tag must have the form `vYY.MM.PP` for the workflow
 
 ```bash
 # Set the release version
-# See https://docs.rapids.ai/resources/versions/ and past releases for version scheme
+# See https://docs.nvidia.com/datascience/resources/versions/ and past releases for version scheme
 export RELEASE=vYY.MM.00
 
 # Create the tag

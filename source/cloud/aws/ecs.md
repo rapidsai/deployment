@@ -6,7 +6,7 @@ deploying on ECS.](https://medium.com/rapids-ai/getting-started-with-rapids-on-a
 ## Run from within AWS
 
 The following steps assume you are running from within the same AWS VPC. One way to ensure this is to use
-[AWS EC2 Single Instance](https://docs.nvidia.com/datascience/deployment/latest/cloud/aws/ec2.html) as your development environment.
+[AWS EC2 Single Instance](https://docs.nvidia.com/datascience/deployment/latest/cloud/aws/ec2/) as your development environment.
 
 ### Setup AWS credentials
 

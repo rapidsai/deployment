@@ -143,7 +143,7 @@ html_theme_options = {
     ],
     "public_docs_features": os.environ.get("CI") == "true",
     "external_links": [
-        {"name": "Docs Home", "url": "https://docs.rapids.ai/"},
+        {"name": "Docs Home", "url": "https://docs.nvidia.com/datascience/"},
     ],
     "show_toc_level": 1,
     "navbar_align": "right",
