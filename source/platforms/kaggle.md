@@ -6,8 +6,8 @@ review_priority: "p1"
 
 [Kaggle Notebooks](https://www.kaggle.com/code) provide hosted Jupyter notebooks
 with GPU accelerators. The latest Kaggle notebook environment includes RAPIDS
-libraries such as [cuDF](https://docs.rapids.ai/api/cudf/stable/) and
-[cuML](https://docs.rapids.ai/api/cuml/stable/), so you can start using them
+libraries such as [cuDF](https://docs.nvidia.com/cudf/latest/) and
+[cuML](https://docs.nvidia.com/cuml/latest/), so you can start using them
 without a separate installation.
 
 ## Create a GPU notebook

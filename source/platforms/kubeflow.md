@@ -8,7 +8,7 @@ These instructions were tested against [Kubeflow v1.5.1](https://github.com/kube
 
 ## Kubeflow Notebooks
 
-The [RAPIDS docker images](https://docs.rapids.ai/install/#docker) can be used directly in Kubeflow Notebooks with no additional configuration. To find the latest image head to [the RAPIDS install page](https://docs.rapids.ai/install), as shown in below, and choose a version of RAPIDS to use. Typically we want to choose the container image for the latest release. Verify the Docker image is selected when installing the latest RAPIDS release.
+The [RAPIDS docker images](https://docs.nvidia.com/datascience/install/#docker) can be used directly in Kubeflow Notebooks with no additional configuration. To find the latest image head to [the RAPIDS install page](https://docs.nvidia.com/datascience/install/), as shown in below, and choose a version of RAPIDS to use. Typically we want to choose the container image for the latest release. Verify the Docker image is selected when installing the latest RAPIDS release.
 
 Be sure to match the CUDA version in the container image with that installed on your Kubernetes nodes. The default CUDA version installed on GKE Stable is 11.4 for example, so we would want to choose that. From 11.5 onwards it doesn’t matter as they will be backward compatible. Copy the container image name from the install command (i.e. `{{ rapids_container }}`).
 
@@ -67,7 +67,7 @@ There is one A100 GPU listed which is available for use in your Notebook.
 
 The RAPIDS container also comes with some example notebooks which you can find in `/rapids/notebooks`. You can make a symbolic link to these from your home directory so you can easily navigate using the file explorer on the left `ln -s /rapids/notebooks /home/jovyan/notebooks`.
 
-Now you can navigate those example notebooks and explore all the libraries RAPIDS offers. For example, ETL developers that use [Pandas](https://pandas.pydata.org/) should check out the [cuDF](https://docs.rapids.ai/api/cudf/~~~rapids_api_docs_version~~~/) notebooks for examples of accelerated dataframes.
+Now you can navigate those example notebooks and explore all the libraries RAPIDS offers. For example, ETL developers that use [Pandas](https://pandas.pydata.org/) should check out the [cuDF](https://docs.nvidia.com/cudf/latest/) notebooks for examples of accelerated dataframes.
 
 ```{figure} /images/kubeflow-jupyter-example-notebook.png
 ---

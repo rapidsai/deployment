@@ -135,7 +135,7 @@ $ coiled notebook start --gpu --vm-type g6.24xlarge --container {{ rapids_notebo
 
 ## Dask Clusters
 
-Coiled’s [managed Dask clusters](https://docs.coiled.io/user_guide/dask.html) can also provision clusters using [dask-cuda](https://docs.rapids.ai/api/dask-cuda/nightly/) to enable using RAPIDS in a distributed way.
+Coiled’s [managed Dask clusters](https://docs.coiled.io/user_guide/dask.html) can also provision clusters using [dask-cuda](https://docs.nvidia.com/dask-cuda/latest/) to enable using RAPIDS in a distributed way.
 
 ```python
 cluster = coiled.Cluster(

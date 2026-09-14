@@ -11,7 +11,7 @@ Choose your preferred installation method for running RAPIDS
 :gutter: 2 2 2 2
 
 ````{grid-item-card}
-:link: https://docs.rapids.ai/install#conda
+:link: https://docs.nvidia.com/datascience/install/#conda
 :link-type: url
 {fas}`box;sd-text-primary` conda
 ^^^
@@ -27,7 +27,7 @@ Install RAPIDS using Docker
 ````
 
 ````{grid-item-card}
-:link: https://docs.rapids.ai/install#pip
+:link: https://docs.nvidia.com/datascience/install/#pip
 :link-type: url
 {fas}`box;sd-text-primary` pip
 ^^^
@@ -35,7 +35,7 @@ Install RAPIDS using pip
 ````
 
 ````{grid-item-card}
-:link: https://docs.rapids.ai/install#wsl2
+:link: https://docs.nvidia.com/datascience/install/#wsl2
 :link-type: url
 {fas}`box;sd-text-primary` WSL2
 ^^^
