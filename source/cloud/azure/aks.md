@@ -4,9 +4,9 @@ review_priority: "p1"
 
 # Azure Kubernetes Service
 
-RAPIDS can be deployed on Azure via the [Azure Kubernetes Service](https://azure.microsoft.com/en-us/products/kubernetes-service/) (AKS).
+NVIDIA CUDA-X libraries for data science can be deployed on Azure via the [Azure Kubernetes Service](https://azure.microsoft.com/en-us/products/kubernetes-service/) (AKS).
 
-To run RAPIDS you'll need a Kubernetes cluster with GPUs available.
+To run NVIDIA CUDA-X libraries, you'll need a Kubernetes cluster with GPUs available.
 
 ## Prerequisites
 
@@ -122,9 +122,9 @@ Once our new pool has been created and configured, we can test the cluster.
 
 we should be able to test that we can schedule GPU pods.
 
-## Install RAPIDS
+## Install the libraries
 
-Now that you have a GPU enables Kubernetes cluster on AKS you can install RAPIDS with [any of the supported methods](../../platforms/kubernetes).
+Now that you have a GPU-enabled Kubernetes cluster on AKS, you can install the libraries with [any of the supported methods](../../platforms/kubernetes).
 
 ## Clean up
 

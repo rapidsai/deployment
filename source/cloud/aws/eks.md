@@ -4,9 +4,9 @@ review_priority: "p1"
 
 # AWS Elastic Kubernetes Service (EKS)
 
-RAPIDS can be deployed on AWS via the [Elastic Kubernetes Service](https://aws.amazon.com/eks/) (EKS).
+NVIDIA CUDA-X libraries for data science can be deployed on AWS via the [Elastic Kubernetes Service](https://aws.amazon.com/eks/) (EKS).
 
-To run RAPIDS you'll need a Kubernetes cluster with GPUs available.
+To run NVIDIA CUDA-X libraries, you'll need a Kubernetes cluster with GPUs available.
 
 ## Prerequisites
 
@@ -77,9 +77,9 @@ After you have confirmed the device plugin is running, you are ready to test you
 
 ```
 
-## Install RAPIDS
+## Install the libraries
 
-Now that you have a GPU enabled Kubernetes cluster on EKS you can install RAPIDS with [any of the supported methods](../../platforms/kubernetes).
+Now that you have a GPU-enabled Kubernetes cluster on EKS, you can install the libraries with [any of the supported methods](../../platforms/kubernetes).
 
 ## Clean up
 

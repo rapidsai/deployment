@@ -1,4 +1,4 @@
-# Contributing to RAPIDS Deployment Documentation
+# Contributing to Deployment Documentation
 
 ## Building
 
@@ -105,7 +105,7 @@ The notebook gallery extension uses cell tags to organize and cross-reference fi
 
 ![Screenshot of Jupyter showing the first cell of the open notebook has tags](source/images/theme-notebook-tags.png)
 
-Tags are hierarchical and use slashes to separate their namespaces. For example if your notebook uses AWS Sagemaker you should add the tag `cloud/aws/sagemaker`. This aligns with the Sphinx doc path to the RAPIDS Sagemaker documentation page which you can find in `source/cloud/aws/sagemaker.md`.
+Tags are hierarchical and use slashes to separate their namespaces. For example if your notebook uses AWS Sagemaker you should add the tag `cloud/aws/sagemaker`. This aligns with the Sphinx doc path to the SageMaker documentation page which you can find in `source/cloud/aws/sagemaker.md`.
 
 The extension will use this information to ensure the notebook is linked from the Sagemaker page under the "Related Examples" section.
 
@@ -113,7 +113,7 @@ The example gallery will also allow you to filter based on these tags. The root 
 
 ##### Styling
 
-By default tags are styled with RAPIDS purple backgrounds and white text. They also have a `0.5em` left hand border to use as an accent that is also purple by default which can be styled for a two-tone effect.
+By default, tags use the theme's primary color for their background and left accent, with a contrasting text color. The left accent can be styled separately for a two-tone effect.
 
 <div style="width: 100%; text-align: center;">
 <img alt="Diagram showing the tag and css side-by-side with arrows to show color sets the text, background-color sets the background and border-left sets the accent" src="source/images/theme-tag-style.png" style="max-width: 450px;" />
@@ -154,7 +154,7 @@ Pushing a release tag (`vYY.MM.PP`, for example `v26.08.00`) builds that commit 
 
 The old `docs.rapids.ai/deployment/{stable,nightly}/` URLs redirect to the latest documentation on docs.nvidia.com. Those redirects live in the [rapidsai/docs](https://github.com/rapidsai/docs) repository (`_redirects`).
 
-The RAPIDS versions for things like container images and install instructions are templated into the documentation pages and are stored in `source/conf.py`.
+The package and container versions used in the documentation are templated into the pages and stored in `source/conf.py`.
 
 ```python
 versions = {

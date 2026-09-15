@@ -8,7 +8,7 @@ The [NVIDIA Brev](https://brev.nvidia.com/) platform provides you a one stop men
 
 ## Brev Instance Setup
 
-There are two options to get you up and running with RAPIDS in a few steps, thanks to the Brev RAPIDS quickstart:
+There are two options to get you up and running with NVIDIA CUDA-X libraries for data science in a few steps, thanks to the Brev quickstart:
 
 1. Brev GPU Environments - quickly get the GPU, across most clouds, to get your work done.
 2. Brev Launchables - quickly create one-click starting, reusable instances that you customized to your MLOps needs.
@@ -188,7 +188,7 @@ To connect to your Brev instance from VS Code open a new VS Code window and run:
 $ brev open <instance-id>
 ```
 
-It will automatically open a new VS Code window for you to use with RAPIDS.
+It will automatically open a new VS Code window for you to use with NVIDIA CUDA-X libraries for data science.
 
 #### 2.2 Brev CLI using SSH via your Terminal
 
@@ -238,9 +238,9 @@ You can verify that you have your requested GPU by running the `nvidia-smi` comm
 
 ![Screenshot of a notebook terminal running the command nvidia-smi and showing the NVIDIA T4 GPU in the output](/_static/images/platforms/brev/brev6.png)
 
-## Testing your RAPIDS Instance
+## Verify your instance
 
-You can verify your RAPIDS installation is working by importing `cudf` and creating a GPU dataframe.
+You can verify your installation is working by importing `cudf` and creating a GPU dataframe.
 
 ```python
 import cudf

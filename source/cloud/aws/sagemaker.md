@@ -4,7 +4,7 @@ review_priority: "p0"
 
 # SageMaker
 
-RAPIDS can be used in a few ways with [AWS SageMaker](https://aws.amazon.com/sagemaker/).
+NVIDIA CUDA-X libraries for data science can be used in a few ways with [AWS SageMaker](https://aws.amazon.com/sagemaker/).
 
 ## SageMaker AI Notebooks
 
@@ -17,16 +17,16 @@ Choose `Applications and IDEs > Notebooks > Create notebook instance`.
 If a field is not mentioned below, leave the default values:
 
 - **Notebook instance name** = Name of the notebook instance
-- **Notebook instance type** = Type of notebook instance. Select a RAPIDS-compatible GPU ([see the RAPIDS docs](https://docs.nvidia.com/datascience/install/#system-req)) as the SageMaker Notebook instance type (e.g., `ml.g6.xlarge`).
+- **Notebook instance type** = Type of notebook instance. Select a compatible GPU ([see the system requirements](https://docs.nvidia.com/datascience/install/#system-req)) as the SageMaker Notebook instance type (e.g., `ml.g6.xlarge`).
 - **Platform identifier** = 'Amazon Linux 2023, Jupyter Lab 4'
 
 ![Screenshot of the create new notebook screen with a ml.p3.2xlarge selected](../../images/sagemaker-create-notebook-instance.png)
 
-### Create a RAPIDS lifecycle configuration
+### Create a lifecycle configuration
 
-[SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html) can be augmented with a RAPIDS conda environment.
+[SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html) can be augmented with a conda environment.
 
-We can add a RAPIDS conda environment to the set of Jupyter ipython kernels available in our SageMaker notebook instance by installing in a [lifecycle configuration script](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
+We can add a conda environment to the set of Jupyter ipython kernels available in our SageMaker notebook instance by installing in a [lifecycle configuration script](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
 
 Create a new lifecycle configuration (via the 'Additional Configuration' dropdown).
 
@@ -55,7 +55,7 @@ Set the volume size to at least `15GB`, to accommodate the conda environment.
 
 Then launch the instance.
 
-### Select the RAPIDS environment
+### Select the environment
 
 Once your Notebook Instance is `InService` select "Open JupyterLab"
 
@@ -69,15 +69,15 @@ Then in Jupyter select the `rapids` kernel when working with a new notebook.
 
 ### Run the Example Notebook
 
-Once inside JupyterLab you should be able to upload the [Running RAPIDS hyperparameter experiments at scale](/examples/rapids-sagemaker-higgs/notebook) example notebook and continue following those instructions.
+Once inside JupyterLab you should be able to upload the [Running hyperparameter experiments at scale with NVIDIA CUDA-X libraries](/examples/rapids-sagemaker-higgs/notebook) example notebook and continue following those instructions.
 
 ## SageMaker AI Estimators
 
-RAPIDS can also be used in [SageMaker Estimators](https://sagemaker.readthedocs.io/en/stable/api/training/estimators.html).
+NVIDIA CUDA-X libraries for data science can also be used in [SageMaker Estimators](https://sagemaker.readthedocs.io/en/stable/api/training/estimators.html).
 Estimators allow you to launch training jobs on ephemeral VMs which SageMaker manages for you.
 With this option, your Notebook Instance doesn't need to have a GPU... you are only charged for GPU instances for the time that your training job is running.
 
-All you’ll need to do is bring in your RAPIDS training script and libraries as a Docker container image and ask Amazon SageMaker to run copies of it in parallel on a specified number of GPU instances.
+All you’ll need to do is bring in your training script and libraries as a Docker container image and ask Amazon SageMaker to run copies of it in parallel on a specified number of GPU instances.
 
 Let’s take a closer look at how this works through a step-by-step approach:
 
@@ -128,7 +128,7 @@ For a hands-on demo of this, try ["Deep Dive into running Hyper Parameter Optimi
 
 ## Further reading
 
-We’ve also written a **[detailed blog post](https://medium.com/rapids-ai/running-rapids-experiments-at-scale-using-amazon-sagemaker-d516420f165b)** on how to use SageMaker with RAPIDS.
+We’ve also written a **[detailed blog post](https://medium.com/rapids-ai/running-rapids-experiments-at-scale-using-amazon-sagemaker-d516420f165b)** on how to use SageMaker with NVIDIA CUDA-X libraries for data science.
 
 ```{relatedexamples}
 

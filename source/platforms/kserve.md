@@ -1,7 +1,7 @@
 # KServe
 
 [KServe](https://kserve.github.io/website) is a standard model inference platform built for Kubernetes. It provides consistent interface for multiple machine learning frameworks.
-In this page, we will show you how to deploy RAPIDS models using KServe.
+In this page, we will show you how to deploy NVIDIA CUDA-X based models for data science using KServe.
 
 ```{note}
 These instructions were tested against KServe v0.10 running on [Kubernetes v1.21](https://kubernetes.io/blog/2021/04/08/kubernetes-1-21-release-announcement/).

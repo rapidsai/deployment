@@ -1,6 +1,6 @@
 To access Jupyter, navigate to `<VM ip>:8888` in the browser.
 
-In a Python notebook, check that you can import and use RAPIDS libraries like `cudf`.
+In a Python notebook, check that you can import and use a library such as cuDF.
 
 ```ipython
 In [1]: import cudf

@@ -5,7 +5,7 @@ html_theme.sidebar_secondary.remove: true
 
 # Local
 
-Choose your preferred installation method for running RAPIDS
+Choose your preferred installation method for running NVIDIA CUDA-X libraries
 
 `````{gridtoctree} 1 2 2 2
 :gutter: 2 2 2 2
@@ -15,7 +15,7 @@ Choose your preferred installation method for running RAPIDS
 :link-type: url
 {fas}`box;sd-text-primary` conda
 ^^^
-Install RAPIDS using conda
+Install NVIDIA CUDA-X Data Science libraries using conda
 ````
 
 ````{grid-item-card}
@@ -23,7 +23,7 @@ Install RAPIDS using conda
 :link-type: doc
 {fas}`box;sd-text-primary` Docker
 ^^^
-Install RAPIDS using Docker
+Install NVIDIA CUDA-X Data Science libraries using Docker
 ````
 
 ````{grid-item-card}
@@ -31,7 +31,7 @@ Install RAPIDS using Docker
 :link-type: url
 {fas}`box;sd-text-primary` pip
 ^^^
-Install RAPIDS using pip
+Install NVIDIA CUDA-X Data Science libraries using pip
 ````
 
 ````{grid-item-card}
@@ -39,7 +39,7 @@ Install RAPIDS using pip
 :link-type: url
 {fas}`box;sd-text-primary` WSL2
 ^^^
-Install RAPIDS on Windows using Windows Subsystem for Linux version 2 (WSL2)
+Install NVIDIA CUDA-X Data Science libraries on Windows using Windows Subsystem for Linux version 2 (WSL2)
 ````
 
 `````

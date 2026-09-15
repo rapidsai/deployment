@@ -1,6 +1,6 @@
 # Modal
 
-You can run RAPIDS on [Modal](https://modal.com/), a serverless cloud platform for compute-intensive applications. Modal
+You can run NVIDIA CUDA-X libraries on [Modal](https://modal.com/), a serverless cloud platform for compute-intensive applications. Modal
 provides a simple way to deploy Python code, including GPU-accelerated workloads, without managing infrastructure.
 Remote containers are launched on-demand and shut down automatically when not in use.
 
@@ -23,7 +23,7 @@ For more information, check out the [Modal pricing page](https://modal.com/prici
 ### Python Installation Requirements
 
 Modal's default Python installation uses compilation flags that are not compatible with `numba`, which is required by
-RAPIDS. To work around this, you must install Python from Astral's standalone Python builds, which include the correct
+the libraries. To work around this, you must install Python from Astral's standalone Python builds, which include the correct
 compilation flags. As we did in the example above, where we are downloading and installing a standalone Python build in
 the Docker setup commands.
 
@@ -40,7 +40,7 @@ documentation](https://docs.nvidia.com/cudf/latest/cudf_pandas/how-it-works/#how
 
 ### Example
 
-The example below demonstrates how to use RAPIDS cuDF's pandas accelerator mode on Modal. This example processes NYC
+The example below demonstrates how to use cuDF's pandas accelerator mode on Modal. This example processes NYC
 parking violations data and shows how `cudf.pandas` can accelerate `pandas` operations with zero code changes.
 
 ```python

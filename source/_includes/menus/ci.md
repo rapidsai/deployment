@@ -6,7 +6,7 @@
 :link-type: doc
 GitHub Actions
 ^^^
-Run tests in GitHub Actions that depend on RAPIDS and NVIDIA GPUs.
+Run tests in GitHub Actions that depend on NVIDIA CUDA-X libraries and NVIDIA GPUs.
 
 {bdg}`single-node`
 ````

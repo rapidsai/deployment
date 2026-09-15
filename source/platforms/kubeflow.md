@@ -1,6 +1,6 @@
 # Kubeflow
 
-You can use RAPIDS with Kubeflow in a single Pod with [Kubeflow Notebooks](https://www.kubeflow.org/docs/components/notebooks/) or you can scale out to many Pods on many nodes of the Kubernetes cluster with the [dask-operator](/tools/kubernetes/dask-operator).
+You can use NVIDIA CUDA-X libraries for data science with Kubeflow in a single Pod with [Kubeflow Notebooks](https://www.kubeflow.org/docs/components/notebooks/) or you can scale out to many Pods on many nodes of the Kubernetes cluster with the [dask-operator](/tools/kubernetes/dask-operator).
 
 ```{note}
 These instructions were tested against [Kubeflow v1.5.1](https://github.com/kubeflow/manifests/releases/tag/v1.5.1) running on [Kubernetes v1.21](https://kubernetes.io/blog/2021/04/08/kubernetes-1-21-release-announcement/). Visit [Installing Kubeflow](https://www.kubeflow.org/docs/started/installing-kubeflow/) for instructions on installing Kubeflow on your Kubernetes cluster.
@@ -8,7 +8,7 @@ These instructions were tested against [Kubeflow v1.5.1](https://github.com/kube
 
 ## Kubeflow Notebooks
 
-The [RAPIDS docker images](https://docs.nvidia.com/datascience/install/#docker) can be used directly in Kubeflow Notebooks with no additional configuration. To find the latest image head to [the RAPIDS install page](https://docs.nvidia.com/datascience/install/), as shown in below, and choose a version of RAPIDS to use. Typically we want to choose the container image for the latest release. Verify the Docker image is selected when installing the latest RAPIDS release.
+The [RAPIDS docker images](https://docs.nvidia.com/datascience/install/#docker) can be used directly in Kubeflow Notebooks with no additional configuration. To find the latest image head to [the installation page](https://docs.nvidia.com/datascience/install/), as shown in below, and choose a version of RAPIDS to use. Typically we want to choose the container image for the latest release. Verify the Docker image is selected when installing the latest RAPIDS release.
 
 Be sure to match the CUDA version in the container image with that installed on your Kubernetes nodes. The default CUDA version installed on GKE Stable is 11.4 for example, so we would want to choose that. From 11.5 onwards it doesn’t matter as they will be backward compatible. Copy the container image name from the install command (i.e. `{{ rapids_container }}`).
 
@@ -34,7 +34,7 @@ alt: Screenshot of the Kubeflow Notebooks page with the “New Notebook” butto
 ---
 ```
 
-On this page, we must set a few configuration options. First, let’s give it a name like `rapids`. We need to check the “use custom image” box and paste in the container image we got from the RAPIDS release selector. Then, we want to set the CPU and RAM to something a little higher (i.e. 2 CPUs and 8GB memory) and set the number of NVIDIA GPUs to 1.
+On this page, we must set a few configuration options. First, let’s give it a name like `rapids`. We need to check the “use custom image” box and paste in the container image we got from the release selector. Then, we want to set the CPU and RAM to something a little higher (i.e. 2 CPUs and 8GB memory) and set the number of NVIDIA GPUs to 1.
 
 ```{figure} /images/kubeflow-new-notebook.png
 ---
@@ -67,7 +67,7 @@ There is one A100 GPU listed which is available for use in your Notebook.
 
 The RAPIDS container also comes with some example notebooks which you can find in `/rapids/notebooks`. You can make a symbolic link to these from your home directory so you can easily navigate using the file explorer on the left `ln -s /rapids/notebooks /home/jovyan/notebooks`.
 
-Now you can navigate those example notebooks and explore all the libraries RAPIDS offers. For example, ETL developers that use [Pandas](https://pandas.pydata.org/) should check out the [cuDF](https://docs.nvidia.com/cudf/latest/) notebooks for examples of accelerated dataframes.
+Now you can navigate those example notebooks and explore the available NVIDIA CUDA-X libraries. For example, ETL developers that use [Pandas](https://pandas.pydata.org/) should check out the [cuDF](https://docs.nvidia.com/cudf/latest/) notebooks for examples of accelerated dataframes.
 
 ```{figure} /images/kubeflow-jupyter-example-notebook.png
 ---
@@ -77,7 +77,7 @@ alt: Screenshot of Jupyter Lab with the “10 minutes to cuDF and dask-cuDF” n
 
 ## Scaling out to many GPUs
 
-Many of the RAPIDS libraries also allow you to scale out your computations onto many GPUs spread over many nodes for additional acceleration. To do this we leverage [Dask](https://www.dask.org/), an open source Python library for distributed computing.
+Many of the libraries also allow you to scale out your computations onto many GPUs spread over many nodes for additional acceleration. To do this we leverage [Dask](https://www.dask.org/), an open source Python library for distributed computing.
 
 To use Dask, we need to create a scheduler and some workers that will perform our calculations. These workers will also need GPUs and the same Python environment as your notebook session. Dask has [an operator for Kubernetes](/tools/kubernetes/dask-operator) that you can use to manage Dask clusters on your Kubeflow cluster.
 
@@ -163,7 +163,7 @@ This creates a Dask cluster with two workers, and each worker has an A100 GPU th
 
 You can scale this cluster up and down either with the scaling tab in the widget in Jupyter or by calling `cluster.scale(n)` to set the number of workers (and therefore the number of GPUs).
 
-Now you can connect a Dask client to our cluster and from that point on any RAPIDS libraries that support dask such as `dask_cudf` will use our cluster to distribute our computation over all of our GPUs.
+Now you can connect a Dask client to our cluster and from that point on any libraries that support Dask such as `dask_cudf` will use our cluster to distribute our computation over all of our GPUs.
 
 ```{figure} /images/kubeflow-jupyter-using-dask.png
 ---

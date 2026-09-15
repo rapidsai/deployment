@@ -4,7 +4,7 @@ review_priority: "p0"
 
 # Databricks
 
-You can install RAPIDS on Databricks in a few different ways:
+You can install the libraries on Databricks in a few different ways:
 
 1. Accelerate machine learning workflows in a single-node GPU notebook environment on [classic compute](classic-gpu-compute)
 2. Accelerate machine learning workflows in a single-node GPU notebook environment on [serverless GPU compute](serverless-gpu-compute)
@@ -19,7 +19,7 @@ You can install RAPIDS on Databricks in a few different ways:
 
 ### Create init-script
 
-To get started, you must first configure an [initialization script](https://docs.databricks.com/en/init-scripts/index.html) to install RAPIDS libraries and all other dependencies for your project.
+To get started, you must first configure an [initialization script](https://docs.databricks.com/en/init-scripts/index.html) to install the libraries and all other dependencies for your project.
 
 Databricks recommends using [cluster-scoped](https://docs.databricks.com/en/init-scripts/cluster-scoped.html) init scripts stored in the workspace files.
 
@@ -62,7 +62,7 @@ Select **Create Compute**
 
 [Serverless GPU compute](https://docs.databricks.com/aws/en/compute/serverless/gpu) gives you a single-node GPU notebook with no cluster to create and no init script to maintain. Databricks provisions the GPU on demand when you attach a notebook to it.
 
-Because there is no cluster to configure, the [init script](create-init-script) approach above does not apply. Install RAPIDS from inside the notebook instead.
+Because there is no cluster to configure, the [init script](create-init-script) approach above does not apply. Install the libraries from inside the notebook instead.
 
 ```{note}
 Serverless GPU compute is in public preview and is only available in [certain regions](https://docs.databricks.com/aws/en/compute/serverless/gpu).
@@ -85,12 +85,12 @@ align: center
 ```
 
 ```{note}
-Choose the **Standard** environment rather than the **AI** environment. The AI environment preinstalls `cupy-cuda12x`, which conflicts with the `cupy-cuda13x` build that the RAPIDS CUDA {{rapids_cuda_major}} wheels depend on.
+Choose the **Standard** environment rather than the **AI** environment. The AI environment preinstalls `cupy-cuda12x`, which conflicts with the `cupy-cuda13x` build required by the CUDA {{rapids_cuda_major}} wheels for these libraries.
 ```
 
-### Install RAPIDS
+### Install the libraries
 
-Install the RAPIDS libraries into your notebook environment.
+Install the libraries into your notebook environment.
 
 ```python
 %pip install \
@@ -104,9 +104,9 @@ Then restart the Python process so that the new packages are picked up.
 %restart_python
 ```
 
-## Test RAPIDS
+## Verify the installation
 
-You can run the following code snippet to verify that the RAPIDS libraries are installed successfully on your choice of compute.
+You can run the following code snippet to verify that the libraries are installed successfully on your choice of compute.
 
 ```python
 import cudf
@@ -121,7 +121,7 @@ gdf
 
 ## Quickstart with cuDF Pandas
 
-RAPIDS recently introduced cuDF’s [pandas accelerator mode](https://docs.nvidia.com/cudf/latest/cudf_pandas/) to accelerate existing pandas workflows with zero changes to code.
+cuDF’s [pandas accelerator mode](https://docs.nvidia.com/cudf/latest/cudf_pandas/) accelerates existing pandas workflows with zero changes to code.
 
 Using `cudf.pandas` in Databricks on a single-node can offer significant performance improvements over traditional pandas when dealing with large datasets; operations are optimized to run on the GPU (cuDF) whenever possible, seamlessly falling back to the CPU (pandas) when necessary, with synchronization happening in the background.
 
@@ -149,4 +149,4 @@ df = pd.read_parquet(
 )
 ```
 
-Upload the [10 Minutes to RAPIDS cuDF Pandas notebook](https://colab.research.google.com/drive/12tCzP94zFG2BRduACucn5Q_OcX1TUKY3) into your Databricks workspace and run through the cells.
+Upload the [10 Minutes to cuDF Pandas notebook](https://colab.research.google.com/drive/12tCzP94zFG2BRduACucn5Q_OcX1TUKY3) into your Databricks workspace and run through the cells.

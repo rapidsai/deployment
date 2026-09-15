@@ -13,7 +13,7 @@ html_theme.sidebar_secondary.remove: true
 :link-type: doc
 Multi-Instance GPUs
 ^^^
-Use RAPIDS with Multi-Instance GPUs
+Use NVIDIA CUDA-X libraries for data science with Multi-Instance GPUs
 
 {bdg}`Dask Cluster`
 {bdg}`XGBoost with Dask Cluster`
@@ -24,7 +24,7 @@ Use RAPIDS with Multi-Instance GPUs
 :link-type: doc
 Building RAPIDS Containers from a custom base image
 ^^^
-Add RAPIDS and CUDA to your existing Docker images
+Add NVIDIA CUDA-X libraries and CUDA to your existing Docker images
 
 {bdg-primary}`Docker`
 {bdg-primary}`CUDA`

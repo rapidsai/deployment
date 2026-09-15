@@ -6,11 +6,11 @@ Dask has a [Helm Chart](https://github.com/dask/helm-chart) that creates the fol
 - 1 x Dask scheduler
 - 3 x Dask workers that connect to the scheduler (scalable)
 
-This helm chart can be configured to run RAPIDS by providing GPUs to the Jupyter server and Dask workers and by using container images with the RAPIDS libraries available.
+This helm chart can be configured to run NVIDIA CUDA-X libraries by providing GPUs to the Jupyter server and Dask workers and by using container images with the libraries available.
 
-## Configuring RAPIDS
+## Configuring the Helm chart
 
-Built on top of the Dask Helm Chart, `rapids-config.yaml` file contains additional configurations required to setup RAPIDS environment.
+Built on top of the Dask Helm Chart, the `rapids-config.yaml` file contains additional configurations required to set up the environment.
 
 ```yaml
 # rapids-config.yaml
@@ -43,11 +43,11 @@ jupyter:
 ```
 
 `[jupyter|scheduler|worker].image.*` is updated with the RAPIDS "runtime" image from the stable release,
-which includes environment necessary to launch run accelerated libraries in RAPIDS, and scaling up and down via dask.
+which includes the environment required to run accelerated libraries and supports scaling up and down with Dask.
 Note that all scheduler, worker and jupyter Pods are required to use the same image.
 This ensures that dask scheduler and worker versions match.
 
-`[jupyter|worker].resources` explicitly requests a GPU for each worker Pod and the Jupyter Pod, required by many accelerated libraries in RAPIDS.
+`[jupyter|worker].resources` explicitly requests a GPU for each worker Pod and the Jupyter Pod, required by many accelerated libraries.
 
 `worker.dask_worker` is the launch command for dask worker inside worker Pod.
 To leverage the GPUs assigned to each Pod the [`dask_cuda_worker`](https://docs.nvidia.com/dask-cuda/latest/index.html) command is launched in place of the regular `dask_worker`.

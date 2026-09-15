@@ -1,6 +1,6 @@
 # Dask Operator
 
-Many libraries in RAPIDS can leverage Dask to scale out computation onto multiple GPUs and multiple nodes.
+Many NVIDIA CUDA-X libraries can leverage Dask to scale out computation onto multiple GPUs and multiple nodes.
 [Dask has an operator for Kubernetes](https://kubernetes.dask.org/en/latest/) which allows you to launch Dask clusters as native Kubernetes resources.
 
 With the operator and associated Custom Resource Definitions (CRDs)
@@ -47,17 +47,17 @@ Your Kubernetes cluster must have GPU nodes and have [up to date NVIDIA drivers 
 
 To install the Dask operator follow the [instructions in the Dask documentation](https://kubernetes.dask.org/en/latest/installing.html).
 
-## Configuring a RAPIDS `DaskCluster`
+## Configuring a `DaskCluster`
 
-To configure the `DaskCluster` resource to run RAPIDS you need to set a few things:
+To configure the `DaskCluster` resource to run NVIDIA CUDA-X libraries you need to set a few things:
 
-- The container image must contain RAPIDS, the [official RAPIDS container images](https://docs.nvidia.com/datascience/install/#docker) are a good choice for this.
+- The container image must contain the libraries; the [official RAPIDS container images](https://docs.nvidia.com/datascience/install/#docker) are a good choice for this.
 - The Dask workers must be configured with one or more NVIDIA GPU resources.
 - The worker command must be set to `dask-cuda-worker`.
 
 ## Example using `kubectl`
 
-Here is an example resource manifest for launching a RAPIDS Dask cluster.
+Here is an example resource manifest for launching a Dask cluster.
 
 ```yaml
 # rapids-dask-cluster.yaml

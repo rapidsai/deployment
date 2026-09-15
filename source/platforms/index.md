@@ -13,7 +13,7 @@ html_theme.sidebar_secondary.remove: true
 :link-type: doc
 NVIDIA AI Workbench
 ^^^
-Run RAPIDS in NVIDIA AI Workbench, GPU workstation setup tool that enables developers to work, manage, and collaborate across heterogeneous platforms.
+Run NVIDIA CUDA-X libraries in NVIDIA AI Workbench, a GPU workstation setup tool that enables developers to work, manage, and collaborate across heterogeneous platforms.
 
 {bdg}`single-node`
 ````
@@ -23,7 +23,7 @@ Run RAPIDS in NVIDIA AI Workbench, GPU workstation setup tool that enables devel
 :link-type: doc
 Kubernetes
 ^^^
-Launch RAPIDS containers and cluster on Kubernetes with various tools.
+Launch clusters on Kubernetes with various tools and RAPIDS containers.
 
 {bdg}`single-node`
 {bdg}`multi-node`
@@ -34,7 +34,7 @@ Launch RAPIDS containers and cluster on Kubernetes with various tools.
 :link-type: doc
 Kubeflow
 ^^^
-Integrate RAPIDS with Kubeflow notebooks and pipelines.
+Integrate NVIDIA CUDA-X libraries with Kubeflow notebooks and pipelines.
 
 {bdg}`single-node`
 {bdg}`multi-node`
@@ -45,7 +45,7 @@ Integrate RAPIDS with Kubeflow notebooks and pipelines.
 :link-type: doc
 KServe
 ^^^
-Deploy RAPIDS models with KServe, a standard model inference platform
+Deploy NVIDIA CUDA-X based models for data science with KServe, a standard model inference platform
 for Kubernetes.
 
 {bdg}`multi-node`
@@ -56,7 +56,7 @@ for Kubernetes.
 :link-type: doc
 Coiled
 ^^^
-Run RAPIDS on Coiled.
+Run NVIDIA CUDA-X libraries on Coiled.
 
 {bdg}`multi-node`
 ````
@@ -66,7 +66,7 @@ Run RAPIDS on Coiled.
 :link-type: doc
 Databricks
 ^^^
-Run RAPIDS on Databricks.
+Run NVIDIA CUDA-X libraries on Databricks.
 
 {bdg}`single-node`
 ````
@@ -76,7 +76,7 @@ Run RAPIDS on Databricks.
 :link-type: doc
 Google Colab
 ^^^
-Run RAPIDS on Google Colab.
+Run NVIDIA CUDA-X libraries on Google Colab.
 
 {bdg}`single-node`
 ````
@@ -86,7 +86,7 @@ Run RAPIDS on Google Colab.
 :link-type: doc
 Kaggle
 ^^^
-Run RAPIDS in a Kaggle GPU notebook.
+Run NVIDIA CUDA-X libraries in a Kaggle GPU notebook.
 
 {bdg}`single-node`
 ````
@@ -96,7 +96,7 @@ Run RAPIDS in a Kaggle GPU notebook.
 :link-type: doc
 Snowflake
 ^^^
-Run RAPIDS on Snowflake.
+Run NVIDIA CUDA-X libraries on Snowflake.
 
 {bdg}`single-node`
 ````
@@ -106,7 +106,7 @@ Run RAPIDS on Snowflake.
 :link-type: doc
 Modal
 ^^^
-Run RAPIDS on Modal.
+Run NVIDIA CUDA-X libraries on Modal.
 
 {bdg}`single-node`
 ````

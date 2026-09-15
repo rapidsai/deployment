@@ -4,10 +4,10 @@ To launch a multi-node cluster on AWS EC2 we recommend you use [Dask Cloud Provi
 
 ## Local Environment Setup
 
-Before running these instructions, ensure you have installed RAPIDS.
+Before running these instructions, ensure you have the libraries installed.
 
 ```{note}
-This method of deploying RAPIDS effectively allows you to burst beyond the node you are on into a cluster of EC2 VMs. This does come with the caveat that you are on a RAPIDS capable environment with GPUs.
+This deployment method allows you to burst beyond the current node into a cluster of EC2 VMs. It requires a compatible environment with GPUs.
 ```
 
 If you are using a machine with an NVIDIA GPU then follow the [local install instructions](https://docs.nvidia.com/datascience/install/). Alternatively if you do not have a GPU locally consider using a remote environment like a [SageMaker Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html).

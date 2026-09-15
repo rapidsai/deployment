@@ -4,7 +4,7 @@ review_priority: "p0"
 
 # Vertex AI
 
-RAPIDS can be deployed on [Vertex AI Workbench](https://cloud.google.com/vertex-ai-workbench).
+NVIDIA CUDA-X libraries for data science can be deployed on [Vertex AI Workbench](https://cloud.google.com/vertex-ai-workbench).
 
 ## Create a new Notebook Instance
 
@@ -18,11 +18,11 @@ RAPIDS can be deployed on [Vertex AI Workbench](https://cloud.google.com/vertex-
 If you want to select a different GPU or select other hardware options you can select "Advanced Options" at the bottom and then make changes in the "Machine type" section.
 ```
 
-## Install RAPIDS
+## Install the libraries
 
-Once the instance has started select **OPEN JUPYTER LAB** and at the top of a notebook install the RAPIDS libraries you wish to use.
+Once the instance has started select **OPEN JUPYTER LAB** and at the top of a notebook install the libraries you wish to use.
 
-You can create a new RAPIDS conda environment and register it with `ipykernel` for use in Jupyter Lab. Open a new terminal in Jupyter and run the following commands.
+You can create a new conda environment and register it with `ipykernel` for use in Jupyter Lab. Open a new terminal in Jupyter and run the following commands.
 
 ```bash
 # Use a user-writable location for environments and package caches
@@ -53,17 +53,17 @@ Registering the kernel with `--user` installs the kernelspec in the Jupyter user
 
 Then refresh the Jupyter Lab page and open the launcher. You will see a new "rapids" kernel available.
 
-![Screenshot of the Jupyter Lab launcher showing the RAPIDS kernel](../../images/vertex-ai-launcher.png)
+![Screenshot of the Jupyter Lab launcher showing the `rapids` kernel](../../images/vertex-ai-launcher.png)
 
 ```{tip}
 If you don't see the new kernel wait a minute and refresh the page again, it can take a little while to show up.
 ```
 
-## Test RAPIDS
+## Verify the installation
 
-You should now be able to open a notebook and use RAPIDS.
+You should now be able to open a notebook and use NVIDIA CUDA-X libraries for data science.
 
-For example we could import and use RAPIDS libraries like `cudf`.
+For example, we could import and use a library such as cuDF.
 
 ```ipython
 In [1]: import cudf

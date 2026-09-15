@@ -4,9 +4,9 @@ review_priority: "p1"
 
 # Google Kubernetes Engine
 
-RAPIDS can be deployed on Google Cloud via the [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine) (GKE).
+NVIDIA CUDA-X libraries for data science can be deployed on Google Cloud via the [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine) (GKE).
 
-To run RAPIDS you'll need a Kubernetes cluster with GPUs available.
+To run NVIDIA CUDA-X libraries, you'll need a Kubernetes cluster with GPUs available.
 
 ## Prerequisites
 
@@ -29,7 +29,7 @@ $ gcloud container clusters create rapids-gpu-kubeflow \
   --node-labels="gke-no-default-nvidia-gpu-device-plugin=true"
 ```
 
-With this command, you’ve launched a GKE cluster called `rapids-gpu-kubeflow` with nodes of type `a2-highgpu-2g`, which has two A100 GPUs. GKE's automatic GPU driver installation and default NVIDIA GPU device plugin are disabled so that the [NVIDIA GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/google-gke.html) can configure the GPU stack that RAPIDS needs.
+With this command, you’ve launched a GKE cluster called `rapids-gpu-kubeflow` with nodes of type `a2-highgpu-2g`, which has two A100 GPUs. GKE's automatic GPU driver installation and default NVIDIA GPU device plugin are disabled so that the [NVIDIA GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/google-gke.html) can configure the GPU stack required by the libraries.
 
 ````{note}
 After creating your cluster, if you get a message saying
@@ -136,9 +136,9 @@ Once the GPU Operator Pods are running and GPUs are allocatable, you are ready t
 
 ```
 
-## Install RAPIDS
+## Install the libraries
 
-Now that you have a GPU enables Kubernetes cluster on GKE you can install RAPIDS with [any of the supported methods](../../platforms/kubernetes).
+Now that you have a GPU-enabled Kubernetes cluster on GKE, you can install the libraries with [any of the supported methods](../../platforms/kubernetes).
 
 ## Clean up
 
