@@ -73,7 +73,7 @@ Once inside JupyterLab you should be able to upload the [Running RAPIDS hyperpar
 
 ## SageMaker AI Estimators
 
-RAPIDS can also be used in [SageMaker Estimators](https://sagemaker.readthedocs.io/en/stable/api/training/estimators.html).
+RAPIDS can also be used in [SageMaker Estimators](https://sagemaker.readthedocs.io/en/v2.245.0/api/training/estimators.html).
 Estimators allow you to launch training jobs on ephemeral VMs which SageMaker manages for you.
 With this option, your Notebook Instance doesn't need to have a GPU... you are only charged for GPU instances for the time that your training job is running.
 

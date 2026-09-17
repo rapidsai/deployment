@@ -174,7 +174,7 @@ To create and use a Jupyter Notebook, click "Open Notebook" at the top right aft
 
 ### 2. Brev CLI Install
 
-If you want to access your launched Brev instance(s) via Visual Studio Code or SSH using terminal, you need to install the [Brev CLI according to these instructions](https://docs.nvidia.com/brev/latest/brev-cli.html) or this code below:
+If you want to access your launched Brev instance(s) via Visual Studio Code or SSH using terminal, you need to install the [Brev CLI according to these instructions](https://docs.nvidia.com/brev/cli/getting-started) or this code below:
 
 ```bash
 $ sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/brevdev/brev-cli/main/bin/install-latest.sh)" && brev login

@@ -287,7 +287,7 @@ Once you are done, make sure to delete your cluster to stop billing.
 
 ## Dask Operator
 
-[Dask has an operator](https://kubernetes.dask.org/en/latest/operator.html) that empowers users to create Dask clusters as native Kubernetes resources. This is useful for creating, scaling and removing Dask clusters dynamically and in a flexible way. Usually this is used in conjunction with an interactive session such as the [interactive notebook](interactive-notebook) example above or from another service like [KubeFlow Notebooks](/platforms/kubeflow). By dynamically launching Dask clusters configured to use RAPIDS on Kubernetes user's can burst beyond their notebook session to many GPUs spreak across many nodes.
+[Dask has an operator](https://kubernetes.dask.org/en/latest/) that empowers users to create Dask clusters as native Kubernetes resources. This is useful for creating, scaling and removing Dask clusters dynamically and in a flexible way. Usually this is used in conjunction with an interactive session such as the [interactive notebook](interactive-notebook) example above or from another service like [KubeFlow Notebooks](/platforms/kubeflow). By dynamically launching Dask clusters configured to use RAPIDS on Kubernetes user's can burst beyond their notebook session to many GPUs spreak across many nodes.
 
 Find out more on the [Dask Operator page](/tools/kubernetes/dask-operator).
 

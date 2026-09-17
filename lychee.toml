@@ -1,0 +1,27 @@
+cache = true
+cache_exclude_status = ["400..=599"]
+max_concurrency = 8
+max_retries = 3
+retry_wait_time = 5
+timeout = 30
+user_agent = "curl/8.5.0"
+accept = ["200..=204", "429"]
+exclude_all_private = true
+fallback_extensions = ["md", "ipynb"]
+index_files = ["index.html"]
+exclude_path = ["_static/"]
+exclude = [
+  # Hosts that reject automated requests.
+  '^https://([a-z-]+\.)?medium\.com/',
+  '^https://azuremarketplace\.microsoft\.com/',
+  '^https://console\.cloud\.google\.com/',
+  '^https://www\.gnu\.org/',
+  # Requires an NGC login (401).
+  '^https://org\.ngc\.nvidia\.com/',
+  # Dask dashboards and cluster-local endpoints captured in notebook outputs.
+  ':8787(/|$)',
+  ':9090(/|$)',
+  '/proxy/',
+  # MyST label targets written as (label)= are not files.
+  '/(colab-quick|colab-custom|classic-gpu-compute|serverless-gpu-compute|create-init-script|interactive-notebook)$',
+]

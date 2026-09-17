@@ -116,7 +116,7 @@ ml_client = MLClient.from_config(
 
 ### Create AMLCompute
 
-You will need to create a [compute target](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-target?view=azureml-api-2#azure-machine-learning-compute-managed) using Azure ML managed compute ([AmlCompute](https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-ml/0.1.0b4/azure.ai.ml.entities.html)) for remote training.
+You will need to create a [compute target](https://learn.microsoft.com/en-us/azure/machine-learning/concept-compute-target?view=azureml-api-2#azure-machine-learning-compute-managed) using Azure ML managed compute ([AmlCompute](https://learn.microsoft.com/en-us/python/api/azure-ai-ml/azure.ai.ml.entities)) for remote training.
 
 ```{note}
 Be sure to check instance availability and its limits within the region where you created your compute instance.

@@ -53,6 +53,32 @@ jobs:
       - name: Build
         run: RAPIDS_DOCS_RELEASE_TAGS="$(git tag --list)" uv run make dirhtml SPHINXOPTS="-W --keep-going -n"
 
+      - name: List rendered pages for changed sources
+        if: ${{ github.event_name == 'pull_request' }}
+        id: changed-pages
+        run: |
+          # dirhtml renders source/<path>.md to build/dirhtml/<path>/index.html,
+          # and source/<dir>/index.md to build/dirhtml/<dir>/index.html
+          git diff --name-only --diff-filter=d "origin/${GITHUB_BASE_REF}...HEAD" -- 'source/**/*.md' 'source/**/*.ipynb' |
+            while read -r src; do
+              page="${src#source/}"
+              page="${page%.*}"
+              case "${page}" in
+                index) page="." ;;
+                */index) page="${page%/index}" ;;
+              esac
+              echo "build/dirhtml/${page}/index.html"
+            done > "${RUNNER_TEMP}/changed-pages"
+          echo "count=$(wc -l < "${RUNNER_TEMP}/changed-pages" | tr -d ' ')" >> "${GITHUB_OUTPUT}"
+
+      - name: Check links on changed pages
+        if: ${{ github.event_name == 'pull_request' && steps.changed-pages.outputs.count != '0' }}
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          args: --no-progress --root-dir "$(pwd)/build/dirhtml" --files-from "${RUNNER_TEMP}/changed-pages"
+          fail: false
+          failIfEmpty: false
+
       - name: Read publish manifest
         id: publish
         run: cat build/publish/publish.env | tee -a "${GITHUB_OUTPUT}"
