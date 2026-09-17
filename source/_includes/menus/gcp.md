@@ -6,7 +6,7 @@
 :link-type: doc
 Compute Engine Instance
 ^^^
-Launch a Compute Engine instance and run RAPIDS.
+Launch a Compute Engine instance and run NVIDIA CUDA-X libraries.
 
 {bdg}`single-node`
 ````
@@ -26,7 +26,7 @@ Launch the RAPIDS container in Vertex AI managed notebooks.
 :link-type: doc
 Google Kubernetes Engine (GKE)
 ^^^
-Launch a RAPIDS cluster on managed Kubernetes.
+Launch a cluster on managed Kubernetes.
 
 {bdg}`multi-node`
 ````
@@ -36,7 +36,7 @@ Launch a RAPIDS cluster on managed Kubernetes.
 :link-type: doc
 Dataproc
 ^^^
-Launch a RAPIDS cluster on Dataproc.
+Launch a cluster on Dataproc.
 
 {bdg}`multi-node`
 ````

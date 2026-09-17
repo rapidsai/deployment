@@ -1,6 +1,6 @@
 # Coiled
 
-You can deploy RAPIDS on cloud VMs with GPUs using [Coiled](https://www.coiled.io/).
+You can deploy NVIDIA CUDA-X libraries for data science on cloud VMs with GPUs using [Coiled](https://www.coiled.io/).
 Coiled is a software platform that manages Cloud VMs on your behalf.
 It manages software environments and can launch Python scripts, Jupyter Notebook servers, Dask clusters or even just individual Python functions.
 Remote machines are booted just in time and shut down when not in use or idle.
@@ -27,7 +27,7 @@ For more information see the [Coiled Getting Started documentation](https://docs
 
 ## Notebook Quickstart
 
-The simplest way to get up and running with RAPIDS on Coiled is to launch a Jupyter notebook server using the RAPIDS notebook container.
+The simplest way to get up and running with NVIDIA CUDA-X libraries for data science on Coiled is to launch a Jupyter notebook server using the RAPIDS notebook container.
 
 ```bash
 $ coiled notebook start --gpu --container {{ rapids_notebooks_container }}
@@ -53,11 +53,11 @@ This is often the most convenient way to try out existing software environments,
 
 You can also created Coiled software environments ahead of time. These environments are built and cached on the cloud and can be pulled onto new VMs very quickly.
 
-You can create a RAPIDS software environment using a conda `environment.yaml` file or a pip `requirements.txt` file.
+You can create a software environment using a conda `environment.yaml` file or a pip `requirements.txt` file.
 
 #### Conda example
 
-Create an environment file containing the RAPIDS packages
+Create an environment file containing the packages
 
 <!-- prettier-ignore -->
 ```yaml
@@ -135,7 +135,7 @@ $ coiled notebook start --gpu --vm-type g6.24xlarge --container {{ rapids_notebo
 
 ## Dask Clusters
 
-Coiled’s [managed Dask clusters](https://docs.coiled.io/user_guide/dask.html) can also provision clusters using [dask-cuda](https://docs.nvidia.com/dask-cuda/latest/) to enable using RAPIDS in a distributed way.
+Coiled’s [managed Dask clusters](https://docs.coiled.io/user_guide/dask.html) can also provision clusters using [dask-cuda](https://docs.nvidia.com/dask-cuda/latest/) to enable using NVIDIA CUDA-X libraries for data science in a distributed way.
 
 ```python
 cluster = coiled.Cluster(

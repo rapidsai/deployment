@@ -1,6 +1,6 @@
 # Does the Dask scheduler need a GPU?
 
-A common question from users deploying Dask clusters is whether the scheduler has different minimum requirements to the workers. This question is compounded when using RAPIDS and GPUs.
+A common question from users deploying Dask clusters is whether the scheduler has different minimum requirements to the workers. This question is compounded when using NVIDIA CUDA-X libraries for data science and GPUs.
 
 ```{warning}
 This guide outlines our current advice on scheduler hardware requirements, but this may be subject to change.
@@ -8,7 +8,7 @@ This guide outlines our current advice on scheduler hardware requirements, but t
 
 **TLDR; It is strongly suggested that your Dask scheduler has matching hardware/software capabilities to the other components in your cluster.**
 
-Therefore, if your workers have GPUs and the RAPIDS libraries installed we recommend that your scheduler does too. However the GPU attached to your scheduler doesn't need to be as powerful as the GPUs on your workers, as long as it has the same capabilities and driver/CUDA versions.
+Therefore, if your workers have GPUs and the libraries installed, we recommend that your scheduler does too. However, the GPU attached to your scheduler doesn't need to be as powerful as the GPUs on your workers, as long as it has the same capabilities and driver/CUDA versions.
 
 ## What does the scheduler use a GPU for?
 
@@ -27,7 +27,7 @@ If your workload doesn't trigger any edge-cases and you're not using the high-le
 
 ### Known edge cases
 
-When calling [`client.submit`](https://docs.dask.org/en/latest/futures.html#distributed.Client.submit) and passing data directly to a function the whole graph is serialized and sent to the scheduler. In order for the scheduler to figure out what to do with it the graph is deserialized. If the data uses GPUs this can cause the scheduler to import RAPIDS libraries, attempt to instantiate a CUDA context and populate the data into GPU memory. If those libraries are missing and/or there are no GPUs this will cause the scheduler to fail.
+When calling [`client.submit`](https://docs.dask.org/en/latest/futures.html#distributed.Client.submit) and passing data directly to a function the whole graph is serialized and sent to the scheduler. In order for the scheduler to figure out what to do with it the graph is deserialized. If the data uses GPUs this can cause the scheduler to import the libraries, attempt to instantiate a CUDA context and populate the data into GPU memory. If those libraries are missing and/or there are no GPUs this will cause the scheduler to fail.
 
 Many Dask collections also have a meta object which represents the overall collection but without any data. For example a Dask Dataframe has a meta Pandas Dataframe which has the same meta properties and is used during scheduling. If the underlying data is instead a cuDF Dataframe then the meta object will be too, which is deserialized on the scheduler.
 

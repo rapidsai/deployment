@@ -3,12 +3,12 @@ review_priority: "p1"
 html_theme.sidebar_secondary.remove: true
 ---
 
-# Custom RAPIDS Docker Guide
+# Custom Docker Guide
 
-This guide provides instructions for building custom RAPIDS Docker containers. This approach allows you to select only the RAPIDS libraries you need, which is ideal for creating minimal, customizable images that can be tuned to your requirements.
+This guide provides instructions for building custom RAPIDS Docker containers. This approach allows you to select only the libraries you need, which is ideal for creating minimal, customizable images that can be tuned to your requirements.
 
 ```{note}
- For quick setup with pre-built containers that include the full RAPIDS suite,  please see the [Official RAPIDS Docker Installation Guide](https://docs.nvidia.com/datascience/install/#docker).
+ For quick setup with pre-built containers that include the full RAPIDS suite,  please see the [official Docker installation guide](https://docs.nvidia.com/datascience/install/#docker).
 ```
 
 ## Overview
@@ -31,8 +31,8 @@ To begin, you will need to create a few local files for your custom build: a `Do
 2. **Prepare Your Project Files**: Based on your chosen approach (conda or pip), create the necessary files in your project directory from the corresponding tab in the Docker Templates section below.
 
 3. **Customize Your Build**:
-   - When using **conda**, edit your local `env.yaml` file to add the desired RAPIDS libraries.
-   - When using **pip**, edit your local `requirements.txt` file with your desired RAPIDS libraries.
+   - When using **conda**, edit your local `env.yaml` file to add the desired libraries.
+   - When using **pip**, edit your local `requirements.txt` file with your desired libraries.
 
 4. **Build the Image**: Use the commands provided in the Build and Run section to create and start your custom container.
 
@@ -40,7 +40,7 @@ To begin, you will need to create a few local files for your custom build: a `Do
 
 ## Package Manager Differences
 
-The choice of base image depends on how your package manager handles CuPy (a dependency for most RAPIDS libraries) and CUDA library dependencies:
+The choice of base image depends on how your package manager handles CuPy (a dependency for most of the libraries) and CUDA library dependencies:
 
 ### Conda → Uses `cuda-base`
 
@@ -48,7 +48,7 @@ The choice of base image depends on how your package manager handles CuPy (a dep
 FROM nvidia/cuda:13.1.1-base-ubuntu24.04
 ```
 
-This approach works because conda can install both Python and non-Python dependencies, including system-level CUDA libraries like `libcudart` and `libnvrtc`. When installing RAPIDS libraries via conda, the package manager automatically pulls the required CUDA runtime libraries alongside CuPy and other dependencies, providing complete dependency management in a single installation step.
+This approach works because conda can install both Python and non-Python dependencies, including system-level CUDA libraries like `libcudart` and `libnvrtc`. When installing the libraries via conda, the package manager automatically pulls the required CUDA runtime libraries alongside CuPy and other dependencies, providing complete dependency management in a single installation step.
 
 ### Pip → Uses `cuda-runtime`
 
@@ -137,7 +137,7 @@ When using `pip`, you must specify the CUDA version in the package name (e.g., `
 :::
 
 ```{note}
-**GPU Access with `--gpus all`**: The `--gpus` flag uses the NVIDIA Container Toolkit to dynamically mount GPU device files (`/dev/nvidia*`), NVIDIA driver libraries (`libcuda.so`, `libnvidia-ml.so`), and utilities like `nvidia-smi` from the host system into your container at runtime. This is why `nvidia-smi` becomes available even though it's not installed in your Docker image. Your container only needs to provide the CUDA runtime libraries (like `libcudart`) that RAPIDS requires—the host system's NVIDIA driver handles the rest.
+**GPU Access with `--gpus all`**: The `--gpus` flag uses the NVIDIA Container Toolkit to dynamically mount GPU device files (`/dev/nvidia*`), NVIDIA driver libraries (`libcuda.so`, `libnvidia-ml.so`), and utilities like `nvidia-smi` from the host system into your container at runtime. This is why `nvidia-smi` becomes available even though it's not installed in your Docker image. Your container only needs to provide the CUDA runtime libraries (like `libcudart`) that the libraries require—the host system's NVIDIA driver handles the rest.
 ```
 
 ### Image Size Comparison
@@ -150,11 +150,11 @@ One of the key benefits of building custom RAPIDS containers is the significant 
 | **Custom pip**       | cuDF only         | **6.53 GB** |
 | **Pre-built RAPIDS** | Full RAPIDS suite | **12.9 GB** |
 
-Custom builds are smaller in size when you only need specific RAPIDS libraries like cuDF. These size reductions result in faster container pulls and deployments, reduced storage costs in container registries, lower bandwidth usage in distributed environments, and quicker startup times for containerized applications.
+Custom builds are smaller in size when you only need specific libraries like cuDF. These size reductions result in faster container pulls and deployments, reduced storage costs in container registries, lower bandwidth usage in distributed environments, and quicker startup times for containerized applications.
 
 ## Extending the Container
 
-One of the benefits of building custom RAPIDS containers is the ability to easily add your own packages to the environment. You can add any combination of RAPIDS and non-RAPIDS libraries to create a fully featured container for your workloads.
+One of the benefits of building custom RAPIDS containers is the ability to easily add your own packages to the environment. You can add any combination of the libraries and other packages to create a fully featured container for your workloads.
 
 ### Using conda
 
@@ -185,7 +185,7 @@ scikit-learn
 lightgbm
 ```
 
-After modifying your configuration file, rebuild the Docker image. The new packages will be automatically included in your custom RAPIDS environment.
+After modifying your configuration file, rebuild the Docker image. The new packages will be automatically included in your custom environment.
 
 ## Build Configuration
 
@@ -208,7 +208,7 @@ For conda installations, you can choose the required python version in the `env.
 
 ## Verifying Your Installation
 
-After starting your container, you can quickly test that RAPIDS is installed and running correctly. The container launches directly into a `bash` shell where you can install the [RAPIDS CLI](https://github.com/rapidsai/rapids-cli) command line utility to verify your installation.
+After starting your container, you can quickly test that the installation is working correctly. The container launches directly into a `bash` shell where you can install the [RAPIDS CLI](https://github.com/rapidsai/rapids-cli) command line utility to verify your installation.
 
 1. **Run the Container Interactively**
 

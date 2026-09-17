@@ -1,18 +1,18 @@
 # Building RAPIDS containers from a custom base image
 
-This guide provides instructions to add RAPIDS and CUDA to your existing Docker images. This approach allows you to integrate RAPIDS libraries into containers that must start from a specific base image, such as application-specific containers.
+This guide provides instructions to add NVIDIA CUDA-X libraries for data science and CUDA to your existing Docker images. This approach allows you to integrate NVIDIA CUDA-X libraries into containers that must start from a specific base image, such as application-specific containers.
 
 The CUDA installation steps are sourced from the official [NVIDIA CUDA Container Images Repository](https://gitlab.com/nvidia/container-images/cuda).
 
 ```{warning}
 We strongly recommend that you use the official CUDA container images published by NVIDIA. This guide is intended for those extreme situations where you cannot use the CUDA images as the base and need to manually install CUDA components on your containers. This approach introduces significant complexity and potential issues that can be difficult to debug. We cannot provide support for users beyond what is on this page.
 
-If you have the flexibility to choose your base image, see the {doc}`Custom RAPIDS Docker Guide <../custom-docker>` which starts from NVIDIA's official CUDA images for a simpler setup.
+If you have the flexibility to choose your base image, see the {doc}`Custom Docker Guide <../custom-docker>` which starts from NVIDIA's official CUDA images for a simpler setup.
 ```
 
 ## Overview
 
-If you cannot use NVIDIA's CUDA container images, you will need to manually install CUDA components in your existing Docker image. The components you need depends on the package manager used to install RAPIDS:
+If you cannot use NVIDIA's CUDA container images, you will need to manually install CUDA components in your existing Docker image. The components you need depend on the package manager used to install the libraries:
 
 - **For conda installations**: You need the components from the NVIDIA `base` CUDA images
 - **For pip installations**: You need the components from the NVIDIA `runtime` CUDA images
@@ -21,7 +21,7 @@ If you cannot use NVIDIA's CUDA container images, you will need to manually inst
 
 NVIDIA provides three tiers of CUDA container images, each building on the previous:
 
-### Base Components (Required for RAPIDS on conda)
+### Base Components (Required for conda installations)
 
 The **base** images provide the minimal CUDA runtime environment:
 
@@ -30,7 +30,7 @@ The **base** images provide the minimal CUDA runtime environment:
 | CUDA Runtime       | `cuda-cudart` | Core CUDA runtime library (`libcudart.so`)        |
 | CUDA Compatibility | `cuda-compat` | Forward compatibility libraries for older drivers |
 
-### Runtime Components (Required for RAPIDS on pip)
+### Runtime Components (Required for pip installations)
 
 The **runtime** images include all the base components plus additional CUDA packages such as:
 
@@ -54,7 +54,7 @@ The **devel** images add development tools to runtime images such as:
 - Additional development utilities
 
 ```{note}
-Development components are typically not needed for RAPIDS usage unless you plan to compile CUDA code within your container. For the complete and up to date list of runtime and devel components, see the respective Dockerfiles in the [NVIDIA CUDA Container Images Repository](https://gitlab.com/nvidia/container-images/cuda/-/tree/master/dist).
+Development components are typically not needed for library usage unless you plan to compile CUDA code within your container. For the complete and up to date list of runtime and devel components, see the respective Dockerfiles in the [NVIDIA CUDA Container Images Repository](https://gitlab.com/nvidia/container-images/cuda/-/tree/master/dist).
 ```
 
 ## Getting the Right Components for Your Setup
@@ -91,9 +91,9 @@ CUDA components are available for most popular Linux distributions. For the comp
 Package versions change between CUDA releases. Always check the specific Dockerfile for your desired CUDA version and distribution to get the correct versions.
 ```
 
-### Installing RAPIDS libraries on your container
+### Installing the libraries on your container
 
-Refer to the Docker Templates in the [Custom RAPIDS Docker Guide](../custom-docker.md) to configure your RAPIDS installation, adding the conda or pip installation commands after the CUDA components are installed.
+Refer to the Docker Templates in the [Custom Docker Guide](../custom-docker.md) to configure your installation, adding the conda or pip installation commands after the CUDA components are installed.
 
 ## Essential Environment Variables
 
@@ -120,9 +120,9 @@ These examples must be built with Docker v28+.
 ````{tab-item} conda
 :sync: conda
 
-### RAPIDS with conda (Base Components)
+### Installation with conda (Base Components)
 
-Create an `env.yaml` file alongside your Dockerfile with your desired RAPIDS packages following the configuration described in the [Custom RAPIDS Docker Guide](../custom-docker.md). Set the `TARGETARCH` build argument to match your target architecture (`amd64` for x86_64 or `arm64` for ARM processors).
+Create an `env.yaml` file alongside your Dockerfile with your desired packages following the configuration described in the [Custom Docker Guide](../custom-docker.md). Set the `TARGETARCH` build argument to match your target architecture (`amd64` for x86_64 or `arm64` for ARM processors).
 
 ```dockerfile
 FROM ubuntu:24.04
@@ -214,9 +214,9 @@ CMD ["bash"]
 ````{tab-item} pip
 :sync: pip
 
-### RAPIDS with pip (Runtime Components)
+### Installation with pip (Runtime Components)
 
-Create a `requirements.txt` file alongside your Dockerfile with your desired RAPIDS packages following the configuration described in the [Custom RAPIDS Docker Guide](../custom-docker.md). Set the `TARGETARCH` build argument to match your target architecture (`amd64` for x86_64 or `arm64` for ARM processors). You can also customize the Python version by changing the `PYTHON_VER` build argument.
+Create a `requirements.txt` file alongside your Dockerfile with your desired packages following the configuration described in the [Custom Docker Guide](../custom-docker.md). Set the `TARGETARCH` build argument to match your target architecture (`amd64` for x86_64 or `arm64` for ARM processors). You can also customize the Python version by changing the `PYTHON_VER` build argument.
 
 ```dockerfile
 FROM ubuntu:24.04
@@ -332,7 +332,7 @@ CMD ["bash"]
 
 ## Verifying Your Installation
 
-After starting your container, you can quickly test that RAPIDS is installed and running correctly. The container launches directly into a `bash` shell where you can install the [RAPIDS CLI](https://github.com/rapidsai/rapids-cli) command line utility to verify your installation.
+After starting your container, you can quickly test that the installation is working correctly. The container launches directly into a `bash` shell where you can install the [RAPIDS CLI](https://github.com/rapidsai/rapids-cli) command line utility to verify your installation.
 
 1. **Run the Container Interactively**
 
@@ -378,4 +378,4 @@ After starting your container, you can quickly test that RAPIDS is installed and
    All checks passed!
    ```
 
-For more RAPIDS on Docker, see the [Custom RAPIDS Docker Guide](../custom-docker.md) and the [RAPIDS installation guide](https://docs.nvidia.com/datascience/install/).
+For more information about Docker deployments, see the [Custom Docker Guide](../custom-docker.md) and the [installation guide](https://docs.nvidia.com/datascience/install/).

@@ -9,7 +9,7 @@ html_theme.sidebar_secondary.remove: true
 
 ```
 
-RAPIDS can be deployed on IBM Cloud in several ways. See the
+NVIDIA CUDA-X libraries for data science can be deployed on IBM Cloud in several ways. See the
 list of accelerated instance types below:
 
 | Cloud <br> Provider | Inst. <br> Type       | vCPUs | Inst. <br> Name    | GPU <br> Count | GPU <br> Type | xGPU <br> RAM | xGPU <br> RAM Total |

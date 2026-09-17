@@ -6,7 +6,7 @@
 :link-type: doc
 IBM Virtual Server
 ^^^
-Launch a virtual server and run RAPIDS.
+Launch a virtual server and run NVIDIA CUDA-X libraries.
 
 {bdg}`single-node`
 ````

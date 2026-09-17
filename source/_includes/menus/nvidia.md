@@ -6,7 +6,7 @@
 :link-type: doc
 Brev.dev
 ^^^
-Deploy and run RAPIDS on NVIDIA Brev
+Deploy and run NVIDIA CUDA-X libraries on NVIDIA Brev
 
 {bdg}`single-node`
 ````

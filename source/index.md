@@ -3,9 +3,9 @@ review_priority: "index"
 html_theme.sidebar_secondary.remove: true
 ---
 
-# NVIDIA RAPIDS Deployment Documentation
+# Deployment Documentation for NVIDIA CUDA-X Data Science libraries
 
-NVIDIA RAPIDS deployment documentation helps you get up and running with RAPIDS anywhere.
+This deployment documentation helps you get up and running with NVIDIA CUDA-X libraries for data science anywhere.
 
 `````{gridtoctree} 1 2 2 3
 :gutter: 2 2 2 2
@@ -15,7 +15,7 @@ NVIDIA RAPIDS deployment documentation helps you get up and running with RAPIDS 
 :link-type: doc
 {fas}`desktop;sd-text-primary` Local Machine
 ^^^
-Use RAPIDS on your local workstation or server.
+Use NVIDIA CUDA-X libraries for data science on your local workstation or server.
 
 {bdg}`docker`
 {bdg}`conda`
@@ -28,7 +28,7 @@ Use RAPIDS on your local workstation or server.
 :link-type: doc
 {fas}`cloud;sd-text-primary` Cloud
 ^^^
-Use RAPIDS on the cloud.
+Use NVIDIA CUDA-X libraries for data science on the cloud.
 
 {bdg}`Amazon Web Services`
 {bdg}`Google Cloud Platform`
@@ -41,7 +41,7 @@ Use RAPIDS on the cloud.
 :link-type: doc
 {fas}`server;sd-text-primary` HPC
 ^^^
-Use RAPIDS on high performance computers and supercomputers.
+Use NVIDIA CUDA-X libraries for data science on high performance computers and supercomputers.
 
 {bdg}`SLURM`
 ````
@@ -51,7 +51,7 @@ Use RAPIDS on high performance computers and supercomputers.
 :link-type: doc
 {fas}`network-wired;sd-text-primary` Platforms
 ^^^
-Use RAPIDS on compute platforms.
+Use NVIDIA CUDA-X libraries for data science on compute platforms.
 
 {bdg}`Kubernetes`
 {bdg}`Kubeflow`
@@ -65,7 +65,7 @@ Use RAPIDS on compute platforms.
 :link-type: doc
 {fas}`hammer;sd-text-primary` Tools
 ^^^
-There are many tools to deploy RAPIDS.
+There are many tools for deploying NVIDIA CUDA-X libraries for data science.
 
 {bdg}`containers`
 {bdg}`dask-kubernetes`
@@ -79,7 +79,7 @@ There are many tools to deploy RAPIDS.
 :link-type: doc
 {fas}`book;sd-text-primary` Workflow Examples
 ^^^
-For inspiration see our example notebooks with opinionated deployments of RAPIDS to boost machine learning workflows.
+For inspiration see our example notebooks with opinionated deployments of NVIDIA CUDA-X libraries to boost machine learning workflows.
 
 {bdg}`xgboost`
 {bdg}`optuna`
@@ -92,7 +92,7 @@ For inspiration see our example notebooks with opinionated deployments of RAPIDS
 :link-type: doc
 {fas}`book;sd-text-primary` Guides
 ^^^
-Detailed guides on how to deploy and optimize RAPIDS.
+Detailed guides on how to deploy and optimize NVIDIA CUDA-X libraries.
 
 {bdg}`Microsoft Azure`
 {bdg}`Infiniband`
@@ -104,7 +104,7 @@ Detailed guides on how to deploy and optimize RAPIDS.
 :link-type: doc
 {fas}`zap;sd-text-primary` NVIDIA NIM Microservices
 ^^^
-NVIDIA NIM Microservices using RAPIDS to accelerate your AI deployment.
+NVIDIA NIM Microservices use NVIDIA CUDA-X libraries to accelerate your AI deployment.
 
 {bdg}`Natural Language Processing`
 {bdg}`Data Processing`
@@ -116,7 +116,7 @@ NVIDIA NIM Microservices using RAPIDS to accelerate your AI deployment.
 :link-type: doc
 {fas}`wrench;sd-text-primary` Developer
 ^^^
-Build on RAPIDS in your development environments.
+Build NVIDIA CUDA-X libraries for data science in your development environments.
 
 {bdg}`CI`
 ````

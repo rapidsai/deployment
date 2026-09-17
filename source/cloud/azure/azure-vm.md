@@ -121,9 +121,9 @@ $ az network nsg rule create \
 ````
 `````
 
-## Install RAPIDS
+## Install the libraries
 
-Next, we can SSH into our VM to install RAPIDS. SSH instructions can be found by selecting **Connect** in the left panel.
+Next, we can SSH into our VM to install the libraries. SSH instructions can be found by selecting **Connect** in the left panel.
 
 ````{tip}
 When connecting via SSH by doing
@@ -143,7 +143,7 @@ doing `chmod 600 your_key_file.pem`, and you should be good to go.
 
 ```
 
-## Test RAPIDS
+## Verify the installation
 
 ```{include} ../../_includes/test-rapids-docker-vm.md
 

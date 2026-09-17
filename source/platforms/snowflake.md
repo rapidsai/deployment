@@ -2,7 +2,7 @@
 
 You can access `cuDF` and `cuML` in [Snowflake Notebooks in Workspaces (Jupyter compatible)](https://docs.snowflake.com/en/user-guide/ui-snowsight/notebooks-in-workspaces/notebooks-in-workspaces-overview)
 or in the [Snowflake Notebooks on Container Runtime for ML](https://docs.snowflake.com/en/developer-guide/snowflake-ml/notebooks-on-spcs).
-You can also install RAPIDS on [Snowflake](https://www.snowflake.com) via [Snowpark Container Services](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview).
+You can also install the libraries on [Snowflake](https://www.snowflake.com) via [Snowpark Container Services](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview).
 
 ## Snowflake Notebooks in Workspaces (Jupyter compatible)
 

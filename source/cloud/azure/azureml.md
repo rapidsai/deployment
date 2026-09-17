@@ -4,7 +4,7 @@ review_priority: "p0"
 
 # Azure Machine Learning
 
-RAPIDS can be deployed at scale using [Azure Machine Learning Service](https://learn.microsoft.com/en-us/azure/machine-learning/overview-what-is-azure-machine-learning) and can be scaled up to any size needed.
+NVIDIA CUDA-X libraries for data science can be deployed at scale using [Azure Machine Learning Service](https://learn.microsoft.com/en-us/azure/machine-learning/overview-what-is-azure-machine-learning) and can be scaled up to any size needed.
 
 ## Pre-requisites
 
@@ -28,14 +28,14 @@ The compute instance provides an integrated Jupyter notebook service, JupyterLab
 
 Sign in to [Azure Machine Learning Studio](https://ml.azure.com/) and navigate to your workspace on the left-side menu.
 
-Select **New** > **Compute instance** (Create compute instance) > choose an [Azure RAPIDS compatible GPU](https://docs.nvidia.com/datascience/deployment/latest/cloud/azure/) VM size (e.g., `Standard_NC6s_v3`)
+Select **New** > **Compute instance** (Create compute instance) > choose a VM size with a [compatible GPU on Azure](https://docs.nvidia.com/datascience/deployment/latest/cloud/azure/) (e.g., `Standard_NC6s_v3`)
 
 ![Screenshot of create new notebook with a gpu-instance](../../images/azureml-create-notebook-instance.png)
 
-### Provision RAPIDS setup script
+### Provision setup script
 
 Navigate to the **Applications** section.
-Choose "Provision with a creation script" to install RAPIDS and dependencies.
+Choose "Provision with a creation script" to install the libraries and dependencies.
 
 Put the following in a local file called `rapids-azure-startup.sh`:
 
@@ -83,13 +83,13 @@ Refer to [Azure ML documentation](https://learn.microsoft.com/en-us/azure/machin
 
 Launch the instance.
 
-### Select the RAPIDS environment
+### Select the environment
 
 Once your Notebook Instance is `Running`, open "JupyterLab" and select the `rapids` kernel when working with a new notebook.
 
 ## Azure ML Compute cluster
 
-In the next section we will launch Azure's [ML Compute cluster](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-create-attach-compute-cluster?tabs=python) to distribute your RAPIDS training jobs across a cluster of single or multi-GPU compute nodes.
+In the next section we will launch Azure's [ML Compute cluster](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-create-attach-compute-cluster?tabs=python) to distribute your training jobs across a cluster of single or multi-GPU compute nodes.
 
 The Compute cluster scales up automatically when a job is submitted, and executes in a containerized environment, packaging your model dependencies in a Docker container.
 
@@ -160,7 +160,7 @@ A [datastore URI](https://learn.microsoft.com/en-us/azure/machine-learning/how-t
 
 ![Screenshot of access datastore uri screen](../../images/azureml-access-datastore-uri.png)
 
-### Custom RAPIDS Environment
+### Custom Environment
 
 To run an AzureML experiment, you must specify an [environment](https://learn.microsoft.com/en-us/azure/machine-learning/concept-environments?view=azureml-api-2) that contains all the necessary software dependencies to run the training script on distributed nodes. <br>
 You can define an environment from a [pre-built](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-environments-v2?tabs=python&view=azureml-api-2#create-an-environment-from-a-docker-image) docker image or create-your-own from a [Dockerfile](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-environments-v2?tabs=python&view=azureml-api-2#create-an-environment-from-a-docker-build-context) or [conda](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-manage-environments-v2?tabs=python&view=azureml-api-2#create-an-environment-from-a-conda-specification) specification file.
@@ -203,7 +203,7 @@ env_docker_image = Environment(
 ml_client.environments.create_or_update(env_docker_image)
 ```
 
-### Submit RAPIDS Training jobs
+### Submit Training jobs
 
 Now that we have our environment and custom logic, we can configure and run the `command` [class](https://learn.microsoft.com/en-us/python/api/azure-ai-ml/azure.ai.ml?view=azure-python#azure-ai-ml-command) to submit training jobs.
 

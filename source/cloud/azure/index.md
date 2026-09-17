@@ -9,8 +9,8 @@ html_theme.sidebar_secondary.remove: true
 
 ```
 
-RAPIDS can be deployed on Microsoft Azure in several ways. Azure supports various kinds of GPU VMs for different needs.
-For RAPIDS users we recommend NC/ND VMs for computation and deep learning optimized instances.
+NVIDIA CUDA-X libraries for data science can be deployed on Microsoft Azure in several ways. Azure supports various kinds of GPU VMs for different needs.
+For data science users, we recommend NC/ND VMs for computation and deep learning optimized instances.
 
 NC (>=v3) series
 

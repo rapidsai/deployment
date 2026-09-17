@@ -67,17 +67,17 @@ NOTES:
 Operator has been installed successfully.
 ```
 
-## Configuring a RAPIDS `DaskCluster`
+## Configuring a `DaskCluster`
 
-To configure the `DaskCluster` resource to run RAPIDS you need to set a few things:
+To configure the `DaskCluster` resource to run NVIDIA CUDA-X libraries you need to set a few things:
 
-- The container image must contain RAPIDS, the [official RAPIDS container images](https://docs.nvidia.com/datascience/install/#docker) are a good choice for this.
+- The container image must contain the libraries; the [official RAPIDS container images](https://docs.nvidia.com/datascience/install/#docker) are a good choice for this.
 - The Dask workers must be configured with one or more NVIDIA GPU resources.
 - The worker command must be set to `dask-cuda-worker`.
 
-## Creating a RAPIDS `DaskCluster` using `kubectl`
+## Creating a `DaskCluster` using `kubectl`
 
-Here is an example resource manifest for launching a RAPIDS Dask cluster with worker Pod affinity
+Here is an example resource manifest for launching a Dask cluster with worker Pod affinity
 
 ```yaml
 # rapids-dask-cluster.yaml
@@ -169,7 +169,7 @@ $ kubectl apply -f rapids-dask-cluster.yaml
 
 ### Manifest breakdown
 
-Most of this manifest is explained in the [Dask Operator](https://docs.nvidia.com/datascience/deployment/latest/tools/kubernetes/dask-operator/#example-using-kubecluster) documentation in the tools section of the RAPIDS documentation.
+Most of this manifest is explained in the [Dask Operator](https://docs.nvidia.com/datascience/deployment/latest/tools/kubernetes/dask-operator/#example-using-kubecluster) documentation in the tools section of the deployment documentation.
 
 The only addition made to the example from the above documentation page is the following section in the worker configuration
 
