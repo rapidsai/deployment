@@ -26,7 +26,7 @@ Please follow the links below to our install templates:
 #### Pip
 
 1. Open the pip template link by clicking this button -->
-   <a target="_blank" href="https://nvda.ws/3XEO6hK">
+   <a target="_blank" href="https://colab.research.google.com/github/rapidsai-community/rapidsai-csp-utils/blob/main/test/test_colab_update.ipynb">
    <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
    </a> .
 1. Click **Runtime** > **Run All**.
@@ -75,13 +75,17 @@ Run the following in a Python cell.
 ```python
 import cudf
 
-gdf = cudf.DataFrame({"a":[1,2,3], "b":[4,5,6]})
+gdf = cudf.DataFrame({"a": [1, 2, 3], "b": [4, 5, 6]})
 gdf
+```
+
+The output should be
+
+```python
     a   b
 0   1   4
 1   2   5
 2   3   6
-
 ```
 
 ### 6. Next steps
