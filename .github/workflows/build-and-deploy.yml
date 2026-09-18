@@ -69,7 +69,19 @@ jobs:
               esac
               echo "build/dirhtml/${page}/index.html"
             done > "${RUNNER_TEMP}/changed-pages"
-          echo "count=$(wc -l < "${RUNNER_TEMP}/changed-pages" | tr -d ' ')" >> "${GITHUB_OUTPUT}"
+          count="$(wc -l < "${RUNNER_TEMP}/changed-pages" | tr -d ' ')"
+          echo "count=${count}" >> "${GITHUB_OUTPUT}"
+          {
+            echo "## Link check scope"
+            echo
+            if [ "${count}" = "0" ]; then
+              echo "No documentation pages changed in this PR, link check skipped."
+            else
+              echo "Checked only the ${count} rendered page(s) whose sources changed in this PR:"
+              echo
+              sed 's#^#- `#; s#$#`#' "${RUNNER_TEMP}/changed-pages"
+            fi
+          } >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Check links on changed pages
         if: ${{ github.event_name == 'pull_request' && steps.changed-pages.outputs.count != '0' }}
