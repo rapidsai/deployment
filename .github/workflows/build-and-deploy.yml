@@ -19,9 +19,7 @@ defaults:
   run:
     shell: bash -l {0}
 
-permissions:
-  id-token: write
-  contents: read
+permissions: {}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -37,6 +35,9 @@ jobs:
     name: Build (and deploy)
     if: ${{ github.repository == 'rapidsai/deployment' }}
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
@@ -98,3 +99,56 @@ jobs:
           target-aws-secret-access-key: ${{ secrets.NVIDIA_DOCS_AWS_SECRET_ACCESS_KEY }}
           target-s3-bucket: ${{ secrets.NVIDIA_DOCS_S3_BUCKET }}
           target-s3-key: datascience/deployment
+
+  link-check:
+    name: Link check (changed pages)
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5.4.2
+        with:
+          enable-cache: false
+
+      - name: Build
+        run: RAPIDS_DOCS_RELEASE_TAGS="$(git tag --list)" uv run make dirhtml SPHINXOPTS="-W --keep-going -n"
+
+      - name: List rendered pages for changed sources
+        id: changed-pages
+        run: |
+          # dirhtml renders source/<path>.md as build/dirhtml/<path>/index.html
+          git diff --name-only --diff-filter=d "origin/${GITHUB_BASE_REF}...HEAD" -- 'source/**/*.md' 'source/**/*.ipynb' |
+            sed -E 's#^source/(.*)\.(md|ipynb)$#build/dirhtml/\1/index.html#; s#/index/index\.html$#/index.html#' \
+            > "${RUNNER_TEMP}/changed-pages"
+          echo "Rendered pages to check:"
+          cat "${RUNNER_TEMP}/changed-pages"
+
+          if [ -s "${RUNNER_TEMP}/changed-pages" ]; then changed=true; else changed=false; fi
+          echo "changed=${changed}" >> "${GITHUB_OUTPUT}"
+
+          {
+            echo "## Link check scope"
+            echo
+            if [ "${changed}" = true ]; then
+              echo "Checked only the rendered pages whose sources changed in this PR:"
+              echo
+              sed 's#.*#- `&`#' "${RUNNER_TEMP}/changed-pages"
+            else
+              echo "No documentation pages changed in this PR, link check skipped."
+            fi
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Check links on changed pages
+        if: ${{ steps.changed-pages.outputs.changed == 'true' }}
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          args: --no-progress --root-dir "$(pwd)/build/dirhtml" --files-from "${RUNNER_TEMP}/changed-pages"
+          fail: true
+          failIfEmpty: false

@@ -53,7 +53,7 @@ This ensures that dask scheduler and worker versions match.
 To leverage the GPUs assigned to each Pod the [`dask_cuda_worker`](https://docs.nvidia.com/dask-cuda/latest/index.html) command is launched in place of the regular `dask_worker`.
 
 If desired to have a different jupyter notebook password than default, compute the hash for `<your-password>` and update `jupyter.password`.
-You can compute password hash by following the [jupyter notebook guide](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html?highlight=passwd#preparing-a-hashed-password).
+You can compute password hash by following the [jupyter notebook guide](https://jupyter-server.readthedocs.io/en/latest/operators/public-server.html#preparing-a-hashed-password).
 
 ### Installing the Helm Chart
 
