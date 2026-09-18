@@ -57,34 +57,28 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         id: changed-pages
         run: |
-          # dirhtml renders source/<path>.md to build/dirhtml/<path>/index.html,
-          # and source/<dir>/index.md to build/dirhtml/<dir>/index.html
+          # dirhtml renders source/<path>.md as build/dirhtml/<path>/index.html
           git diff --name-only --diff-filter=d "origin/${GITHUB_BASE_REF}...HEAD" -- 'source/**/*.md' 'source/**/*.ipynb' |
-            while read -r src; do
-              page="${src#source/}"
-              page="${page%.*}"
-              case "${page}" in
-                index) page="." ;;
-                */index) page="${page%/index}" ;;
-              esac
-              echo "build/dirhtml/${page}/index.html"
-            done > "${RUNNER_TEMP}/changed-pages"
-          count="$(wc -l < "${RUNNER_TEMP}/changed-pages" | tr -d ' ')"
-          echo "count=${count}" >> "${GITHUB_OUTPUT}"
+            sed -E 's#^source/(.*)\.(md|ipynb)$#build/dirhtml/\1/index.html#; s#/index/index\.html$#/index.html#' \
+            > "${RUNNER_TEMP}/changed-pages"
+
+          if [ -s "${RUNNER_TEMP}/changed-pages" ]; then changed=true; else changed=false; fi
+          echo "changed=${changed}" >> "${GITHUB_OUTPUT}"
+
           {
             echo "## Link check scope"
             echo
-            if [ "${count}" = "0" ]; then
-              echo "No documentation pages changed in this PR, link check skipped."
-            else
-              echo "Checked only the ${count} rendered page(s) whose sources changed in this PR:"
+            if [ "${changed}" = true ]; then
+              echo "Checked only the rendered pages whose sources changed in this PR:"
               echo
-              sed 's#^#- `#; s#$#`#' "${RUNNER_TEMP}/changed-pages"
+              sed 's#.*#- `&`#' "${RUNNER_TEMP}/changed-pages"
+            else
+              echo "No documentation pages changed in this PR, link check skipped."
             fi
           } >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Check links on changed pages
-        if: ${{ github.event_name == 'pull_request' && steps.changed-pages.outputs.count != '0' }}
+        if: ${{ github.event_name == 'pull_request' && steps.changed-pages.outputs.changed == 'true' }}
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           args: --no-progress --root-dir "$(pwd)/build/dirhtml" --files-from "${RUNNER_TEMP}/changed-pages"
