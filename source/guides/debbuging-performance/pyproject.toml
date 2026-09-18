@@ -1,0 +1,14 @@
+[project]                                                                                                           
+  name = "xarray-uv-example"                                                                                          
+  version = "0.1.0"                                                                                                   
+  requires-python = "==3.13.*"
+  dependencies = [                                                                                                    
+      "xarray",                                                                                                       
+      "netCDF4",
+      "bottleneck",
+      "numpy",
+      "cupy-cuda12x[ctk]",
+      "cupy-xarray @ git+https://github.com/xarray-contrib/cupy-xarray.git",
+      "jupyterlab-nvdashboard",
+      "ipykernel",
+  ]
