@@ -5,7 +5,7 @@ html_theme.sidebar_secondary.remove: true
 
 # Local
 
-Choose your preferred installation method for running NVIDIA CUDA-X libraries for data science
+Choose your preferred method to install NVIDIA CUDA-X libraries for data science locally.
 
 `````{gridtoctree} 1 2 2 2
 :gutter: 2 2 2 2
@@ -15,7 +15,7 @@ Choose your preferred installation method for running NVIDIA CUDA-X libraries fo
 :link-type: url
 {fas}`box;sd-text-primary` conda
 ^^^
-Install NVIDIA CUDA-X Data Science libraries using conda
+Install CUDA-X using conda
 ````
 
 ````{grid-item-card}
@@ -23,7 +23,7 @@ Install NVIDIA CUDA-X Data Science libraries using conda
 :link-type: doc
 {fas}`box;sd-text-primary` Docker
 ^^^
-Install NVIDIA CUDA-X Data Science libraries using Docker
+Install CUDA-X using Docker
 ````
 
 ````{grid-item-card}
@@ -31,7 +31,7 @@ Install NVIDIA CUDA-X Data Science libraries using Docker
 :link-type: url
 {fas}`box;sd-text-primary` pip
 ^^^
-Install NVIDIA CUDA-X Data Science libraries using pip
+Install CUDA-X using pip
 ````
 
 ````{grid-item-card}
@@ -39,7 +39,7 @@ Install NVIDIA CUDA-X Data Science libraries using pip
 :link-type: url
 {fas}`box;sd-text-primary` WSL2
 ^^^
-Install NVIDIA CUDA-X Data Science libraries on Windows using Windows Subsystem for Linux version 2 (WSL2)
+Install CUDA-X on Windows using WSL2
 ````
 
 `````
