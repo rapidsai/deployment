@@ -27,7 +27,9 @@ the libraries. To work around this, you must install Python from Astral's standa
 correct compilation flags. As we did in the example above, where we are downloading and installing a standalone Python build in
 the Docker setup commands.
 
-### RAPIDS Memory Manager (RMM) Mode Limitations
+### RMM Mode Limitations
+
+NVIDIA RMM is a library for CUDA memory management.
 
 Modal containers use `gvisor` for sandboxing, which does not support `cudaMallocManaged`. This means you cannot use the
 default `managed_pool` or `managed` RMM modes with `cudf.pandas`.
