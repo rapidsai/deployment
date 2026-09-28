@@ -55,7 +55,7 @@ Next we need to connect to the VM.
    2. If you limit you IP range to a local machine, you can connect via your terminal using gcloud. Press the SSH Dropdown
       button and select **View gcloud command** and copy the command in your terminal.
 
-## Install RAPIDS
+## Install the libraries
 
 ```{include} ../../_includes/install-rapids-with-docker.md
 
@@ -82,7 +82,7 @@ groups
 If docker is there, now you will be able to run the docker commands above.
 ````
 
-## Test RAPIDS
+## Verify the installation
 
 ```{include} ../../_includes/test-rapids-docker-vm.md
 

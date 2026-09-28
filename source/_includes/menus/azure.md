@@ -6,7 +6,7 @@
 :link-type: doc
 Azure Virtual Machine
 ^^^
-Launch an Azure VM instance and run RAPIDS.
+Launch an Azure VM instance and run CUDA-X.
 
 {bdg}`single-node`
 ````
@@ -16,7 +16,7 @@ Launch an Azure VM instance and run RAPIDS.
 :link-type: doc
 Azure Kubernetes Service (AKS)
 ^^^
-Launch a RAPIDS cluster on managed Kubernetes.
+Launch a CUDA-X cluster on managed Kubernetes.
 
 {bdg}`multi-node`
 ````
@@ -26,7 +26,7 @@ Launch a RAPIDS cluster on managed Kubernetes.
 :link-type: doc
 Azure Cluster via Dask
 ^^^
-Launch a RAPIDS cluster on Azure VMs or Azure ML with Dask.
+Launch a CUDA-X cluster on Azure VMs or Azure ML with Dask.
 
 {bdg}`multi-node`
 ````
@@ -36,7 +36,7 @@ Launch a RAPIDS cluster on Azure VMs or Azure ML with Dask.
 :link-type: doc
 Azure Machine Learning (Azure ML)
 ^^^
-Launch RAPIDS Experiment on Azure ML.
+Launch a CUDA-X experiment on Azure ML.
 
 {bdg}`single-node`
 {bdg}`multi-node`

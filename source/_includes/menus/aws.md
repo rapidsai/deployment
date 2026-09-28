@@ -6,7 +6,7 @@
 :link-type: doc
 Elastic Compute Cloud (EC2)
 ^^^
-Launch an EC2 instance and run RAPIDS.
+Launch an EC2 instance and run CUDA-X.
 
 {bdg}`single-node`
 ````
@@ -16,7 +16,7 @@ Launch an EC2 instance and run RAPIDS.
 :link-type: doc
 EC2 Cluster (with Dask)
 ^^^
-Launch a RAPIDS cluster on EC2 with Dask.
+Launch a CUDA-X cluster on EC2 with Dask.
 
 {bdg}`multi-node`
 ````
@@ -26,7 +26,7 @@ Launch a RAPIDS cluster on EC2 with Dask.
 :link-type: doc
 Elastic Kubernetes Service (EKS)
 ^^^
-Launch a RAPIDS cluster on managed Kubernetes.
+Launch a CUDA-X cluster on managed Kubernetes.
 
 {bdg}`multi-node`
 ````
@@ -36,7 +36,7 @@ Launch a RAPIDS cluster on managed Kubernetes.
 :link-type: doc
 Elastic Container Service (ECS)
 ^^^
-Launch a RAPIDS cluster on managed container service.
+Launch a CUDA-X cluster on managed container service.
 
 {bdg}`multi-node`
 ````

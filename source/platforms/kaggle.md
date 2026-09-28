@@ -2,10 +2,10 @@
 review_priority: "p1"
 ---
 
-# RAPIDS on Kaggle
+# NVIDIA CUDA-X libraries for data science on Kaggle
 
 [Kaggle Notebooks](https://www.kaggle.com/code) provide hosted Jupyter notebooks
-with GPU accelerators. The latest Kaggle notebook environment includes RAPIDS
+with GPU accelerators. The latest Kaggle notebook environment includes
 libraries such as [cuDF](https://docs.nvidia.com/cudf/latest/) and
 [cuML](https://docs.nvidia.com/cuml/latest/), so you can start using them
 without a separate installation.
@@ -35,7 +35,7 @@ without a separate installation.
 
 1. Select **Settings** > **Environment Preferences** > **Always use latest
    environment**. This makes the notebook use Kaggle's latest environment,
-   which contains the preinstalled RAPIDS libraries.
+   which contains the preinstalled libraries.
 
    ```{figure} /_static/images/platforms/kaggle/use-latest-env.png
    ---
@@ -43,7 +43,7 @@ without a separate installation.
    ---
    ```
 
-## Test RAPIDS
+## Verify the installation
 
 Enter the following code in a notebook cell, and select the **Run** button or
 press `Shift+Enter`:

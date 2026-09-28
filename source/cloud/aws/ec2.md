@@ -176,7 +176,7 @@ If you see `WARNING: UNPROTECTED PRIVATE KEY FILE!`, run `chmod 400 rapids-ec2-k
 
 `````
 
-## Install RAPIDS
+## Install the libraries
 
 ```{include} ../../_includes/install-rapids-with-docker.md
 
@@ -203,7 +203,7 @@ sudo systemctl restart nvidia-cdi-refresh.service
 and run the `docker run --gpu ...` command again.
 ````
 
-## Test RAPIDS
+## Verify the installation
 
 ```{include} ../../_includes/test-rapids-docker-vm.md
 

@@ -2,22 +2,22 @@
 review_priority: "p0"
 ---
 
-# RAPIDS on Google Colab
+# NVIDIA CUDA-X libraries for data science on Google Colab
 
 ## Overview
 
-RAPIDS cuDF is preinstalled on Google Colab and instantly accelerates Pandas with zero code changes. [You can quickly get started with our tutorial notebook](https://nvda.ws/rapids-cudf). This guide is applicable for users who want to utilize the full suite of the RAPIDS libraries for their workflows. It is broken into two sections:
+cuDF is preinstalled on Google Colab and instantly accelerates Pandas with zero code changes. [You can quickly get started with our tutorial notebook](https://nvda.ws/rapids-cudf). This guide is applicable for users who want to utilize the full suite of NVIDIA CUDA-X libraries for Data Science for their workflows. It is broken into two sections:
 
-1. [RAPIDS Quick Install](colab-quick) - applicable for most users and quickly installs all the RAPIDS Stable packages.
-2. [RAPIDS Custom Setup Instructions](colab-custom) - step by step set up instructions covering the **must haves** for when a user needs to adapt instance to their workflows.
+1. [Quick Install](colab-quick) - applicable for most users and quickly installs all the stable packages.
+2. [Custom Setup Instructions](colab-custom) - step by step set up instructions covering the **must haves** for when a user needs to adapt instance to their workflows.
 
-In both sections, we will be installing RAPIDS on colab using pip. The pip installation allows users to install libraries like cuDF, cuML, and cuGraph stable versions in a few minutes.
+In both sections, we will be installing the libraries on Colab using pip. The pip installation allows users to install libraries like cuDF, cuML, and cuGraph stable versions in a few minutes.
 
-RAPIDS install on Colab strives to be an "always working" solution, and sometimes will **pin** RAPIDS versions to ensure compatibility.
+The installation process on Colab strives to be an "always working" solution, and sometimes will **pin** RAPIDS versions to ensure compatibility.
 
 (colab-quick)=
 
-## Section 1: RAPIDS Quick Install
+## Section 1: Quick Install
 
 ### Links
 
@@ -35,7 +35,7 @@ Please follow the links below to our install templates:
 
 (colab-custom)=
 
-## Section 2: User Customizable RAPIDS Install Instructions
+## Section 2: Custom installation instructions
 
 ### 1. Launch notebook
 
@@ -53,22 +53,22 @@ Choose GPU for Hardware Accelerator
 
 ### 3. Check GPU type
 
-Check the output of `!nvidia-smi` to make sure you've been allocated a Rapids Compatible GPU ([see the RAPIDS install docs](https://docs.nvidia.com/datascience/install/#system-req)).
+Check the output of `!nvidia-smi` to make sure you've been allocated a compatible GPU ([see the system requirements](https://docs.nvidia.com/datascience/install/#system-req)).
 
 ![Screenshot of nvidia-smi](../images/googlecolab-output-nvidia-smi.png)
 
-### 4. Install RAPIDS on Colab
+### 4. Install NVIDIA CUDA-X Data Science libraries on Colab
 
-You can install RAPIDS using pip. The script first checks GPU compatibility with RAPIDS, then installs the latest **stable** versions of some core RAPIDS libraries (e.g. cuDF, cuML, cuGraph, and xgboost) using `pip`.
+You can install NVIDIA CUDA-X libraries for data science using pip. The script first checks GPU compatibility with NVIDIA CUDA-X libraries for data science, then installs the latest **stable** versions of some core libraries (e.g. cuDF, cuML, cuGraph, and xgboost) using `pip`.
 
 ```bash
-# Colab warns and provides remediation steps if the GPUs is not compatible with RAPIDS.
+# Colab warns and provides remediation steps if the GPUs is not compatible with NVIDIA CUDA-X libraries for data science.
 
 !git clone https://github.com/rapidsai/rapidsai-csp-utils.git
 !python rapidsai-csp-utils/colab/pip-install.py
 ```
 
-### 5. Test RAPIDS
+### 5. Verify the installation
 
 Run the following in a Python cell.
 
@@ -90,4 +90,4 @@ The output should be
 
 ### 6. Next steps
 
-Try a more thorough example of using cuDF on Google Colab, "10 Minutes to RAPIDS cuDF's pandas accelerator mode (cudf.pandas)" ([Google Colab link](https://nvda.ws/rapids-cudf)).
+Try a more thorough example of using cuDF on Google Colab, "10 Minutes to cuDF pandas accelerator mode (cudf.pandas)" ([Google Colab link](https://nvda.ws/rapids-cudf)).

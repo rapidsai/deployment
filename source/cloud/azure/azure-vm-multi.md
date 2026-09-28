@@ -43,9 +43,9 @@ cluster = AzureVMCluster(
 )
 ```
 
-### 4. Test RAPIDS
+### 4. Verify the installation
 
-To test RAPIDS, create a distributed client for the cluster and query for the GPU model.
+To verify the installation, create a distributed client for the cluster and query for the GPU model.
 
 ```python
 from dask.distributed import Client
