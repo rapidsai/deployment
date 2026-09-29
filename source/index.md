@@ -3,9 +3,9 @@ review_priority: "index"
 html_theme.sidebar_secondary.remove: true
 ---
 
-# NVIDIA CUDA-X Deployment Documentation
+# Deployment Documentation for Data Science
 
-NVIDIA CUDA-X Deployment Documentation helps you get up and running with NVIDIA CUDA-X libraries for data science anywhere.
+NVIDIA CUDA-X Deployment Documentation helps you get up and running with CUDA-X libraries for data science anywhere.
 
 `````{gridtoctree} 1 2 2 3
 :gutter: 2 2 2 2

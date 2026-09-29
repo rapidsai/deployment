@@ -1,9 +1,8 @@
-# NVIDIA CUDA-X Deployment Documentation
+# NVIDIA CUDA-X Deployment Documentation for Data Science
 
 This repository contains the source for the
 [NVIDIA CUDA-X Deployment Documentation](https://docs.nvidia.com/datascience/deployment/latest/).
-It explains how to install, configure, and operate NVIDIA CUDA-X libraries for data science across local systems,
-GPU clusters, and managed compute services.
+It explains how to install, configure, and operate NVIDIA CUDA-X libraries for data science across local systems, GPU clusters, and managed compute services.
 
 The documentation includes:
 
