@@ -4,7 +4,7 @@
 
 ## LocalCUDACluster
 
-You can use `LocalCUDACluster` to create a cluster of one or more GPUs on your local machine. You can launch a Dask scheduler on LocalCUDACluster to parallelize and distribute your RAPIDS workflows across multiple GPUs on a single node.
+You can use `LocalCUDACluster` to create a cluster of one or more GPUs on your local machine. You can launch a Dask scheduler on LocalCUDACluster to parallelize and distribute your workflows across multiple GPUs on a single node.
 
 In addition to enabling multi-GPU computation, `LocalCUDACluster` also provides a simple interface for managing the cluster, such as starting and stopping the cluster, querying the status of the nodes, and monitoring the workload distribution.
 
@@ -41,9 +41,9 @@ The Dask scheduler coordinates the execution of tasks, whereas the Dask client i
 client = Client(cluster)
 ```
 
-## Test RAPIDS
+## Verify the installation
 
-To test RAPIDS, create a `distributed` client for the cluster and query for the GPU model.
+To verify the installation, create a `distributed` client for the cluster and query for the GPU model.
 
 ```python
 def get_gpu_model():

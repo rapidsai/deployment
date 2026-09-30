@@ -1,6 +1,6 @@
 # Elastic Container Service (ECS)
 
-RAPIDS can be deployed on a multi-node ECS cluster using Dask’s dask-cloudprovider management tools. For more details, see our **[blog post on
+NVIDIA CUDA-X libraries for data science can be deployed on a multi-node ECS cluster using Dask’s dask-cloudprovider management tools. For more details, see our **[blog post on
 deploying on ECS.](https://medium.com/rapids-ai/getting-started-with-rapids-on-aws-ecs-using-dask-cloud-provider-b1adfdbc9c6e)**
 
 ## Run from within AWS
@@ -40,7 +40,7 @@ For Networking, select the default VPC and all the subnets available in that VPC
 Select "Amazon EC2 instances" for the Infrastructure type and configure your settings:
 
 - Operating system: must be Linux-based architecture
-- EC2 instance type: must support RAPIDS-compatible GPUs ([see the RAPIDS docs](https://docs.nvidia.com/datascience/install/#system-req))
+- EC2 instance type: must support compatible GPUs ([see the system requirements](https://docs.nvidia.com/datascience/install/#system-req))
 - Desired capacity: number of maximum instances to launch (default maximum 5)
 - SSH Key pair
 
@@ -94,7 +94,7 @@ security_groups=["sg-0fde781be42651"]
 
 [**scheduler_timeout**] = maximum time scheduler will wait for workers to connect to the cluster
 
-## Test RAPIDS
+## Verify the installation
 
 Create a distributed client for our cluster:
 

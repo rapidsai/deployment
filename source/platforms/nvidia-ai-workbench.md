@@ -50,13 +50,13 @@ The new project will then be created. AI Workbench will automatically build a co
 
 ![Screenshot of the AI workbench UI. In the bottom corner the build status says "Building" and the "Open Jupyterlab" button is greyed out](../_static/images/platforms/nvidia-ai-workbench/project-building.png)
 
-Once the project has built you can select "Open Jupyterlab" to launch Jupyter in your RAPIDS environment.
+Once the project has built you can select "Open Jupyterlab" to launch Jupyter in your environment.
 
 ![Screenshot of the AI workbench UI. In the bottom corner the build status says "Build Ready" and the "Open Jupyterlab" button is highlighted](../_static/images/platforms/nvidia-ai-workbench/open-jupyter.png)
 
-Then you can start working with the RAPIDS libraries in your notebooks.
+Then you can start working with the libraries in your notebooks.
 
-![Screenshot of Jupyterlab running some cudf code to demonstrate that the RAPIDS libraries are available and working](../_static/images/platforms/nvidia-ai-workbench/cudf-example.png)
+![Screenshot of Jupyterlab running some cudf code to demonstrate that the libraries are available and working](../_static/images/platforms/nvidia-ai-workbench/cudf-example.png)
 
 ## Further reading
 

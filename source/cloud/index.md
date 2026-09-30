@@ -5,6 +5,8 @@ html_theme.sidebar_secondary.remove: true
 
 # Cloud
 
+The following are deployment guides for NVIDIA CUDA-X libraries for data science in the cloud.
+
 ## NVIDIA Cloud Platforms
 
 ```{include} ../_includes/menus/nvidia.md

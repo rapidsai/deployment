@@ -16,8 +16,8 @@ import sys
 
 # -- Project information -----------------------------------------------------
 
-project = "NVIDIA RAPIDS Deployment Documentation"
-html_title = "RAPIDS Deployment Documentation"
+project = "NVIDIA CUDA-X Deployment Documentation"
+html_title = "NVIDIA CUDA-X Deployment Documentation"
 copyright = f"{datetime.date.today().year}, NVIDIA"
 author = "NVIDIA"
 

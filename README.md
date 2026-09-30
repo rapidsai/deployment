@@ -1,9 +1,8 @@
-# RAPIDS Deployment Documentation
+# NVIDIA CUDA-X Deployment Documentation for Data Science
 
 This repository contains the source for the
-[RAPIDS Deployment Documentation](https://docs.nvidia.com/datascience/deployment/latest/).
-It explains how to install, configure, and operate RAPIDS across local systems,
-GPU clusters, and managed compute services.
+[NVIDIA CUDA-X Deployment Documentation](https://docs.nvidia.com/datascience/deployment/latest/).
+It explains how to install, configure, and operate NVIDIA CUDA-X libraries for data science across local systems, GPU clusters, and managed compute services.
 
 The documentation includes:
 
@@ -20,10 +19,10 @@ The documentation includes:
 ## Repository Layout
 
 - `source/cloud/` contains provider-specific infrastructure instructions for
-  deploying NVIDIA RAPIDS on cloud platforms like AWS, Azure, Google Cloud, and IBM
+  deploying NVIDIA CUDA-X libraries for data science on cloud platforms like AWS, Azure, Google Cloud, and IBM
   Cloud. These pages cover services such as virtual machines, managed
   Kubernetes, and hosted machine learning environments.
-- `source/platforms/` explains how to run NVIDIA RAPIDS on cloud platforms such as
+- `source/platforms/` explains how to run NVIDIA CUDA-X libraries for data science on cloud platforms such as
   Kubernetes, Kubeflow, KServe, Databricks, Snowflake,
   Google Colab, Coiled, Modal, and NVIDIA AI Workbench.
 - `source/guides/` contains focused, cross-platform guidance for deployment
@@ -32,13 +31,13 @@ The documentation includes:
 - `source/examples/` contains end-to-end Jupyter notebook workflows and the
   supporting Python scripts, Dockerfiles, environment files, and Kubernetes
   manifests needed to run them.
-- `source/hpc.md` covers running NVIDIA RAPIDS on Slurm-managed HPC clusters,
+- `source/hpc.md` covers running NVIDIA CUDA-X libraries for data science on Slurm-managed HPC clusters,
   including interactive and batch jobs, environment modules, and distributed
   workloads.
-- `source/local.md` is the entry point for running NVIDIA RAPIDS on a workstation or
+- `source/local.md` is the entry point for running NVIDIA CUDA-X libraries for data science on a workstation or
   server using conda, pip, Docker, or WSL2.
-- `source/custom-docker.md` describes how to build smaller, tailored NVIDIA RAPIDS
-  container images with only the required libraries using conda or pip.
+- `source/custom-docker.md` describes how to build smaller, tailored container
+  images with only the required NVIDIA CUDA-X libraries using conda or pip.
 
 ## Build Locally
 
