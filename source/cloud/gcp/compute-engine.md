@@ -19,11 +19,6 @@ NVIDIA maintains a [Virtual Machine Image (VMI) that pre-installs NVIDIA drivers
 1. **Read and accept** the Terms of Service
 1. Select **Deploy** to start the virtual machine.
 
-```{note}
-If you run into any UI issues while selecting the tile for **NVIDIA GPU-Optimized VMI** follow
-the this link to [Deploy a VM with NVIDIA GPU-Optimized VMI](https://console.cloud.google.com/marketplace/product/nvidia-ngc-public/nvidia-gpu-optimized-vmi). This should redirect you to the last step to be able to deploy the VM.
-```
-
 ## Allow network access
 
 To access Jupyter and Dask we will need to set up some firewall rules to open up some ports.
@@ -90,7 +85,9 @@ If docker is there, now you will be able to run the docker commands above.
 
 ## Clean up
 
-Once you are finished head back to the [Deployments](https://console.cloud.google.com/dm/deployments) page and delete the marketplace deployment you created.
+Once you are finished head back to the [Instances](https://console.cloud.google.com/compute/instances) to stop and delete
+the instance you created, and to the [Deployments](https://console.cloud.google.com/dm/deployments) page and delete the
+marketplace deployment you created.
 
 ```{relatedexamples}
 
