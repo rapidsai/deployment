@@ -45,13 +45,6 @@ from the script, the VM will boot and inspect it by running each line of the scr
 to see where it fails.
 ```
 
-```{warning}
-AzureML is pinned to **CUDA 12** as its GPU instances ship NVIDIA driver 535.x,
-while CUDA 13 images require driver 580.65.06 or newer. Driver 535.x has itself
-reached end-of-life and no longer receives updates, so we cannot guarantee that
-the instructions below will work on AzureML.
-```
-
 ```bash
 #!/bin/bash
 set -e
@@ -62,7 +55,7 @@ conda create -y -n rapids \
     --override-channels \
     {{ rapids_conda_channels }} \
     -c microsoft \
-   rapids={{ rapids_version }} python=3.13 'cuda-version>=12.0,<=12.9' \
+    {{ rapids_conda_packages }} \
     'azure-identity>=1.19' \
     ipykernel
 
@@ -181,7 +174,7 @@ touch ./training-code/__init__.py
 
 # create a Dockerfile defining the image the code will run in
 cat > ./training-code/Dockerfile <<EOF
-FROM {{ rapids_container_cuda12 }}
+FROM {{ rapids_container }}
 
 RUN conda install --yes -c conda-forge 'dask-ml>=2024.4.4' \
  && pip install azureml-mlflow
