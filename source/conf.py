@@ -47,8 +47,6 @@ versions = {
         "rapids_pip_version": stable_version,
         "rapids_cuda_major": cuda_major,
         "rapids_cuda_version_range": stable_cuda_range,
-        # AzureML is pinned to CUDA 12 currently (driver 535.x supports only CUDA 12.x).
-        "rapids_container_cuda12": f"rapidsai/base:{stable_version}-cuda12-py{python_version}",
     },
     "nightly": {
         "rapids_version": f"{nightly_version}",
@@ -62,8 +60,6 @@ versions = {
         "rapids_pip_version": f"{nightly_version}.*,>=0.0.0a0",
         "rapids_cuda_major": cuda_major,
         "rapids_cuda_version_range": nightly_cuda_range,
-        # AzureML is pinned to CUDA 12 currently (driver 535.x supports only CUDA 12.x).
-        "rapids_container_cuda12": f"rapidsai/base:{nightly_version + 'a'}-cuda12-py{python_version}",
     },
 }
 rapids_version = (
