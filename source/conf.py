@@ -25,10 +25,17 @@ author = "NVIDIA"
 stable_version = "26.10"
 nightly_version = "26.12"
 cuda_major = "13"  # drives container tags and pip wheel suffixes (cudf-cu13, ...)
-python_version = "3.13"  # Python version for conda commands
-cuda_tag = f"cuda{cuda_major}-py{python_version}"
+python_version = "3.14"  # Python version for conda commands
+
+# TODO: remove this branching when 'stable_version' is 26.12
+# ref: https://github.com/rapidsai/docker/pull/920
+if stable_version == "26.10":
+    tag_suffix = f"cuda{cuda_major}-py{python_version}"
+else:
+    tag_suffix = f"cuda{cuda_major}"
+
 stable_cuda_range = (
-    "cuda-version>=13.0,<=13.2"  # CUDA version pins on Conda for the stable release
+    "cuda-version>=13.0,<=13.3"  # CUDA version pins on Conda for the stable release
 )
 nightly_cuda_range = (
     "cuda-version>=13.0,<=13.3"  # CUDA version pins on Conda for the nightly release
@@ -38,8 +45,8 @@ versions = {
     "stable": {
         "rapids_version": stable_version,
         "rapids_api_docs_version": "stable",
-        "rapids_container": f"nvcr.io/nvidia/rapidsai/base:{stable_version}-{cuda_tag}",
-        "rapids_notebooks_container": f"nvcr.io/nvidia/rapidsai/notebooks:{stable_version}-{cuda_tag}",
+        "rapids_container": f"nvcr.io/nvidia/rapidsai/base:{stable_version}-{tag_suffix}",
+        "rapids_notebooks_container": f"nvcr.io/nvidia/rapidsai/notebooks:{stable_version}-{tag_suffix}",
         "rapids_conda_channel": "rapidsai",
         "rapids_conda_channels": "-c rapidsai -c conda-forge",
         "rapids_conda_packages": f"rapids={stable_version} python={python_version} '{stable_cuda_range}'",
@@ -51,8 +58,8 @@ versions = {
     "nightly": {
         "rapids_version": f"{nightly_version}",
         "rapids_api_docs_version": "nightly",
-        "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-{cuda_tag}",
-        "rapids_notebooks_container": f"rapidsai/notebooks:{nightly_version + 'a'}-{cuda_tag}",
+        "rapids_container": f"rapidsai/base:{nightly_version + 'a'}-{tag_suffix}",
+        "rapids_notebooks_container": f"rapidsai/notebooks:{nightly_version + 'a'}-{tag_suffix}",
         "rapids_conda_channel": "rapidsai-nightly",
         "rapids_conda_channels": "-c rapidsai-nightly -c conda-forge",
         "rapids_conda_packages": f"rapids={nightly_version} python={python_version} '{nightly_cuda_range}'",
