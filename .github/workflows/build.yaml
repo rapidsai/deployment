@@ -55,7 +55,7 @@ jobs:
       id-token: write
       packages: read
       pull-requests: read
-    uses: rapidsai/shared-workflows/.github/workflows/custom-job.yaml@f21ce227be8bfb9351989684f3fc5809b9cd703d
+    uses: rapidsai/shared-workflows/.github/workflows/custom-job.yaml@9ac257258ee48137e797fc3e122f992f9ab17b9c
     with:
       build_type: release-candidate
       repo: ${{ github.repository }}
