@@ -12,6 +12,7 @@
 #
 import datetime
 import os
+import re
 import sys
 
 # -- Project information -----------------------------------------------------
@@ -62,11 +63,24 @@ versions = {
         "rapids_cuda_version_range": nightly_cuda_range,
     },
 }
-rapids_version = (
-    versions["stable"]
-    if os.environ.get("DEPLOYMENT_DOCS_BUILD_STABLE", "false") == "true"
-    else versions["nightly"]
-)
+candidate_version = os.environ.get("RAPIDS_RELEASE_CANDIDATE_VERSION")
+if candidate_version:
+    if re.fullmatch(r"\d{2}\.\d{2}", candidate_version) is None:
+        raise ValueError("RAPIDS_RELEASE_CANDIDATE_VERSION must be YY.MM")
+    rapids_version = versions["stable"].copy()
+    rapids_version.update(
+        {
+            "rapids_version": candidate_version,
+            "rapids_container": f"nvcr.io/nvidia/rapidsai/base:{candidate_version}-{cuda_tag}",
+            "rapids_notebooks_container": f"nvcr.io/nvidia/rapidsai/notebooks:{candidate_version}-{cuda_tag}",
+            "rapids_conda_packages": f"rapids={candidate_version} python={python_version} '{stable_cuda_range}'",
+            "rapids_pip_version": candidate_version,
+        }
+    )
+elif os.environ.get("DEPLOYMENT_DOCS_BUILD_STABLE", "false") == "true":
+    rapids_version = versions["stable"]
+else:
+    rapids_version = versions["nightly"]
 rapids_version["rapids_conda_channels_list"] = [
     channel
     for channel in rapids_version["rapids_conda_channels"].split(" ")

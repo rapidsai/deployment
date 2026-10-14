@@ -1,0 +1,80 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Build release-candidate documentation
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: Candidate mode is required for this private documentation build.
+        required: true
+        type: choice
+        options:
+          - release-candidate
+      branch:
+        description: Source branch recorded for this build.
+        required: true
+        type: string
+      date:
+        description: Build date in YYYY-MM-DD format.
+        required: true
+        type: string
+      sha:
+        description: Full immutable source commit SHA to build.
+        required: true
+        type: string
+
+permissions: {}
+
+jobs:
+  validate-inputs:
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Validate run-bound candidate inputs
+        env:
+          BUILD_TYPE: ${{ inputs.build_type }}
+          SOURCE_BRANCH: ${{ inputs.branch }}
+          SOURCE_DATE: ${{ inputs.date }}
+          SOURCE_SHA: ${{ inputs.sha }}
+          WORKFLOW_BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          [[ "${BUILD_TYPE}" == "release-candidate" ]]
+          [[ "${SOURCE_BRANCH}" == "${WORKFLOW_BRANCH}" ]]
+          [[ "${SOURCE_BRANCH}" =~ ^release-test-[A-Za-z0-9._-]+$ ]]
+          [[ "${SOURCE_DATE}" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]
+          [[ "${SOURCE_SHA}" =~ ^([0-9a-f]{40}|[0-9a-f]{64})$ ]]
+
+  build:
+    needs: [validate-inputs]
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+      packages: read
+      pull-requests: read
+    uses: rapidsai/shared-workflows/.github/workflows/custom-job.yaml@90e352c37eba6b22b8706b32bf9ceb264421af37
+    with:
+      build_type: release-candidate
+      repo: ${{ github.repository }}
+      branch: ${{ inputs.branch }}
+      date: ${{ inputs.date }}
+      sha: ${{ inputs.sha }}
+      arch: amd64
+      node_type: cpu8
+      container_image: rapidsai/ci-conda:26.12-latest
+      script: ci/build_docs.sh
+      file_to_upload: .release-candidate-artifacts/docs
+      artifact-name: deployment-docs
+      candidate-docs: true
+      candidate-docs-directory: build/dirhtml
+      candidate-dependency-family: docs
+      candidate-unit-id: docs:deployment
+      candidate-prepare-conda-channel: true
+      candidate-cuda-version: "13.0"
+      candidate-python-version: "3.13"
+      candidate-skip-github-artifact-upload: true
+      release-catalog-config: >-
+        {"release_catalog_key":"docs:deployment","artifact_directory":".release-candidate-artifacts/docs","artifacts":[{"path":"deployment-docs.tar.gz","package_identity_file":"deployment-docs-package-identity.json"}]}
