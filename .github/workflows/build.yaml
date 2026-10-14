@@ -4,6 +4,9 @@
 name: Build release-candidate documentation
 
 on:
+  push:
+    branches:
+      - release-test-workflow-registration
   workflow_dispatch:
     inputs:
       build_type:
@@ -28,7 +31,16 @@ on:
 permissions: {}
 
 jobs:
+  register-workflow:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/release-test-workflow-registration' }}
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Confirm workflow registration
+        run: printf 'Registered the private candidate build workflow.\n'
+
   validate-inputs:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     permissions: {}
     steps:
