@@ -169,7 +169,3 @@ client
 ![Screenshot of Jupyter Lab running on a Coiled Dask Cluster with GPUs](../_static/images/platforms/coiled/jupyter-on-coiled.png)
 
 From this Jupyter session we can see that our notebook server has a GPU and we can connect to the Dask cluster with no configuration and see all the Dask Workers have GPUs too.
-
-```{relatedexamples}
-
-```

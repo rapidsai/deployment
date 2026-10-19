@@ -149,7 +149,3 @@ You can also delete the GKE cluster to stop billing with the following command.
 $ gcloud container clusters delete rapids-gpu-kubeflow --zone us-central1-c
 Deleting cluster rapids...⠼
 ```
-
-```{relatedexamples}
-
-```

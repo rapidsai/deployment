@@ -135,7 +135,3 @@ You can also delete the AKS cluster to stop billing with the following command.
 $ az aks delete -g <resource group> -n rapids
 / Running ..
 ```
-
-```{relatedexamples}
-
-```

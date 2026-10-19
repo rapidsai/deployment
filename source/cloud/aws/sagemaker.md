@@ -129,7 +129,3 @@ For a hands-on demo of this, try ["Deep Dive into running Hyper Parameter Optimi
 ## Further reading
 
 We’ve also written a **[detailed blog post](https://medium.com/rapids-ai/running-rapids-experiments-at-scale-using-amazon-sagemaker-d516420f165b)** on how to use SageMaker with NVIDIA CUDA-X libraries for data science.
-
-```{relatedexamples}
-
-```

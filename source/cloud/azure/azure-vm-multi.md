@@ -79,7 +79,3 @@ Once done with the cluster, ensure the `cluster` and `client` are closed:
 client.close()
 cluster.close()
 ```
-
-```{relatedexamples}
-
-```

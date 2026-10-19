@@ -115,7 +115,3 @@ You can also explicitly shutdown the cluster with:
 client.close()
 cluster.close()
 ```
-
-```{relatedexamples}
-
-```

@@ -90,7 +90,3 @@ You can also delete the EKS cluster to stop billing with the following command.
 $ eksctl delete cluster --region=us-east-1 --name=rapids
 Deleting cluster rapids...⠼
 ```
-
-```{relatedexamples}
-
-```

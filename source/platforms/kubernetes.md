@@ -308,7 +308,3 @@ Users can configure what they want their Dask cluster to look like so it is poss
 If you are using KubeFlow you can integrate NVIDIA CUDA-X libraries for data science right away by using the RAPIDS container images within notebooks and pipelines and by using the Dask Operator to launch GPU accelerated Dask clusters.
 
 Find out more on the [KubeFlow page](/platforms/kubeflow).
-
-```{relatedexamples}
-
-```

@@ -249,7 +249,3 @@ and run the `docker run --gpu ...` command again.
 ````
 
 `````
-
-```{relatedexamples}
-
-```

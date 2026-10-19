@@ -246,7 +246,3 @@ You can also use the [Dask Jupyter Lab extension](https://github.com/dask/dask-l
 alt: Screenshot of Jupyter Lab with the Dask Lab extension open on the left and various Dask plots arranged on the screen
 ---
 ```
-
-```{relatedexamples}
-
-```
