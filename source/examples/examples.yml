@@ -1,0 +1,363 @@
+# Workflow Examples gallery metadata, read by extensions/rapids_examples.py.
+#
+# Each example needs:
+#   path         its directory in source/examples
+#   description  one sentence of at most 120 characters, shown on its card
+#   platform     docs pages it runs on, like cloud/aws/sagemaker, or local for any GPU machine
+#   library      the main GPU library first
+#   task         one or two, the main one first
+#   scale        single-gpu, multi-gpu (one machine) or multi-node
+# Optional:
+#   title        a shorter card title, when the notebook's heading is long
+#   tools        docs pages under tools/ it uses
+#   dataset, format, storage
+#   topics       other search terms, written as they should appear
+#   verified     the release you last ran it on, like "26.10". Sorts it first, never shown
+#
+# library, task, scale, dataset, format and storage take values from the vocabulary below.
+# Platform pages are labelled by their short_title front matter, or their title.
+
+vocabulary:
+  library:
+    GPU libraries:
+      cudf: cuDF
+      cuml: cuML
+      dask: Dask
+      xgboost: XGBoost
+      cupy: CuPy
+      cuspatial: cuSpatial
+    Works with:
+      scikit-learn: scikit-learn
+      optuna: Optuna
+      pandas: pandas
+      ray: Ray
+      mlflow: MLflow
+      prefect: Prefect
+      triton: Triton
+      kafka: Kafka
+      morpheus: Morpheus
+      dagster: Dagster
+      xarray: Xarray
+      zarr: Zarr
+  task:
+    hpo: HPO
+    training: Training
+    data-processing: Data processing
+    inference: Inference
+    mlops: MLOps
+    benchmarking: Benchmarking
+  scale:
+    single-gpu: Single GPU
+    multi-gpu: Multi-GPU
+    multi-node: Multi-node
+  dataset:
+    airline: Airline
+    bnp-claims: BNP Paribas claims
+    breast-cancer: Breast cancer
+    covertype: Covertype
+    esa-worldcover: ESA WorldCover
+    higgs: HIGGS
+    m5: M5 forecasting
+    nyc-parking: NYC parking violations
+    nyc-taxi: NYC Taxi
+    1brc: One Billion Row Challenge
+    reuters: Reuters
+    sentinel-2: Sentinel-2
+    tabformer: TabFormer
+  format:
+    csv: CSV
+    parquet: Parquet
+  storage:
+    s3: Amazon S3
+    azure-data-lake: Azure Data Lake
+    delta-lake: Delta Lake
+    gcs: Google Cloud Storage
+  # Other names for values, used by search and to suggest the right value
+  aliases:
+    databricks-delta-lake: delta-lake
+    sklearn: scikit-learn
+    dask-ml: dask
+    dask-cudf: dask
+    dask-distributed: dask
+    dask-databricks: dask
+    dask-deltatable: dask
+    fil: cuml
+    randomforest: cuml
+  # Examples on these platforms are also listed under Kubernetes
+  implies:
+    cloud/gcp/gke: platforms/kubernetes
+    cloud/aws/eks: platforms/kubernetes
+    cloud/azure/aks: platforms/kubernetes
+  # Shown on their own rather than under their cloud provider
+  standalone: [cloud/nvidia/brev]
+  # Platform buttons at the top of the gallery, in order. The rest are under "More"
+  buttons:
+    [
+      cloud/aws/index,
+      cloud/gcp/index,
+      cloud/azure/index,
+      cloud/nvidia/brev,
+      platforms/kubernetes,
+    ]
+
+examples:
+  - path: cuml-ray-hpo
+    description: Tune a cuML random forest on the airline dataset with Ray Tune, running one trial per GPU on a 4-GPU Brev instance.
+    platform: [cloud/nvidia/brev]
+    library: [cuml, ray]
+    task: [hpo]
+    scale: multi-gpu
+    dataset: [airline]
+    format: [parquet]
+    topics: [random forest, Ray Tune]
+
+  - path: cuml-snowflake-nb
+    title: Getting Started with cuml.accel in Snowflake
+    description: Speed up scikit-learn random forest training in Snowflake Notebooks with cuml.accel and zero code changes.
+    platform: [platforms/snowflake]
+    library: [cuml, scikit-learn, pandas]
+    task: [training]
+    scale: single-gpu
+    dataset: [covertype]
+    topics: [random forest, zero code change]
+
+  - path: fraud-detection-mlops-pipeline
+    title: Fraud Detection MLOps Pipeline
+    description: Orchestrate a fraud detection model lifecycle with cuDF, Prefect, MLflow, and Triton champion/challenger deployment.
+    platform: [cloud/nvidia/brev]
+    library: [cudf, xgboost, prefect, mlflow, triton]
+    task: [mlops, inference]
+    scale: single-gpu
+    dataset: [tabformer]
+    format: [csv]
+    topics: [fraud detection, GNN, Docker Compose]
+
+  - path: lulc-classification-gpu
+    description: Classify land cover from Sentinel-2 imagery using Dask and Xarray composites and a cuML random forest.
+    platform: [local]
+    tools: [tools/dask-cuda]
+    library: [cuml, cudf, cupy, dask, xarray, zarr]
+    task: [training, data-processing]
+    scale: multi-gpu
+    dataset: [sentinel-2, esa-worldcover]
+    storage: [s3]
+    topics: [geospatial, satellite imagery, Planetary Computer, random forest]
+
+  - path: rapids-1brc-single-node
+    description: Generate one billion rows with cuDF and CuPy, then aggregate them with Dask and cuDF about 60x faster than pandas.
+    platform:
+      [
+        cloud/aws/ec2,
+        cloud/aws/sagemaker,
+        cloud/azure/azure-vm,
+        cloud/azure/azureml,
+        cloud/gcp/compute-engine,
+        cloud/gcp/vertex-ai,
+        local,
+      ]
+    tools: [tools/dask-cuda]
+    library: [cudf, dask, cupy, pandas]
+    task: [data-processing, benchmarking]
+    scale: multi-gpu
+    dataset: [1brc]
+    format: [csv]
+    topics: [nvdashboard]
+
+  - path: rapids-autoscaling-multi-tenant-kubernetes
+    description: Simulate many users running Dask GPU workloads on an autoscaling GKE cluster and measure wait times and GPU utilization.
+    platform: [cloud/gcp/gke]
+    tools: [tools/kubernetes/dask-operator]
+    library: [cudf, cuspatial, dask]
+    task: [benchmarking, data-processing]
+    scale: multi-node
+    dataset: [nyc-taxi]
+    format: [parquet]
+    storage: [gcs]
+    topics: [autoscaling, multi-tenant, Prometheus, Helm]
+
+  - path: rapids-azureml-hpo
+    title: Random Forest HPO on Azure ML
+    description: Tune a cuML random forest on the airline dataset with an Azure ML sweep job running parallel trials on a GPU cluster.
+    platform: [cloud/azure/azureml]
+    library: [cuml, cudf, mlflow]
+    task: [hpo]
+    scale: single-gpu
+    dataset: [airline]
+    format: [parquet]
+    topics: [random forest, Docker]
+
+  - path: rapids-coiled-cudf
+    description: Analyze 64M NYC ride-share trips from S3 with cudf.pandas on a Coiled GPU notebook without changing pandas code.
+    platform: [platforms/coiled]
+    library: [cudf, pandas]
+    task: [data-processing]
+    scale: single-gpu
+    dataset: [nyc-taxi]
+    format: [parquet]
+    storage: [s3]
+    topics: [zero code change]
+
+  - path: rapids-ec2-mnmg
+    description: Train a cuML random forest on NYC taxi data on a multi-node GPU Dask cluster launched on EC2 with dask-cloudprovider.
+    platform: [cloud/aws/ec2-multi]
+    library: [cuml, cudf, cuspatial, dask]
+    task: [training]
+    scale: multi-node
+    dataset: [nyc-taxi]
+    format: [csv]
+    storage: [gcs]
+    topics: [dask-cloudprovider, dask-ml, random forest]
+
+  - path: rapids-morpheus-pipeline
+    title: Streaming Sensitive Data Detection on EKS
+    description: Deploy a Kafka streaming pipeline on EKS that filters with cuDF and detects sensitive data with Morpheus and Triton.
+    platform: [cloud/aws/eks]
+    library: [cudf, morpheus, kafka, triton]
+    task: [inference, data-processing]
+    scale: multi-node
+    topics: [streaming, cybersecurity, NLP, Strimzi, network traffic]
+
+  - path: rapids-optuna-hpo
+    description: Tune a cuML logistic regression on the BNP Paribas claims data with Optuna trials spread across local GPUs by Dask.
+    platform: [local]
+    tools: [tools/dask-cuda]
+    library: [cuml, cudf, optuna, dask]
+    task: [hpo]
+    scale: multi-gpu
+    dataset: [bnp-claims]
+    format: [csv]
+    topics: [logistic regression]
+
+  - path: rapids-sagemaker-higgs
+    title: HPO Experiments at Scale on SageMaker
+    description: Tune a cuML random forest on the HIGGS dataset with SageMaker Bayesian HPO jobs in a custom container.
+    platform: [cloud/aws/sagemaker]
+    library: [cuml, cudf]
+    task: [hpo]
+    scale: single-gpu
+    dataset: [higgs]
+    format: [csv]
+    storage: [s3]
+    topics: [Amazon ECR, spot instances, random forest]
+
+  - path: rapids-sagemaker-hpo
+    title: HPO Deep Dive on SageMaker
+    description: Tune XGBoost, random forest, or KMeans on airline data across parallel SageMaker jobs, then deploy the best model.
+    platform: [cloud/aws/sagemaker]
+    library: [cuml, xgboost, cudf, dask]
+    task: [hpo, inference]
+    scale: multi-gpu
+    dataset: [airline, nyc-taxi]
+    format: [parquet, csv]
+    storage: [s3]
+    topics: [Amazon ECR, spot instances, dask-ml]
+
+  - path: rapids-snowflake-cudf
+    description: Analyze NYC parking violations from a Snowflake table with cudf.pandas in Snowpark Container Services.
+    platform: [platforms/snowflake]
+    library: [cudf, pandas]
+    task: [data-processing]
+    scale: single-gpu
+    dataset: [nyc-parking]
+    format: [parquet]
+    topics: [Snowpark, zero code change]
+
+  - path: rapids-topic-modeling-slurm
+    title: Topic Modeling on HPC with cuML and Dagster
+    description: Fit LDA topic models as parallel Slurm jobs and cluster them with cuML UMAP and HDBSCAN, orchestrated by Dagster.
+    platform: [hpc]
+    library: [cuml, scikit-learn, dagster]
+    task: [training, mlops]
+    scale: single-gpu
+    dataset: [reuters]
+    format: [parquet]
+    topics: [topic modeling, NLP, Slurm, UMAP, HDBSCAN, pixi]
+
+  - path: time-series-forecasting-with-hpo
+    title: Time Series Forecasting on GKE
+    description: Forecast Walmart M5 sales by engineering features with cuDF and tuning XGBoost with Optuna on a GKE Dask cluster.
+    platform: [cloud/gcp/gke, platforms/kubeflow]
+    tools: [tools/kubernetes/dask-operator]
+    library: [xgboost, cudf, optuna, dask]
+    task: [hpo, data-processing]
+    scale: multi-node
+    dataset: [m5]
+    format: [csv]
+    storage: [gcs]
+    topics: [time series, forecasting]
+
+  - path: xgboost-azure-mnmg-daskcloudprovider
+    title: Multi-Node XGBoost on Azure VMs
+    description: Train XGBoost on NYC taxi data across a multi-node Azure VM cluster with dask-cloudprovider, then predict with FIL.
+    platform: [cloud/azure/azure-vm-multi]
+    library: [xgboost, cudf, cuml, dask]
+    task: [training, inference]
+    scale: multi-node
+    dataset: [nyc-taxi]
+    format: [parquet]
+    storage: [azure-data-lake]
+    topics: [dask-cloudprovider, Packer, dask-ml]
+
+  - path: xgboost-dask-databricks
+    description: Train XGBoost on HIGGS data read from Delta Lake with Dask and cuDF on a multi-node Databricks GPU cluster.
+    platform: [platforms/databricks]
+    library: [xgboost, cudf, dask]
+    task: [training]
+    scale: multi-node
+    dataset: [higgs]
+    format: [csv]
+    storage: [delta-lake]
+    topics: [Spark, dask-databricks, dask-deltatable, dask-ml]
+
+  - path: xgboost-gpu-hpo-job-parallel-k8s
+    title: Job-Parallel XGBoost HPO on Kubernetes
+    description: Run hundreds of parallel XGBoost HPO trials with Optuna on a GPU Dask cluster launched by the Dask Kubernetes operator.
+    platform: [platforms/kubernetes, platforms/kubeflow]
+    tools: [tools/kubernetes/dask-operator]
+    library: [xgboost, optuna, dask, scikit-learn]
+    task: [hpo]
+    scale: multi-node
+    dataset: [breast-cancer]
+
+  - path: xgboost-gpu-hpo-mnmg-parallel-k8s
+    title: Multi-GPU XGBoost HPO on Kubernetes
+    description: Tune multi-GPU XGBoost on NYC taxi data by running Optuna trials across several Dask clusters on Kubernetes.
+    platform: [platforms/kubernetes, platforms/kubeflow]
+    tools: [tools/kubernetes/dask-operator]
+    library: [xgboost, cudf, cuspatial, optuna, dask]
+    task: [hpo]
+    scale: multi-node
+    dataset: [nyc-taxi]
+    format: [csv]
+    storage: [gcs]
+    topics: [dask-ml]
+
+  - path: xgboost-randomforest-gpu-hpo-dask
+    description: Tune XGBoost and a cuML random forest on airline data with dask-ml grid and random search across local GPUs.
+    platform:
+      [
+        cloud/aws/ec2,
+        cloud/azure/azure-vm,
+        cloud/gcp/compute-engine,
+        cloud/ibm/virtual-server,
+        local,
+      ]
+    tools: [tools/dask-cuda]
+    library: [cuml, xgboost, cudf, dask, scikit-learn]
+    task: [hpo]
+    scale: multi-gpu
+    dataset: [airline]
+    format: [parquet]
+    topics: [dask-ml, grid search, random forest]
+
+  - path: xgboost-rf-gpu-cpu-benchmark
+    description: Benchmark XGBoost and random forest HPO with Optuna on GPU versus CPU EC2 instances, up to 48x faster on GPU.
+    platform: [cloud/aws/ec2]
+    tools: [tools/dask-cuda]
+    library: [xgboost, cuml, cudf, dask, optuna, scikit-learn]
+    task: [benchmarking, hpo]
+    scale: multi-gpu
+    dataset: [airline]
+    format: [parquet]
+    storage: [s3]
+    topics: [Docker, random forest]
