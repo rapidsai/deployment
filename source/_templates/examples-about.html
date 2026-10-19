@@ -1,0 +1,14 @@
+{% if example_about %}
+<div class="tocsection onthispage">
+  <i class="fa-solid fa-circle-info"></i> About this example
+</div>
+<dl class="example-about">
+  {% for heading, links in example_about %}
+  <dt>{{ heading }}</dt>
+  <dd>
+    {% for text, url in links %}<a href="{{ url|e }}">{{ text|e }}</a>{% if not
+    loop.last %} · {% endif %}{% endfor %}
+  </dd>
+  {% endfor %}
+</dl>
+{% endif %}

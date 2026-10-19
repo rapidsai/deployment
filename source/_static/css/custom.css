@@ -1,25 +1,5 @@
-nav.bd-links fieldset legend {
-  color: var(--pst-color-text-base);
-  font-weight: var(--pst-sidebar-header-font-weight);
-  font-size: 1em;
-}
-
-nav.bd-links fieldset input {
-  margin-left: 1em;
-  margin-right: 0.25em;
-}
-
-.bd-links__title small {
-  float: right;
-  padding-right: 2em;
-}
-
 nav.related-files {
   font-family: var(--pst-font-family-monospace);
-}
-
-nav.bd-links fieldset .sd-badge {
-  font-size: 0.9em;
 }
 
 /* Admonitions */
@@ -42,10 +22,6 @@ div.admonition.admonition-docref > .admonition-title::after {
   text-align: right;
   padding-right: 2em;
   margin-top: -1.15rem;
-}
-
-.tagwrapper {
-  margin-top: 0.25em;
 }
 
 /* Tag colours */
@@ -121,8 +97,4 @@ div.admonition.admonition-docref > .admonition-title::after {
 
 .bd-sidebar-secondary:empty {
   display: none;
-}
-
-.tagwrapper a {
-  text-decoration: none;
 }

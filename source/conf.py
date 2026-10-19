@@ -97,7 +97,7 @@ extensions = [
     "sphinx_design",
     "sphinx_copybutton",
     "rapids_notebook_files",
-    "rapids_related_examples",
+    "rapids_examples",
     "rapids_grid_toctree",
     "rapids_version_templating",
     "rapids_admonitions",
@@ -153,7 +153,7 @@ html_theme_options = {
     "secondary_sidebar_items": [
         "page-toc",
         "notebooks-extra-files-nav",
-        "notebooks-tags",
+        "examples-about",
         "deployment-feedback",
     ],
 }
@@ -167,10 +167,6 @@ rapids_docs_url = "https://docs.nvidia.com/datascience/deployment"
 rapids_docs_first_version = "26.08"
 rapids_docs_latest_version = nightly_version
 rapids_docs_release_tags = os.environ.get("RAPIDS_DOCS_RELEASE_TAGS", "").split()
-
-html_sidebars = {
-    "examples/index": ["sidebar-nav-bs", "notebooks-tag-filter"],
-}
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
@@ -198,4 +194,6 @@ redirects = {
 
 def setup(app):
     app.add_css_file("css/custom.css")
+    app.add_css_file("css/examples-gallery.css")
     app.add_js_file("js/notebook-gallery.js", loading_method="defer")
+    app.add_js_file("js/examples-gallery.js", loading_method="defer")
