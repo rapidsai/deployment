@@ -1,3 +1,7 @@
+---
+short_title: "Azure VM cluster"
+---
+
 # Azure VM Cluster (via Dask)
 
 ## Create a Cluster using Dask Cloud Provider

@@ -1,4 +1,5 @@
 ---
+short_title: "Azure ML"
 review_priority: "p0"
 ---
 

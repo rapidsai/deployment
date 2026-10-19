@@ -1,4 +1,5 @@
 ---
+short_title: "Azure VM"
 review_priority: "p1"
 ---
 

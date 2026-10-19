@@ -1,3 +1,7 @@
+---
+short_title: "ECS"
+---
+
 # Elastic Container Service (ECS)
 
 NVIDIA CUDA-X libraries for data science can be deployed on a multi-node ECS cluster using Dask’s dask-cloudprovider management tools. For more details, see our **[blog post on

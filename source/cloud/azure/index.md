@@ -1,4 +1,5 @@
 ---
+short_title: "Azure"
 review_priority: "index"
 html_theme.sidebar_secondary.remove: true
 ---

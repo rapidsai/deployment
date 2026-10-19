@@ -1,3 +1,7 @@
+---
+short_title: "IBM Virtual Server"
+---
+
 # Virtual Server for VPC
 
 ## Create Instance

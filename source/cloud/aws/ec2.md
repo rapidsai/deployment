@@ -1,4 +1,5 @@
 ---
+short_title: "EC2"
 review_priority: "p1"
 ---
 
