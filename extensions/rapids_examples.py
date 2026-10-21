@@ -147,7 +147,7 @@ def parse_example(env, entry: dict, vocabulary: dict) -> Example:
         if not page.startswith("tools/") or page not in env.found_docs:
             warn(f"{where}: tool '{page}' is not a page under tools/")
 
-    aliases = vocabulary.get("aliases", {})
+    aliases = {**vocabulary.get("aliases", {}), **vocabulary.get("merged", {})}
     library = check_values(
         where, "library", entry.get("library", []), library_labels(vocabulary), aliases
     )
@@ -365,6 +365,7 @@ def search_text(env, example: Example) -> str:
         values = getattr(example, facet)
         for value in [values] if isinstance(values, str) else values:
             words += [value, facet_labels(vocabulary, facet).get(value, "")]
+    # Other names like sklearn, but not merged old tags: dask-ml isn't every Dask example
     values = {*example.library, *example.dataset, *example.format, *example.storage}
     words += [
         alias
@@ -484,7 +485,10 @@ def render_gallery(app: Sphinx, docname: str) -> str:
         )
         for example in examples
     )
-    aliases = json.dumps(vocabulary.get("aliases", {}))
+    # For translating old ?filters= links
+    aliases = json.dumps(
+        {**vocabulary.get("aliases", {}), **vocabulary.get("merged", {})}
+    )
     site_search = app.builder.get_relative_uri(docname, "search")
     return (
         f'<div class="eg" id="examples-gallery" data-aliases="{escape(aliases)}">'

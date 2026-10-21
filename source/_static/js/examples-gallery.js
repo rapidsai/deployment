@@ -167,6 +167,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // A second row with the services of the picked provider, e.g. AWS: EC2, SageMaker, EKS
   function renderServices(only) {
+    // Rebuilding the row drops keyboard focus, so put it back on the same service
+    const focused = services.contains(document.activeElement)
+      ? document.activeElement.dataset.service
+      : null;
     services.replaceChildren();
     const children = only
       ? [...group(only).querySelectorAll(".eg-option--child input")]
@@ -176,6 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "eg-platform";
+      button.dataset.service = input.value;
       button.textContent = label("platform", input.value);
       button.disabled = input.disabled;
       button.setAttribute("aria-pressed", input.checked);
@@ -184,6 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
         selectOnlyPlatform(input.checked ? groupValue(only) : input.value),
       );
       services.append(button);
+      if (input.value === focused) button.focus();
     });
   }
 
@@ -358,14 +364,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const wanted = facets.flatMap((facet) =>
       (params.get(facet) || "").split(",").map((value) => [facet, value]),
     );
+    const words = [params.get("search") || ""];
     (params.get("filters") || "")
       .split(",")
-      .forEach((tag) => wanted.push(legacyFilter(tag)));
+      .filter(Boolean)
+      .forEach((tag) => {
+        const pair = legacyFilter(tag);
+        // Old tags with no filter now, like tools/dask-cuda, become a search.
+        // Hyphens become spaces, as the search index splits words on them
+        if (pair && box(...pair)) wanted.push(pair);
+        else words.push(tag.split("/").slice(1).join(" ").replaceAll("-", " "));
+      });
     wanted.forEach((pair) => {
-      const input = pair && box(...pair);
+      const input = box(...pair);
       if (input) input.checked = true;
     });
-    search.value = params.get("search") || "";
+    search.value = words.filter(Boolean).join(" ");
   }
 
   buttons.forEach((button) =>
@@ -404,9 +418,11 @@ document.addEventListener("DOMContentLoaded", () => {
         option.setAttribute("aria-selected", i === active),
       );
       search.setAttribute("aria-activedescendant", options[active].id);
-    } else if (event.key === "Enter" && active >= 0) {
+    } else if (event.key === "Enter") {
+      // Pick the highlighted suggestion, or with none highlighted just close the list
       event.preventDefault();
-      choose(shownSuggestions[active]);
+      if (active >= 0) choose(shownSuggestions[active]);
+      else closeSuggestions();
     } else if (event.key === "Escape") {
       // Close the list without the browser also clearing the search box
       event.preventDefault();

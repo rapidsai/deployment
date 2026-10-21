@@ -72,10 +72,13 @@ vocabulary:
     azure-data-lake: Azure Data Lake
     delta-lake: Delta Lake
     gcs: Google Cloud Storage
-  # Other names for values, used by search and to suggest the right value
+  # Other names for values. Searching for them finds the value, and the build suggests the value instead
   aliases:
     databricks-delta-lake: delta-lake
     sklearn: scikit-learn
+  # Old tags merged into a broader value. Old links and the build use them, but search doesn't,
+  # since not every Dask example uses dask-ml
+  merged:
     dask-ml: dask
     dask-cudf: dask
     dask-distributed: dask
