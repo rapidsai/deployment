@@ -1,4 +1,5 @@
 ---
+short_title: "EC2"
 review_priority: "p1"
 ---
 
@@ -248,7 +249,3 @@ and run the `docker run --gpu ...` command again.
 ````
 
 `````
-
-```{relatedexamples}
-
-```

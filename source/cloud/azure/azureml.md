@@ -1,4 +1,5 @@
 ---
+short_title: "Azure ML"
 review_priority: "p0"
 ---
 
@@ -290,7 +291,3 @@ ml_client.compute.begin_delete(gpu_compute.name).wait()
 
 Then check [https://ml.azure.com/compute/list/instances](https://ml.azure.com/compute/list/instances) and make sure your compute instance
 is also stopped, and deleted if desired.
-
-```{relatedexamples}
-
-```

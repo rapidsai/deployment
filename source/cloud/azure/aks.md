@@ -1,4 +1,5 @@
 ---
+short_title: "AKS"
 review_priority: "p1"
 ---
 
@@ -133,8 +134,4 @@ You can also delete the AKS cluster to stop billing with the following command.
 ```console
 $ az aks delete -g <resource group> -n rapids
 / Running ..
-```
-
-```{relatedexamples}
-
 ```

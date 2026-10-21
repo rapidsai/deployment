@@ -87,39 +87,34 @@ Please make sure to follow this guide when writing documentation that involves K
 
 The `examples` section of these docs are written in Jupyter Notebooks and built with [MyST-NB](https://myst-nb.readthedocs.io/en/latest/).
 
-There is also a custom Sphinx extension which shows the examples in a gallery with helpful cross linking throughout the docs. This does mean there
-are a few assumptions about how notebooks should be written.
+There is also a custom Sphinx extension, `extensions/rapids_examples.py`, which shows the examples in a searchable gallery and lists them on the platform and tool pages they use. Everything it needs comes from `source/examples/examples.yml`.
 
 #### Adding examples
 
-1. Create a new directory inside `source/examples`.
-2. Create a new notebook file in that directory and give it a name like `notebook.ipynb`.
-   - The first cell of your notebook should be a markdown cell and contain at least a top level header.
-   - You can add tags to your notebook by adding [cell metadata tags to the first cell](https://jupyterbook.org/en/stable/content/metadata.html).
-3. Place any supporting files such as scripts, Dockerfiles, etc in the same directory. These files will be discovered and listed on the rendered notebook page.
-4. Update the `notebookgallerytoctree` section in `source/examples/index.md` with the relative path to your new notebook.
+1. Create a directory in `source/examples` with your `notebook.ipynb`. Start the notebook with a top level heading followed by the month you wrote it, like `_October, 2026_`.
+2. Place any supporting files such as scripts, Dockerfiles, etc in the same directory. They are listed on the rendered notebook page automatically.
+3. Add an entry for your example to `source/examples/examples.yml`:
 
-#### Tags
+   ```yaml
+   - path: rapids-sagemaker-hpo
+     description: Tune XGBoost on airline data across parallel SageMaker jobs.
+     platform: [cloud/aws/sagemaker]
+     library: [cuml, xgboost]
+     task: [hpo]
+     scale: multi-gpu
+   ```
 
-The notebook gallery extension uses cell tags to organize and cross-reference files.
+   The optional fields and allowed values are explained at the top of that file. If anything doesn't match, the build tells you.
 
-![Screenshot of Jupyter showing the first cell of the open notebook has tags](source/images/theme-notebook-tags.png)
+#### Badge styling
 
-Tags are hierarchical and use slashes to separate their namespaces. For example if your notebook uses AWS Sagemaker you should add the tag `cloud/aws/sagemaker`. This aligns with the Sphinx doc path to the SageMaker documentation page which you can find in `source/cloud/aws/sagemaker.md`.
-
-The extension will use this information to ensure the notebook is linked from the Sagemaker page under the "Related Examples" section.
-
-The example gallery will also allow you to filter based on these tags. The root of the tag namespace is used to create the filtering categories. So in the above example the `cloud/aws/sagemaker` tag would create a filter for `cloud` with an option of `aws/sagemaker`. You can create new filter sections simply by creating new tags with unique root namespaces, but be mindful that keeping the number of filtering sections to a minimum will provide users with the best user experience and there may already be a suitable root namespace for the tag you want to create.
-
-##### Styling
-
-By default tags are styled with the theme's primary color for their background and left accent, with a contrasting text color. The `0.5em` left border can be styled for a two-tone effect.
+By default badges (the `{bdg}` role) are styled with the theme's primary color for their background and left accent, with a contrasting text color. The `0.5em` left border can be styled for a two-tone effect.
 
 <div style="width: 100%; text-align: center;">
 <img alt="Diagram showing the tag and css side-by-side with arrows to show color sets the text, background-color sets the background and border-left sets the accent" src="source/images/theme-tag-style.png" style="max-width: 450px;" />
 </div>
 
-This can be overridden for each tag by adding a new class with the format `.tag-{name}` to `source/_static/css/custom.css`. For example the Scikit-Learn logo is orange and blue with grey text, so the custom CSS sets an orange background with a blue accent and grey text.
+This can be overridden for each badge by adding a new class with the format `.tag-{name}` to `source/_static/css/custom.css`. For example the Scikit-Learn logo is orange and blue with grey text, so the custom CSS sets an orange background with a blue accent and grey text.
 
 ```css
 .tag-scikit-learn {
@@ -129,7 +124,7 @@ This can be overridden for each tag by adding a new class with the format `.tag-
 }
 ```
 
-Tag styling can be added at any domain level, for example the `cloud/aws/sagemaker` tag uses the `.tag-cloud`, `.tag-aws` and `.tag-sagemaker` classes. They will be applied in that order too so we can set a default AWS style which can be overridden on a service-by-service basis.
+Badges with slashes are styled at every level, for example a `cloud/aws` badge uses the `.tag-cloud` and `.tag-aws` classes, applied in that order.
 
 ## Linting
 

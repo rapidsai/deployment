@@ -1,3 +1,7 @@
+---
+short_title: "ECS"
+---
+
 # Elastic Container Service (ECS)
 
 NVIDIA CUDA-X libraries for data science can be deployed on a multi-node ECS cluster using Dask’s dask-cloudprovider management tools. For more details, see our **[blog post on
@@ -129,7 +133,3 @@ Name: id, dtype: int64
 You can scale down or delete the Dask cluster, but the ECS cluster will continue to run (and incur charges!) until you also scale it down or shut down altogether. <br />
 
 If you are planning to use the ECS cluster again soon, it is probably preferable to reduce the nodes to zero.
-
-```{relatedexamples}
-
-```

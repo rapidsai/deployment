@@ -47,7 +47,3 @@ alt: Screenshot of how to configure service to get GPU access
 ```
 
 5. You can import `cuDF` and or `cuML` and start using the notebook.
-
-```{relatedexamples}
-
-```

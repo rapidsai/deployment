@@ -1,3 +1,7 @@
+---
+short_title: "IBM Virtual Server"
+---
+
 # Virtual Server for VPC
 
 ## Create Instance
@@ -83,9 +87,5 @@ $ docker run --rm --gpus all nvidia/cuda:11.6.2-base-ubuntu20.04 nvidia-smi
 ## Verify the installation
 
 ```{include} ../../_includes/test-rapids-docker-vm.md
-
-```
-
-```{relatedexamples}
 
 ```

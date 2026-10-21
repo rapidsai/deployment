@@ -1,4 +1,5 @@
 ---
+short_title: "Azure VM"
 review_priority: "p1"
 ---
 
@@ -152,7 +153,3 @@ doing `chmod 600 your_key_file.pem`, and you should be good to go.
 ### Useful Links
 
 - [Using NGC with Azure](https://docs.nvidia.com/ngc/ngc-deploy-public-cloud/ngc-azure/index.html)
-
-```{relatedexamples}
-
-```

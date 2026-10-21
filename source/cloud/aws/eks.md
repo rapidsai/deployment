@@ -1,4 +1,5 @@
 ---
+short_title: "EKS"
 review_priority: "p1"
 ---
 
@@ -88,8 +89,4 @@ You can also delete the EKS cluster to stop billing with the following command.
 ```console
 $ eksctl delete cluster --region=us-east-1 --name=rapids
 Deleting cluster rapids...⠼
-```
-
-```{relatedexamples}
-
 ```

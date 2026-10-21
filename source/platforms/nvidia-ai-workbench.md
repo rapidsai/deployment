@@ -1,3 +1,7 @@
+---
+short_title: "AI Workbench"
+---
+
 # NVIDIA AI Workbench
 
 [NVIDIA AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) is a developer toolkit for data science, machine learning, and AI projects. It lets you develop on your laptop/workstation and then easily transition workloads to scalable GPU resources in a data center or the cloud. AI Workbench is free, you can install it in minutes on both local or remote computers, and offers a desktop application as well as a command-line interface (CLI).

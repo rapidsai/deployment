@@ -1,3 +1,7 @@
+---
+short_title: "EC2 cluster"
+---
+
 # EC2 Cluster (via Dask)
 
 To launch a multi-node cluster on AWS EC2 we recommend you use [Dask Cloud Provider](https://cloudprovider.dask.org/en/latest/), a native cloud integration for Dask. It helps manage Dask clusters on different cloud platforms.
@@ -110,8 +114,4 @@ You can also explicitly shutdown the cluster with:
 ```python
 client.close()
 cluster.close()
-```
-
-```{relatedexamples}
-
 ```

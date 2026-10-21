@@ -1,4 +1,5 @@
 ---
+short_title: "Compute Engine"
 review_priority: "p1"
 ---
 
@@ -88,7 +89,3 @@ If docker is there, now you will be able to run the docker commands above.
 Once you are finished head back to the [Instances](https://console.cloud.google.com/compute/instances) to stop and delete
 the instance you created, and to the [Deployments](https://console.cloud.google.com/dm/deployments) page and delete the
 marketplace deployment you created.
-
-```{relatedexamples}
-
-```
