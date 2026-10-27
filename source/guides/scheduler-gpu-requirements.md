@@ -63,7 +63,7 @@ $ python test.py
 ...
 ```
 
-In contrast, if you provision an [Infiniband-enabled system](/guides/azure/infiniband.md) and wish to take advantage of the high-performance network, you will want to use the [UCX](https://openucx.org/) protocol, rather than TCP. Using such a setup without a GPU on the scheduler will not succeed. When the client or workers communicate with the scheduler, any GPU-allocated buffers will be sent directly between GPUs (avoiding a roundtrip to host memory). This is more efficient, but will not succeed if the scheduler does not _have_ a GPU. Running the same example from above, but this time using UCX we obtain an error:
+In contrast, if you provision an [Infiniband-enabled system](/guides/azure/infiniband.md) and wish to take advantage of the high-performance network, you will want to use the [UCX](https://openucx.readthedocs.io) protocol, rather than TCP. Using such a setup without a GPU on the scheduler will not succeed. When the client or workers communicate with the scheduler, any GPU-allocated buffers will be sent directly between GPUs (avoiding a roundtrip to host memory). This is more efficient, but will not succeed if the scheduler does not _have_ a GPU. Running the same example from above, but this time using UCX we obtain an error:
 
 ```sh
 $ CUDA_VISIBLE_DEVICES="" dask scheduler --protocol ucx --scheduler-file scheduler.json  &
