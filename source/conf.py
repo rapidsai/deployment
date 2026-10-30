@@ -35,10 +35,10 @@ else:
     tag_suffix = f"cuda{cuda_major}"
 
 stable_cuda_range = (
-    "cuda-version>=13.0,<=13.3"  # CUDA version pins on Conda for the stable release
+    "cuda-version>=13.0,<=13.4"  # CUDA version pins on Conda for the stable release
 )
 nightly_cuda_range = (
-    "cuda-version>=13.0,<=13.3"  # CUDA version pins on Conda for the nightly release
+    "cuda-version>=13.0,<=13.4"  # CUDA version pins on Conda for the nightly release
 )
 
 versions = {
