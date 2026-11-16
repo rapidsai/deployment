@@ -130,7 +130,7 @@ examples:
 
   - path: cuopt-wildfire-water-tenders
     title: GPU-Accelerated Wildfire Response Planning
-    description: Optimize first response to the August 2020 California lightning wildfires on the GPU, planning a week of water tender routes using cuOpt in seconds.
+    description: Optimize wildfire first response on the GPU, planning a week of water tender routes using cuOpt in seconds.
     platform: [cloud/nvidia/brev, cloud/gcp/compute-engine, local]
     library: [cuopt, cudf, xgboost, pandas]
     task: [optimization, training]
