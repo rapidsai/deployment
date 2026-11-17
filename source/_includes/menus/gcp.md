@@ -31,14 +31,4 @@ Launch a CUDA-X cluster on managed Kubernetes.
 {bdg}`multi-node`
 ````
 
-````{grid-item-card}
-:link: /cloud/gcp/dataproc
-:link-type: doc
-Dataproc
-^^^
-Launch a CUDA-X cluster on Dataproc.
-
-{bdg}`multi-node`
-````
-
 `````
