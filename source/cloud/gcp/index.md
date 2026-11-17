@@ -19,5 +19,4 @@ hidden: true
 compute-engine
 vertex-ai
 gke
-dataproc
 ```
