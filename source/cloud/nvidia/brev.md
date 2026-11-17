@@ -16,17 +16,18 @@ There are two options to get you up and running with NVIDIA CUDA-X libraries for
 
 ### Option 1. Setting up your Brev GPU Environment
 
-1. Navigate to the [Brev](https://brev.nvidia.com/org) and click on "Create Environment".
+1. Sign in to [Brev](https://brev.nvidia.com/org). On the "Compute" page, click "Create a cloud instance" to open the "Create Environment" page.
 
-![Screenshot of the "Create your first environment" UI](/_static/images/platforms/brev/brev-gpu-env.png)
+![Screenshot of the "Compute" page with the "Create a cloud instance" button](/_static/images/platforms/brev/brev-gpu-env.png)
 
-2. Choose a compute type.
+2. Choose a compute type. Pick a GPU from the "Family" list, keep the GPU count at `1×`, then pick one of the options below it.
+   These options differ in cloud provider, CPU, RAM and price.
 
 ```{hint}
 New users commonly choose `L4` GPUs for trying things out.
 ```
 
-![Screenshot of the "Choose a compute type" UI](/_static/images/platforms/brev/brev-compute.png)
+![Screenshot of the "Create Environment" page with the "Family" list, GPU count and options](/_static/images/platforms/brev/brev-compute.png)
 
 3. Select the "Edit" button to change the software configuration container or runtime (the default is "VM Mode w/ Jupyter")
 
@@ -39,7 +40,11 @@ New users commonly choose `L4` GPUs for trying things out.
 
 5. Give your instance a name and hit "Deploy".
 
-![Screenshot of the instance creation summary screen with the deploy button highlighted](/_static/images/platforms/brev/brev-deploy.png)
+![Screenshot of the instance creation summary with the rapidsai/base image and the "Deploy" button](/_static/images/platforms/brev/brev-deploy.png)
+
+```{note}
+The first deploy can take around 15-20 minutes, and "Open Notebook" stays greyed out until the container shows "Built".
+```
 
 ### Option 2. Setting up your Brev Launchable
 
@@ -169,9 +174,10 @@ There are a few ways to access your instance:
 
 ### 1. Jupyter Notebook
 
-To create and use a Jupyter Notebook, click "Open Notebook" at the top right after the page has deployed.
+Once the container shows "Built", click "Open Notebook" on the environment page. Brev sends you to an NVIDIA sign-in
+page before JupyterLab opens.
 
-![Screenshot of the instance UI with the "Open Notebook" button highlighted](/_static/images/platforms/brev/brev8.png)
+![Screenshot of the environment page with the container "Built" and the "Open Notebook" button](/_static/images/platforms/brev/brev8.png)
 
 ### 2. Brev CLI Install
 
@@ -223,19 +229,20 @@ After running the command, open your web browser and navigate to your local host
 
 #### 3. Access the Jupyter Notebook via the Tunnel
 
-The "Deployments" section will show that your Jupyter Notebook is running on port `8888`, and it is accessible via a shareable URL Ex: `jupyter0-i55ymhsr8.brevlab.com`.
+The "HTTP Ports" table on the "Access" tab shows that your Jupyter Notebook is running on port `8888`, and it is accessible via a shareable URL such as `https://jupyter-<id>.gobrev.dev`.
 
 Click on the link or copy and paste the URL into your web browser's address bar to access the Jupyter Notebook interface directly.
 
 ##### 4. Share the Service
 
-If you want to share access to this service with others, you can click on the "Share a Service" button.
+If you want to share access to this service with others, click "Share" in its row of the "HTTP Ports" table.
 
-You can also manage access by clicking "Edit Access" to control who has the ability to use this service.
+The "More secure link actions" button in the same row has more options for the link.
 
 ### Check that your notebook has GPU Capabilities
 
-You can verify that you have your requested GPU by running the `nvidia-smi` command.
+In JupyterLab, create a notebook by clicking "Python 3 (ipykernel)" under "Notebook" in the Launcher. You can verify
+that you have your requested GPU by running `!nvidia-smi` in a notebook cell. The `!` runs it as a shell command.
 
 ![Screenshot of a notebook terminal running the command nvidia-smi and showing the NVIDIA T4 GPU in the output](/_static/images/platforms/brev/brev6.png)
 
@@ -249,6 +256,20 @@ import cudf
 gdf = cudf.DataFrame({"a": [1, 2, 3], "b": [4, 5, 6]})
 print(gdf)
 ```
+
+The cell should produce the following output:
+
+```text
+   a  b
+0  1  4
+1  2  5
+2  3  6
+```
+
+## Clean up
+
+When you are finished, open your environment from the "Compute" page in Brev and click "Delete". Brev stops charging for compute while the instance is stopped, but storage keeps billing until
+you delete the environment.
 
 ## Resources and tips
 
