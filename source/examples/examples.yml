@@ -22,6 +22,7 @@ vocabulary:
     GPU libraries:
       cudf: cuDF
       cuml: cuML
+      cuopt: cuOpt
       dask: Dask
       xgboost: XGBoost
       cupy: CuPy
@@ -46,6 +47,7 @@ vocabulary:
     inference: Inference
     mlops: MLOps
     benchmarking: Benchmarking
+    optimization: Optimization
   scale:
     single-gpu: Single GPU
     multi-gpu: Multi-GPU
@@ -56,11 +58,13 @@ vocabulary:
     breast-cancer: Breast cancer
     covertype: Covertype
     esa-worldcover: ESA WorldCover
+    fpa-fod: FPA FOD wildfires
     higgs: HIGGS
     m5: M5 forecasting
     nyc-parking: NYC parking violations
     nyc-taxi: NYC Taxi
     1brc: One Billion Row Challenge
+    openstreetmap: OpenStreetMap
     reuters: Reuters
     sentinel-2: Sentinel-2
     tabformer: TabFormer
@@ -123,6 +127,25 @@ examples:
     scale: single-gpu
     dataset: [covertype]
     topics: [random forest, zero code change]
+
+  - path: cuopt-wildfire-water-tenders
+    title: GPU-Accelerated Wildfire Response Planning
+    description: Optimize wildfire first response on the GPU, planning a week of water tender routes using cuOpt in seconds.
+    platform: [cloud/nvidia/brev, cloud/gcp/compute-engine, local]
+    library: [cuopt, cudf, xgboost, pandas]
+    task: [optimization, training]
+    scale: single-gpu
+    dataset: [fpa-fod, openstreetmap]
+    format: [csv]
+    topics:
+      [
+        wildfire,
+        vehicle routing,
+        pickup and delivery,
+        geospatial,
+        OpenStreetMap,
+      ]
+    verified: "26.10"
 
   - path: fraud-detection-mlops-pipeline
     title: Fraud Detection MLOps Pipeline
