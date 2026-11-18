@@ -92,6 +92,16 @@ Run CUDA-X in a Kaggle GPU notebook.
 ````
 
 ````{grid-item-card}
+:link: molab
+:link-type: doc
+molab
+^^^
+Run CUDA-X in a marimo notebook on molab.
+
+{bdg}`single-node`
+````
+
+````{grid-item-card}
 :link: snowflake
 :link-type: doc
 Snowflake
