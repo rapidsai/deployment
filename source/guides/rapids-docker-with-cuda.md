@@ -378,4 +378,8 @@ After starting your container, you can quickly verify that the libraries are ins
    All checks passed!
    ```
 
+   ```{docref} /debugging/health-checks
+   For more on `rapids doctor`, `rapids debug`, and other environment health checks, see the Debugging & Profiling section.
+   ```
+
 For more information about Docker deployments, see the [Custom Docker Guide](../custom-docker.md) and the [installation guide](https://docs.nvidia.com/datascience/install/).
