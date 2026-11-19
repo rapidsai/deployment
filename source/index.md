@@ -100,6 +100,18 @@ Detailed guides on how to deploy and optimize CUDA-X.
 ````
 
 ````{grid-item-card}
+:link: debugging/index
+:link-type: doc
+{fas}`magnifying-glass-chart;sd-text-primary` Debugging & Profiling
+^^^
+Check your environment, monitor GPU usage, and profile GPU-accelerated Python workloads.
+
+{bdg}`rapids doctor`
+{bdg}`nvtop`
+{bdg}`Nsight Systems`
+````
+
+````{grid-item-card}
 :link: nims
 :link-type: doc
 {fas}`zap;sd-text-primary` NVIDIA NIM Microservices

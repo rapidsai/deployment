@@ -247,3 +247,7 @@ After starting your container, you can quickly verify that the libraries are ins
    Running checks
    All checks passed!
    ```
+
+   ```{docref} /debugging/health-checks
+   For more on `rapids doctor`, `rapids debug`, and other environment health checks, see the Debugging & Profiling section.
+   ```

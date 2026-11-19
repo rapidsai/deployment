@@ -28,6 +28,10 @@ The documentation includes:
 - `source/guides/` contains focused, cross-platform guidance for deployment
   topics such as custom CUDA containers, Multi-Instance GPU, InfiniBand, Dask
   scheduler sizing, Kubernetes worker placement, and image caching.
+- `source/debugging/` contains platform-independent guides for checking
+  environment health, monitoring GPU usage, and profiling GPU workloads with
+  tools such as `rapids doctor`, `nvtop`, and Nsight Systems, plus the example
+  scripts those guides use.
 - `source/examples/` contains end-to-end Jupyter notebook workflows and the
   supporting Python scripts, Dockerfiles, environment files, and Kubernetes
   manifests needed to run them.
